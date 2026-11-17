@@ -194,7 +194,7 @@
               <span class="text-xs font-extrabold text-amber-900 uppercase tracking-wide">Motivational Quote of the Day</span>
             </div>
             <p id="dailyQuoteText" class="font-display text-lg sm:text-xl font-bold text-amber-950 mt-1 leading-snug">
-              "Every obstacle is a stepping stone destined to take you someplace greater!"
+              "Every obstacle is a stepping stone destined to take you someplace greater in life!"
             </p>
           </div>
         </div>
@@ -667,6 +667,21 @@
       { id: 'profit_maker', icon: '💰', title: 'Green Profit', desc: 'Win a live sim trade' }
     ];
 
+    const PHASES = [
+      { id: 1, name: 'Phase 1: Beginner', subtitle: 'Candles & Trends', icon: '🌱' },
+      { id: 2, name: 'Phase 2: Intermediate', subtitle: 'Support, Resistance & ICC', icon: '⚡' },
+      { id: 3, name: 'Phase 3: Advanced', subtitle: 'Discipline & Risk Shields', icon: '🛡️' },
+      { id: 4, name: 'Phase 4: Pro Endless', subtitle: 'Infinite Mastery Quests', icon: '👑' }
+    ];
+
+    const DAILY_QUOTES = [
+      "Every obstacle is a stepping stone destined to take you someplace greater in life!",
+      "A champion trader is a student who never stops learning with a smile!",
+      "Small daily progress adds up to giant mountain-sized success!",
+      "Patience is your superpower in the market jungle!",
+      "Mistakes are just data helping you level up your trader brain!"
+    ];
+
     const DEFAULT_STATE = {
       name: 'Trader Ace',
       age: 8,
@@ -963,24 +978,9 @@
         ctx.fillText('🟥 RESISTANCE (Bouncy Ceiling)', 12, ry - 11);
       }
 
-      if (options.stopLossLevel !== undefined) {
-        const sly = priceToY(options.stopLossLevel);
-        ctx.fillStyle = 'rgba(251, 146, 60, 0.22)';
-        ctx.fillRect(0, sly - 6, width, 12);
-        ctx.strokeStyle = '#fb923c';
-        ctx.setLineDash([4, 4]);
-        ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(0, sly); ctx.lineTo(width, sly); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#fdba74';
-        ctx.font = 'bold 12px Nunito, sans-serif';
-        ctx.fillText('🛡️ STOP-LOSS SAFETY SHIELD (Max Tiny Loss)', 12, sly + 15);
-      }
-
       // Draw Candlesticks
       const slotW = (width - padLeft - padRight) / candles.length;
       const bodyW = Math.max(8, Math.min(28, slotW * 0.62));
-      const coords = [];
 
       candles.forEach((c, idx) => {
         const cx = padLeft + slotW * idx + slotW / 2;
@@ -1015,7 +1015,7 @@
           ctx.stroke();
         }
 
-        // Optional Label above/below candle
+        // Optional Label above candle
         if (c.label) {
           ctx.fillStyle = '#fde047';
           ctx.font = 'bold 12px Fredoka, sans-serif';
@@ -1023,8 +1023,6 @@
           ctx.fillText(c.label, cx, yHigh - 10);
           ctx.textAlign = 'left';
         }
-
-        coords.push({ x: cx, yHigh, yLow, yOpen, yClose, idx });
       });
 
       // Optional Take-Profit (TP) Target Line
@@ -1058,10 +1056,25 @@
       }
 
       // Optional Trendline connecting indices
-    // Structured Phase Curriculum — Each Day includes:
-    // 1. Visual Guide Specimens ("Spot & Learn" before quiz)
-    // 2. 10 Deep-Dive Picture Quiz Questions on that exact day's topic
-    // 3. Post-Quiz Real-Time Chart Mission with live forming candles + SL/TP!
+      if (options.trendline) {
+        const tl = options.trendline;
+        const x1 = padLeft + slotW * tl.startIdx + slotW / 2;
+        const x2 = padLeft + slotW * tl.endIdx + slotW / 2;
+        const y1 = priceToY(tl.type === 'up' ? candles[tl.startIdx].low : candles[tl.startIdx].high);
+        const y2 = priceToY(tl.type === 'up' ? candles[tl.endIdx].low : candles[tl.endIdx].high);
+
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+      }
+    }
+
+    /* =========================================================================
+       4. TAB 1: DAILY CALENDAR & 3-STAGE MISSION ENGINE
+       ========================================================================= */
     const PHASE_LESSONS = {
       1: [
         {
@@ -1254,8 +1267,6 @@
             triggerCandle: { open: 37, close: 41, high: 42, low: 28, highlight: true, label: '🔨 HAMMER!' },
             supportLevel: 35,
             expectedSide: 'BUY',
-            winPath: [45, 51, 58, 65],
-            losePath: [34, 29, 24],
             recapWhy: 'The Hammer at the Support Floor showed buyers rejecting lower prices—and the next candles rocketed straight to your Take-Profit target!'
           }
         },
@@ -1369,8 +1380,6 @@
             triggerCandle: { open: 47, close: 55, high: 57, low: 46, highlight: true, label: '🚀 Trend Bounce!' },
             trendline: { startIdx: 0, endIdx: 4, type: 'up' },
             expectedSide: 'BUY',
-            winPath: [60, 66, 72],
-            losePath: [42, 36, 31],
             recapWhy: 'Price bounced right off the rising trendline in an Uptrend and continued climbing to your Take-Profit!'
           }
         }
@@ -1494,8 +1503,6 @@
             ],
             triggerCandle: { open: 48, close: 58, high: 60, low: 47, highlight: true, label: '3. C (Go!)' },
             expectedSide: 'BUY',
-            winPath: [63, 69, 75],
-            losePath: [43, 38, 33],
             recapWhy: 'You caught Step 3 (Continuation) of the ICC pattern right after the healthy correction rest!'
           }
         }
@@ -1592,8 +1599,6 @@
             triggerCandle: { open: 67, close: 63, high: 76, low: 62, highlight: true, label: '🌠 Shooting Star!' },
             resistanceLevel: 70,
             expectedSide: 'SELL',
-            winPath: [56, 49, 42],
-            losePath: [71, 76, 81],
             recapWhy: 'The Shooting Star at the Resistance Ceiling signaled sellers taking over, dropping price cleanly to your Take-Profit!'
           }
         }
@@ -2066,7 +2071,6 @@
 
     // Smoothly animates a candle growing tick-by-tick (wick & body) like a real trading terminal!
     function animateSingleCandleFormation(targetCandle, onComplete) {
-      const idx = questSimState.candles.length;
       const liveCandle = {
         open: targetCandle.open,
         close: targetCandle.open,
@@ -2120,12 +2124,8 @@
         candles: questSimState.candles,
         supportLevel: sim.supportLevel,
         resistanceLevel: sim.resistanceLevel,
-        trendline: sim.trendline,
         tpLevel: questSimState.tpPrice || undefined,
-        slLevel: questSimState.slPrice || undefined,
-        entryMarker: questSimState.side
-          ? { idx: sim.setupCandles.length, price: questSimState.entryPrice }
-          : undefined
+        slLevel: questSimState.slPrice || undefined
       };
       drawQuestCanvas();
     }
@@ -2142,14 +2142,12 @@
       const tpDist = parseInt(document.getElementById('questTpSlider').value, 10);
       const slDist = parseInt(document.getElementById('questSlSlider').value, 10);
 
-      // Update TP/SL relative to his exact chosen direction!
       questSimState.tpPrice = chosenSide === 'BUY' ? questSimState.entryPrice + tpDist : questSimState.entryPrice - tpDist;
       questSimState.slPrice = chosenSide === 'BUY' ? questSimState.entryPrice - slDist : questSimState.entryPrice + slDist;
 
       const predictedRight = chosenSide === sim.expectedSide;
       const targetEnd = predictedRight ? questSimState.tpPrice : questSimState.slPrice;
 
-      // Build 4 realistic future candles moving smoothly toward TP or SL
       const steps = 4;
       const startP = questSimState.entryPrice;
       const futureCandles = [];
@@ -2290,8 +2288,7 @@
         stopLossLevel: activeCanvasConfig.stopLossLevel,
         trendline: activeCanvasConfig.trendline,
         tpLevel: activeCanvasConfig.tpLevel,
-        slLevel: activeCanvasConfig.slLevel,
-        entryMarker: activeCanvasConfig.entryMarker
+        slLevel: activeCanvasConfig.slLevel
       });
     }
 
@@ -2302,7 +2299,7 @@
     let simTimer = null;
     let simPlaying = true;
     let simTickCount = 0;
-    let activePosition = null; // { side: 'BUY'|'SELL', entryPrice: number, entryIdx: number, shares: 10 }
+    let activePosition = null;
 
     function initSimChart() {
       simCandles = [];
@@ -2385,9 +2382,6 @@
       simCandles.push({ open, close, high, low, label });
       if (simCandles.length > 26) {
         simCandles.shift();
-        if (activePosition && activePosition.entryIdx > 0) {
-          activePosition.entryIdx -= 1;
-        }
       }
 
       updateSimPriceDisplay();
@@ -2411,8 +2405,7 @@
       activePosition = {
         side,
         entryPrice: last.close,
-        entryIdx: simCandles.length - 1,
-        multiplier: 50 // $50 per $1 price move so kid sees exciting dollars!
+        multiplier: 50
       };
 
       document.getElementById('btnSimClose').disabled = false;
@@ -2426,7 +2419,6 @@
           : `You pressed SELL! Let's watch if new candles slide DOWN!`);
       }
 
-      // Immediately generate 1 candle and ensure chart is playing so he sees action right away!
       simPlaying = true;
       document.getElementById('btnSimPlayPause').textContent = '⏸️ Pause';
       stepSimCandle(true);
@@ -2559,8 +2551,7 @@
       drawCandlesOnCanvas(ctx, width, height, displayCandles, {
         supportLevel: showSR ? minL : undefined,
         resistanceLevel: showSR ? maxH : undefined,
-        trendline: showTrend && simCandles.length >= 6 ? { startIdx: 0, endIdx: simCandles.length - 1, type: trendType } : undefined,
-        entryMarker: activePosition ? { idx: activePosition.entryIdx, price: activePosition.entryPrice } : undefined
+        trendline: showTrend && simCandles.length >= 6 ? { startIdx: 0, endIdx: simCandles.length - 1, type: trendType } : undefined
       });
     }
 
@@ -2568,7 +2559,7 @@
        6. TAB 3: REVERSAL TRAINER (PATIENCE & TIMING CHALLENGE)
        ========================================================================= */
     let reversalState = {
-      type: 'bottom', // 'bottom' (bullish bounce) or 'top' (bearish drop)
+      type: 'bottom',
       candles: [],
       step: 0,
       locked: false,
@@ -2623,15 +2614,12 @@
 
       if (reversalState.type === 'bottom') {
         if (reversalState.step === 1) {
-          // Still falling right onto floor - DANGER ZONE!
           reversalState.candles.push({ open: 44, close: 36, high: 45, low: 35, label: '⚠️ Still Red!' });
           document.getElementById('reversalPhaseBadge').textContent = 'Step 2: Touching Floor (No Bounce Yet!)';
         } else if (reversalState.step === 2) {
-          // PERFECT CONFIRMATION CANDLE!
           reversalState.candles.push({ open: 36, close: 48, high: 50, low: 35, highlight: true, label: '✅ Green Bounce!' });
           document.getElementById('reversalPhaseBadge').textContent = 'Step 3: GREEN BOUNCE CONFIRMED!';
         } else {
-          // TOO LATE - already rocketed!
           reversalState.candles.push({ open: 48, close: 64, high: 66, low: 47, label: '🚀 Already Gone!' });
           document.getElementById('reversalPhaseBadge').textContent = 'Step 4: Already Skyrocketed!';
         }
@@ -2670,7 +2658,6 @@
       const isBottom = reversalState.type === 'bottom';
 
       if (reversalState.step < 2) {
-        // ENTERED BEFORE REVERSAL!
         playTone('oops');
         box.className = 'mt-5 rounded-2xl p-5 border-4 bg-rose-50 border-rose-400 text-rose-950';
         emoji.textContent = '🚨';
@@ -2683,11 +2670,10 @@
           : '👀 What to wait for: Wait until you see a BIG RED drop candle off the ceiling!';
         reversalState.lastSpeech = `${title.textContent} ${desc.textContent} ${tip.textContent}`;
       } else if (reversalState.step === 2 && !timedOut) {
-        // PERFECT TIMING!
         playTone('win');
         fireConfetti();
         addXP(35);
-        unlockBadge('patient_ninja');
+        unlockBadge('discipline_hero');
         box.className = 'mt-5 rounded-2xl p-5 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
         emoji.textContent = '🥷';
         title.textContent = `BULLSEYE! Perfect Patience, ${appState.name}! +35 XP!`;
@@ -2697,7 +2683,6 @@
         tip.textContent = '🏆 Pro Habit Unlocked: Confirm the bounce first, then jump in!';
         reversalState.lastSpeech = `Bullseye! Perfect patience ${appState.name}! ${desc.textContent}`;
       } else {
-        // TOO LATE!
         playTone('oops');
         box.className = 'mt-5 rounded-2xl p-5 border-4 bg-amber-50 border-amber-400 text-amber-950';
         emoji.textContent = '🐢';
@@ -2825,7 +2810,6 @@
         </div>
       `).join('');
 
-      // Draw each card's custom canvas
       ACADEMY_CARDS.forEach((card, i) => {
         const canvas = document.getElementById(`academyCanvas-${i}`);
         if (canvas) {
@@ -2899,7 +2883,6 @@
         }
       });
 
-      // Redraw active canvas to ensure crisp responsive sizing
       if (tabName === 'journey') {
         renderPhaseBar();
         renderCalendar();
