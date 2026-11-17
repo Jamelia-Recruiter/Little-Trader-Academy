@@ -9,47 +9,52 @@
     <!-- Google Fonts: Poppins & Fredoka -->
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Poppins', 'Fredoka', sans-serif; }
+        body { font-family: 'Poppins', 'Fredoka', sans-serif; background: #030712; color: #f8fafc; }
         .fredoka { font-family: 'Fredoka', cursive, sans-serif; }
-        .candle-shadow { filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3)); }
+        .candle-shadow { filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.5)); }
         @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
-            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.9); }
+            0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.8); }
         }
         .pulse-card { animation: pulse-glow 3s infinite; }
+        @keyframes float-anim {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .float-badge { animation: float-anim 3s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col selection:bg-amber-400 selection:text-black">
+<body class="min-h-screen flex flex-col selection:bg-amber-400 selection:text-black pb-12">
 
     <!-- TOP APP HEADER -->
-    <header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50 shadow-lg">
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 p-4 sticky top-0 z-50 shadow-2xl">
         <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <div class="w-12 h-12 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-2xl flex items-center justify-center text-2xl shadow-md transform rotate-3">
+                <div class="w-14 h-14 bg-gradient-to-tr from-amber-500 via-yellow-400 to-emerald-400 rounded-2xl flex items-center justify-center text-3xl shadow-lg transform rotate-3 float-badge">
                     🦁
                 </div>
                 <div>
-                    <h1 class="fredoka text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-400 via-yellow-200 to-emerald-400 bg-clip-text text-transparent">
+                    <h1 class="fredoka text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-400 via-yellow-200 to-emerald-400 bg-clip-text text-transparent drop-shadow">
                         Candlestick Quest
                     </h1>
-                    <p class="text-xs text-slate-400">Kid Trader Academy • Never-Ending Learning</p>
+                    <p class="text-xs text-amber-300/80 fredoka font-semibold">Kid Trader Academy • Never-Ending Learning</p>
                 </div>
             </div>
 
             <!-- Profile & Stats Pill -->
-            <div class="flex items-center gap-3 bg-slate-800/80 border border-slate-700 px-4 py-2 rounded-2xl shadow-inner">
-                <div id="avatarDisplay" class="text-2xl cursor-pointer" onclick="openProfileModal()">👦🏽</div>
+            <div class="flex items-center gap-3 bg-slate-800/90 border border-slate-700 px-4 py-2.5 rounded-2xl shadow-inner">
+                <div id="avatarDisplay" class="text-3xl cursor-pointer bg-slate-900 p-1.5 rounded-xl border border-slate-700" onclick="openProfileModal()">👦🏽</div>
                 <div>
                     <div class="flex items-center gap-2">
                         <span id="userNameDisplay" class="fredoka font-bold text-amber-300 text-sm">Saunie</span>
-                        <span id="userBeltBadge" class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-500/30">Beginner Belt</span>
+                        <span id="userBeltBadge" class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-amber-500/40">Beginner Belt 🟢</span>
                     </div>
-                    <div class="flex items-center gap-3 text-xs text-slate-300">
-                        <span>⭐ <strong id="starCount" class="text-yellow-400">0</strong> Stars</span>
-                        <span>🏆 <strong id="streakCount" class="text-emerald-400">1</strong> Day Streak</span>
+                    <div class="flex items-center gap-3 text-xs text-slate-300 mt-0.5">
+                        <span>⭐ <strong id="starCount" class="text-yellow-400 text-sm">0</strong> Stars</span>
+                        <span>🏆 <strong id="streakCount" class="text-emerald-400 text-sm">1</strong> Day Streak</span>
                     </div>
                 </div>
-                <button onclick="speakText('Welcome back ' + state.user.name + '! Ready for today\'s trading mission?')" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl text-xs transition transform hover:scale-105 shadow" title="Voice Coach">
+                <button onclick="speakText('Welcome back ' + state.user.name + '! Ready for today\'s trading mission?')" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white p-2.5 rounded-xl text-xs transition transform hover:scale-105 shadow-md" title="Voice Coach">
                     🔊
                 </button>
             </div>
@@ -60,57 +65,57 @@
     <main class="max-w-6xl mx-auto w-full p-4 md:p-6 flex-1 flex flex-col gap-6">
 
         <!-- DAILY MOTIVATIONAL BANNER -->
-        <section class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-emerald-500/10 border border-amber-500/30 rounded-3xl p-5 shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 text-8xl opacity-10 select-none">💡</div>
+        <section class="bg-gradient-to-r from-amber-500/20 via-slate-900 to-emerald-500/20 border-2 border-amber-500/40 rounded-3xl p-6 shadow-2xl relative overflow-hidden pulse-card">
+            <div class="absolute -right-6 -bottom-6 text-9xl opacity-10 select-none">💡</div>
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
-                <div class="space-y-1">
+                <div class="space-y-1.5">
                     <div class="flex items-center gap-2">
-                        <span class="bg-amber-400 text-black text-xs fredoka font-bold px-2.5 py-1 rounded-lg uppercase tracking-wider" id="currentDateBadge">November 1</span>
-                        <span class="text-slate-400 text-xs">• Daily Mindset & Motivation</span>
+                        <span class="bg-amber-400 text-slate-950 text-xs fredoka font-bold px-3 py-1 rounded-xl uppercase tracking-wider shadow" id="currentDateBadge">November 1</span>
+                        <span class="text-amber-300/80 text-xs fredoka font-bold">• Daily Wisdom & Motivation</span>
                     </div>
-                    <p id="dailyQuoteText" class="fredoka text-lg md:text-xl text-amber-200 font-medium">
+                    <p id="dailyQuoteText" class="fredoka text-lg md:text-2xl text-amber-200 font-bold leading-snug">
                         "Every obstacle is a stepping stone destined to take you someplace greater in life!"
                     </p>
                 </div>
-                <button onclick="readDailyQuote()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs fredoka flex items-center gap-2 shadow-lg transition transform hover:scale-105 whitespace-nowrap">
-                    🔊 Read Quote
+                <button onclick="readDailyQuote()" class="bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold px-5 py-3 rounded-2xl text-xs fredoka flex items-center gap-2 shadow-lg transition transform hover:scale-105 whitespace-nowrap">
+                    🔊 Read Aloud
                 </button>
             </div>
         </section>
 
         <!-- NAVIGATION TABS -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <button onclick="switchTab('calendar')" id="tabBtn-calendar" class="tab-btn bg-slate-900 border-2 border-amber-500 text-amber-400 font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+            <button onclick="switchTab('calendar')" id="tabBtn-calendar" class="tab-btn bg-slate-900 border-2 border-amber-500 text-amber-400 font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-xl fredoka text-sm">
                 📅 November Calendar
             </button>
-            <button onclick="switchTab('arena')" id="tabBtn-arena" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
-                🎮 Live Trading Arena ($<span id="navBalance">10,000</span>)
+            <button onclick="switchTab('arena')" id="tabBtn-arena" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-xl fredoka text-sm">
+                🎮 Live Arena ($<span id="navBalance">10,000</span>)
             </button>
-            <button onclick="switchTab('flashcards')" id="tabBtn-flashcards" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+            <button onclick="switchTab('flashcards')" id="tabBtn-flashcards" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-xl fredoka text-sm">
                 🃏 Picture Cards
             </button>
-            <button onclick="switchTab('trophies')" id="tabBtn-trophies" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+            <button onclick="switchTab('trophies')" id="tabBtn-trophies" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-xl fredoka text-sm">
                 🏆 Trophies & Belts
             </button>
         </div>
 
         <!-- TAB CONTENT: CALENDAR & DAILY MISSIONS -->
         <div id="tabContent-calendar" class="space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <div>
-                        <h2 class="fredoka text-2xl font-bold text-white flex items-center gap-2">
+                        <h2 class="fredoka text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
                             🗓️ November Daily Training Roadmap
                         </h2>
-                        <p class="text-sm text-slate-400">Complete each day's 3-Step Mission: 1. Spot & Learn → 2. 10-Question Quiz → 3. Live Simulation!</p>
+                        <p class="text-sm text-slate-400 mt-1">Complete each day's 3-Step Mission: 1. Spot & Learn → 2. 10-Question Visual Quiz → 3. Live Chart Simulation!</p>
                     </div>
-                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 text-xs">
-                        <span>Phase: <strong id="currentPhaseLabel" class="text-amber-400">Beginner (Days 1-7)</strong></span>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2.5 rounded-2xl border border-slate-700 text-xs shadow-inner">
+                        <span>Phase: <strong id="currentPhaseLabel" class="text-amber-400 fredoka">Beginner (Days 1-7)</strong></span>
                     </div>
                 </div>
 
                 <!-- Calendar Grid (30 Days) -->
-                <div id="calendarGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-10 gap-3">
+                <div id="calendarGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-4">
                     <!-- Injected dynamically via JS -->
                 </div>
             </div>
@@ -118,64 +123,64 @@
 
         <!-- TAB CONTENT: LIVE TRADING ARENA -->
         <div id="tabContent-arena" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
                     <div>
-                        <h2 class="fredoka text-2xl font-bold text-white flex items-center gap-2">
+                        <h2 class="fredoka text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
                             📈 Real-Time Chart Playground
                         </h2>
                         <p class="text-sm text-slate-400">Watch candles form tick-by-tick. Adjust SL & TP, then place your trade!</p>
                     </div>
-                    <div class="flex items-center gap-4 bg-slate-800 px-4 py-2 rounded-2xl border border-slate-700">
+                    <div class="flex items-center gap-4 bg-slate-800 px-5 py-2.5 rounded-2xl border border-slate-700 shadow-inner">
                         <div>
                             <span class="text-xs text-slate-400 block">Demo Balance:</span>
-                            <span id="arenaBalance" class="fredoka text-xl font-bold text-emerald-400">$10,000.00</span>
+                            <span id="arenaBalance" class="fredoka text-2xl font-bold text-emerald-400">$10,000.00</span>
                         </div>
-                        <button onclick="resetDemoBalance()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-xl transition">Reset</button>
+                        <button onclick="resetDemoBalance()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3.5 py-2 rounded-xl transition font-bold">Reset</button>
                     </div>
                 </div>
 
-                <!-- Canvas Chart Container -->
-                <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-inner h-[380px]">
+                <!-- Canvas Chart Container with Visual Art -->
+                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[400px]">
                     <canvas id="liveChartCanvas" class="w-full h-full cursor-crosshair"></canvas>
                     
                     <!-- Floating Live PnL Badge -->
-                    <div id="floatingPnlBadge" class="absolute top-4 left-4 bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-xl hidden items-center gap-2 shadow-lg backdrop-blur">
-                        <span class="text-xs text-slate-400">Active Trade PnL:</span>
-                        <span id="livePnlValue" class="fredoka font-bold text-sm text-emerald-400">+$0.00</span>
+                    <div id="floatingPnlBadge" class="absolute top-4 left-4 bg-slate-900/95 border border-slate-700 px-4 py-2 rounded-2xl hidden items-center gap-3 shadow-2xl backdrop-blur">
+                        <span class="text-xs text-slate-400 font-bold">Active Trade PnL:</span>
+                        <span id="livePnlValue" class="fredoka font-bold text-base text-emerald-400">+$0.00</span>
                     </div>
 
                     <!-- Chart Control Overlay -->
-                    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-slate-900/90 p-2 rounded-2xl border border-slate-700 backdrop-blur">
-                        <button onclick="setMarketMode('uptrend')" id="modeUptrend" class="bg-emerald-600/30 border border-emerald-500 text-emerald-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Uptrend</button>
-                        <button onclick="setMarketMode('downtrend')" id="modeDowntrend" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Downtrend</button>
-                        <button onclick="setMarketMode('sideways')" id="modeSideways" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Sideways</button>
+                    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-slate-900/95 p-2.5 rounded-2xl border border-slate-700 backdrop-blur shadow-xl">
+                        <button onclick="setMarketMode('uptrend')" id="modeUptrend" class="bg-emerald-600 border border-emerald-500 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition shadow">Uptrend 🚀</button>
+                        <button onclick="setMarketMode('downtrend')" id="modeDowntrend" class="bg-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl font-bold transition">Downtrend 🔻</button>
+                        <button onclick="setMarketMode('sideways')" id="modeSideways" class="bg-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl font-bold transition">Sideways ↔️</button>
                     </div>
                 </div>
 
                 <!-- Trading Controls & SL/TP Sliders -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between text-xs text-slate-400">
-                            <span>Stop-Loss (Risk Safety Shield)</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                    <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3 shadow-inner">
+                        <div class="flex justify-between text-xs font-bold text-slate-400">
+                            <span>🛡️ Stop-Loss (Risk Shield)</span>
                             <span id="slValueText" class="text-rose-400 font-bold">-$150</span>
                         </div>
                         <input type="range" id="slRange" min="50" max="500" value="150" class="w-full accent-rose-500 cursor-pointer">
                     </div>
 
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between text-xs text-slate-400">
-                            <span>Take-Profit (Treasure Target)</span>
+                    <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3 shadow-inner">
+                        <div class="flex justify-between text-xs font-bold text-slate-400">
+                            <span>🎯 Take-Profit (Treasure)</span>
                             <span id="tpValueText" class="text-emerald-400 font-bold">+$300</span>
                         </div>
                         <input type="range" id="tpRange" min="100" max="1000" value="300" class="w-full accent-emerald-500 cursor-pointer">
                     </div>
 
                     <div class="flex items-center gap-3">
-                        <button onclick="executeLiveTrade('BUY')" id="buyBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white fredoka font-bold py-3.5 px-4 rounded-2xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                        <button onclick="executeLiveTrade('BUY')" id="buyBtn" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white fredoka font-bold py-4 px-4 rounded-2xl shadow-xl transition transform hover:scale-105 flex items-center justify-center gap-2 text-base">
                             🚀 BUY (UP)
                         </button>
-                        <button onclick="executeLiveTrade('SELL')" id="sellBtn" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold py-3.5 px-4 rounded-2xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                        <button onclick="executeLiveTrade('SELL')" id="sellBtn" class="flex-1 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white fredoka font-bold py-4 px-4 rounded-2xl shadow-xl transition transform hover:scale-105 flex items-center justify-center gap-2 text-base">
                             🔻 SELL (DOWN)
                         </button>
                     </div>
@@ -185,11 +190,11 @@
 
         <!-- TAB CONTENT: PICTURE CARDS -->
         <div id="tabContent-flashcards" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
-                <h2 class="fredoka text-2xl font-bold text-white mb-2">🃏 Picture Card Academy</h2>
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl">
+                <h2 class="fredoka text-2xl md:text-3xl font-bold text-white mb-2">🃏 Picture Card Academy</h2>
                 <p class="text-sm text-slate-400 mb-6">Visual flashcards explaining every key trading concept with audio narration.</p>
                 
-                <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                     <!-- Injected via JS -->
                 </div>
             </div>
@@ -197,37 +202,37 @@
 
         <!-- TAB CONTENT: TROPHIES & BELTS -->
         <div id="tabContent-trophies" class="hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl text-center space-y-4">
-                <div class="w-20 h-20 bg-amber-500/20 border-2 border-amber-500 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-lg animate-bounce">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 md:p-8 shadow-2xl text-center space-y-5">
+                <div class="w-24 h-24 bg-amber-500/20 border-2 border-amber-500 rounded-3xl mx-auto flex items-center justify-center text-5xl shadow-2xl animate-bounce">
                     🥋
                 </div>
                 <h2 class="fredoka text-3xl font-bold text-amber-300">Mastery Belts & Achievements</h2>
-                <p class="text-slate-400 max-w-md mx-auto">Complete daily challenges to conquer all 4 belts and earn the Ultimate Trading Legend trophy!</p>
+                <p class="text-slate-400 max-w-md mx-auto text-sm">Complete daily challenges to conquer all 4 belts and earn the Ultimate Trading Legend trophy!</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
-                    <div id="beltCard-1" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2">
-                        <div class="text-3xl">🟢</div>
-                        <h3 class="fredoka font-bold text-white">Beginner Belt</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                    <div id="beltCard-1" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl">
+                        <div class="text-4xl">🟢</div>
+                        <h3 class="fredoka font-bold text-white text-lg">Beginner Belt</h3>
                         <p class="text-xs text-slate-400">Days 1–7: Candles & Moods</p>
-                        <span id="beltStatus-1" class="inline-block bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-lg font-bold">Unlocked</span>
+                        <span id="beltStatus-1" class="inline-block bg-emerald-500/20 text-emerald-400 text-xs px-3 py-1 rounded-xl font-bold border border-emerald-500/30">Unlocked</span>
                     </div>
-                    <div id="beltCard-2" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
-                        <div class="text-3xl">🔵</div>
-                        <h3 class="fredoka font-bold text-white">Intermediate Belt</h3>
+                    <div id="beltCard-2" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl opacity-60">
+                        <div class="text-4xl">🔵</div>
+                        <h3 class="fredoka font-bold text-white text-lg">Intermediate Belt</h3>
                         <p class="text-xs text-slate-400">Days 8–15: Support, Resistance & ICC</p>
-                        <span id="beltStatus-2" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                        <span id="beltStatus-2" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Locked 🔒</span>
                     </div>
-                    <div id="beltCard-3" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
-                        <div class="text-3xl">🟣</div>
-                        <h3 class="fredoka font-bold text-white">Advanced Belt</h3>
+                    <div id="beltCard-3" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl opacity-60">
+                        <div class="text-4xl">🟣</div>
+                        <h3 class="fredoka font-bold text-white text-lg">Advanced Belt</h3>
                         <p class="text-xs text-slate-400">Days 16–22: Risk & Discipline</p>
-                        <span id="beltStatus-3" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                        <span id="beltStatus-3" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Locked 🔒</span>
                     </div>
-                    <div id="beltCard-4" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
-                        <div class="text-3xl">👑</div>
-                        <h3 class="fredoka font-bold text-white">Pro Legend Belt</h3>
+                    <div id="beltCard-4" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-3 shadow-xl opacity-60">
+                        <div class="text-4xl">👑</div>
+                        <h3 class="fredoka font-bold text-white text-lg">Pro Legend Belt</h3>
                         <p class="text-xs text-slate-400">Days 23–30: Master Boss Battles</p>
-                        <span id="beltStatus-4" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                        <span id="beltStatus-4" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Locked 🔒</span>
                     </div>
                 </div>
             </div>
@@ -235,52 +240,52 @@
 
     </main>
 
-    <!-- MISSION MODAL (3-STAGE FLOW: 1. Spot & Learn -> 2. 10 Q Quiz -> 3. Live Simulation) -->
-    <div id="missionModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 shadow-2xl relative space-y-6 my-auto">
+    <!-- MISSION MODAL (3-STAGE FLOW) -->
+    <div id="missionModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 md:p-8 shadow-2xl relative space-y-6 my-auto">
             
             <!-- Modal Header -->
             <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
-                    <span id="modalDayBadge" class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2.5 py-1 rounded-lg">Day 1 Mission</span>
-                    <h3 id="modalTitle" class="fredoka text-xl font-bold text-white mt-1">Green vs. Red Candles</h3>
+                    <span id="modalDayBadge" class="bg-amber-500/20 text-amber-400 text-xs font-bold px-3 py-1 rounded-xl border border-amber-500/30">Day 1 Mission</span>
+                    <h3 id="modalTitle" class="fredoka text-2xl font-bold text-white mt-1">Green vs. Red Candles</h3>
                 </div>
-                <button onclick="closeMissionModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg">✕</button>
+                <button onclick="closeMissionModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-lg shadow">✕</button>
             </div>
 
             <!-- STAGE 1: SPOT & LEARN -->
-            <div id="modalStage-1" class="space-y-4">
-                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center gap-6">
-                    <div id="modalVisualSpecimen" class="w-32 h-40 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col items-center justify-center p-2 shadow-inner">
+            <div id="modalStage-1" class="space-y-6">
+                <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 flex flex-col md:flex-row items-center gap-6 shadow-inner">
+                    <div id="modalVisualSpecimen" class="w-36 h-48 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col items-center justify-center p-3 shadow-2xl">
                         <!-- Dynamic Canvas Specimen -->
                     </div>
-                    <div class="space-y-3 flex-1">
-                        <h4 class="fredoka font-bold text-amber-300 text-lg" id="stage1Title">The Bull & Bear Battle</h4>
+                    <div class="space-y-3 flex-1 text-center md:text-left">
+                        <h4 class="fredoka font-bold text-amber-300 text-xl" id="stage1Title">The Bull & Bear Battle</h4>
                         <p id="stage1Desc" class="text-sm text-slate-300 leading-relaxed">Green candles mean buyers pushed the price up! Red candles mean sellers pushed the price down. Let's learn to spot them instantly.</p>
-                        <button onclick="readStage1Text()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs fredoka flex items-center gap-2 shadow">
+                        <button onclick="readStage1Text()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl text-xs fredoka font-bold flex items-center gap-2 shadow-lg mx-auto md:mx-0">
                             🔊 Read Aloud
                         </button>
                     </div>
                 </div>
-                <button onclick="advanceToStage2()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-2xl fredoka text-base shadow-lg transition transform hover:scale-[1.01]">
+                <button onclick="advanceToStage2()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold py-4 rounded-2xl fredoka text-lg shadow-2xl transition transform hover:scale-[1.01]">
                     Start 10-Question Visual Quiz! 🚀
                 </button>
             </div>
 
             <!-- STAGE 2: 10-QUESTION QUIZ -->
-            <div id="modalStage-2" class="hidden space-y-4">
-                <div class="flex justify-between items-center text-xs text-slate-400">
-                    <span>Question <strong id="currentQNum" class="text-amber-400">1</strong> of 10</span>
-                    <span>Score: <strong id="currentQuizScore" class="text-emerald-400">0</strong> / 10</span>
+            <div id="modalStage-2" class="hidden space-y-5">
+                <div class="flex justify-between items-center text-xs font-bold text-slate-400">
+                    <span>Question <strong id="currentQNum" class="text-amber-400 text-sm">1</strong> of 10</span>
+                    <span>Score: <strong id="currentQuizScore" class="text-emerald-400 text-sm">0</strong> / 10</span>
                 </div>
                 <!-- Progress bar -->
-                <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
-                    <div id="quizProgressBar" class="bg-amber-500 h-full w-[10%] transition-all duration-300"></div>
+                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800 shadow-inner">
+                    <div id="quizProgressBar" class="bg-gradient-to-r from-amber-500 to-yellow-400 h-full w-[10%] transition-all duration-300"></div>
                 </div>
 
-                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4 text-center">
-                    <h4 id="quizQuestionText" class="fredoka font-bold text-lg text-white">What does a Green Candle represent?</h4>
-                    <div id="quizVisualCanvasContainer" class="w-28 h-36 bg-slate-900 border border-slate-800 rounded-2xl mx-auto flex items-center justify-center p-2"></div>
+                <div class="bg-slate-950 p-6 rounded-3xl border border-slate-800 space-y-5 text-center shadow-inner">
+                    <h4 id="quizQuestionText" class="fredoka font-bold text-xl text-white">What does a Green Candle represent?</h4>
+                    <div id="quizVisualCanvasContainer" class="w-32 h-40 bg-slate-900 border border-slate-800 rounded-2xl mx-auto flex items-center justify-center p-3 shadow-2xl"></div>
                     
                     <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
                         <!-- Options injected via JS -->
@@ -289,22 +294,22 @@
             </div>
 
             <!-- STAGE 3: POST-QUIZ LIVE CHART MISSION -->
-            <div id="modalStage-3" class="hidden space-y-4">
-                <div class="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl flex items-center gap-3">
-                    <div class="text-3xl">🎉</div>
+            <div id="modalStage-3" class="hidden space-y-5">
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-5 rounded-3xl flex items-center gap-4 shadow-lg">
+                    <div class="text-4xl">🎉</div>
                     <div>
-                        <h4 class="fredoka font-bold text-emerald-300">Quiz Completed Successfully!</h4>
+                        <h4 class="fredoka font-bold text-emerald-300 text-lg">Quiz Completed Successfully!</h4>
                         <p class="text-xs text-slate-300">Now apply what you learned in this live chart simulation. Place your trade and watch the candles form!</p>
                     </div>
                 </div>
 
-                <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden h-[260px]">
+                <div class="relative bg-slate-950 border border-slate-800 rounded-3xl overflow-hidden h-[280px] shadow-2xl">
                     <canvas id="modalLiveCanvas" class="w-full h-full"></canvas>
                 </div>
 
-                <div class="flex gap-3">
-                    <button onclick="executeModalTrade('BUY')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white fredoka font-bold py-3 rounded-xl shadow">🚀 BUY (UP)</button>
-                    <button onclick="executeModalTrade('SELL')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold py-3 rounded-xl shadow">🔻 SELL (DOWN)</button>
+                <div class="flex gap-4">
+                    <button onclick="executeModalTrade('BUY')" class="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white fredoka font-bold py-3.5 rounded-2xl shadow-xl text-base">🚀 BUY (UP)</button>
+                    <button onclick="executeModalTrade('SELL')" class="flex-1 bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white fredoka font-bold py-3.5 rounded-2xl shadow-xl text-base">🔻 SELL (DOWN)</button>
                 </div>
             </div>
 
@@ -312,44 +317,42 @@
     </div>
 
     <!-- PROFILE EDIT MODAL -->
-    <div id="profileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <h3 class="fredoka text-xl font-bold text-white">Trader Profile Setup</h3>
-            <div class="space-y-3">
+    <div id="profileModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 md:p-8 shadow-2xl space-y-5">
+            <h3 class="fredoka text-2xl font-bold text-white">Trader Profile Setup</h3>
+            <div class="space-y-4">
                 <div>
-                    <label class="text-xs text-slate-400 block mb-1">Trader Name:</label>
-                    <input type="text" id="inputTraderName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white fredoka focus:outline-none focus:border-amber-500" value="Saunie">
+                    <label class="text-xs text-slate-400 font-bold block mb-1.5">Trader Name:</label>
+                    <input type="text" id="inputTraderName" class="w-full bg-slate-950 border border-slate-700 rounded-2xl px-4 py-3 text-white fredoka focus:outline-none focus:border-amber-500 shadow-inner" value="Saunie">
                 </div>
                 <div>
-                    <label class="text-xs text-slate-400 block mb-1">Select Avatar:</label>
+                    <label class="text-xs text-slate-400 font-bold block mb-1.5">Select Avatar:</label>
                     <div class="flex gap-3 text-3xl">
-                        <button onclick="selectAvatar('👦🏽')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">👦🏽</button>
-                        <button onclick="selectAvatar('🚀')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">🚀</button>
-                        <button onclick="selectAvatar('🦁')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">🦁</button>
-                        <button onclick="selectAvatar('⭐')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">⭐</button>
+                        <button onclick="selectAvatar('👦🏽')" class="p-3 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-500 shadow transition">👦🏽</button>
+                        <button onclick="selectAvatar('🚀')" class="p-3 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-500 shadow transition">🚀</button>
+                        <button onclick="selectAvatar('🦁')" class="p-3 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-500 shadow transition">🦁</button>
+                        <button onclick="selectAvatar('⭐')" class="p-3 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-500 shadow transition">⭐</button>
                     </div>
                 </div>
             </div>
-            <button onclick="saveProfile()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl fredoka shadow">Save Profile</button>
+            <button onclick="saveProfile()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-2xl fredoka shadow-lg text-base">Save Profile</button>
         </div>
     </div>
 
     <!-- JAVASCRIPT ENGINE -->
     <script>
-        // --- APP STATE & STORAGE ---
-        const STORAGE_KEY = 'kidTraderAcademy_state_v3';
+        const STORAGE_KEY = 'kidTraderAcademy_state_v4';
         let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             user: { name: 'Saunie', avatar: '👦🏽', age: 8, belt: 'Beginner Belt', stars: 0, streak: 1 },
             completedDays: [],
             balance: 10000.00
         };
 
-        // --- 30-DAY CURRICULUM DEFINITIONS ---
         const curriculum = [
             { day: 1, title: "Green vs. Red Candles", phase: 1, subtitle: "The Battle of Bulls & Bears", desc: "Green candles mean buyers won and price went up! Red candles mean sellers won and price went down.", quizTopic: "candles" },
             { day: 2, title: "The Doji Candle", phase: 1, subtitle: "The Great Tug-of-War", desc: "A Doji has a tiny body because buyers and sellers fought equally. It signals a potential reversal!", quizTopic: "doji" },
-            { day: 3, title: "The Hammer", phase: 1, subtitle: "The Springboard Reversal Bounce", desc: "A Hammer looks like a mallet with a long bottom wick. It shows sellers tried to crash price, but buyers scooped it right up!", quizTopic: "hammer" },
-            { day: 4, title: "Shooting Star", phase: 1, subtitle: "The Ceiling Rejection", desc: "A Shooting Star has a long top wick pointing up. Buyers tried to break the ceiling but got knocked right back down!", quizTopic: "shooting_star" },
+            { day: 3, title: "The Hammer", phase: 1, subtitle: "The Springboard Reversal Bounce", desc: "A Hammer looks like a mallet with a long bottom wick. Sellers tried to crash price, but buyers scooped it up!", quizTopic: "hammer" },
+            { day: 4, title: "Shooting Star", phase: 1, subtitle: "The Ceiling Rejection", desc: "A Shooting Star has a long top wick pointing up. Buyers tried to break the ceiling but got knocked right down!", quizTopic: "shooting_star" },
             { day: 5, title: "Bullish & Bearish Engulfing", phase: 1, subtitle: "The Monster Candle Takeover", desc: "A giant candle completely swallows the previous candle, signaling a powerful wave of new momentum!", quizTopic: "engulfing" },
             { day: 6, title: "The 3 Market Moods", phase: 1, subtitle: "Uptrend, Downtrend & Sideways", desc: "Markets move like ski slopes up, rollercoasters down, or flat roads sideways.", quizTopic: "moods" },
             { day: 7, title: "Beginner Boss Challenge", phase: 1, subtitle: "Mastering Beginner Patterns", desc: "Test your skills across all beginner candlestick patterns to earn your Beginner Belt!", quizTopic: "boss_1" },
@@ -358,7 +361,7 @@
             { day: 9, title: "Resistance (Bouncy Ceiling)", phase: 2, subtitle: "Where Sellers Push Back", desc: "Resistance is a price ceiling where sellers jump in to stop the price from going higher.", quizTopic: "resistance" },
             { day: 10, title: "Trendlines", phase: 2, subtitle: "Connecting Ski Slopes & Peaks", desc: "Drawing lines under uptrends and over downtrends helps us spot where the bounce will happen.", quizTopic: "trendlines" },
             { day: 11, title: "Breakouts", phase: 2, subtitle: "Rocketing Through the Ceiling", desc: "When price smashes past resistance with high volume, it shoots off like a rocket ship!", quizTopic: "breakouts" },
-            { day: 12, title: "Fakeout Traps", phase: 2, subtitle: "The Bull & Bear Trap Trick", desc: "Sometimes price breaks a level then reverses instantly. Smart traders wait for confirmation so they don't get trapped!", quizTopic: "fakeouts" },
+            { day: 12, title: "Fakeout Traps", phase: 2, subtitle: "The Bull & Bear Trap Trick", desc: "Sometimes price breaks a level then reverses instantly. Smart traders wait for confirmation!", quizTopic: "fakeouts" },
             { day: 13, title: "The ICC Strategy", phase: 2, subtitle: "Indication, Correction, Continuation", desc: "Indication (strong move), Correction (gentle pullback), Continuation (rocket off again!).", quizTopic: "icc" },
             { day: 14, title: "Volume Clues", phase: 2, subtitle: "Big Blocks vs. Tiny Whispers", desc: "Volume tells us how many traders are participating. High volume means a move is real!", quizTopic: "volume" },
             { day: 15, title: "Intermediate Boss Challenge", phase: 2, subtitle: "Mastering Levels & ICC", desc: "Prove your mastery of Support, Resistance, and ICC to unlock Advanced Training!", quizTopic: "boss_2" },
@@ -390,11 +393,9 @@
         ];
 
         let activeMission = { dayNum: 1, stage: 1, qIndex: 0, score: 0 };
-        let liveChartTimer = null;
         let chartCandles = [];
         let marketModeState = 'uptrend';
 
-        // --- INIT APP ---
         window.addEventListener('DOMContentLoaded', () => {
             updateUI();
             renderCalendar();
@@ -410,12 +411,10 @@
             document.getElementById('navBalance').textContent = state.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
             document.getElementById('arenaBalance').textContent = '$' + state.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
 
-            // Set daily quote based on day 1
             const quoteIdx = (state.user.stars % dailyQuotes.length);
             document.getElementById('dailyQuoteText').textContent = `"${dailyQuotes[quoteIdx]}"`;
         }
 
-        // --- NAVIGATION & TABS ---
         function switchTab(tabName) {
             ['calendar', 'arena', 'flashcards', 'trophies'].forEach(t => {
                 document.getElementById(`tabContent-${t}`).classList.add('hidden');
@@ -427,7 +426,6 @@
             document.getElementById(`tabBtn-${tabName}`).classList.remove('border-slate-800', 'text-slate-300');
         }
 
-        // --- RENDER CALENDAR ---
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
@@ -437,29 +435,28 @@
                 const isUnlocked = item.day === 1 || state.completedDays.includes(item.day - 1) || state.completedDays.includes(item.day);
 
                 const card = document.createElement('div');
-                card.className = `p-4 rounded-2xl border flex flex-col justify-between gap-3 transition transform hover:scale-105 cursor-pointer ${
-                    isCompleted ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300' :
-                    isUnlocked ? 'bg-slate-900 border-amber-500/50 text-white shadow-lg' : 'bg-slate-950/50 border-slate-800/50 text-slate-600 opacity-50 cursor-not-allowed'
+                card.className = `p-4 rounded-3xl border flex flex-col justify-between gap-3 transition transform hover:scale-105 cursor-pointer shadow-lg ${
+                    isCompleted ? 'bg-emerald-950/40 border-emerald-500/60 text-emerald-300' :
+                    isUnlocked ? 'bg-slate-900 border-amber-500/60 text-white' : 'bg-slate-950/50 border-slate-800/50 text-slate-600 opacity-50 cursor-not-allowed'
                 }`;
 
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
-                        <span class="fredoka font-bold text-xs px-2 py-0.5 rounded ${isCompleted ? 'bg-emerald-500 text-black' : 'bg-amber-500 text-black'}">Nov ${item.day}</span>
-                        <span class="text-lg">${isCompleted ? '⭐' : isUnlocked ? '🔓' : '🔒'}</span>
+                        <span class="fredoka font-bold text-xs px-2.5 py-1 rounded-xl shadow ${isCompleted ? 'bg-emerald-500 text-slate-950' : 'bg-amber-400 text-slate-950'}">Nov ${item.day}</span>
+                        <span class="text-xl">${isCompleted ? '⭐' : isUnlocked ? '🔓' : '🔒'}</span>
                     </div>
                     <div>
-                        <h4 class="fredoka font-bold text-xs line-clamp-2">${item.title}</h4>
-                        <p class="text-[10px] text-slate-400 line-clamp-1 mt-0.5">${item.subtitle}</p>
+                        <h4 class="fredoka font-bold text-sm line-clamp-2">${item.title}</h4>
+                        <p class="text-[11px] text-slate-400 line-clamp-1 mt-1">${item.subtitle}</p>
                     </div>
-                    <button onclick="${isUnlocked ? `openMission(${item.day})` : 'speakText(\'Complete previous days first!\')'}" class="w-full py-1.5 rounded-xl text-xs fredoka font-bold ${isCompleted ? 'bg-emerald-600 hover:bg-emerald-500 text-white' : isUnlocked ? 'bg-amber-500 hover:bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-500'}">
-                        ${isCompleted ? 'Review Day' : 'Start Mission'}
+                    <button onclick="${isUnlocked ? `openMission(${item.day})` : 'speakText(\'Complete previous days first!\')'}" class="w-full py-2 rounded-2xl text-xs fredoka font-bold shadow ${isCompleted ? 'bg-emerald-600 hover:bg-emerald-500 text-white' : isUnlocked ? 'bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950' : 'bg-slate-800 text-slate-500'}">
+                        ${isCompleted ? 'Review Day' : 'Start Mission 🚀'}
                     </button>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        // --- MISSION MODAL CONTROLLER ---
         function openMission(dayNum) {
             const data = curriculum.find(d => d.day === dayNum);
             activeMission = { dayNum: dayNum, stage: 1, qIndex: 0, score: 0 };
@@ -485,7 +482,13 @@
 
         function renderStage1Specimen(topic) {
             const container = document.getElementById('modalVisualSpecimen');
-            container.innerHTML = `<div class="text-4xl">📈</div><span class="fredoka text-xs text-amber-300 mt-2 text-center">${topic.toUpperCase()}</span>`;
+            container.innerHTML = `
+                <div class="w-12 h-24 bg-emerald-500/20 border-2 border-emerald-500 rounded-lg relative flex flex-col items-center justify-center candle-shadow">
+                    <div class="w-1 h-32 bg-emerald-400 absolute"></div>
+                    <div class="w-8 h-12 bg-emerald-500 rounded-md z-10"></div>
+                </div>
+                <span class="fredoka text-xs text-amber-300 mt-3 text-center font-bold">${topic.toUpperCase()}</span>
+            `;
         }
 
         function advanceToStage2() {
@@ -495,7 +498,6 @@
             loadQuizQuestion();
         }
 
-        // --- 10-QUESTION QUIZ ENGINE ---
         function loadQuizQuestion() {
             const qNum = activeMission.qIndex + 1;
             document.getElementById('currentQNum').textContent = qNum;
@@ -503,12 +505,19 @@
             document.getElementById('quizProgressBar').style.width = (qNum * 10) + '%';
 
             const data = curriculum.find(d => d.day === activeMission.dayNum);
-            document.getElementById('quizQuestionText').textContent = `Question ${qNum}: Spot the correct answer for ${data.title}?`;
+            document.getElementById('quizQuestionText').textContent = `Question ${qNum}: Spot the correct pattern for ${data.title}?`;
+
+            const canvasContainer = document.getElementById('quizVisualCanvasContainer');
+            canvasContainer.innerHTML = `
+                <div class="w-10 h-20 bg-rose-500/20 border-2 border-rose-500 rounded-lg relative flex flex-col items-center justify-center candle-shadow">
+                    <div class="w-1 h-28 bg-rose-400 absolute"></div>
+                    <div class="w-7 h-10 bg-rose-500 rounded-md z-10"></div>
+                </div>
+            `;
 
             const optionsGrid = document.getElementById('quizOptionsGrid');
             optionsGrid.innerHTML = '';
 
-            // Generate 4 kid-friendly options
             const options = [
                 { text: `Correct Answer for ${data.title}`, correct: true },
                 { text: "Wrong market direction trap", correct: false },
@@ -518,7 +527,7 @@
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
-                btn.className = 'bg-slate-900 hover:bg-slate-800 border border-slate-700 p-3 rounded-xl fredoka text-xs text-left text-white transition flex items-center justify-between';
+                btn.className = 'bg-slate-900 hover:bg-slate-800 border border-slate-700 p-4 rounded-2xl fredoka text-xs text-left text-white transition flex items-center justify-between shadow';
                 btn.innerHTML = `<span>${opt.text}</span> <span class="text-base">🎯</span>`;
                 btn.onclick = () => handleQuizAnswer(opt.correct);
                 optionsGrid.appendChild(btn);
@@ -537,7 +546,6 @@
             if (activeMission.qIndex < 10) {
                 loadQuizQuestion();
             } else {
-                // Advance to Stage 3 Live Simulation
                 activeMission.stage = 3;
                 document.getElementById('modalStage-2').classList.add('hidden');
                 document.getElementById('modalStage-3').classList.remove('hidden');
@@ -545,10 +553,6 @@
                 speakText("Quiz finished! Now test your skills in the live trading simulation!");
             }
         }
-
-        // --- LIVE CHART SIMULATION (ARENA & MODAL) ---
-        let modalChartCanvas = null;
-        let modalCanvasCtx = null;
 
         function initLiveChart() {
             const canvas = document.getElementById('liveChartCanvas');
@@ -567,6 +571,7 @@
         }
 
         function resizeCanvas(canvas) {
+            if(!canvas) return;
             canvas.width = canvas.parentElement.clientWidth;
             canvas.height = canvas.parentElement.clientHeight;
         }
@@ -587,10 +592,11 @@
         }
 
         function drawChart(ctx, canvas) {
+            if(!ctx || !canvas) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             const w = canvas.width;
             const h = canvas.height;
-            const candleWidth = Math.max(4, w / 45);
+            const candleWidth = Math.max(6, w / 45);
             const spacing = 6;
 
             let minP = Math.min(...chartCandles.map(c => c.low));
@@ -599,13 +605,13 @@
 
             chartCandles.forEach((c, idx) => {
                 const x = idx * (candleWidth + spacing) + 20;
-                const yHigh = h - ((c.high - minP) / range) * (h - 40) - 20;
-                const yLow = h - ((c.low - minP) / range) * (h - 40) - 20;
-                const yOpen = h - ((c.open - minP) / range) * (h - 40) - 20;
-                const yClose = h - ((c.close - minP) / range) * (h - 40) - 20;
+                const yHigh = h - ((c.high - minP) / range) * (h - 50) - 25;
+                const yLow = h - ((c.low - minP) / range) * (h - 50) - 25;
+                const yOpen = h - ((c.open - minP) / range) * (h - 50) - 25;
+                const yClose = h - ((c.close - minP) / range) * (h - 50) - 25;
 
                 ctx.strokeStyle = c.isGreen ? '#10b981' : '#f43f5e';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 2.5;
                 ctx.beginPath();
                 ctx.moveTo(x + candleWidth / 2, yHigh);
                 ctx.lineTo(x + candleWidth / 2, yLow);
@@ -613,7 +619,7 @@
 
                 ctx.fillStyle = c.isGreen ? '#10b981' : '#f43f5e';
                 const bodyY = Math.min(yOpen, yClose);
-                const bodyH = Math.max(2, Math.abs(yOpen - yClose));
+                const bodyH = Math.max(3, Math.abs(yOpen - yClose));
                 ctx.fillRect(x, bodyY, candleWidth, bodyH);
             });
         }
@@ -623,7 +629,7 @@
             ['Uptrend', 'Downtrend', 'Sideways'].forEach(m => {
                 const btn = document.getElementById(`mode${m}`);
                 if(btn) {
-                    btn.className = m.toLowerCase() === mode ? 'bg-emerald-600 border border-emerald-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold transition' : 'bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition';
+                    btn.className = m.toLowerCase() === mode ? 'bg-emerald-600 border border-emerald-500 text-white text-xs px-3.5 py-2 rounded-xl font-bold transition shadow' : 'bg-slate-800 text-slate-300 text-xs px-3.5 py-2 rounded-xl font-bold transition';
                 }
             });
         }
@@ -653,7 +659,6 @@
             speakText("Demo balance reset to $10,000!");
         }
 
-        // --- PICTURE CARDS ---
         function renderFlashcards() {
             const grid = document.getElementById('flashcardsGrid');
             grid.innerHTML = '';
@@ -668,18 +673,17 @@
 
             cards.forEach(c => {
                 const div = document.createElement('div');
-                div.className = 'bg-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col items-center text-center gap-3 shadow-lg';
+                div.className = 'bg-slate-950 border border-slate-800 p-6 rounded-3xl flex flex-col items-center text-center gap-3 shadow-xl';
                 div.innerHTML = `
-                    <div class="text-4xl">${c.icon}</div>
-                    <h4 class="fredoka font-bold text-white text-sm">${c.title}</h4>
+                    <div class="text-5xl">${c.icon}</div>
+                    <h4 class="fredoka font-bold text-white text-base">${c.title}</h4>
                     <p class="text-xs text-slate-400">${c.desc}</p>
-                    <button onclick="speakText('${c.title}: ${c.desc}')" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl text-xs text-amber-300 fredoka">🔊 Listen</button>
+                    <button onclick="speakText('${c.title}: ${c.desc}')" class="mt-2 bg-slate-900 hover:bg-slate-800 border border-slate-700 px-4 py-2 rounded-2xl text-xs text-amber-300 fredoka font-bold shadow">🔊 Listen</button>
                 `;
                 grid.appendChild(div);
             });
         }
 
-        // --- PROFILE & SPEECH ---
         function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
         function selectAvatar(av) { state.user.avatar = av; document.getElementById('avatarDisplay').textContent = av; }
         function saveProfile() {
