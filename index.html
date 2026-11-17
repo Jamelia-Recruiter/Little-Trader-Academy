@@ -3,15 +3,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#7545db">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#7945df">
 <title>Little Trader Academy</title>
-
 <style>
-:root {
- --purple:#7545db;--pink:#ff78b7;--blue:#55b9ef;
- --yellow:#ffd65a;--green:#39c98a;--red:#ff647c;
- --ink:#30244a;--muted:#796f8e;--bg:#f7f3ff;
+:root{
+--purple:#7945df;--pink:#ff7db7;--blue:#55b9ed;
+--yellow:#ffd45e;--green:#35c98a;--red:#ff627e;
+--ink:#302448;--muted:#81758f;--bg:#f7f3ff;
+--white:#fff;
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
@@ -19,92 +19,107 @@ font-family:Arial,sans-serif}
 button,input,select{font:inherit}
 button{cursor:pointer}
 header{
- background:linear-gradient(120deg,#7545db,#a65bdf,#f17bb7);
- color:white;padding:22px 5%;
+background:linear-gradient(120deg,#7442d8,#aa65df,#fa8bb9);
+color:white;padding:19px 4%;
 }
-.top{max-width:1200px;margin:auto;display:flex;
- justify-content:space-between;align-items:center;gap:10px}
+.top{max-width:1250px;margin:auto;display:flex;
+justify-content:space-between;align-items:center;gap:10px}
 .logo{font-size:22px;font-weight:900}
-.logo small{display:block;font-size:12px;margin-top:5px}
-.student{background:#ffffff30;padding:10px;border-radius:12px}
-.layout{max-width:1200px;margin:24px auto;padding:0 16px;
- display:grid;grid-template-columns:220px 1fr;gap:20px}
-.sidebar{background:white;border-radius:20px;padding:12px;
- height:max-content;box-shadow:0 5px 20px #4c287510}
+.logo small{display:block;font-size:12px;margin-top:5px;font-weight:normal}
+.student{background:#ffffff30;border-radius:15px;padding:10px 13px}
+.layout{max-width:1250px;margin:20px auto;padding:0 14px;
+display:grid;grid-template-columns:215px 1fr;gap:18px}
+.sidebar{background:white;border-radius:20px;padding:11px;
+height:max-content;box-shadow:0 5px 20px #4c287510;
+position:sticky;top:10px}
 .nav{display:block;width:100%;border:0;background:white;
- padding:13px;text-align:left;border-radius:12px;
- margin-bottom:5px;font-weight:bold;color:var(--ink)}
+color:var(--ink);text-align:left;padding:12px;border-radius:12px;
+margin-bottom:4px;font-weight:bold;font-size:13px}
 .nav.active,.nav:hover{background:#eee6ff;color:var(--purple)}
 main{min-width:0}
 .page{display:none}
 .page.active{display:block}
 .hero{padding:25px;border-radius:23px;
- background:linear-gradient(120deg,#ffdc83,#ffb6ce)}
-.hero h1{font-size:29px;margin:8px 0}
-.hero p{line-height:1.6}
-.hero-icon{font-size:55px}
-.btn{border:0;background:var(--purple);color:white;
- padding:12px 17px;border-radius:12px;font-weight:bold}
-.btn:disabled{opacity:.5;cursor:not-allowed}
+background:linear-gradient(120deg,#ffdc83,#ffb8d0)}
+.hero h1{font-size:28px;margin:8px 0}
+.hero p{line-height:1.5}
+.hero-icon{font-size:52px}
+.card{background:white;border-radius:19px;padding:17px;
+box-shadow:0 4px 18px #4c287510;margin-bottom:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:15px 0}
+.stat{background:white;border-radius:16px;padding:13px;text-align:center}
+.stat strong{display:block;font-size:25px;margin:6px}
+.btn{border:0;background:var(--purple);color:white;padding:12px 17px;
+border-radius:12px;font-weight:bold}
+.btn:hover{opacity:.87}
+.btn:disabled{opacity:.45;cursor:not-allowed}
 .secondary{background:#eee6ff;color:var(--purple)}
 .green{background:var(--green)}
 .red{background:var(--red)}
-.card,.stat{background:white;border-radius:18px;padding:18px;
- box-shadow:0 4px 18px #4c287510}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);
- gap:12px;margin:16px 0}
-.stat strong{display:block;font-size:25px;margin:8px 0}
-small,.muted{color:var(--muted)}
-.section-title{margin:25px 0 12px}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
- gap:13px}
-.lesson{border:2px solid transparent;cursor:pointer}
-.lesson:hover{border-color:#b99aff}
-.lesson-icon{font-size:35px}
+.blue{background:var(--blue);color:#17364c}
 .pill{display:inline-block;background:#eee6ff;color:var(--purple);
- padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold}
-.progress-bg{height:10px;background:#eee8f7;
- border-radius:20px;overflow:hidden;margin:12px 0}
-.progress-fill{height:100%;width:0%;
- background:linear-gradient(90deg,#7545db,#ff78b7)}
-.question{background:#f8f4ff;padding:15px;border-radius:15px;margin:12px 0}
+padding:6px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.muted,small{color:var(--muted)}
+.section-title{margin:23px 0 12px}
+.progress-bg{height:11px;background:#eee8f7;border-radius:20px;overflow:hidden;margin:12px 0}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,#7545db,#ff78b7);transition:.3s}
+.lesson-card{cursor:pointer;border:2px solid transparent}
+.lesson-card:hover{border-color:#bd9df9}
+.lesson-card.locked{opacity:.6;cursor:not-allowed}
+.lesson-icon{font-size:35px}
 .option{display:block;width:100%;padding:13px;margin:8px 0;
- background:white;border:2px solid #e8def7;border-radius:11px;
- text-align:left;color:var(--ink)}
+background:white;border:2px solid #e9e1f3;border-radius:12px;
+text-align:left;color:var(--ink)}
 .option:hover{border-color:var(--purple)}
 .option.correct{border-color:var(--green);background:#e7fff3}
 .option.wrong{border-color:var(--red);background:#fff0f2}
 .feedback{display:none;background:#eafff3;padding:13px;
- border-radius:12px;margin-top:12px;line-height:1.6}
-.candle-row{display:flex;align-items:flex-end;justify-content:center;
- gap:28px;min-height:180px;padding:20px;background:#251d3b;
- border-radius:17px}
-.candle{width:23px;position:relative;border-radius:3px}
-.candle:before{content:"";position:absolute;width:3px;height:130%;
- top:-15%;left:10px;background:inherit}
+border-radius:12px;margin:12px 0;line-height:1.5}
+.feedback.show{display:block}
+.speak{border:0;background:#eee6ff;color:var(--purple);
+border-radius:50%;width:39px;height:39px;font-size:19px;
+vertical-align:middle;margin-left:6px}
+.speak:hover{background:#ddceff}
+.pattern{border-left:5px solid var(--pink)}
+.candle-stage{background:#251d3b;border-radius:17px;
+padding:20px;min-height:180px;display:flex;justify-content:center;
+align-items:center;gap:23px;flex-wrap:wrap}
+.candle{width:23px;height:65px;position:relative;border-radius:3px}
+.candle:before{content:"";position:absolute;width:3px;height:135%;
+top:-17%;left:10px;background:inherit}
 .up{background:#3cdb9a}
 .down{background:#ff657f}
-.small-candle{height:38px}
-.tall{height:100px}
-.candle-label{color:white;text-align:center;font-size:11px;margin-top:12px}
-.index-card{border-left:5px solid var(--purple)}
-.index-card:nth-child(2){border-color:var(--pink)}
-.index-card:nth-child(3){border-color:var(--blue)}
-.index-card:nth-child(4){border-color:var(--yellow)}
-.virtual{background:#2d2148;color:white;padding:22px;border-radius:18px}
+.candle.big{height:105px}
+.candle.short{height:37px}
+.chart-label{color:white;text-align:center;font-size:11px;margin-top:10px}
+.virtual{background:#2e2149;color:white;border-radius:19px;padding:20px}
 .virtual strong{font-size:30px}
-input,select{padding:12px;border:2px solid #e8def7;
- border-radius:10px;max-width:100%}
-input[type=file]{width:100%}
+.day{min-height:76px;background:white;border:1px solid #eee4f8;
+border-radius:11px;padding:7px 3px;text-align:center;font-size:12px}
+.day.today{border:2px solid var(--purple);background:#f1eaff}
+.day.done{background:#e5fff2;border-color:#70dba7}
+.day.future{opacity:.4}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.calendar-head{text-align:center;font-size:11px;font-weight:bold;padding:6px}
+input,select{padding:12px;border:2px solid #e8def7;border-radius:10px;
+width:100%;background:white;color:var(--ink)}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+.badge-card{text-align:center}
+.badge-card .emoji{font-size:38px}
+.info{background:#fff4d9;padding:13px;border-radius:13px;line-height:1.5}
+.mission{background:linear-gradient(120deg,#e9ddff,#ffedf5)}
 footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-@media(max-width:700px){
- .layout{grid-template-columns:1fr;margin:12px auto}
- .sidebar{display:flex;overflow-x:auto;gap:4px;padding:8px}
- .nav{min-width:max-content;width:auto;margin:0;padding:11px}
- .grid{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(3,1fr)}
- .stat{padding:11px}.stat strong{font-size:20px}
- .hero h1{font-size:24px}
+@media(max-width:720px){
+.layout{grid-template-columns:1fr;margin:10px auto}
+.sidebar{display:flex;overflow-x:auto;gap:4px;padding:7px;position:static}
+.nav{width:auto;min-width:max-content;margin:0;padding:10px}
+.grid{grid-template-columns:1fr}
+.stats{grid-template-columns:repeat(3,1fr)}
+.stat{padding:9px}
+.stat strong{font-size:20px}
+.hero h1{font-size:24px}
+.logo{font-size:18px}
 }
 </style>
 </head>
@@ -113,34 +128,39 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 <header>
  <div class="top">
   <div class="logo">🎓 Little Trader Academy
-   <small>Learn it. Practice it. Master it!</small>
+   <small>Learn • Play • Practice • Grow</small>
   </div>
-  <div class="student">🌟 Young Trader</div>
+  <div class="student" id="studentName">🌟 Young Trader</div>
  </div>
 </header>
 
 <div class="layout">
 <aside class="sidebar">
- <button class="nav active" data-page="home">🏠 Dashboard</button>
- <button class="nav" data-page="lessons">📚 Trading School</button>
+ <button class="nav active" data-page="home">🏠 Home</button>
+ <button class="nav" data-page="profile">👤 My Profile</button>
+ <button class="nav" data-page="school">🎮 Learning World</button>
  <button class="nav" data-page="candles">🕯️ Candle Academy</button>
- <button class="nav" data-page="volatility">⚡ Volatility School</button>
- <button class="nav" data-page="monthly">📅 Monthly Challenge</button>
- <button class="nav" data-page="quiz">🧠 Quiz Time</button>
- <button class="nav" data-page="practice">🎮 Practice Room</button>
- <button class="nav" data-page="ai">🤖 AI Chart Teacher</button>
- <button class="nav" data-page="awards">🏆 Achievements</button>
+ <button class="nav" data-page="patterns">🔍 Candle Detective</button>
+ <button class="nav" data-page="strategies">📊 Strategy School</button>
+ <button class="nav" data-page="icc">🚀 ICC Mission</button>
+ <button class="nav" data-page="practice">🎯 Practice Room</button>
+ <button class="nav" data-page="monthly">📅 My Calendar</button>
+ <button class="nav" data-page="quiz">🧠 Brain Games</button>
+ <button class="nav" data-page="chart">📸 Chart Teacher</button>
+ <button class="nav" data-page="awards">🏆 My Rewards</button>
 </aside>
 
 <main>
 
+<!-- HOME -->
 <section class="page active" id="home">
  <div class="hero">
-  <div class="hero-icon">🚀📈</div>
-  <h1>Welcome, Young Trader!</h1>
-  <p>Your trading adventure starts here. Learn charts, understand candles,
-  discover volatility and become a smart learner.</p>
-  <button class="btn" onclick="showPage('lessons')">Start Learning →</button>
+  <div class="hero-icon">🚀🕯️</div>
+  <h1 id="welcome">Welcome, Young Trader!</h1>
+  <p>Your adventure starts here! Learn about candles, charts,
+  market movements and trading strategies through fun games.</p>
+  <button class="btn" onclick="showPage('school')">Play & Learn! 🎮</button>
+  <button class="speak" onclick="speak('Welcome to Little Trader Academy. Let us learn and play!')">🔊</button>
  </div>
 
  <div class="stats">
@@ -150,201 +170,277 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
  </div>
 
  <div class="card">
-  <b>Your learning journey</b>
-  <div class="progress-bg"><div class="progress-fill" id="overallProgress"></div></div>
+  <b>My learning progress</b>
+  <div class="progress-bg"><div class="progress-fill" id="mainProgress"></div></div>
   <small id="progressText">0% completed</small>
+ </div>
+
+ <div class="card mission">
+  <span class="pill">TODAY'S MISSION</span>
+  <h2 id="todayTitle">🌟 Ready to learn?</h2>
+  <p id="todayText">Complete today's activity and earn stars!</p>
+  <button class="btn" onclick="showPage('monthly')">See today's mission →</button>
  </div>
 
  <h2 class="section-title">Your classroom 🌈</h2>
  <div class="grid">
-  <div class="card lesson" onclick="showPage('candles')">
-   <div class="lesson-icon">🕯️</div><h3>Candle Academy</h3>
-   <p class="muted">Learn green and red candles.</p>
-  </div>
-  <div class="card lesson" onclick="showPage('volatility')">
-   <div class="lesson-icon">⚡</div><h3>Volatility School</h3>
-   <p class="muted">Discover Deriv indices.</p>
-  </div>
-  <div class="card lesson" onclick="showPage('monthly')">
-   <div class="lesson-icon">📅</div><h3>30-Day Challenge</h3>
-   <p class="muted">Complete daily assignments.</p>
-  </div>
-  <div class="card lesson" onclick="showPage('ai')">
-   <div class="lesson-icon">🤖</div><h3>AI Chart Teacher</h3>
-   <p class="muted">Explore chart screenshots.</p>
-  </div>
+  <div class="card lesson-card" onclick="showPage('candles')">🕯️<h3>Candle Academy</h3><small>Meet the candles</small></div>
+  <div class="card lesson-card" onclick="showPage('patterns')">🔍<h3>Candle Detective</h3><small>Find the patterns</small></div>
+  <div class="card lesson-card" onclick="showPage('strategies')">📊<h3>Strategy School</h3><small>Read the chart</small></div>
+  <div class="card lesson-card" onclick="showPage('icc')">🚀<h3>ICC Mission</h3><small>Three-step strategy</small></div>
  </div>
 </section>
 
-<section class="page" id="lessons">
- <h1>📚 Trading School</h1>
- <p class="muted">Start at the beginning. One lesson at a time!</p>
- <div class="grid" id="lessonGrid"></div>
+<!-- PROFILE -->
+<section class="page" id="profile">
+ <div class="hero"><h1>👤 My Trader Profile</h1><p>This is your personal learning space!</p></div>
+ <div class="card">
+  <label>What's your name?</label>
+  <input id="profileName" maxlength="30" placeholder="Enter your name">
+  <label>How old are you?</label>
+  <input id="profileAge" type="number" min="5" max="17" placeholder="Enter your age">
+  <button class="btn" style="margin-top:15px" onclick="saveProfile()">💜 Save my profile</button>
+  <p id="profileMessage"></p>
+ </div>
+ <div class="card">
+  <h3>My learning record</h3>
+  <p>⭐ Stars: <b id="profileStars">0</b></p>
+  <p>📚 Lessons completed: <b id="profileLessons">0</b></p>
+  <p>🏆 Awards: <b id="profileBadges">0</b></p>
+  <p>📅 Challenge days: <b id="profileDays">0</b></p>
+ </div>
+</section>
+
+<!-- LEARNING WORLD -->
+<section class="page" id="school">
+ <div class="hero"><h1>🎮 Learning World</h1>
+ <p>Complete each world to unlock your next adventure!</p>
+ <button class="speak" onclick="speak('Welcome to Learning World. Complete your lessons to unlock new adventures.')">🔊</button>
+ </div>
+ <div class="card">
+  <b>World progress</b>
+  <div class="progress-bg"><div class="progress-fill" id="schoolProgress"></div></div>
+  <small id="schoolText"></small>
+ </div>
+ <div id="lessonGrid" class="grid"></div>
  <div id="lessonArea"></div>
 </section>
 
+<!-- CANDLE ACADEMY -->
 <section class="page" id="candles">
  <h1>🕯️ Candle Academy</h1>
- <p>Every candle tells a story about price movement.</p>
+ <p>Let's learn how candles tell the story of price!</p>
  <div class="card">
-  <h3>Meet the two basic candles</h3>
-  <div class="candle-row">
-   <div><div class="candle up tall"></div>
-    <div class="candle-label">GREEN<br>BULLISH 🐂</div></div>
-   <div><div class="candle down tall"></div>
-    <div class="candle-label">RED<br>BEARISH 🐻</div></div>
+  <h2>Meet the two main candles</h2>
+  <div class="candle-stage">
+   <div><div class="candle up big"></div><div class="chart-label">🟢 BULLISH</div></div>
+   <div><div class="candle down big"></div><div class="chart-label">🔴 BEARISH</div></div>
   </div>
-  <div class="grid" style="margin-top:15px">
-   <div class="card" style="background:#e7fff3">
-    <h3>🟢 Bullish</h3><p>Price closed higher than it opened.</p>
-   </div>
-   <div class="card" style="background:#fff0f2">
-    <h3>🔴 Bearish</h3><p>Price closed lower than it opened.</p>
-   </div>
+  <p>🟢 Bullish: price closed higher than it opened.</p>
+  <p>🔴 Bearish: price closed lower than it opened.</p>
+  <button class="speak" onclick="speak('A bullish candle closes higher than it opens. A bearish candle closes lower than it opens.')">🔊 Read this lesson</button>
+ </div>
+ <div class="card">
+  <h2>🧩 Candle body and wick</h2>
+  <div class="candle-stage">
+   <div><div class="candle up big"></div><div class="chart-label">WICK + BODY</div></div>
   </div>
+  <p>Top wick = highest price.</p>
+  <p>Bottom wick = lowest price.</p>
+  <p>Body = the space between opening and closing prices.</p>
+  <p>Open = where the candle began. Close = where it finished.</p>
+  <button class="speak" onclick="speak('The wick shows the highest and lowest prices. The body shows the difference between the opening and closing prices.')">🔊 Read this lesson</button>
  </div>
- <div class="card" style="margin-top:15px">
-  <h3>Know the parts of a candle</h3>
-  <p>🔝 <b>High:</b> Highest price reached.</p>
-  <p>🔻 <b>Low:</b> Lowest price reached.</p>
-  <p>🟣 <b>Open:</b> Price when the candle started.</p>
-  <p>🟡 <b>Close:</b> Price when the candle finished.</p>
-  <p>The thin lines are called wicks. The thick part is the body.</p>
- </div>
- <div class="card" style="margin-top:15px">
-  <h3>🎯 Candle challenge</h3>
-  <p>If a candle opens at 100 and closes at 110, what colour is it?</p>
-  <button class="option" onclick="candleAnswer('green')">🟢 Green</button>
-  <button class="option" onclick="candleAnswer('red')">🔴 Red</button>
+ <div class="card">
+  <h2>🎯 Quick candle game</h2>
+  <p id="candleQuestion">A candle opens at 100 and closes at 110. Is it bullish or bearish?</p>
+  <button class="option" onclick="candleAnswer(0)">🟢 Bullish</button>
+  <button class="option" onclick="candleAnswer(1)">🔴 Bearish</button>
+  <button class="speak" onclick="speak('A candle opens at 100 and closes at 110. Is it bullish or bearish?')">🔊 Hear question</button>
   <div class="feedback" id="candleFeedback"></div>
  </div>
 </section>
 
-<section class="page" id="volatility">
- <h1>⚡ Volatility School</h1>
- <div class="card">
-  <h3>What is volatility?</h3>
-  <p>Volatility describes how much and how quickly a price moves.</p>
-  <p>Imagine a roller coaster 🎢. Sometimes it moves gently.
-  Sometimes it moves quickly!</p>
- </div>
- <h2 class="section-title">Meet the indices</h2>
- <div class="grid">
-  <div class="card index-card"><h3>⚡ V10</h3><p>Volatility 10 has a lower volatility setting than V25, V50, V75 and V100.</p></div>
-  <div class="card index-card"><h3>⚡ V25</h3><p>A synthetic index with its own volatility setting.</p></div>
-  <div class="card index-card"><h3>⚡ V50</h3><p>Study its candles and price movements.</p></div>
-  <div class="card index-card"><h3>⚡ V75</h3><p>Learn to observe its price movements.</p></div>
-  <div class="card index-card"><h3>⚡ V100</h3><p>Compare its movements with other indices.</p></div>
-  <div class="card index-card"><h3>⚡ 1HZ indices</h3><p>Learn that these indices have a different tick frequency.</p></div>
- </div>
- <div class="card" style="margin-top:15px">
-  <h3>Important lesson 🛑</h3>
-  <p>These numbers describe different volatility settings.
-  They do not tell us whether the next candle will go up or down.
-  No index guarantees a profit.</p>
- </div>
-</section>
-
-<section class="page" id="monthly">
+<!-- PATTERN DETECTIVE -->
+<section class="page" id="patterns">
  <div class="hero">
-  <h1>🏆 30-Day Trading Challenge!</h1>
-  <p>One small lesson every day. Let's become smarter chart readers!</p>
-  <span class="pill" id="monthName"></span>
+  <h1>🔍 Candle Detective!</h1>
+  <p>Can you discover what each candle formation looks like?</p>
  </div>
- <div class="card" style="margin-top:15px">
-  <h3>Monthly progress</h3>
-  <div class="progress-bg"><div class="progress-fill" id="monthProgress"></div></div>
-  <b id="monthCount">0 / 30 days completed</b>
-  <p>🌟 Each completed assignment earns 5 stars.</p>
+ <div id="patternList"></div>
+ <div class="card">
+  <h2>🕵️ Detective challenge</h2>
+  <div id="patternGame"></div>
  </div>
- <div class="grid" id="monthTasks" style="margin-top:15px"></div>
 </section>
 
+<!-- STRATEGY SCHOOL -->
+<section class="page" id="strategies">
+ <div class="hero"><h1>📊 Strategy School</h1>
+ <p>Learn how to understand the whole chart, not just one candle.</p></div>
+ <div id="strategyList"></div>
+ <div class="card">
+  <h2>🧭 Trend detective</h2>
+  <p>What do higher highs and higher lows usually show?</p>
+  <button class="option" onclick="strategyAnswer(this,true)">📈 An uptrend</button>
+  <button class="option" onclick="strategyAnswer(this,false)">📉 A downtrend</button>
+  <button class="speak" onclick="speak('What do higher highs and higher lows usually show?')">🔊</button>
+  <div id="strategyFeedback" class="feedback"></div>
+ </div>
+</section>
+
+<!-- ICC -->
+<section class="page" id="icc">
+ <div class="hero">
+  <h1>🚀 The ICC Mission</h1>
+  <p>Three important steps. Let's become chart detectives!</p>
+ </div>
+ <div class="card">
+  <h2>ICC means:</h2>
+  <div class="grid">
+   <div class="card" style="background:#e9ddff">
+    <h2>1️⃣ I</h2><b>INDICATION</b><p>Price shows a strong move or structure break.</p>
+   </div>
+   <div class="card" style="background:#fff0f6">
+    <h2>2️⃣ C</h2><b>CORRECTION</b><p>Price pulls back or retraces. We don't chase it.</p>
+   </div>
+   <div class="card" style="background:#e6fff3">
+    <h2>3️⃣ C</h2><b>CONTINUATION</b><p>We wait for rejection, a structure shift and candle-close confirmation.</p>
+   </div>
+  </div>
+  <button class="speak" onclick="speak('ICC means Indication, Correction, Continuation. First, we see a strong move. Second, we wait for price to pull back. Third, we wait for confirmation before deciding what the chart may be showing.')">🔊 Read ICC lesson</button>
+ </div>
+ <div class="card">
+  <h2>🎮 Build your ICC sequence</h2>
+  <p>Put the three steps in the correct order by choosing the next step.</p>
+  <div id="iccGame"></div>
+ </div>
+ <div class="card">
+  <h3>🛑 When should we wait?</h3>
+  <ul>
+   <li>When price has not made a clear indication.</li>
+   <li>When the correction has not happened.</li>
+   <li>When there is no rejection or confirmation.</li>
+   <li>When price only spikes beyond a level and falls back.</li>
+  </ul>
+  <p>Remember: a breakout alone is not enough.</p>
+ </div>
+</section>
+
+<!-- PRACTICE ROOM -->
+<section class="page" id="practice">
+ <div class="hero"><h1>🎯 Practice Room</h1>
+ <p>Complete missions to become a chart detective!</p></div>
+ <div class="virtual">
+  <small style="color:#e3d6f7">VIRTUAL CLASSROOM POINTS</small>
+  <strong id="virtualPoints">0</strong>
+  <p>These are learning points, not real money.</p>
+ </div>
+ <div class="card" style="margin-top:14px">
+  <h2>🕵️ Today's chart mission</h2>
+  <div class="candle-stage" id="practiceChart"></div>
+  <h3 id="practiceQuestion"></h3>
+  <div id="practiceOptions"></div>
+  <div class="feedback" id="practiceFeedback"></div>
+  <button class="btn secondary" onclick="newPractice()">Next mission →</button>
+  <button class="speak" onclick="readPractice()">🔊 Read mission</button>
+ </div>
+ <div class="card">
+  <h3>What you are practising</h3>
+  <p>✔ Candlestick recognition</p>
+  <p>✔ Reversal patterns</p>
+  <p>✔ Trend identification</p>
+  <p>✔ Support and resistance</p>
+  <p>✔ Breakout and fakeout recognition</p>
+  <p>✔ ICC confirmation</p>
+ </div>
+</section>
+
+<!-- CALENDAR -->
+<section class="page" id="monthly">
+ <div class="hero"><h1>📅 My Learning Calendar</h1>
+ <p>Every day is a new opportunity to learn something!</p></div>
+ <div class="card">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+   <button class="btn secondary" onclick="changeMonth(-1)">←</button>
+   <h2 id="calendarTitle"></h2>
+   <button class="btn secondary" onclick="changeMonth(1)">→</button>
+  </div>
+  <div class="calendar" id="calendar"></div>
+  <div class="progress-bg"><div class="progress-fill" id="calendarProgress"></div></div>
+  <b id="calendarCount"></b>
+  <p class="muted">🟣 Today · 🟢 Completed · Grey future dates</p>
+ </div>
+ <div class="card mission">
+  <h2 id="dailyTitle">Today's mission</h2>
+  <p id="dailyTask"></p>
+  <button class="speak" onclick="speak(document.getElementById('dailyTask').textContent)">🔊 Read mission</button>
+  <br><br>
+  <button class="btn" id="completeDay" onclick="completeToday()">Complete today's mission ⭐</button>
+  <div class="feedback" id="dayFeedback"></div>
+ </div>
+ <div class="card">
+  <h3>📆 Your 30-day learning path</h3>
+  <p>Each month includes new activities. Complete one daily mission at a time.</p>
+ </div>
+</section>
+
+<!-- QUIZ -->
 <section class="page" id="quiz">
- <h1>🧠 Quiz Time!</h1>
- <p>Let's see what you've learned.</p>
+ <div class="hero"><h1>🧠 Brain Games</h1>
+ <p>Let's test what you've learned!</p></div>
  <div class="card">
   <span class="pill" id="quizCount">Question 1</span>
   <h2 id="quizQuestion"></h2>
+  <button class="speak" onclick="speakQuiz()">🔊 Read question</button>
   <div id="quizOptions"></div>
   <div class="feedback" id="quizFeedback"></div>
   <button class="btn" id="nextQuiz" style="display:none" onclick="nextQuestion()">Next question →</button>
-  <p id="quizScore" class="muted"></p>
+  <p id="quizScore"></p>
  </div>
 </section>
 
-<section class="page" id="practice">
- <h1>🎮 Virtual Trading Practice</h1>
- <p>Practice understanding price movements without risking real money.</p>
- <div class="virtual">
-  <p>YOUR PRACTICE BALANCE</p>
-  <strong id="virtualBalance">$1,000</strong>
-  <p>Virtual classroom dollars only.</p>
- </div>
- <div class="card" style="margin-top:15px">
-  <h3>Study the practice chart</h3>
-  <p class="muted">Random teaching example, NOT live market data.</p>
-  <div class="candle-row" id="practiceChart"></div>
-  <p id="practiceDirection" style="text-align:center"></p>
-  <button class="btn secondary" onclick="newPractice()">New example</button>
- </div>
- <div class="card" style="margin-top:15px">
-  <h3>What would you do?</h3>
-  <button class="btn green" onclick="practiceAnswer('bullish')">Bullish 🐂</button>
-  <button class="btn red" onclick="practiceAnswer('bearish')">Bearish 🐻</button>
-  <button class="btn secondary" onclick="practiceAnswer('wait')">I would wait ⏳</button>
-  <div class="feedback" id="practiceFeedback"></div>
- </div>
- <p class="muted">One candle or a short sequence cannot reliably predict what happens next.</p>
-</section>
-
-<section class="page" id="ai">
- <div class="hero">
-  <h1>🤖 Your AI Chart Teacher!</h1>
-  <p>Upload a chart screenshot and learn how to understand it.</p>
- </div>
- <div class="card" style="margin-top:15px">
-  <h3>📸 Upload a chart screenshot</h3>
-  <p class="muted">Ask your parent to help. Hide account numbers and personal information first.</p>
+<!-- CHART TEACHER -->
+<section class="page" id="chart">
+ <div class="hero"><h1>📸 Chart Teacher</h1>
+ <p>Bring a chart and study it with your parent!</p></div>
+ <div class="card">
+  <h3>Upload a chart screenshot</h3>
   <input type="file" id="chartUpload" accept="image/png,image/jpeg,image/webp">
-  <div id="imagePreview" style="margin-top:15px"></div>
-  <label style="display:block;margin-top:15px">Which market?</label>
-  <select id="marketType" style="width:100%">
-   <option>Deriv Volatility 10</option>
-   <option>Deriv Volatility 25</option>
-   <option>Deriv Volatility 50</option>
-   <option>Deriv Volatility 75</option>
-   <option>Deriv Volatility 100</option>
-   <option>Other / Not sure</option>
+  <div id="imagePreview"></div>
+  <label>Market</label>
+  <select id="market">
+   <option>Volatility 10</option><option>Volatility 25</option>
+   <option>Volatility 50</option><option>Volatility 75</option>
+   <option>Volatility 100</option><option>Other</option>
   </select>
-  <label style="display:block;margin-top:15px">Timeframe</label>
-  <select id="chartTimeframe" style="width:100%">
+  <label>Timeframe</label>
+  <select id="timeframe">
    <option>1 minute</option><option>5 minutes</option>
    <option>15 minutes</option><option>30 minutes</option>
-   <option>1 hour</option><option>4 hours</option>
-   <option>1 day</option><option>Not sure</option>
+   <option>1 hour</option><option>4 hours</option><option>1 day</option>
   </select>
-  <button class="btn" style="margin-top:15px" onclick="analyzeChart()">
-   ✨ Ask My AI Teacher
-  </button>
-  <div class="feedback" id="aiResult"></div>
- </div>
- <div class="card" style="margin-top:15px;background:#fff4d9">
-  <h3>🧡 AI Teacher coming soon!</h3>
-  <p>The screenshot upload and preview work now.
-  Automatic AI explanations need an AI connection, which we can add when you're ready.</p>
-  <p>For now, use the lessons and practice room to learn chart reading.</p>
-  <p>Always study with your parent. No real-money trading.</p>
+  <div class="info" style="margin-top:15px">
+   🤖 Your screenshot can be previewed here. Automatic AI chart analysis will be added when a secure AI service is connected.
+  </div>
+  <button class="speak" onclick="speak('Ask your parent to upload a clear chart screenshot. We will study the candles, trends, support, resistance and ICC together.')">🔊 Hear instructions</button>
  </div>
 </section>
 
+<!-- REWARDS -->
 <section class="page" id="awards">
- <h1>🏆 My Achievements</h1>
- <p>Every lesson is a step forward!</p>
+ <div class="hero"><h1>🏆 My Rewards</h1>
+ <p>Look how much you have learned!</p></div>
+ <div class="stats">
+  <div class="stat">⭐<strong id="rewardStars">0</strong><small>Stars</small></div>
+  <div class="stat">🎮<strong id="gamePoints">0</strong><small>Game points</small></div>
+  <div class="stat">📅<strong id="rewardDays">0</strong><small>Days completed</small></div>
+ </div>
  <div class="grid" id="awardGrid"></div>
- <div class="card" style="margin-top:15px">
-  <h3>Keep learning!</h3>
-  <p>Smart traders are patient, curious and disciplined. 🌟</p>
+ <div class="card">
+  <h2>🌟 My promise</h2>
+  <p>I will be patient. I will keep learning. I will never rush or guess.</p>
+  <button class="speak" onclick="speak('I will be patient. I will keep learning. I will never rush or guess.')">🔊 Read my promise</button>
  </div>
 </section>
 
@@ -353,322 +449,560 @@ footer{text-align:center;padding:25px;color:var(--muted);font-size:12px}
 
 <footer>
  Little Trader Academy © 2026<br>
- Educational use only. No financial advice or real-money trading.
+ Educational game only. No live trading or real-money execution.
 </footer>
 
 <script>
-const lessons=[
- {id:"basics",icon:"📈",title:"What is Trading?",
- text:"Trading means buying and selling something based on its price. Traders study charts to understand price movement.",
- q:"What does a trader study?",a:["Charts and prices","Only colours","Cartoons"],c:0},
- {id:"candles",icon:"🕯️",title:"Understanding Candles",
- text:"Candlesticks show how price moves during a selected period of time.",
- q:"What does a green candle usually show?",a:["Price closed above its opening price","Price disappeared","The market is closed"],c:0},
- {id:"bullbear",icon:"🐂",title:"Bulls and Bears",
- text:"Bullish describes upward price movement. Bearish describes downward price movement.",
- q:"Which animal represents a bearish market?",a:["Bull","Bear","Lion"],c:1},
- {id:"time",icon:"⏰",title:"Timeframes",
- text:"A timeframe tells you how long each candle represents. A 5-minute candle represents five minutes of price activity.",
- q:"How long does a 15-minute candle represent?",a:["One minute","Fifteen minutes","One hour"],c:1},
- {id:"vol",icon:"⚡",title:"Volatility",
- text:"Volatility measures how much prices move. Different synthetic indices have different volatility settings.",
- q:"What does volatility describe?",a:["How much price moves","The colour of the screen","The name of the trader"],c:0},
- {id:"patience",icon:"🧘",title:"Patience and Discipline",
- text:"Good traders don't need to trade every moment. Sometimes waiting is the smartest decision.",
- q:"What should you do when a chart is confusing?",a:["Guess immediately","Wait and study it","Take every trade"],c:1},
- {id:"support",icon:"🧱",title:"Support",
- text:"Support is an area where price has previously found buying interest. Think of it like a floor, but floors can break.",
- q:"What is support like?",a:["A floor","A ceiling","A clock"],c:0},
- {id:"resistance",icon:"🏠",title:"Resistance",
- text:"Resistance is an area where price has previously found selling interest. Think of it like a ceiling, but ceilings can break.",
- q:"What is resistance like?",a:["A floor","A ceiling","A candle wick"],c:1},
- {id:"breakout",icon:"🚀",title:"Breakouts",
- text:"A breakout happens when price moves beyond an important price area. We look for confirmation rather than guessing.",
- q:"What is a breakout?",a:["Price moving beyond a level","A broken computer","A candle changing colour"],c:0},
- {id:"fakeout",icon:"🎭",title:"Fakeouts",
- text:"A fakeout is when price moves beyond a level but fails to stay beyond it. Traders should be careful.",
- q:"What can a fakeout do?",a:["Trick people into thinking a breakout is real","Guarantee a profit","Stop all markets"],c:0}
-];
-
-const monthlyTasks=[
-"Learn what trading means.",
-"Identify a green candle.",
-"Identify a red candle.",
-"Learn candle open and close.",
-"Find the high and low of a candle.",
-"Understand candle wicks.",
-"Learn what bullish means.",
-"Learn what bearish means.",
-"Identify an upward trend.",
-"Identify a downward trend.",
-"Learn about the 1-minute timeframe.",
-"Learn about the 5-minute timeframe.",
-"Compare two timeframes.",
-"Discover Volatility 10.",
-"Discover Volatility 25.",
-"Discover Volatility 50.",
-"Discover Volatility 75.",
-"Discover Volatility 100.",
-"Learn what volatility means.",
-"Learn about support.",
-"Learn about resistance.",
-"Understand a breakout.",
-"Learn what a fakeout is.",
-"Study a chart with your parent.",
-"Find a possible support area.",
-"Find a possible resistance area.",
-"Explain confirmation.",
-"Complete a chart-reading quiz.",
-"Practice identifying market direction.",
-"Explain three things you learned this month."
-];
-
-const questions=[
- {q:"What is a green candle usually called?",a:["Bullish","Bearish","Sleeping"],c:0,e:"Bullish means the candle closed higher than it opened."},
- {q:"What is a red candle usually called?",a:["Bullish","Bearish","Rainbow"],c:1,e:"Bearish means the candle closed lower than it opened."},
- {q:"What does a wick show?",a:["A price extreme","The trader's name","The date"],c:0,e:"Wicks show the high and low reached during a candle."},
- {q:"What does V75 belong to?",a:["A synthetic volatility index","A company share","A bank account"],c:0,e:"V75 is one of Deriv's synthetic volatility indices."},
- {q:"What does a timeframe tell you?",a:["How long a candle represents","How much money you have","Your age"],c:0,e:"A timeframe tells you the length of time represented by a candle."},
- {q:"What is a smart choice when there is no clear setup?",a:["Guess","Wait","Trade anyway"],c:1,e:"Patience is a valuable skill."},
- {q:"Does a green candle guarantee the next candle will be green?",a:["Yes","No","Always"],c:1,e:"No! Past movement cannot guarantee what happens next."},
- {q:"What is support like?",a:["A floor","A ceiling","A clock"],c:0,e:"Support is like a floor where price has previously found buying interest."},
- {q:"What is resistance like?",a:["A floor","A ceiling","A wick"],c:1,e:"Resistance is like a ceiling where price has previously found selling interest."},
- {q:"What is a fakeout?",a:["A failed move beyond a level","A guaranteed trade","A candle colour"],c:0,e:"A fakeout is a move beyond a level that fails to hold."}
-];
-
-let state;
-try{state=JSON.parse(localStorage.getItem("ltaProgress")||"{}")}catch(e){state={}}
-state.done=state.done||[];
+// ========================================
+// PROFILE AND SAVED PROGRESS
+// ========================================
+const STORE="littleTraderAcademyV3";
+let state={};
+try{state=JSON.parse(localStorage.getItem(STORE)||"{}")}catch(e){}
+state.name=state.name||"";
+state.age=state.age||"";
 state.stars=state.stars||0;
+state.done=state.done||[];
 state.badges=state.badges||[];
-state.practiceWins=state.practiceWins||0;
-state.balance=1000;
-state.monthDone=state.monthDone||[];
-const currentMonth=new Date().getFullYear()+"-"+(new Date().getMonth()+1);
-if(state.monthKey!==currentMonth){
- state.monthKey=currentMonth;
- state.monthDone=[];
-}
+state.days=state.days||{};
+state.points=state.points||0;
+state.patterns=state.patterns||[];
+state.quizBest=state.quizBest||0;
+state.practiceCount=state.practiceCount||0;
+
 function save(){
- localStorage.setItem("ltaProgress",JSON.stringify(state));
- updateDashboard();
+ localStorage.setItem(STORE,JSON.stringify(state));
+ updateAll();
+}
+function speak(text){
+ if(!("speechSynthesis" in window)){
+  alert("This browser does not support reading aloud. Try Chrome.");
+  return;
+ }
+ speechSynthesis.cancel();
+ let u=new SpeechSynthesisUtterance(String(text||""));
+ u.lang="en-US";
+ u.rate=.88;
+ u.pitch=1.08;
+ speechSynthesis.speak(u);
+}
+function stopSpeak(){
+ if("speechSynthesis" in window)speechSynthesis.cancel();
+}
+function saveProfile(){
+ let name=document.getElementById("profileName").value.trim();
+ let age=Number(document.getElementById("profileAge").value);
+ if(!name||!Number.isInteger(age)||age<5||age>17){
+  alert("Please enter a name and a valid age.");return;
+ }
+ state.name=name;state.age=age;
+ save();
+ document.getElementById("profileMessage").textContent="🎉 Your profile is saved!";
+ speak("Welcome "+name+". Let's learn and play!");
+}
+function updateProfile(){
+ document.getElementById("profileName").value=state.name;
+ document.getElementById("profileAge").value=state.age;
+ document.getElementById("studentName").textContent=state.name?"🌟 "+state.name:"🌟 Young Trader";
+ document.getElementById("welcome").textContent=state.name?"Welcome, "+state.name+"! 🚀":"Welcome, Young Trader!";
+ document.getElementById("profileStars").textContent=state.stars;
+ document.getElementById("profileLessons").textContent=state.done.length;
+ document.getElementById("profileBadges").textContent=state.badges.length;
+ document.getElementById("profileDays").textContent=Object.keys(state.days).length;
+}
+function updateAll(){
+ document.getElementById("stars").textContent=state.stars;
+ document.getElementById("completed").textContent=state.done.length;
+ document.getElementById("badges").textContent=state.badges.length;
+ document.getElementById("mainProgress").style.width=(state.done.length/lessons.length*100)+"%";
+ document.getElementById("progressText").textContent=Math.round(state.done.length/lessons.length*100)+"% of lessons completed";
+ document.getElementById("schoolProgress").style.width=(state.done.length/lessons.length*100)+"%";
+ document.getElementById("schoolText").textContent=state.done.length+" of "+lessons.length+" lessons completed";
+ document.getElementById("virtualPoints").textContent=state.points;
+ document.getElementById("rewardStars").textContent=state.stars;
+ document.getElementById("gamePoints").textContent=state.points;
+ document.getElementById("rewardDays").textContent=Object.keys(state.days).length;
+ updateProfile();
 }
 function showPage(id){
+ stopSpeak();
  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
  document.querySelectorAll(".nav").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
  document.getElementById(id).classList.add("active");
+ if(id==="monthly")renderCalendar();
  if(id==="awards")renderAwards();
- if(id==="monthly")renderMonthly();
+ if(id==="school")renderLessons();
+ if(id==="patterns")renderPatterns();
+ if(id==="strategies")renderStrategies();
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>showPage(b.dataset.page));
 
-function updateDashboard(){
- document.getElementById("stars").textContent=state.stars;
- document.getElementById("completed").textContent=state.done.length;
- document.getElementById("badges").textContent=state.badges.length;
- let pct=Math.round(state.done.length/lessons.length*100);
- document.getElementById("overallProgress").style.width=pct+"%";
- document.getElementById("progressText").textContent=pct+"% completed";
- document.getElementById("virtualBalance").textContent="$"+state.balance.toLocaleString();
-}
+// ========================================
+// LESSONS - BEGINNER TO ADVANCED
+// ========================================
+const lessons=[
+ {id:"basics",icon:"🌍",title:"What is Trading?",text:"Trading means buying and selling based on prices.",q:"What do traders study?",a:["Prices and charts","Only colours","Cartoons"],c:0,ex:"Correct! Traders study prices and charts."},
+ {id:"candles",icon:"🕯️",title:"Meet Candlesticks",text:"Candles show how price moves during a chosen time.",q:"What does a green candle usually mean?",a:["Close above open","Close below open","No movement"],c:0,ex:"A green candle usually closes above its opening price."},
+ {id:"parts",icon:"🧩",title:"Candle Body and Wicks",text:"The body shows the open and close. Wicks show the high and low.",q:"What does the wick show?",a:["High and low","The trader's name","The market time"],c:0,ex:"The wick shows the highest and lowest price."},
+ {id:"bullbear",icon:"🐂",title:"Bulls and Bears",text:"Bullish means upward movement. Bearish means downward movement.",q:"Which animal represents bearish movement?",a:["Bull","Bear","Lion"],c:1,ex:"The bear represents bearish movement."},
+ {id:"time",icon:"⏰",title:"Timeframes",text:"A timeframe tells us how long a candle represents.",q:"A 15-minute candle represents how long?",a:["1 minute","15 minutes","1 hour"],c:1,ex:"Each candle represents 15 minutes."},
+ {id:"trend",icon:"📈",title:"Trends",text:"Higher highs and higher lows can show an uptrend. Lower highs and lower lows can show a downtrend.",q:"Higher highs and higher lows suggest?",a:["Uptrend","Downtrend","No trend"],c:0,ex:"That's an uptrend."},
+ {id:"support",icon:"🧱",title:"Support",text:"Support is an area where price has previously found buying interest. Think of a floor.",q:"Support is like what?",a:["Floor","Ceiling","Cloud"],c:0,ex:"Support is like a floor, but it can break."},
+ {id:"resistance",icon:"🏠",title:"Resistance",text:"Resistance is an area where price has previously found selling interest. Think of a ceiling.",q:"Resistance is like what?",a:["Floor","Ceiling","River"],c:1,ex:"Resistance is like a ceiling, but it can break."},
+ {id:"volatility",icon:"⚡",title:"Volatility",text:"Volatility describes how much and how quickly price moves.",q:"What does volatility describe?",a:["Price movement","Screen colour","Trader age"],c:0,ex:"Volatility describes how much price moves."},
+ {id:"reversal",icon:"🔄",title:"Reversals",text:"A reversal is a possible change in the direction of a trend. We need evidence and confirmation.",q:"What is a reversal?",a:["Possible direction change","A guaranteed profit","A time setting"],c:0,ex:"A reversal is a possible change in direction."},
+ {id:"breakout",icon:"🚀",title:"Breakouts",text:"A breakout happens when price moves beyond an important level.",q:"What is a breakout?",a:["Price moving beyond a level","A candle disappearing","A market closing"],c:0,ex:"A breakout moves beyond an important level."},
+ {id:"fakeout",icon:"🎭",title:"Fakeouts",text:"A fakeout is a move beyond a level that fails to hold.",q:"What can a fakeout do?",a:["Trick traders","Guarantee profit","Stop time"],c:0,ex:"A fakeout can trick traders into thinking a breakout is real."},
+ {id:"trendline",icon:"📐",title:"Trend Lines",text:"Trend lines connect important swing points to help us see direction.",q:"An uptrend line connects which points?",a:["Higher lows","Lower highs","Random prices"],c:0,ex:"An uptrend line can connect higher swing lows."},
+ {id:"icc",icon:"🎯",title:"ICC Strategy",text:"ICC means Indication, Correction and Continuation. We wait for each stage.",q:"What comes after Indication?",a:["Correction","Continuation","Guessing"],c:0,ex:"Correction comes after Indication."}
+];
+
 function renderLessons(){
- const grid=document.getElementById("lessonGrid");
- grid.innerHTML="";
+ let grid=document.getElementById("lessonGrid");grid.innerHTML="";
  lessons.forEach((l,i)=>{
-  let done=state.done.includes(l.id);
+  let unlocked=i===0||state.done.includes(lessons[i-1].id);
+  let complete=state.done.includes(l.id);
   let el=document.createElement("div");
-  el.className="card lesson";
-  el.innerHTML=`<div class="lesson-icon">${l.icon}</div>
-  <span class="pill">${done?"Completed ✓":"Lesson "+(i+1)}</span>
-  <h3>${l.title}</h3><p class="muted">${l.text}</p>
-  <button class="btn ${done?"secondary":""}">${done?"Review":"Start lesson"}</button>`;
+  el.className="card lesson-card "+(!unlocked?"locked":"");
+  el.innerHTML=`<div class="lesson-icon">${unlocked?l.icon:"🔒"}</div>
+   <span class="pill">${complete?"Completed ✓":unlocked?"World "+(i+1):"Locked"}</span>
+   <h3>${l.title}</h3><p class="muted">${l.text}</p>
+   <button class="btn ${complete||!unlocked?"secondary":""}" ${!unlocked?"disabled":""}>
+   ${complete?"Play again":unlocked?"Play lesson":"Complete previous lesson"}</button>`;
   el.querySelector("button").onclick=()=>openLesson(l);
   grid.appendChild(el);
  });
 }
 function openLesson(l){
- const area=document.getElementById("lessonArea");
+ let area=document.getElementById("lessonArea");
  area.innerHTML="";
- let box=document.createElement("div");
- box.className="card";
- box.style.marginTop="15px";
- box.innerHTML=`<h2>${l.icon} ${l.title}</h2><p>${l.text}</p>
- <div class="question"><b>${l.q}</b><div id="lessonAnswers"></div>
- <div class="feedback" id="lessonFeedback"></div></div>`;
+ let box=document.createElement("div");box.className="card";
+ box.innerHTML=`<h2>${l.icon} ${l.title}</h2>
+ <p>${l.text}</p><button class="speak">🔊 Listen to lesson</button>
+ <div class="question"><h3>${l.q}</h3>
+ <button class="speak">🔊 Listen to question</button>
+ <div id="lessonAnswers"></div><div class="feedback" id="lessonFeedback"></div></div>`;
  area.appendChild(box);
+ box.querySelectorAll(".speak")[0].onclick=()=>speak(l.title+". "+l.text);
+ box.querySelectorAll(".speak")[1].onclick=()=>speak(l.q+" "+l.a.join(". "));
  l.a.forEach((a,i)=>{
-  let b=document.createElement("button");
-  b.className="option";b.textContent=a;
+  let b=document.createElement("button");b.className="option";b.textContent=a;
   b.onclick=()=>{
-   let f=box.querySelector("#lessonFeedback");
-   f.style.display="block";
+   let f=box.querySelector("#lessonFeedback");f.classList.add("show");
    if(i===l.c){
+    f.textContent="🌟 "+l.ex;
     if(!state.done.includes(l.id)){
-     state.done.push(l.id);state.stars+=10;
-     if(state.done.length>=3&&!state.badges.includes("beginner"))state.badges.push("beginner");
-     if(state.done.length===lessons.length&&!state.badges.includes("graduate"))state.badges.push("graduate");
+     state.done.push(l.id);state.stars+=10;state.points+=10;
+     award("first");
+     if(state.done.length>=5)award("learner");
+     if(state.done.length===lessons.length)award("graduate");
     }
-    f.textContent="🎉 Correct! Excellent learning!";
     save();renderLessons();
-   }else{f.textContent="Try again! You can do it. 💪"}
+   }else{f.textContent="Try again! Listen to the lesson and look carefully."}
   };
   box.querySelector("#lessonAnswers").appendChild(b);
  });
- box.scrollIntoView({behavior:"smooth"});
+ area.scrollIntoView({behavior:"smooth"});
 }
-function renderMonthly(){
- document.getElementById("monthName").textContent=new Date().toLocaleString("en",{month:"long",year:"numeric"});
- let done=state.monthDone;
- document.getElementById("monthCount").textContent=done.length+" / 30 days completed";
- document.getElementById("monthProgress").style.width=(done.length/30*100)+"%";
- let grid=document.getElementById("monthTasks");grid.innerHTML="";
- monthlyTasks.forEach((task,i)=>{
-  let day=i+1,complete=done.includes(day);
-  let card=document.createElement("div");card.className="card";
-  card.innerHTML=`<span class="pill">DAY ${day}</span>
-  <h3>${complete?"🌟":"📖"} ${task}</h3>
-  <button class="btn ${complete?"secondary":""}">${complete?"Completed ✓":"Mark complete"}</button>`;
-  card.querySelector("button").onclick=()=>{
-   if(complete)return;
-   if(!confirm("Did you complete this activity with your parent?"))return;
-   state.monthDone.push(day);state.stars+=5;
-   if(state.monthDone.length===30&&!state.badges.includes("monthly")){
-    state.badges.push("monthly");
-    alert("🏆 Amazing! You completed the monthly challenge!");
+
+// ========================================
+// CANDLE PATTERNS
+// ========================================
+const patterns=[
+ {name:"Doji",emoji:"➕",shape:"The opening and closing prices are very close. It can show indecision.",meaning:"Buyers and sellers may be balanced. Wait for confirmation.",type:"Indecision"},
+ {name:"Hammer",emoji:"🔨",shape:"Small body near the top with a long lower wick.",meaning:"After a decline, it can suggest a possible bullish reversal. Look for confirmation.",type:"Possible bullish reversal"},
+ {name:"Inverted Hammer",emoji:"🔨",shape:"Small body near the bottom with a long upper wick.",meaning:"After a decline, it can suggest a possible bullish reversal. Confirmation matters.",type:"Possible bullish reversal"},
+ {name:"Shooting Star",emoji:"🌠",shape:"Small body near the bottom with a long upper wick.",meaning:"After an advance, it can suggest a possible bearish reversal.",type:"Possible bearish reversal"},
+ {name:"Hanging Man",emoji:"🪢",shape:"Small body near the top with a long lower wick.",meaning:"After an advance, it can warn that buying strength may be weakening.",type:"Possible bearish warning"},
+ {name:"Bullish Engulfing",emoji:"🟢",shape:"A larger bullish body covers the previous bearish body.",meaning:"After a decline, it can suggest buyers are taking control.",type:"Possible bullish reversal"},
+ {name:"Bearish Engulfing",emoji:"🔴",shape:"A larger bearish body covers the previous bullish body.",meaning:"After an advance, it can suggest sellers are taking control.",type:"Possible bearish reversal"},
+ {name:"Morning Star",emoji:"🌅",shape:"A three-candle pattern: bearish candle, small middle candle, then strong bullish candle.",meaning:"After a decline, it can suggest a bullish reversal.",type:"Possible bullish reversal"},
+ {name:"Evening Star",emoji:"🌇",shape:"A three-candle pattern: bullish candle, small middle candle, then strong bearish candle.",meaning:"After an advance, it can suggest a bearish reversal.",type:"Possible bearish reversal"},
+ {name:"Marubozu",emoji:"🟩",shape:"A long candle body with very small or no wicks.",meaning:"It can show strong buying or selling during that period.",type:"Strong directional candle"},
+ {name:"Spinning Top",emoji:"🌀",shape:"Small body with upper and lower wicks.",meaning:"It can show uncertainty or a pause in price movement.",type:"Indecision"},
+ {name:"Pin Bar",emoji:"📍",shape:"A small body with one very long wick.",meaning:"It can show price rejection. Context and confirmation are important.",type:"Possible rejection"}
+];
+
+function renderPatterns(){
+ let list=document.getElementById("patternList");list.innerHTML="";
+ patterns.forEach((p,i)=>{
+  let card=document.createElement("div");card.className="card pattern";
+  card.innerHTML=`<span class="pill">PATTERN ${i+1}</span>
+  <h3>${p.emoji} ${p.name}</h3><p>${p.shape}</p>
+  <small>${p.type}</small><p class="muted">${p.meaning}</p>
+  <button class="speak">🔊 Read this pattern</button>`;
+  card.querySelector("button").onclick=()=>speak(p.name+". "+p.shape+". "+p.meaning);
+  list.appendChild(card);
+ });
+ let index=Math.floor(Math.random()*patterns.length);
+ let p=patterns[index];
+ let game=document.getElementById("patternGame");
+ let choices=[p.name,...patterns.filter(x=>x.name!==p.name).sort(()=>Math.random()-.5).slice(0,2).map(x=>x.name)].sort(()=>Math.random()-.5);
+ game.innerHTML=`<p><b>Clue:</b> ${p.shape}</p><p>Which pattern am I describing?</p>`;
+ choices.forEach(choice=>{
+  let b=document.createElement("button");b.className="option";b.textContent=choice;
+  b.onclick=()=>{
+   if(choice===p.name){
+    game.querySelector(".feedback")?.remove();
+    let f=document.createElement("div");f.className="feedback show";f.textContent="🎉 Correct! "+p.meaning;game.appendChild(f);
+    if(!state.patterns.includes(p.name)){state.patterns.push(p.name);state.stars+=3;state.points+=3}
+    if(state.patterns.length>=5)award("detective");
+    save();
+   }else{
+    let f=game.querySelector(".feedback");
+    if(!f){f=document.createElement("div");f.className="feedback";game.appendChild(f)}
+    f.classList.add("show");f.textContent="Try again, little detective!";
    }
-   save();renderMonthly();
   };
-  grid.appendChild(card);
+  game.appendChild(b);
+ });
+ let speakBtn=document.createElement("button");speakBtn.className="speak";speakBtn.textContent="🔊";
+ speakBtn.onclick=()=>speak("Clue. "+p.shape+" Which pattern am I describing?");
+ game.appendChild(speakBtn);
+}
+
+// ========================================
+// STRATEGY SCHOOL
+// ========================================
+const strategies=[
+ ["🧱","Support","Think of support like a floor. Price has previously found buying interest there. It can still break."],
+ ["🏠","Resistance","Think of resistance like a ceiling. Price has previously found selling interest there. It can still break."],
+ ["📈","Uptrend","Higher highs and higher lows can show an upward trend."],
+ ["📉","Downtrend","Lower highs and lower lows can show a downward trend."],
+ ["📐","Trend Lines","Connect important swing lows in an uptrend or swing highs in a downtrend. A line is a guide, not a guarantee."],
+ ["🔄","Reversals","A reversal is a possible change of direction. Look for structure changes and confirmation."],
+ ["🚀","Breakouts","Price moves beyond a support or resistance area. A strong close, retest and follow-through can add evidence."],
+ ["🎭","Fakeouts","Price briefly moves beyond a level but fails to hold. A spike alone is not confirmation."]
+];
+function renderStrategies(){
+ let list=document.getElementById("strategyList");list.innerHTML="";
+ strategies.forEach(s=>{
+  let card=document.createElement("div");card.className="card";
+  card.innerHTML=`<h3>${s[0]} ${s[1]}</h3><p>${s[2]}</p><button class="speak">🔊 Listen</button>`;
+  card.querySelector("button").onclick=()=>speak(s[1]+". "+s[2]);
+  list.appendChild(card);
  });
 }
-function candleAnswer(answer){
- let f=document.getElementById("candleFeedback");
- f.style.display="block";
- if(answer==="green"){
-  f.textContent="🎉 Correct! The candle closed above its opening price.";
-  if(!state.badges.includes("candle")){state.badges.push("candle");state.stars+=5}
- }else f.textContent="Try again! A candle closing higher than it opened is green.";
- save();
+function strategyAnswer(btn,correct){
+ let f=document.getElementById("strategyFeedback");f.classList.add("show");
+ f.textContent=correct?"🌟 Correct! Higher highs and higher lows can show an uptrend.":"Try again! Think about price climbing like a staircase.";
+ if(correct){state.stars+=2;state.points+=2;save()}
 }
-let qi=0,answered=false,score=0;
-function loadQuestion(){
- answered=false;
- let q=questions[qi];
- document.getElementById("quizCount").textContent="Question "+(qi+1)+" of "+questions.length;
- document.getElementById("quizQuestion").textContent=q.q;
- document.getElementById("quizFeedback").style.display="none";
- document.getElementById("nextQuiz").style.display="none";
- let opts=document.getElementById("quizOptions");opts.innerHTML="";
- q.a.forEach((a,i)=>{
-  let b=document.createElement("button");b.className="option";b.textContent=a;
-  b.onclick=()=>answerQuestion(i,b);opts.appendChild(b);
- });
- document.getElementById("quizScore").textContent="Correct answers: "+score;
-}
-function answerQuestion(i,btn){
- if(answered)return;answered=true;
- let q=questions[qi],f=document.getElementById("quizFeedback");
- f.style.display="block";
- if(i===q.c){score++;f.textContent="🌟 Correct! "+q.e;btn.classList.add("correct")}
- else{f.textContent="Good try! "+q.e;btn.classList.add("wrong");document.querySelectorAll("#quizOptions .option")[q.c].classList.add("correct")}
- document.getElementById("quizScore").textContent="Correct answers: "+score;
- document.getElementById("nextQuiz").style.display="inline-block";
- document.getElementById("nextQuiz").textContent=qi===questions.length-1?"See results":"Next question →";
-}
-function nextQuestion(){
- if(qi===questions.length-1){
-  let f=document.getElementById("quizFeedback");
-  f.textContent="🏆 You scored "+score+" out of "+questions.length+"! Keep learning.";
-  if(score>=7&&!state.badges.includes("quiz"))state.badges.push("quiz");
-  state.stars+=score*2;save();
-  document.getElementById("nextQuiz").textContent="Try again";
-  document.getElementById("nextQuiz").onclick=()=>{
-   qi=0;score=0;
-   document.getElementById("nextQuiz").onclick=nextQuestion;
-   loadQuestion();
-  };
+
+// ========================================
+// ICC GAME
+// ========================================
+let iccStep=0;
+const iccStages=[
+ {name:"INDICATION",detail:"Price makes a strong move and breaks market structure. We notice the direction.",question:"What do we look for first?",answers:["A strong move or structure break","A random candle","A guess"],correct:0},
+ {name:"CORRECTION",detail:"Price pulls back toward an area of interest. We wait instead of chasing price.",question:"What happens after indication?",answers:["Enter immediately","Wait for a pullback","Ignore the chart"],correct:1},
+ {name:"CONTINUATION",detail:"We look for rejection, a lower-timeframe structure shift and a confirming candle close.",question:"What do we wait for?",answers:["Confirmation","A random spike","A feeling"],correct:0}
+];
+function renderICC(){
+ let box=document.getElementById("iccGame");
+ if(iccStep>=3){
+  box.innerHTML="<h2>🏆 ICC MISSION COMPLETE!</h2><p>You remembered all three steps: Indication, Correction, Continuation.</p><button class='btn' onclick='iccStep=0;renderICC()'>Play again</button>";
+  award("icc");
   return;
  }
- qi++;loadQuestion();
-}
-let currentDirection="bullish";
-function newPractice(){
- let grid=document.getElementById("practiceChart");grid.innerHTML="";
- currentDirection=Math.random()>.5?"bullish":"bearish";
- for(let i=0;i<6;i++){
-  let wrap=document.createElement("div");
-  let up=currentDirection==="bullish"?Math.random()>.3:Math.random()>.7;
-  let c=document.createElement("div");
-  c.className="candle "+(up?"up":"down")+" "+(Math.random()>.5?"tall":"small-candle");
-  wrap.appendChild(c);grid.appendChild(wrap);
- }
- document.getElementById("practiceDirection").textContent="What direction do you observe?";
- document.getElementById("practiceFeedback").style.display="none";
-}
-function practiceAnswer(answer){
- let f=document.getElementById("practiceFeedback");f.style.display="block";
- if(answer==="wait"){
-  f.textContent="⏳ Patience is a skill. Waiting for more information can be sensible.";
-  state.stars+=1;
- }else if(answer===currentDirection){
-  f.textContent="🌟 Good observation! You identified the teaching example's direction. This does not predict future prices.";
-  state.practiceWins++;state.stars+=3;
-  if(state.practiceWins>=5&&!state.badges.includes("observer"))state.badges.push("observer");
- }else f.textContent="Good try! Look at the overall movement. Short sequences can be misleading.";
- save();
-}
-function renderAwards(){
- let awards=[
- ["beginner","🌱","First Steps","Complete 3 lessons"],
- ["candle","🕯️","Candle Explorer","Complete the candle challenge"],
- ["quiz","🧠","Quiz Champion","Score 7 quiz answers correctly"],
- ["observer","🔍","Sharp Observer","Practice 5 times"],
- ["monthly","📅","Monthly Champion","Complete 30 activities"],
- ["graduate","🎓","Academy Graduate","Complete all lessons"]
- ];
- let grid=document.getElementById("awardGrid");grid.innerHTML="";
- awards.forEach(([id,icon,name,desc])=>{
-  let earned=state.badges.includes(id);
-  let card=document.createElement("div");card.className="card";
-  card.innerHTML=`<div style="font-size:40px">${earned?icon:"🔒"}</div>
-  <h3>${name}</h3><p class="muted">${desc}</p>
-  <span class="pill">${earned?"Earned!":"Not yet earned"}</span>`;
-  grid.appendChild(card);
+ let s=iccStages[iccStep];
+ box.innerHTML=`<span class="pill">STEP ${iccStep+1} OF 3</span>
+ <h2>${s.name}</h2><p>${s.detail}</p><button class="speak" id="iccSpeak">🔊 Listen</button>
+ <h3>${s.question}</h3><div id="iccAnswers"></div><div class="feedback" id="iccFeedback"></div>`;
+ document.getElementById("iccSpeak").onclick=()=>speak(s.name+". "+s.detail+". "+s.question);
+ s.answers.forEach((a,i)=>{
+  let b=document.createElement("button");b.className="option";b.textContent=a;
+  b.onclick=()=>{
+   let f=document.getElementById("iccFeedback");f.classList.add("show");
+   if(i===s.correct){
+    f.textContent="🌟 Correct! You understand this step.";
+    document.querySelectorAll("#iccAnswers button").forEach(x=>x.disabled=true);
+    state.stars+=5;state.points+=5;save();
+    setTimeout(()=>{iccStep++;renderICC()},1100);
+   }else f.textContent="Not quite. Listen again and try once more!";
+  };
+  document.getElementById("iccAnswers").appendChild(b);
  });
 }
-let selectedChart=null;
+
+// ========================================
+// PRACTICE MISSIONS
+// ========================================
+const missions=[
+ {title:"Spot the trend!",chart:["up","up","up","up"],q:"The chart makes higher highs and higher lows. What might this show?",a:["Uptrend","Downtrend","Guaranteed reversal"],c:0,e:"An uptrend can show higher highs and higher lows."},
+ {title:"Find the support!",chart:["down","down","up","up"],q:"Price falls to an area where it has bounced before. What area might this be?",a:["Support","Resistance","A timeframe"],c:0,e:"Support is an area where buying interest has appeared before."},
+ {title:"Find the resistance!",chart:["up","up","down","down"],q:"Price rises to an area where it has turned down before. What area might this be?",a:["Support","Resistance","A wick"],c:1,e:"Resistance is an area where selling interest has appeared before."},
+ {title:"Spot the possible reversal!",chart:["down","down","up","up"],q:"After a decline, price shows a hammer and then bullish confirmation. What might this suggest?",a:["Possible bullish reversal","Guaranteed profit","No movement"],c:0,e:"A hammer after a decline can suggest a bullish reversal, but confirmation matters."},
+ {title:"Catch the fakeout!",chart:["up","up","down","down"],q:"Price moves above resistance but closes back below it. What might that be?",a:["Possible fakeout","Confirmed uptrend","A doji"],c:0,e:"A move above resistance that fails to hold may be a fakeout."},
+ {title:"Breakout detective!",chart:["up","up","up","up"],q:"What helps us judge whether a breakout is stronger?",a:["Close beyond the level and follow-through","A quick spike only","A random guess"],c:0,e:"A strong close, retest and follow-through can provide more evidence."},
+ {title:"ICC: What comes next?",chart:["down","down","up","up"],q:"After Indication, what do we wait for?",a:["Correction","Continuation","A guess"],c:0,e:"We wait for correction before looking for continuation."},
+ {title:"Read the candle!",chart:["up","down","up","down"],q:"A doji usually has what feature?",a:["Open and close near each other","A huge body","No wick ever"],c:0,e:"A doji shows that opening and closing prices are very close."}
+];
+let missionIndex=0;
+function newPractice(){
+ missionIndex=Math.floor(Math.random()*missions.length);
+ let m=missions[missionIndex];
+ let chart=document.getElementById("practiceChart");chart.innerHTML="";
+ m.chart.forEach((direction,i)=>{
+  let c=document.createElement("div");c.className="candle "+(direction==="up"?"up":"down")+(i%2?" short":" big");
+  chart.appendChild(c);
+ });
+ document.getElementById("practiceQuestion").textContent=m.title+" "+m.q;
+ document.getElementById("practiceFeedback").classList.remove("show");
+ document.getElementById("practiceFeedback").textContent="";
+ let opts=document.getElementById("practiceOptions");opts.innerHTML="";
+ m.a.forEach((a,i)=>{
+  let b=document.createElement("button");b.className="option";b.textContent=a;
+  b.onclick=()=>{
+   let f=document.getElementById("practiceFeedback");f.classList.add("show");
+   if(i===m.c){
+    f.textContent="🎉 "+m.e;
+    state.stars+=4;state.points+=4;state.practiceCount++;
+    if(state.practiceCount>=5)award("practitioner");
+    save();
+    opts.querySelectorAll("button").forEach(x=>x.disabled=true);
+   }else f.textContent="Good try! Think about the clue and try again.";
+  };
+  opts.appendChild(b);
+ });
+}
+function readPractice(){
+ let m=missions[missionIndex];
+ speak(m.title+". "+m.q+". Options: "+m.a.join(". "));
+}
+
+// ========================================
+// MONTHLY CALENDAR
+// ========================================
+const dailyTasks=[
+"Learn what trading means.",
+"Identify a green candle.",
+"Identify a red candle.",
+"Learn candle open and close.",
+"Find the high and low of a candle.",
+"Discover candle wicks.",
+"Learn bullish and bearish.",
+"Find an uptrend.",
+"Find a downtrend.",
+"Discover support.",
+"Discover resistance.",
+"Learn trend lines.",
+"Meet the Doji.",
+"Meet the Hammer.",
+"Meet the Shooting Star.",
+"Meet the Engulfing pattern.",
+"Learn reversals.",
+"Learn breakouts.",
+"Spot a fakeout.",
+"Discover Volatility 10.",
+"Discover Volatility 25.",
+"Discover Volatility 50.",
+"Discover Volatility 75.",
+"Discover Volatility 100.",
+"Learn ICC Indication.",
+"Learn ICC Correction.",
+"Learn ICC Continuation.",
+"Practise chart reading.",
+"Complete a chart detective game.",
+"Tell your parent three things you learned."
+];
+let calendarDate=new Date();
+function dateKey(date){
+ return date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2,"0")+"-"+String(date.getDate()).padStart(2,"0");
+}
+function renderCalendar(){
+ let year=calendarDate.getFullYear(),month=calendarDate.getMonth();
+ let first=new Date(year,month,1).getDay();
+ let total=new Date(year,month+1,0).getDate();
+ document.getElementById("calendarTitle").textContent=calendarDate.toLocaleString("en",{month:"long",year:"numeric"});
+ let grid=document.getElementById("calendar");grid.innerHTML="";
+ ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].forEach(d=>{
+  let h=document.createElement("div");h.className="calendar-head";h.textContent=d;grid.appendChild(h);
+ });
+ for(let i=0;i<first;i++){let blank=document.createElement("div");grid.appendChild(blank)}
+ let now=new Date();now.setHours(0,0,0,0);
+ for(let d=1;d<=total;d++){
+  let dt=new Date(year,month,d);let key=dateKey(dt);
+  let completed=!!state.days[key];
+  let future=dt>now;
+  let today=key===dateKey(now);
+  let el=document.createElement("div");
+  el.className="day"+(completed?" done":"")+(today?" today":"")+(future?" future":"");
+  el.innerHTML=`<b>${d}</b><div>${completed?"⭐":today?"📍":future?"🔒":"·"}</div>`;
+  grid.appendChild(el);
+ }
+ let count=Object.keys(state.days).filter(k=>k.startsWith(year+"-"+String(month+1).padStart(2,"0"))).length;
+ document.getElementById("calendarProgress").style.width=(count/total*100)+"%";
+ document.getElementById("calendarCount").textContent=count+" learning days completed this month.";
+ let todayKey=dateKey(now);
+ let day=now.getDate();
+ document.getElementById("dailyTitle").textContent="📅 Day "+day+" Mission";
+ document.getElementById("dailyTask").textContent=dailyTasks[(day-1)%30];
+ let done=!!state.days[todayKey];
+ document.getElementById("completeDay").disabled=done;
+ document.getElementById("completeDay").textContent=done?"Today's mission completed ✓":"Complete today's mission ⭐";
+ document.getElementById("dayFeedback").classList.remove("show");
+}
+function changeMonth(direction){
+ calendarDate=new Date(calendarDate.getFullYear(),calendarDate.getMonth()+direction,1);
+ renderCalendar();
+}
+function completeToday(){
+ let key=dateKey(new Date());
+ if(state.days[key])return;
+ state.days[key]=true;
+ state.stars+=5;state.points+=5;
+ if(Object.keys(state.days).length>=7)award("weekly");
+ if(Object.keys(state.days).length>=30)award("monthly");
+ save();renderCalendar();
+ let f=document.getElementById("dayFeedback");f.classList.add("show");
+ f.textContent="🌟 Amazing! Today's mission is complete. You earned 5 stars!";
+ speak("Great job! Today's mission is complete. You earned five stars!");
+}
+
+// ========================================
+// QUIZ
+// ========================================
+const questions=[
+ {q:"A green candle usually means...",a:["Close above open","Close below open","No price"],c:0,e:"A green candle usually closes above its opening price."},
+ {q:"What is a doji?",a:["Open and close are very close","A huge candle","A trend line"],c:0,e:"A doji shows indecision."},
+ {q:"A hammer after a decline can suggest...",a:["Possible bullish reversal","Guaranteed profit","Nothing ever"],c:0,e:"A hammer can suggest a possible bullish reversal."},
+ {q:"What is support like?",a:["A floor","A ceiling","A clock"],c:0,e:"Support is like a floor where price has found buying interest."},
+ {q:"What is resistance like?",a:["A floor","A ceiling","A candle body"],c:1,e:"Resistance is like a ceiling where price has found selling interest."},
+ {q:"What does an uptrend often make?",a:["Higher highs and higher lows","Lower highs and lower lows","Only flat candles"],c:0,e:"An uptrend often forms higher highs and higher lows."},
+ {q:"What does ICC stand for?",a:["Indication Correction Continuation","Instant Candle Change","Inside Candle Close"],c:0,e:"ICC means Indication, Correction and Continuation."},
+ {q:"What comes after indication?",a:["Correction","Continuation","Guessing"],c:0,e:"Correction comes after indication."},
+ {q:"A spike above resistance that fails to hold can be...",a:["A fakeout","A guaranteed breakout","A timeframe"],c:0,e:"A failed move beyond resistance may be a fakeout."},
+ {q:"When there is no confirmation, what can we do?",a:["Wait","Guess","Rush"],c:0,e:"Waiting is an important skill."}
+];
+let quizIndex=0,quizScore=0,quizAnswered=false;
+function loadQuestion(){
+ quizAnswered=false;
+ let q=questions[quizIndex];
+ document.getElementById("quizCount").textContent="Question "+(quizIndex+1)+" of "+questions.length;
+ document.getElementById("quizQuestion").textContent=q.q;
+ document.getElementById("quizFeedback").classList.remove("show");
+ document.getElementById("nextQuiz").style.display="none";
+ document.getElementById("quizScore").textContent="Correct: "+quizScore;
+ let box=document.getElementById("quizOptions");box.innerHTML="";
+ q.a.forEach((a,i)=>{
+  let b=document.createElement("button");b.className="option";b.textContent=a;
+  b.onclick=()=>answerQuestion(i,b);box.appendChild(b);
+ });
+}
+function speakQuiz(){
+ let q=questions[quizIndex];speak(q.q+". "+q.a.join(". "));
+}
+function answerQuestion(i,btn){
+ if(quizAnswered)return;quizAnswered=true;
+ let q=questions[quizIndex],f=document.getElementById("quizFeedback");
+ f.classList.add("show");
+ if(i===q.c){
+  quizScore++;f.textContent="🌟 Correct! "+q.e;btn.classList.add("correct");
+ }else{
+  f.textContent="Good try! "+q.e;btn.classList.add("wrong");
+  document.querySelectorAll("#quizOptions button")[q.c].classList.add("correct");
+ }
+ document.getElementById("quizScore").textContent="Correct: "+quizScore;
+ document.getElementById("nextQuiz").style.display="inline-block";
+ document.getElementById("nextQuiz").textContent=quizIndex===questions.length-1?"See results":"Next question →";
+}
+function nextQuestion(){
+ if(quizIndex===questions.length-1){
+  let f=document.getElementById("quizFeedback");
+  f.textContent="🏆 You scored "+quizScore+" out of "+questions.length+"!";
+  if(quizScore>state.quizBest)state.quizBest=quizScore;
+  state.stars+=quizScore;state.points+=quizScore;
+  if(quizScore>=7)award("quiz");
+  save();
+  let b=document.getElementById("nextQuiz");b.textContent="Play again";
+  b.onclick=()=>{quizIndex=0;quizScore=0;b.onclick=nextQuestion;loadQuestion()};
+  return;
+ }
+ quizIndex++;loadQuestion();
+}
+
+// ========================================
+// CANDLE QUESTION
+// ========================================
+function candleAnswer(answer){
+ let f=document.getElementById("candleFeedback");f.classList.add("show");
+ if(answer===0){
+  f.textContent="🎉 Correct! Price closed higher than it opened. That is bullish!";
+  state.stars+=3;state.points+=3;award("candle");
+ }else f.textContent="Try again! It closed higher than it opened.";
+ save();
+}
+
+// ========================================
+// SCREENSHOT PREVIEW
+// ========================================
 document.getElementById("chartUpload").addEventListener("change",function(e){
  let file=e.target.files[0];if(!file)return;
  if(!["image/png","image/jpeg","image/webp"].includes(file.type)){
-  alert("Please use PNG, JPG or WEBP.");return;
+  alert("Choose a PNG, JPG or WEBP image.");return;
  }
  if(file.size>4*1024*1024){alert("Please use an image smaller than 4MB.");return}
  let reader=new FileReader();
  reader.onload=()=>{
-  selectedChart=reader.result;
   let img=document.createElement("img");
-  img.src=selectedChart;img.alt="Chart preview";
-  img.style.cssText="width:100%;border-radius:14px";
-  let preview=document.getElementById("imagePreview");
-  preview.innerHTML="";preview.appendChild(img);
+  img.src=reader.result;img.alt="Chart screenshot preview";
+  img.style.cssText="width:100%;border-radius:14px;margin-top:12px";
+  let box=document.getElementById("imagePreview");box.innerHTML="";box.appendChild(img);
  };
  reader.readAsDataURL(file);
 });
-function analyzeChart(){
- let f=document.getElementById("aiResult");
- f.style.display="block";
- if(!selectedChart){
-  f.textContent="📸 Please upload a chart screenshot first.";
-  return;
- }
- f.textContent="🤖 Your chart is ready for your AI teacher! Automatic image analysis will be activated when we connect the AI service. For now, you can use Candle Academy and Trading School to study your screenshot with your parent.";
+
+// ========================================
+// AWARDS
+// ========================================
+function award(id){
+ if(state.badges.includes(id))return;
+ state.badges.push(id);
 }
-renderLessons();
-renderMonthly();
-loadQuestion();
-newPractice();
-updateDashboard();
+const awards=[
+ ["first","🌱","First Steps","Complete your first lesson."],
+ ["learner","📚","Super Learner","Complete five lessons."],
+ ["graduate","🎓","Academy Graduate","Complete every lesson."],
+ ["candle","🕯️","Candle Champion","Pass the candle challenge."],
+ ["detective","🔍","Candle Detective","Identify five candle patterns."],
+ ["icc","🚀","ICC Explorer","Complete the ICC mission."],
+ ["practitioner","🎯","Practice Champion","Complete five practice missions."],
+ ["quiz","🧠","Quiz Champion","Score at least 7 out of 10."],
+ ["weekly","📅","Weekly Star","Complete seven learning days."],
+ ["monthly","🏆","Monthly Champion","Complete 30 learning days."]
+];
+function renderAwards(){
+ let box=document.getElementById("awardGrid");box.innerHTML="";
+ awards.forEach(a=>{
+  let earned=state.badges.includes(a[0]);
+  let el=document.createElement("div");el.className="card badge-card";
+  el.innerHTML=`<div class="emoji">${earned?a[1]:"🔒"}</div>
+  <h3>${a[2]}</h3><p class="muted">${a[3]}</p>
+  <span class="pill">${earned?"Earned!":"Keep learning"}</span>`;
+  box.appendChild(el);
+ });
+ document.getElementById("rewardStars").textContent=state.stars;
+ document.getElementById("gamePoints").textContent=state.points;
+ document.getElementById("rewardDays").textContent=Object.keys(state.days).length;
+}
+
+// ========================================
+// START THE ACADEMY
+// ========================================
+function init(){
+ updateAll();
+ renderLessons();
+ renderPatterns();
+ renderStrategies();
+ renderICC();
+ newPractice();
+ loadQuestion();
+ renderCalendar();
+ updateProfile();
+}
+init();
 </script>
 </body>
 </html>
