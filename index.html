@@ -1,170 +1,1930 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#6d45d9">
-<title>Little Trader Academy</title>
-<style>
-:root{--purple:#7048df;--deep:#30205f;--pink:#ff79bd;--yellow:#ffd66b;--mint:#69d9bd;--ink:#30284a;--muted:#766e8d;--paper:#fff;--bg:#f6f2ff;--line:#e9e2fa;--shadow:0 12px 35px #38216c12}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,"Trebuchet MS",Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:14px;padding:11px 16px;font-weight:800;background:var(--purple);color:white;box-shadow:0 4px 0 #4c2db2}button:active{transform:translateY(2px);box-shadow:0 2px 0 #4c2db2}.secondary{background:#eee8ff;color:var(--deep);box-shadow:0 4px 0 #d7caf9}.pink{background:var(--pink);box-shadow:0 4px 0 #d94c91}.mint{background:var(--mint);color:#174b43;box-shadow:0 4px 0 #3eae95}.yellow{background:var(--yellow);color:#5a4310;box-shadow:0 4px 0 #d9ae40}.small{padding:7px 11px;font-size:13px}.shell{max-width:1200px;margin:auto;padding:18px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:1000;color:var(--deep)}.logo{width:45px;height:45px;border-radius:15px;background:linear-gradient(135deg,#8c6aff,#ff8bc9);display:grid;place-items:center;font-size:25px}.profile-pill{background:white;border:1px solid var(--line);border-radius:99px;padding:9px 14px;font-weight:800}.hero{margin:18px 0;padding:25px;border-radius:25px;background:linear-gradient(115deg,#4f32a8,#865eea 65%,#f18ac7);color:white;display:flex;justify-content:space-between;align-items:center;gap:15px;overflow:hidden;box-shadow:var(--shadow)}.hero h1{font-size:clamp(26px,4vw,40px);margin:0 0 8px}.hero p{margin:0;max-width:620px;line-height:1.5;color:#f2eaff}.hero .mascot{font-size:78px;filter:drop-shadow(0 8px 5px #24134c55)}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:17px}.stat,.panel,.tile{background:white;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:var(--shadow)}.stat b{display:block;font-size:25px;color:var(--deep)}.stat span{font-size:13px;color:var(--muted);font-weight:800}.nav{display:flex;gap:8px;overflow-x:auto;padding:5px 2px 13px}.nav button{white-space:nowrap;background:white;color:var(--deep);box-shadow:none;border:1px solid var(--line)}.nav button.active{background:var(--deep);color:white}.view{display:none}.view.active{display:block}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:10px 0 14px}.section-head h2{margin:0;color:var(--deep)}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.tile{cursor:pointer;transition:.15s}.tile:hover{transform:translateY(-3px)}.tile .emoji{font-size:32px}.tile h3{margin:8px 0 5px;color:var(--deep)}.tile p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}.progress{height:10px;border-radius:20px;background:#eee9fa;overflow:hidden}.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--pink));width:0%}.lesson-layout{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}.lesson-card{padding:22px}.lesson-card h2{margin-top:0}.lesson-card p{line-height:1.65}.visual{background:#f6f2ff;border-radius:18px;padding:18px;min-height:170px;display:grid;place-items:center;text-align:center}.candle{width:24px;height:92px;position:relative;display:inline-block;margin:0 9px}.candle:before{content:"";position:absolute;left:11px;top:0;height:100%;width:2px;background:#4d4561}.candle i{position:absolute;left:2px;width:20px;border-radius:3px;background:#35b995;top:25px;height:42px}.candle.red i{background:#ed668d}.candle.doji i{height:5px;top:45px;background:#8b70df}.candle.hammer i{height:18px;top:22px}.candle.shooting i{height:18px;top:54px}.candle-row{display:flex;align-items:center;justify-content:center;min-height:130px}.choice-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.feedback{padding:12px;border-radius:13px;background:#f1edff;margin-top:12px;font-weight:800}.chart-wrap{background:#19162a;border-radius:18px;padding:12px;color:white}.chart-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:center}.chart{width:100%;height:260px;display:block}.chart text{fill:#bfb8d8;font-size:10px}.chart .gridline{stroke:#39334e;stroke-width:1}.chart .bull{fill:#55d5b2;stroke:#55d5b2}.chart .bear{fill:#f1769c;stroke:#f1769c}.chart .wick{stroke-width:2}.chart-tools{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chart-tools button{font-size:12px;padding:8px 10px}.play-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.day{background:#f5f1ff;border-radius:10px;min-height:54px;padding:7px;text-align:center;font-size:12px}.day.done{background:#d9f8ee}.day.today{outline:2px solid var(--purple)}.day b{display:block;font-size:15px}.badge-list{display:flex;gap:8px;flex-wrap:wrap}.badge-item{background:#fff5d8;padding:10px 13px;border-radius:13px;font-weight:800}.profile-form{display:flex;gap:8px;flex-wrap:wrap}.profile-form input{padding:12px;border:1px solid var(--line);border-radius:12px;min-width:150px}.hidden{display:none!important}.modal{position:fixed;inset:0;background:#1b123bb8;display:none;place-items:center;padding:18px;z-index:5}.modal.show{display:grid}.modal-box{max-width:650px;width:100%;background:white;border-radius:23px;padding:22px;max-height:90vh;overflow:auto}.modal-box h2{color:var(--deep)}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--deep);color:white;padding:12px 18px;border-radius:99px;display:none;z-index:8}.toast.show{display:block}.footer{text-align:center;color:var(--muted);padding:25px 8px;font-size:12px}.tag{display:inline-block;background:#eee8ff;color:var(--deep);padding:5px 9px;border-radius:99px;font-size:12px;font-weight:900}.big-number{font-size:30px;font-weight:1000;color:var(--deep)}@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr 1fr}.lesson-layout{grid-template-columns:1fr}.hero .mascot{font-size:54px}}@media(max-width:480px){.shell{padding:11px}.grid{grid-template-columns:1fr}.hero{padding:18px}.stat{padding:13px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Candlestick Quest: Kid Trader Academy</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Kid-Friendly Rounded Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Fredoka', cursive, sans-serif;
+      --font-body: 'Nunito', sans-serif;
+    }
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 50%, #fef9c3 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      user-select: none;
+    }
+    h1, h2, h3, .font-display {
+      font-family: var(--font-display);
+    }
+    /* Tactile 3D Game Buttons */
+    .btn-game {
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
+      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
+    }
+    .btn-game:hover:not(:disabled) {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.22);
+    }
+    .btn-game:active:not(:disabled) {
+      transform: translateY(4px);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+    }
+    .btn-game:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+    /* Pulse animation for Read Aloud speaker */
+    @keyframes speakerPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+    .speaking-pulse {
+      animation: speakerPulse 0.8s infinite ease-in-out;
+      background-color: #f59e0b !important;
+      color: white !important;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.4); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 999px; }
+  </style>
 </head>
-<body>
-<div class="shell">
-<header class="top">
- <div class="brand"><div class="logo">🚀</div><div>Little Trader Academy<small style="display:block;font-size:10px;color:#8b7ba9;letter-spacing:1px">LEARN • PLAY • PRACTISE</small></div></div>
- <div class="profile-pill" id="profilePill">👋 Young Trader</div>
-</header>
-<section class="hero">
- <div><span class="tag" style="background:#ffffff28;color:white">YOUR TRADING ADVENTURE STARTS HERE</span><h1 id="welcome">Ready to become a chart explorer?</h1><p>Learn one little step at a time. Watch candles, solve chart missions and practise with pretend money. No real trades here!</p><div style="margin-top:16px"><button class="yellow" onclick="showView('school')">Start learning ⭐</button></div></div>
- <div class="mascot">🧑🏽‍🚀</div>
-</section>
-<section class="stats">
- <div class="stat"><b id="statLessons">0/14</b><span>Lessons completed</span></div>
- <div class="stat"><b id="statCoins">0 🪙</b><span>Academy coins</span></div>
- <div class="stat"><b id="statTrades">0</b><span>Practice decisions</span></div>
- <div class="stat"><b id="statStreak">0</b><span>Challenge days</span></div>
-</section>
-<nav class="nav" id="nav">
- <button class="active" data-view="home">🏠 Home</button><button data-view="school">🎓 Trading School</button><button data-view="candles">🕯️ Candle Lab</button><button data-view="volatility">🌪️ Volatility</button><button data-view="icc">🔎 ICC Mission</button><button data-view="playground">🎮 Virtual Playground</button><button data-view="challenge">📅 30-Day Challenge</button><button data-view="parent">👨‍👩‍👦 Parent Zone</button>
-</nav>
+<body class="text-slate-800 pb-12">
 
-<main>
-<section class="view active" id="home">
- <div class="section-head"><h2>Your adventure map</h2><span class="tag">Level 1 • Chart Explorer</span></div>
- <div class="grid">
-  <div class="tile" onclick="showView('school')"><div class="emoji">🎓</div><h3>Trading School</h3><p>Short lessons that teach before asking questions.</p></div>
-  <div class="tile" onclick="showView('candles')"><div class="emoji">🕯️</div><h3>Candle Lab</h3><p>Meet candle shapes and discover what they show.</p></div>
-  <div class="tile" onclick="showView('volatility')"><div class="emoji">🌪️</div><h3>Volatility World</h3><p>Learn why prices move up and down.</p></div>
-  <div class="tile" onclick="showView('icc')"><div class="emoji">🔎</div><h3>ICC Detective</h3><p>Find Indication, Correction and Continuation.</p></div>
-  <div class="tile" onclick="showView('playground')"><div class="emoji">🎮</div><h3>Virtual Playground</h3><p>Practise decisions using pretend money.</p></div>
-  <div class="tile" onclick="showView('challenge')"><div class="emoji">🏆</div><h3>30-Day Challenge</h3><p>Build your skills one day at a time.</p></div>
- </div>
- <div class="panel" style="margin-top:14px"><div class="section-head"><h3 style="margin:0">Your learning progress</h3><b id="progressLabel">0%</b></div><div class="progress"><i id="overallProgress"></i></div><p class="muted" id="nextTip">Complete your first lesson to begin earning coins.</p></div>
- <div class="panel" style="margin-top:14px"><h3>🏅 Your rewards</h3><div class="badge-list" id="badges"><span class="badge-item">🌱 First Steps — waiting</span></div></div>
-</section>
+  <!-- Confetti Overlay Canvas -->
+  <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
 
-<section class="view" id="school">
- <div class="section-head"><h2>🎓 Trading School</h2><span class="tag">Learn → See → Try → Quiz</span></div>
- <p class="muted">Finish a lesson to unlock the next one. Tap the speaker to hear it read aloud.</p>
- <div class="grid" id="lessonGrid"></div>
- <div class="panel" id="lessonDetail" style="margin-top:14px"><p class="muted">Choose your first lesson above.</p></div>
-</section>
+  <!-- Profile Customization Modal -->
+  <div id="profileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 border-4 border-indigo-400 shadow-2xl transform transition-all">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-display font-bold text-indigo-700">🦸 Trader Hero Setup</h2>
+        <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold px-2">&times;</button>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-1">Hero Name</label>
+          <input id="inputHeroName" type="text" maxlength="16" placeholder="e.g. Trader Ace"
+            class="w-full px-4 py-3 rounded-2xl border-2 border-indigo-200 focus:border-indigo-500 outline-none text-lg font-bold text-indigo-900" />
+        </div>
+        <div>
+          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-1">Age</label>
+          <input id="inputHeroAge" type="number" min="5" max="16" value="8"
+            class="w-full px-4 py-3 rounded-2xl border-2 border-indigo-200 focus:border-indigo-500 outline-none text-lg font-bold text-indigo-900" />
+        </div>
+        <div>
+          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-2">Pick Your Mascot</label>
+          <div id="avatarPicker" class="grid grid-cols-5 gap-2">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+        <div class="pt-2 flex gap-3">
+          <button onclick="saveProfile()" class="flex-1 btn-game bg-emerald-500 text-white font-display text-xl py-3 rounded-2xl font-bold">
+            Let's Go! 🚀
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<section class="view" id="candles">
- <div class="section-head"><h2>🕯️ Candle Lab</h2><span class="tag">Candle Detective</span></div>
- <div class="grid" id="patternGrid"></div>
- <div class="panel" style="margin-top:14px"><h3>What does a candle tell us?</h3><p>A candle is like a tiny story of a price during a chosen time. Its body shows where it opened and closed. Its wicks show the highest and lowest prices reached.</p><div class="visual"><div class="candle-row"><div style="text-align:center"><div class="candle"><i></i></div><small>High</small></div><div style="text-align:center"><div class="candle red"><i></i></div><small>Body</small></div><div style="text-align:center"><div class="candle doji"><i></i></div><small>Open ≈ Close</small></div></div></div><p class="muted">Patterns are clues, not promises. Traders look at the surrounding chart and wait for confirmation.</p></div>
-</section>
+  <!-- Top Navigation & Hero HUD -->
+  <header class="bg-white/90 backdrop-blur-md border-b-4 border-indigo-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand + Hero Badge -->
+      <div class="flex items-center gap-3">
+        <button onclick="openProfileModal()" title="Edit Hero Profile"
+          class="flex items-center gap-2.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-2xl px-3 py-1.5 transition">
+          <span id="hudAvatar" class="text-3xl">🦁</span>
+          <div class="text-left leading-tight">
+            <div class="flex items-center gap-1.5">
+              <span id="hudName" class="font-display font-bold text-indigo-800 text-base sm:text-lg">Trader Ace</span>
+              <span class="text-xs bg-indigo-600 text-white px-2 py-0.5 rounded-full font-bold">Age <span id="hudAge">8</span></span>
+            </div>
+            <div class="text-xs font-extrabold text-amber-600">
+              Level <span id="hudLevel">1</span> • <span id="hudXP">0</span> XP
+            </div>
+          </div>
+        </button>
+      </div>
 
-<section class="view" id="volatility">
- <div class="section-head"><h2>🌪️ Volatility World</h2><span class="tag">Deriv learning zone</span></div>
- <div class="lesson-layout">
-  <div class="panel"><h3>What is volatility?</h3><p>Volatility describes how much a price moves. Imagine a bouncy ball: sometimes it moves gently, sometimes it jumps around a lot.</p><div class="visual"><div style="font-size:60px">⚽〰️📈</div><b>More movement = higher volatility</b></div><button class="small secondary" onclick="speak('Volatility describes how much a price moves. More volatility means bigger or faster price changes. It does not tell us which direction price will go.')">🔊 Read this</button></div>
-  <div class="panel"><h3>Meet the Volatility family</h3><p>Deriv has synthetic markets with names such as Volatility 10, 25, 50, 75 and 100. The number describes a volatility level in the index name. These are simulated markets, not ordinary company shares.</p><p>Some have faster movement than others. A fast-moving chart can be harder to understand, so start by learning slowly.</p><div class="badge-list"><span class="badge-item">🌱 V10</span><span class="badge-item">🌿 V25</span><span class="badge-item">🌳 V50</span><span class="badge-item">⚡ V75</span><span class="badge-item">🚀 V100</span></div></div>
- </div>
- <div class="panel" style="margin-top:14px"><h3>Quick check</h3><p>If a market moves up and down very quickly, what might that mean?</p><div class="choice-row"><button class="secondary" onclick="checkAnswer(this,false,'Try again. Think about how much the price moves.')">It has no movement</button><button class="mint" onclick="checkAnswer(this,true,'Correct! Bigger or faster price changes mean higher volatility.')">It has higher volatility</button></div><div class="feedback" id="volFeedback">Choose an answer.</div></div>
-</section>
+      <!-- XP Progress Bar (Hidden on very small screens) -->
+      <div class="hidden md:flex flex-col flex-1 max-w-xs mx-2">
+        <div class="flex justify-between text-xs font-extrabold text-slate-500 mb-1">
+          <span>Quest Progress</span>
+          <span id="hudStreak">🔥 0 Streak</span>
+        </div>
+        <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden p-0.5">
+          <div id="hudXpBar" class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500" style="width: 15%"></div>
+        </div>
+      </div>
 
-<section class="view" id="icc">
- <div class="section-head"><h2>🔎 ICC Detective Mission</h2><span class="tag">Indication → Correction → Continuation</span></div>
- <div class="panel"><p>ICC is a way to study how price may move in stages. First look for a clue, then a pullback, then see whether the original move continues. It is not a guaranteed signal.</p><div class="grid">
-  <div class="tile"><div class="emoji">💡</div><h3>1. Indication</h3><p>Price shows a possible direction, such as a strong move upward.</p></div>
-  <div class="tile"><div class="emoji">↩️</div><h3>2. Correction</h3><p>Price pulls back or pauses. We do not chase the first move.</p></div>
-  <div class="tile"><div class="emoji">➡️</div><h3>3. Continuation</h3><p>Look for signs that price is moving in the original direction again.</p></div>
- </div></div>
- <div class="panel" style="margin-top:14px"><h3>Put the ICC steps in order</h3><p>Tap the next correct step.</p><div class="big-number" id="iccPrompt">Which step comes first?</div><div class="choice-row"><button class="secondary" onclick="iccPick('Correction')">Correction</button><button class="secondary" onclick="iccPick('Indication')">Indication</button><button class="secondary" onclick="iccPick('Continuation')">Continuation</button></div><div class="feedback" id="iccFeedback">Your mission is ready!</div><button class="small secondary" onclick="resetICC()">Restart mission</button></div>
-</section>
+      <!-- Audio Controls & Demo Wallet -->
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Auto-Read Toggle -->
+        <button id="btnAutoRead" onclick="toggleAutoRead()"
+          class="btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sky-500 text-white"
+          title="Automatically read questions out loud">
+          <span>🗣️</span>
+          <span id="autoReadLabel">Auto-Voice: ON</span>
+        </button>
 
-<section class="view" id="playground">
- <div class="section-head"><h2>🎮 Virtual Trading Playground</h2><span class="tag">Pretend money only</span></div>
- <div class="panel"><div class="chart-top"><div><h3 style="margin:0">Practice chart</h3><small class="muted">Illustrative simulated candles — not live market prices</small></div><div class="profile-pill">Practice balance: <b id="balance">$1,000</b></div></div>
-  <div class="chart-wrap" style="margin-top:12px"><div class="chart-top"><b id="marketLabel">Volatility practice market</b><span id="priceLabel">$100.00</span></div><svg class="chart" id="chartSvg" viewBox="0 0 700 260" role="img" aria-label="Illustrative practice candlestick chart"></svg></div>
-  <div class="chart-tools"><button class="secondary" onclick="setTool('support')">📏 Mark support</button><button class="secondary" onclick="setTool('resistance')">📐 Mark resistance</button><button class="secondary" onclick="setTool('trend')">📈 Trend line</button><button class="secondary" onclick="setTool('none')">✋ Select</button><button class="yellow" onclick="newChart()">🔄 New chart</button></div>
-  <p class="muted" id="toolHint">Choose a drawing tool, then tap the chart to place a practice line.</p>
-  <div class="play-controls"><label>Practice amount <select id="stake"><option value="10">$10 pretend</option><option value="25">$25 pretend</option><option value="50">$50 pretend</option></select></label><button class="mint" onclick="practiceTrade('BUY')">🟢 Practise BUY</button><button class="pink" onclick="practiceTrade('SELL')">🔴 Practise SELL</button><button class="secondary" onclick="practiceTrade('WAIT')">⏳ WAIT</button></div>
-  <div class="feedback" id="tradeFeedback">Study the candles. What might you do next? Sometimes waiting is a smart decision.</div>
- </div>
- <div class="grid" style="margin-top:14px"><div class="panel"><h3>🧠 Chart clues</h3><p>Look for the direction of recent candles. Are highs and lows generally rising, falling or moving sideways?</p></div><div class="panel"><h3>🛑 Safety rule</h3><p>This playground uses pretend results only. Real trading involves risk and is for adults. Never use real money here.</p></div><div class="panel"><h3>📚 What to remember</h3><p>A single candle is not enough. Look at the bigger picture and wait for confirmation.</p></div></div>
-</section>
+        <!-- Sound FX Mute Toggle -->
+        <button id="btnSfx" onclick="toggleSfx()"
+          class="btn-game px-3 py-2 rounded-2xl font-bold text-sm bg-purple-100 text-purple-800 border-2 border-purple-300"
+          title="Toggle Sound Effects">
+          🔊
+        </button>
 
-<section class="view" id="challenge">
- <div class="section-head"><h2>📅 30-Day Chart Explorer Challenge</h2><span class="tag" id="challengeMonth"></span></div>
- <div class="panel"><h3 id="challengeTitle">One little mission each day</h3><p class="muted">Tap a day to see its mission. Mark it complete when you finish. This challenge can be started any day.</p><div class="calendar" id="calendar"></div><div class="feedback" id="dayMission">Choose a day to see your mission.</div><button class="mint small" onclick="completeDay()">✅ Mark mission complete</button></div>
-</section>
+        <!-- Pretend Cash Balance -->
+        <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl px-3 py-1.5 text-right">
+          <div class="text-[10px] font-extrabold uppercase text-emerald-700 leading-none">Play Cash</div>
+          <div id="hudBalance" class="font-display font-bold text-emerald-600 text-base sm:text-lg leading-tight">$10,000</div>
+        </div>
+      </div>
+    </div>
 
-<section class="view" id="parent">
- <div class="section-head"><h2>👨‍👩‍👦 Parent Zone</h2><span class="tag">Parent view</span></div>
- <div class="panel"><h3>Young trader profile</h3><div class="profile-form"><input id="childName" placeholder="Child's first name"><input id="childAge" type="number" min="5" max="17" placeholder="Age"><button onclick="saveProfile()">Save profile</button></div><p class="muted">Progress is saved in this browser on this device. It will not automatically sync to another phone or computer.</p></div>
- <div class="grid" style="margin-top:14px"><div class="panel"><h3>Learning record</h3><div class="big-number" id="parentLessons">0</div><p class="muted">Lessons completed</p></div><div class="panel"><h3>Practice record</h3><div class="big-number" id="parentTrades">0</div><p class="muted">Virtual decisions made</p></div><div class="panel"><h3>Challenge record</h3><div class="big-number" id="parentDays">0</div><p class="muted">Missions completed</p></div></div>
- <div class="panel" style="margin-top:14px"><h3>Important note for grown-ups</h3><p>This is an educational simulator. The candles and results in the playground are generated for practice and are not live Deriv prices, financial advice, or predictions. Screenshot upload and automatic AI analysis are not included in this offline starter version. Connecting an AI service would require a secure backend and an API provider. Do not put private API keys in this HTML file.</p><button class="secondary small" onclick="resetProgress()">Reset learning progress</button></div>
-</section>
-</main>
-<div class="footer">Made for curious young minds 💜 Learn safely. Practise patiently. Never rush a trade.</div>
-</div>
+    <!-- 4 Big Colorful Mode Tabs -->
+    <nav class="max-w-7xl mx-auto px-3 sm:px-6 pb-2.5 pt-1 grid grid-cols-2 sm:grid-cols-4 gap-2">
+      <button onclick="switchTab('journey')" id="tab-journey"
+        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-indigo-600 text-white">
+        <span>🗺️</span> <span>1. Auto Quest</span>
+      </button>
+      <button onclick="switchTab('playground')" id="tab-playground"
+        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
+        <span>📈</span> <span>2. Live Chart</span>
+      </button>
+      <button onclick="switchTab('reversal')" id="tab-reversal"
+        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
+        <span>⏱️</span> <span>3. Reversal Trap</span>
+      </button>
+      <button onclick="switchTab('academy')" id="tab-academy"
+        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
+        <span>🖼️</span> <span>4. Picture Cards</span>
+      </button>
+    </nav>
+  </header>
 
-<div class="modal" id="modal"><div class="modal-box"><div class="section-head"><h2 id="modalTitle">Pattern</h2><button class="secondary small" onclick="closeModal()">✕ Close</button></div><div id="modalBody"></div></div></div>
-<div class="toast" id="toast"></div>
-<script>
-const KEY='littleTraderAcademy_complete_v1';
-const defaultState={name:'Young Trader',age:8,done:[],coins:0,trades:0,balance:1000,days:{},chart:[],drawings:[],tool:'none',icc:0};
-let state={...defaultState,...JSON.parse(localStorage.getItem(KEY)||'{}')};
-const lessons=[
-['Welcome, Chart Explorer','A trader studies a chart to learn how price has moved. We do not need to guess. We can observe, learn and practise.','A chart is a picture showing how a price changes over time. Our job today is simply to look and notice.','🔭'],
-['What is a market?','A market is a place where people buy and sell things. A trading chart shows how the price of something changes.','Imagine a toy is popular. More people wanting it may push its price up. If fewer people want it, its price may fall.','🏪'],
-['Meet the candlestick','Candles are small pictures that show price movement during a chosen time. Each candle has a body and thin wicks.','The body shows the opening and closing prices. The wick shows the highest and lowest prices reached.','🕯️'],
-['Green and red candles','A bullish candle usually closes higher than it opened. A bearish candle usually closes lower than it opened.','Green often means the close was above the open. Red often means the close was below the open. Chart colours can be changed by a user.','🟢'],
-['Open, close, high and low','Open is where the candle period began. Close is where it ended. High is the highest price and low is the lowest.','Remember: OHLC means Open, High, Low and Close. The wicks help show the high and low.','📍'],
-['The candle body and wicks','A long body shows a bigger difference between open and close. Long wicks show price travelled away and then came back.','A wick can show that price tried to move somewhere but did not stay there. It is a clue, not a promise.','🧩'],
-['Doji and spinning top','A Doji has an open and close that are very close together. A spinning top has a small body and wicks.','These candles can show a pause or uncertainty. Look at what happened before and after them.','➕'],
-['Hammer and shooting star','A hammer has a small body and a long lower wick. A shooting star has a small body and a long upper wick.','A hammer after a fall can be a possible bullish clue. A shooting star after a rise can be a possible bearish clue. Wait for confirmation.','🔨'],
-['Engulfing candles','A bullish engulfing pattern has a larger up candle body that covers the previous down candle body. Bearish engulfing is the opposite.','The pattern may show a change in momentum. It matters where it appears on the chart.','🫂'],
-['Trend: up, down or sideways','An uptrend often makes higher highs and higher lows. A downtrend often makes lower highs and lower lows. Sideways means price moves in a range.','Do not decide from just one candle. Zoom out and look at several swings.','📈'],
-['Support and resistance','Support is an area where price has found buyers before. Resistance is an area where price has found sellers before.','Think of support as a floor area and resistance as a ceiling area. They are zones, not perfect lines.','🧱'],
-['Breakout or fakeout?','A breakout is when price moves beyond a range or level. A fakeout is when price moves beyond a level but then returns.','Traders may wait for a candle close and a retest rather than jumping in straight away.','🚪'],
-['ICC: the three steps','ICC means Indication, Correction and Continuation. First price shows a possible direction, then pulls back, then may continue.','Wait for the correction and look for signs of continuation. If the picture is unclear, waiting is okay.','🔎'],
-['Risk and patience','Every trade can lose. Adults use risk rules to limit possible losses. A good learner knows when to wait.','Our academy uses pretend money only. Your job is to learn the chart, not to make real money.','🛡️']
-];
-const patterns=[
-['Doji','➕','Open and close are very close. It can show a pause or indecision.','doji'],
-['Hammer','🔨','Small body near the top with a long lower wick. After a decline it can be a bullish clue.','hammer'],
-['Inverted Hammer','🔩','Small body with a long upper wick after a decline. It can be a possible reversal clue.','shooting'],
-['Shooting Star','🌠','Small body near the bottom with a long upper wick. After a rise it can be a bearish clue.','shooting'],
-['Hanging Man','🪝','Hammer-like shape after an uptrend. It can warn that upward momentum may be weakening.','hammer'],
-['Bullish Engulfing','🟢','A larger bullish body covers the previous bearish body. Context and confirmation matter.','engulf'],
-['Bearish Engulfing','🔴','A larger bearish body covers the previous bullish body. Context and confirmation matter.','engulf'],
-['Morning Star','🌅','A three-candle pattern that may signal a turn upward after a decline.','star'],
-['Evening Star','🌇','A three-candle pattern that may signal a turn downward after a rise.','star'],
-['Pin Bar','📌','A candle with a small body and a long wick. The location is important.','hammer'],
-['Marubozu','🟪','A strong candle with a large body and very small or no wicks.','maru'],
-['Spinning Top','🌀','A small body with upper and lower wicks. It can show a pause.','doji']
-];
-function save(){localStorage.setItem(KEY,JSON.stringify(state));updateStats()}
-function showToast(msg){let t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900)}
-function showView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='playground'&&!state.chart.length)newChart();if(id==='challenge')renderCalendar();if(id==='parent')renderParent();window.scrollTo({top:0,behavior:'smooth'})}
-document.getElementById('nav').addEventListener('click',e=>{let b=e.target.closest('button[data-view]');if(b)showView(b.dataset.view)});
-function speak(text){if(!('speechSynthesis'in window)){showToast('Audio reading is not available in this browser.');return}speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(text);u.rate=.88;u.pitch=1.08;speechSynthesis.speak(u)}
-function updateStats(){let n=state.done.length,p=Math.round(n/lessons.length*100);document.getElementById('statLessons').textContent=n+'/'+lessons.length;document.getElementById('statCoins').textContent=state.coins+' 🪙';document.getElementById('statTrades').textContent=state.trades;document.getElementById('statStreak').textContent=Object.keys(state.days).length;document.getElementById('overallProgress').style.width=p+'%';document.getElementById('progressLabel').textContent=p+'%';document.getElementById('nextTip').textContent=n===lessons.length?'Amazing! You completed the starter school.':`Next up: ${lessons[n][0]}`;document.getElementById('welcome').textContent=`Let's learn, ${state.name}!`;document.getElementById('profilePill').textContent='👋 '+state.name;let badges=[];if(n>=1)badges.push('🌱 First Steps');if(n>=5)badges.push('🕯️ Candle Scout');if(n>=9)badges.push('🔎 Pattern Detective');if(n>=14)badges.push('🏆 Academy Graduate');if(state.trades>=5)badges.push('🎮 Playground Pro');document.getElementById('badges').innerHTML=badges.length?badges.map(x=>`<span class="badge-item">${x}</span>`).join(''):'<span class="badge-item">🌱 First Steps — waiting</span>'}
-function renderLessons(){let box=document.getElementById('lessonGrid');box.innerHTML=lessons.map((l,i)=>{let unlocked=i===0||state.done.includes(i-1),done=state.done.includes(i);return `<div class="tile" style="${unlocked?'':'opacity:.48'}" onclick="${unlocked?`openLesson(${i})`:`showToast('Finish the lesson before this one!')`}"><div class="emoji">${done?'✅':unlocked?l[3]:'🔒'}</div><h3>${i+1}. ${l[0]}</h3><p>${done?'Lesson completed':unlocked?'Tap to learn this skill':'Complete the previous lesson to unlock'}</p></div>`}).join('')}
-function openLesson(i){let l=lessons[i],done=state.done.includes(i);document.getElementById('lessonDetail').innerHTML=`<div class="lesson-card"><span class="tag">LESSON ${i+1} OF ${lessons.length}</span><h2>${l[3]} ${l[0]}</h2><p><b>Teacher says:</b> ${l[1]}</p><div class="visual"><div><div style="font-size:48px">${l[3]}</div><b>Look, listen and learn!</b><p>${l[2]}</p></div></div><div class="choice-row"><button class="secondary" onclick="speak(${JSON.stringify(l[1]+' '+l[2])})">🔊 Read lesson aloud</button>${done?'<span class="tag">Completed ✓</span>':`<button class="mint" onclick="finishLesson(${i})">I understand! Complete lesson ⭐</button>`}</div></div>`;document.getElementById('lessonDetail').scrollIntoView({behavior:'smooth',block:'center'})}
-function finishLesson(i){if(!state.done.includes(i)){state.done.push(i);state.coins+=10;save();renderLessons();openLesson(i);showToast('+10 academy coins! 🪙')}}
-function renderPatterns(){document.getElementById('patternGrid').innerHTML=patterns.map((p,i)=>`<div class="tile" onclick="openPattern(${i})"><div class="emoji">${p[1]}</div><h3>${p[0]}</h3><p>Tap to see the pattern lesson.</p></div>`).join('')}
-function openPattern(i){let p=patterns[i];let candleHTML=p[3]==='engulf'?'<div class="candle red"><i style="height:45px;top:30px"></i></div><div class="candle"><i style="height:75px;top:15px"></i></div>':p[3]==='star'?'<div class="candle red"><i style="height:55px;top:10px"></i></div><div class="candle doji"><i></i></div><div class="candle"><i style="height:55px;top:25px"></i></div>':p[3]==='maru'?'<div class="candle"><i style="height:75px;top:8px"></i></div>':`<div class="candle ${p[3]==='doji'?'doji':p[3]==='shooting'?'shooting':''}"><i></i></div>`;document.getElementById('modalTitle').textContent=p[0];document.getElementById('modalBody').innerHTML=`<div class="visual"><div class="candle-row">${candleHTML}</div><b>${p[1]} ${p[0]}</b></div><p>${p[2]}</p><p class="muted">Remember: a pattern is only a clue. Check the trend, important price areas and what the next candle does.</p><button onclick="speak(${JSON.stringify(p[0]+'. '+p[2])})">🔊 Read aloud</button>`;document.getElementById('modal').classList.add('show')}
-function closeModal(){document.getElementById('modal').classList.remove('show')}
-function checkAnswer(btn,ok,msg){let f=document.getElementById('volFeedback');f.textContent=msg;if(ok){state.coins+=3;save()}}
-let iccOrder=['Indication','Correction','Continuation'];function iccPick(x){let expected=iccOrder[state.icc];let f=document.getElementById('iccFeedback');if(x===expected){state.icc++;state.coins+=2;save();f.textContent='Correct! '+x+' is in the right place. ⭐';document.getElementById('iccPrompt').textContent=state.icc>=3?'Mission complete! 🎉':'Now choose step '+(state.icc+1)+'.';if(state.icc>=3)showToast('ICC detective badge earned!')}else f.textContent='Not quite. Think about the order: first a clue, then a pullback, then possible continuation.'}function resetICC(){state.icc=0;document.getElementById('iccPrompt').textContent='Which step comes first?';document.getElementById('iccFeedback').textContent='Mission restarted.'}
-function newChart(){let price=100;state.chart=[];for(let i=0;i<26;i++){let open=price,move=(Math.random()-.46)*5,close=open+move,high=Math.max(open,close)+Math.random()*2,low=Math.min(open,close)-Math.random()*2;state.chart.push({open,close,high,low});price=close}state.drawings=[];drawChart()}
-function drawChart(){let svg=document.getElementById('chartSvg');if(!svg)return;let a=state.chart;if(!a.length)return;let min=Math.min(...a.map(c=>c.low))-2,max=Math.max(...a.map(c=>c.high))+2,scale=210/(max-min),xstep=660/a.length;let s='';for(let j=0;j<5;j++){let y=20+j*52;s+=`<line class="gridline" x1="30" y1="${y}" x2="690" y2="${y}"/>`}a.forEach((c,i)=>{let x=38+i*xstep,yo=225-(c.open-min)*scale,yc=225-(c.close-min)*scale,yh=225-(c.high-min)*scale,yl=225-(c.low-min)*scale,cls=c.close>=c.open?'bull':'bear',top=Math.min(yo,yc),h=Math.max(4,Math.abs(yc-yo));s+=`<line class="wick ${cls}" x1="${x+5}" y1="${yh}" x2="${x+5}" y2="${yl}"/><rect class="${cls}" x="${x}" y="${top}" width="10" height="${h}" rx="1"/>`});state.drawings.forEach(d=>{let y=d.y;s+=`<line x1="30" y1="${y}" x2="690" y2="${y}" stroke="${d.type==='support'?'#62dfbb':d.type==='resistance'?'#ff83ae':'#ffe080'}" stroke-width="2" stroke-dasharray="7 5"/>`});svg.innerHTML=s;let last=a[a.length-1].close;document.getElementById('priceLabel').textContent='$'+last.toFixed(2)}
-function setTool(t){state.tool=t;document.getElementById('toolHint').textContent=t==='none'?'Select mode.':`Tap the chart to place your ${t} line.`}
-document.getElementById('chartSvg').addEventListener('click',e=>{if(state.tool==='none')return;let r=e.currentTarget.getBoundingClientRect(),y=(e.clientY-r.top)/r.height*260;state.drawings.push({type:state.tool,y});drawChart();showToast(state.tool+' line added')});
-function practiceTrade(type){let stake=Number(document.getElementById('stake').value);if(type!=='WAIT'&&state.balance<stake){document.getElementById('tradeFeedback').textContent='Your pretend balance is too low. Reset the practice chart to start again.';return}let last=state.chart[state.chart.length-1],prev=state.chart[state.chart.length-2],up=last.close>prev.close;let msg;if(type==='WAIT'){msg='You chose to wait. That is a real decision too! Sometimes the chart is unclear.';state.coins+=1}else{let good=(type==='BUY'&&up)||(type==='SELL'&&!up);state.balance-=stake;let outcome=good?stake*.5:-stake*.5;state.balance+=stake+outcome;msg=good?`Your ${type} matched the last candle direction in this practice round. Pretend result: +$${(stake*.5).toFixed(2)}.`:`The last candle moved against your ${type} choice. Pretend result: -$${(stake*.5).toFixed(2)}. A single candle is not a reliable signal.`;state.coins+=good?3:1}state.trades++;save();document.getElementById('balance').textContent='$'+state.balance.toFixed(2);document.getElementById('tradeFeedback').textContent=msg+' Remember: this is a simple game, not a trading strategy.'}
-function renderCalendar(){let now=new Date(),year=now.getFullYear(),month=now.getMonth(),first=new Date(year,month,1).getDay(),days=new Date(year,month+1,0).getDate();document.getElementById('challengeMonth').textContent=now.toLocaleString('default',{month:'long',year:'numeric'});let html=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="day"><b>${d}</b></div>`).join('');for(let i=0;i<first;i++)html+='<div class="day"></div>';for(let d=1;d<=days;d++){let key=`${year}-${month+1}-${d}`,done=!!state.days[key];html+=`<div class="day ${done?'done':''} ${d===now.getDate()?'today':''}" onclick="selectDay(${d})"><b>${d}</b>${done?'⭐':'📘'}</div>`}document.getElementById('calendar').innerHTML=html;selectDay(now.getDate())}
-let selectedDay=1;const missions=['Find one bullish candle.','Find one bearish candle.','Point to a candle body.','Find the upper wick.','Find the lower wick.','Explain what a Doji looks like.','Spot a hammer shape.','Spot a shooting star shape.','Find three candles in a row.','Look for higher highs.','Look for lower lows.','Find a sideways range.','Draw a pretend support line.','Draw a pretend resistance line.','What is a breakout?','What is a fakeout?','Explain volatility.','Name one Deriv Volatility index.','Put ICC in the correct order.','Find an indication on a practice chart.','Find a correction.','Look for continuation.','Explain why we wait for confirmation.','Name one risk of trading.','Practise choosing WAIT.','Review candle anatomy.','Review two candle patterns.','Find a trend.','Play one virtual chart mission.','Celebrate what you learned!'];function selectDay(d){selectedDay=d;document.getElementById('dayMission').textContent=`Day ${d}: ${missions[d-1]} ${state.days[dateKey(d)]?'You completed this mission! ⭐':''}`}function dateKey(d){let n=new Date();return `${n.getFullYear()}-${n.getMonth()+1}-${d}`}function completeDay(){let k=dateKey(selectedDay);if(!state.days[k]){state.days[k]=true;state.coins+=5;save();renderCalendar();showToast('+5 challenge coins! 🪙')}else showToast('Already completed!')}
-function saveProfile(){let name=document.getElementById('childName').value.trim(),age=Number(document.getElementById('childAge').value);if(name)state.name=name;if(age>=5&&age<=17)state.age=age;save();showToast('Profile saved!');renderParent()}
-function renderParent(){document.getElementById('childName').value=state.name==='Young Trader'?'':state.name;document.getElementById('childAge').value=state.age;document.getElementById('parentLessons').textContent=state.done.length;document.getElementById('parentTrades').textContent=state.trades;document.getElementById('parentDays').textContent=Object.keys(state.days).length}
-function resetProgress(){if(confirm('Reset all lessons, coins and practice progress on this device?')){state={...defaultState,chart:[],drawings:[]};save();renderLessons();renderParent();showToast('Progress reset.')}}
-renderLessons();renderPatterns();updateStats();renderParent();newChart();
-</script>
+  <!-- Main Content Area -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 pt-5">
+
+    <!-- ========================================================= -->
+    <!-- TAB 1: AUTOMATIC LEARNING JOURNEY (NEVER-ENDING QUEST)    -->
+    <!-- ========================================================= -->
+    <section id="view-journey" class="space-y-5">
+      <!-- Journey Header Card -->
+      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-indigo-300 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-3">
+            <span id="questStepBadge" class="bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm">
+              Step 1 of 4: Watch & Listen
+            </span>
+            <span id="questTopicTag" class="bg-indigo-100 text-indigo-800 font-extrabold px-3 py-1 rounded-full text-xs uppercase">
+              Lesson #1 • Candles
+            </span>
+          </div>
+          <!-- Prominent Read Aloud Button -->
+          <button id="questSpeakBtn" onclick="speakQuestCurrent()"
+            class="btn-game bg-amber-400 hover:bg-amber-500 text-amber-950 font-display font-bold px-4 py-2 rounded-2xl flex items-center gap-2 text-base">
+            <span class="text-xl">📢</span> <span>Read To Me!</span>
+          </button>
+        </div>
+
+        <!-- Big Kid-Friendly Instruction Banner -->
+        <div class="bg-indigo-50 rounded-2xl p-4 border-2 border-indigo-200 mb-4 flex items-start gap-3">
+          <span id="questMascotIcon" class="text-4xl shrink-0">🦁</span>
+          <div>
+            <h2 id="questTitle" class="font-display text-xl sm:text-2xl font-bold text-indigo-900 mb-1">
+              Green Bulls vs. Red Bears!
+            </h2>
+            <p id="questPrompt" class="text-base sm:text-lg font-bold text-slate-700 leading-snug">
+              Green candles go UP like a rocket! Red candles go DOWN like a slide!
+            </p>
+          </div>
+        </div>
+
+        <!-- Interactive Chart Canvas Picture -->
+        <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-inner">
+          <canvas id="questCanvas" class="w-full block cursor-pointer" style="height: 310px;"></canvas>
+          <div id="questCanvasHint" class="absolute bottom-3 left-3 bg-slate-800/90 text-amber-300 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border border-slate-600 pointer-events-none">
+            👀 Look at the picture!
+          </div>
+        </div>
+
+        <!-- Interactive Action Area ("Let Him Try" Buttons) -->
+        <div id="questControlsArea" class="mt-5">
+          <!-- Step 1: Ready to Try Button -->
+          <div id="questTeachActions" class="flex justify-center">
+            <button onclick="advanceQuestToTry()"
+              class="btn-game bg-emerald-500 text-white font-display font-bold text-xl px-8 py-3.5 rounded-2xl flex items-center gap-2">
+              <span>🎮</span> <span>Let Me Try!</span>
+            </button>
+          </div>
+
+          <!-- Step 2: Interactive Choice Buttons -->
+          <div id="questChoiceButtons" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <!-- Dynamically injected answer buttons -->
+          </div>
+
+          <!-- Step 3: Explanation & Auto-Advance Countdown -->
+          <div id="questFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-start gap-3 flex-1">
+                <span id="questFeedbackEmoji" class="text-4xl">🌟</span>
+                <div>
+                  <h3 id="questFeedbackHeading" class="font-display text-xl font-bold">Awesome Job!</h3>
+                  <p id="questFeedbackText" class="font-bold text-base mt-0.5"></p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="speakFeedback()" class="btn-game bg-white/90 text-slate-800 px-3 py-2 rounded-xl font-bold text-sm border border-slate-300">
+                  🔊 Hear Why
+                </button>
+                <button onclick="loadNextQuestActivity()" class="btn-game bg-indigo-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">
+                  Next Quest ➡️
+                </button>
+              </div>
+            </div>
+            <!-- Auto-advance progress bar -->
+            <div class="mt-3">
+              <div class="flex justify-between text-xs font-extrabold opacity-80 mb-1">
+                <span>⏭️ Automatically moving to next adventure...</span>
+                <span id="autoAdvanceTimerText">6s</span>
+              </div>
+              <div class="w-full h-2.5 bg-black/15 rounded-full overflow-hidden">
+                <div id="autoAdvanceBar" class="h-full bg-indigo-600 transition-all duration-100" style="width: 100%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlocked Badges Strip -->
+      <div class="bg-white/90 rounded-3xl p-4 border-2 border-amber-300 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-display font-bold text-amber-800 text-lg">🏆 Your Trophy Shelf</h3>
+          <span id="badgeCountText" class="text-xs font-extrabold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">0 / 6 Unlocked</span>
+        </div>
+        <div id="badgesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 2: LIVE CHART PLAYGROUND & TRADE SIMULATOR            -->
+    <!-- ========================================================= -->
+    <section id="view-playground" class="hidden space-y-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Left/Main 2 Columns: Live Chart & Trade Buttons -->
+        <div class="lg:col-span-2 bg-white rounded-3xl p-4 sm:p-5 border-4 border-sky-300 shadow-lg space-y-3">
+          <!-- Top Chart Toolbar -->
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="font-display font-bold text-slate-700 text-sm mr-1">Market:</span>
+              <select id="simMarketMode" onchange="changeSimMarketMode()"
+                class="bg-sky-100 border-2 border-sky-300 text-sky-900 font-extrabold text-sm rounded-xl px-3 py-1.5 outline-none">
+                <option value="uptrend">🚀 Uptrend (Going Up)</option>
+                <option value="downtrend">🛝 Downtrend (Going Down)</option>
+                <option value="sideways">🏓 Sideways (Floor & Ceiling)</option>
+                <option value="icc">⚡ ICC Pattern Setup</option>
+                <option value="random">🎲 Surprise Market</option>
+              </select>
+            </div>
+
+            <!-- Play / Pause / Speed -->
+            <div class="flex items-center gap-1.5">
+              <button id="btnSimPlayPause" onclick="toggleSimPlay()"
+                class="btn-game bg-indigo-500 text-white font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">
+                ⏸️ Pause
+              </button>
+              <button onclick="stepSimCandle()"
+                class="btn-game bg-amber-400 text-amber-950 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl"
+                title="Spawn 1 new candle right now">
+                ➕1 Candle
+              </button>
+              <button onclick="speakPlaygroundTip()"
+                class="btn-game bg-sky-500 text-white font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">
+                📢 Hint
+              </button>
+            </div>
+          </div>
+
+          <!-- Helper Drawing Toggles (Kid-friendly X-ray vision!) -->
+          <div class="flex flex-wrap items-center gap-2 text-xs font-extrabold">
+            <span class="text-slate-500">X-Ray Helpers:</span>
+            <label class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 px-2.5 py-1 rounded-xl cursor-pointer">
+              <input type="checkbox" id="chkShowSR" checked onchange="drawSimChart()" class="accent-emerald-600">
+              <span class="text-emerald-800">Floor & Ceiling (S/R)</span>
+            </label>
+            <label class="flex items-center gap-1.5 bg-purple-50 border border-purple-300 px-2.5 py-1 rounded-xl cursor-pointer">
+              <input type="checkbox" id="chkShowTrend" checked onchange="drawSimChart()" class="accent-purple-600">
+              <span class="text-purple-800">Trendline</span>
+            </label>
+            <label class="flex items-center gap-1.5 bg-amber-50 border border-amber-300 px-2.5 py-1 rounded-xl cursor-pointer">
+              <input type="checkbox" id="chkShowICC" checked onchange="drawSimChart()" class="accent-amber-600">
+              <span class="text-amber-800">ICC Labels</span>
+            </label>
+          </div>
+
+          <!-- Live Candlestick Canvas -->
+          <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700">
+            <canvas id="simCanvas" class="w-full block" style="height: 330px;"></canvas>
+            <!-- Current Price Pill -->
+            <div class="absolute top-3 left-3 bg-slate-800/90 border border-slate-600 px-3 py-1 rounded-xl text-xs font-extrabold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Price: $<span id="simCurrentPrice">100.00</span></span>
+            </div>
+          </div>
+
+          <!-- Big Kid-Friendly BUY / SELL / CLOSE Action Controls -->
+          <div class="grid grid-cols-3 gap-3 pt-1">
+            <button id="btnSimBuy" onclick="openSimTrade('BUY')"
+              class="btn-game bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
+              <span>🚀 BUY (UP)</span>
+              <span class="text-[11px] font-sans font-extrabold opacity-90">Price will go UP!</span>
+            </button>
+
+            <button id="btnSimSell" onclick="openSimTrade('SELL')"
+              class="btn-game bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
+              <span>🛝 SELL (DOWN)</span>
+              <span class="text-[11px] font-sans font-extrabold opacity-90">Price will go DOWN!</span>
+            </button>
+
+            <button id="btnSimClose" onclick="closeSimTrade()" disabled
+              class="btn-game bg-amber-400 text-amber-950 font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
+              <span>💰 CASH OUT</span>
+              <span class="text-[11px] font-sans font-extrabold opacity-90">Collect Profit!</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column: Live PnL Scoreboard & Trade History -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 border-4 border-emerald-300 shadow-lg flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="font-display font-bold text-xl text-slate-800">💼 My Trade Wallet</h3>
+              <button onclick="resetDemoAccount()"
+                class="text-xs font-extrabold bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 px-2.5 py-1.5 rounded-xl border border-slate-300 transition">
+                🔄 Reset $10k
+              </button>
+            </div>
+
+            <!-- Live Position Box -->
+            <div id="activeTradeCard" class="rounded-2xl p-4 bg-slate-100 border-2 border-slate-200 text-center transition-all">
+              <div class="text-xs font-extrabold uppercase text-slate-500">Current Trade</div>
+              <div id="activeTradeStatus" class="font-display font-bold text-lg text-slate-700 mt-0.5">
+                No Active Trade
+              </div>
+              <div id="activeTradePnl" class="font-display font-bold text-3xl text-slate-400 mt-1">
+                $0.00
+              </div>
+              <p id="activeTradeHint" class="text-xs font-bold text-slate-500 mt-1">
+                Watch the chart, then press BUY or SELL!
+              </p>
+            </div>
+
+            <!-- Trade History List -->
+            <div>
+              <h4 class="text-xs font-extrabold uppercase text-slate-500 mb-2">📜 Recent Trades</h4>
+              <div id="tradeHistoryList" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                <div class="text-center text-xs font-bold text-slate-400 py-6 bg-slate-50 rounded-2xl">
+                  No trades yet! Make your first prediction!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-xs font-bold text-amber-900">
+            💡 <b>Pro Tip:</b> When you click BUY or SELL, new candles form automatically so you can watch your money move!
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 3: REVERSAL TRAINER (PATIENCE & TIMING CHALLENGE)     -->
+    <!-- ========================================================= -->
+    <section id="view-reversal" class="hidden space-y-4">
+      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-rose-300 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <span class="bg-rose-100 text-rose-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
+              ⏱️ Reversal Timing Trainer
+            </span>
+            <h2 class="font-display text-2xl font-bold text-slate-800 mt-1">
+              Wait for the Bounce! Don't Jump Too Early!
+            </h2>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="speakReversalIntro()"
+              class="btn-game bg-amber-400 text-amber-950 font-display font-bold px-4 py-2 rounded-2xl flex items-center gap-1.5">
+              <span>📢</span> <span>Read Mission</span>
+            </button>
+            <button onclick="startNewReversalRound()"
+              class="btn-game bg-indigo-600 text-white font-display font-bold px-4 py-2 rounded-2xl">
+              🔄 New Round
+            </button>
+          </div>
+        </div>
+
+        <!-- Scenario Explanation Box -->
+        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3.5 mb-4 flex items-center justify-between flex-wrap gap-2">
+          <p id="reversalInstruction" class="font-bold text-rose-950 text-base">
+            Watch price drop toward the Green Trampoline Floor! Wait until you see a BIG GREEN bounce candle before clicking BUY!
+          </p>
+          <span id="reversalPhaseBadge" class="bg-white border-2 border-rose-300 text-rose-700 font-display font-bold px-3 py-1 rounded-xl text-sm">
+            Phase: Approaching Floor...
+          </span>
+        </div>
+
+        <!-- Reversal Canvas -->
+        <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700">
+          <canvas id="reversalCanvas" class="w-full block" style="height: 320px;"></canvas>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="mt-4 flex flex-wrap items-center justify-center gap-4">
+          <button id="btnReversalEnter" onclick="triggerReversalEntry()"
+            class="btn-game bg-emerald-500 text-white font-display font-bold text-xl px-8 py-4 rounded-2xl flex items-center gap-2">
+            <span>🎯</span> <span id="btnReversalEnterLabel">JUMP IN NOW (BUY)!</span>
+          </button>
+          <button id="btnReversalWait" onclick="stepReversalCandle()"
+            class="btn-game bg-sky-500 text-white font-display font-bold text-xl px-8 py-4 rounded-2xl flex items-center gap-2">
+            <span>⏳</span> <span>Wait 1 Candle</span>
+          </button>
+        </div>
+
+        <!-- Detailed Reversal Diagnosis Result -->
+        <div id="reversalResultBox" class="hidden mt-5 rounded-2xl p-5 border-4">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="flex items-start gap-3">
+              <span id="reversalResultEmoji" class="text-4xl">🎯</span>
+              <div>
+                <h3 id="reversalResultTitle" class="font-display text-2xl font-bold">Diagnosis</h3>
+                <p id="reversalResultDesc" class="font-bold text-base mt-1"></p>
+                <div id="reversalLessonTip" class="mt-2 inline-block bg-white/80 px-3 py-1.5 rounded-xl text-sm font-extrabold"></div>
+              </div>
+            </div>
+            <button onclick="speakReversalResult()" class="btn-game bg-amber-400 text-amber-950 font-bold px-4 py-2 rounded-xl">
+              🔊 Read Diagnosis
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================= -->
+    <!-- TAB 4: PICTURE-BASED VISUAL ACADEMY (FLASHCARDS)          -->
+    <!-- ========================================================= -->
+    <section id="view-academy" class="hidden space-y-4">
+      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-purple-300 shadow-lg">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="font-display text-2xl font-bold text-purple-900">🖼️ Picture-Based Trader Cards</h2>
+            <p class="text-sm font-bold text-slate-600">Tap any card's speaker button to hear how the pattern works!</p>
+          </div>
+        </div>
+
+        <div id="academyCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Populated dynamically with custom Canvas drawings -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    /* =========================================================================
+       1. STATE, PERSISTENCE & SOUND / VOICE ENGINE
+       ========================================================================= */
+    const AVATARS = [
+      { id: 'lion', emoji: '🦁', name: 'Leo Lion' },
+      { id: 'rocket', emoji: '🚀', name: 'Astro Rocket' },
+      { id: 'ninja', emoji: '🥷', name: 'Shadow Ninja' },
+      { id: 'unicorn', emoji: '🦄', name: 'Sparkle Unicorn' },
+      { id: 'robot', emoji: '🤖', name: 'Robo Trader' }
+    ];
+
+    const BADGES = [
+      { id: 'first_step', icon: '🌱', title: 'First Candle', desc: 'Complete 1st lesson' },
+      { id: 'streak_3', icon: '🔥', title: '3-In-A-Row', desc: 'Get 3 right in a row' },
+      { id: 'icc_master', icon: '⚡', title: 'ICC Pro', desc: 'Master ICC Strategy' },
+      { id: 'patient_ninja', icon: '🥷', title: 'Patience Ninja', desc: 'Nail a Reversal entry' },
+      { id: 'profit_maker', icon: '💰', title: 'Green Profit', desc: 'Win a live sim trade' },
+      { id: 'level_3', icon: '👑', title: 'Chart Champ', desc: 'Reach Level 3' }
+    ];
+
+    const DEFAULT_STATE = {
+      name: 'Trader Ace',
+      age: 8,
+      avatar: '🦁',
+      xp: 0,
+      level: 1,
+      streak: 0,
+      balance: 10000,
+      autoRead: true,
+      sfx: true,
+      questIndex: 0,
+      unlockedBadges: [],
+      tradeHistory: []
+    };
+
+    let appState = loadState();
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem('candlestick_quest_v1');
+        if (saved) return { ...DEFAULT_STATE, ...JSON.parse(saved) };
+      } catch (e) { console.warn('Storage load error', e); }
+      return { ...DEFAULT_STATE };
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem('candlestick_quest_v1', JSON.stringify(appState));
+      } catch (e) { console.warn('Storage save error', e); }
+      updateHUD();
+    }
+
+    // Web Audio API Synthesizer for fun kid sound effects (no external MP3s needed!)
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playTone(type) {
+      if (!appState.sfx) return;
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const now = audioCtx.currentTime;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'click') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(780, now + 0.08);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+        osc.start(now); osc.stop(now + 0.08);
+      } else if (type === 'win') {
+        osc.type = 'triangle';
+        [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+          osc.frequency.setValueAtTime(freq, now + i * 0.09);
+        });
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.42);
+        osc.start(now); osc.stop(now + 0.42);
+      } else if (type === 'oops') {
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.linearRampToValueAtTime(180, now + 0.25);
+        gain.gain.setValueAtTime(0.14, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
+        osc.start(now); osc.stop(now + 0.26);
+      } else if (type === 'coin') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(987.77, now);
+        osc.frequency.setValueAtTime(1318.51, now + 0.08);
+        gain.gain.setValueAtTime(0.18, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        osc.start(now); osc.stop(now + 0.25);
+      }
+    }
+
+    // Read-Aloud Voice Coach using Web Speech API
+    function speakText(text, triggerBtnId = null) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      document.querySelectorAll('.speaking-pulse').forEach(el => el.classList.remove('speaking-pulse'));
+
+      const cleanText = text.replace(/[\u{1F300}-\u{1FAFF}]/gu, ''); // Strip emojis for smooth voice
+      const utter = new SpeechSynthesisUtterance(cleanText);
+      utter.rate = 0.98;
+      utter.pitch = 1.15; // Friendly upbeat voice for an 8-year-old
+
+      const btn = triggerBtnId ? document.getElementById(triggerBtnId) : null;
+      if (btn) btn.classList.add('speaking-pulse');
+      utter.onend = () => { if (btn) btn.classList.remove('speaking-pulse'); };
+      utter.onerror = () => { if (btn) btn.classList.remove('speaking-pulse'); };
+
+      window.speechSynthesis.speak(utter);
+    }
+
+    function toggleAutoRead() {
+      appState.autoRead = !appState.autoRead;
+      playTone('click');
+      saveState();
+      if (appState.autoRead) speakText(`Auto voice is ON, ${appState.name}!`);
+    }
+
+    function toggleSfx() {
+      appState.sfx = !appState.sfx;
+      if (appState.sfx) playTone('click');
+      saveState();
+    }
+
+    function addXP(points) {
+      appState.xp += points;
+      const newLevel = Math.floor(appState.xp / 100) + 1;
+      if (newLevel > appState.level) {
+        appState.level = newLevel;
+        fireConfetti();
+        if (newLevel >= 3) unlockBadge('level_3');
+      }
+      saveState();
+    }
+
+    function unlockBadge(badgeId) {
+      if (!appState.unlockedBadges.includes(badgeId)) {
+        appState.unlockedBadges.push(badgeId);
+        saveState();
+        renderBadges();
+      }
+    }
+
+    function updateHUD() {
+      document.getElementById('hudAvatar').textContent = appState.avatar;
+      document.getElementById('hudName').textContent = appState.name;
+      document.getElementById('hudAge').textContent = appState.age;
+      document.getElementById('hudLevel').textContent = appState.level;
+      document.getElementById('hudXP').textContent = appState.xp;
+      document.getElementById('hudStreak').textContent = `🔥 ${appState.streak} Streak`;
+      document.getElementById('hudXpBar').style.width = `${Math.max(8, appState.xp % 100)}%`;
+      document.getElementById('hudBalance').textContent = `$${appState.balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+      document.getElementById('autoReadLabel').textContent = appState.autoRead ? 'Auto-Voice: ON' : 'Auto-Voice: OFF';
+      document.getElementById('btnAutoRead').className = appState.autoRead
+        ? 'btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sky-500 text-white'
+        : 'btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-slate-200 text-slate-600';
+      document.getElementById('btnSfx').textContent = appState.sfx ? '🔊' : '🔇';
+    }
+
+    function renderBadges() {
+      const grid = document.getElementById('badgesGrid');
+      document.getElementById('badgeCountText').textContent = `${appState.unlockedBadges.length} / ${BADGES.length} Unlocked`;
+      grid.innerHTML = BADGES.map(b => {
+        const unlocked = appState.unlockedBadges.includes(b.id);
+        return `
+          <div class="rounded-2xl p-2.5 border-2 flex items-center gap-2.5 transition ${unlocked ? 'bg-amber-50 border-amber-400 shadow-sm' : 'bg-slate-100 border-slate-200 opacity-50 grayscale'}">
+            <span class="text-2xl">${b.icon}</span>
+            <div class="leading-tight">
+              <div class="font-display font-bold text-xs text-slate-800">${b.title}</div>
+              <div class="text-[10px] font-bold text-slate-500">${b.desc}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* =========================================================================
+       2. PROFILE MODAL
+       ========================================================================= */
+    let selectedModalAvatar = appState.avatar;
+
+    function openProfileModal() {
+      playTone('click');
+      document.getElementById('inputHeroName').value = appState.name;
+      document.getElementById('inputHeroAge').value = appState.age;
+      selectedModalAvatar = appState.avatar;
+      renderAvatarPicker();
+      document.getElementById('profileModal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
+    }
+
+    function renderAvatarPicker() {
+      const container = document.getElementById('avatarPicker');
+      container.innerHTML = AVATARS.map(a => `
+        <button type="button" onclick="selectModalAvatar('${a.emoji}')"
+          class="p-2 rounded-2xl border-2 text-3xl flex flex-col items-center transition ${selectedModalAvatar === a.emoji ? 'bg-indigo-100 border-indigo-500 scale-105' : 'bg-slate-50 border-slate-200'}">
+          <span>${a.emoji}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectModalAvatar(emoji) {
+      playTone('click');
+      selectedModalAvatar = emoji;
+      renderAvatarPicker();
+    }
+
+    function saveProfile() {
+      const rawName = document.getElementById('inputHeroName').value.trim();
+      const rawAge = parseInt(document.getElementById('inputHeroAge').value, 10);
+      appState.name = rawName || 'Trader Ace';
+      appState.age = (rawAge >= 4 && rawAge <= 18) ? rawAge : 8;
+      appState.avatar = selectedModalAvatar;
+      saveState();
+      closeProfileModal();
+      playTone('win');
+      speakText(`Awesome ${appState.name}! Ready to conquer the charts?`);
+      loadQuestActivity(appState.questIndex);
+    }
+
+    /* =========================================================================
+       3. SHARED CANDLESTICK RENDERING ENGINE
+       ========================================================================= */
+    function resizeCanvasToDisplaySize(canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
+        canvas.width = Math.round(rect.width * dpr);
+        canvas.height = Math.round(rect.height * dpr);
+      }
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      return { width: rect.width, height: rect.height, ctx };
+    }
+
+    function drawCandlesOnCanvas(ctx, width, height, candles, options = {}) {
+      // Dark slate grid background
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, width, height);
+
+      // Subtle grid lines
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
+      ctx.lineWidth = 1;
+      for (let y = 30; y < height; y += 45) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
+      }
+      for (let x = 40; x < width; x += 60) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
+      }
+
+      if (!candles || candles.length === 0) return null;
+
+      const padTop = options.padTop || 35;
+      const padBottom = options.padBottom || 35;
+      const padLeft = 25;
+      const padRight = 25;
+
+      let minP = Infinity, maxP = -Infinity;
+      candles.forEach(c => {
+        if (c.low < minP) minP = c.low;
+        if (c.high > maxP) maxP = c.high;
+      });
+      if (options.extraLevels) {
+        options.extraLevels.forEach(lvl => {
+          if (lvl < minP) minP = lvl;
+          if (lvl > maxP) maxP = lvl;
+        });
+      }
+      const range = Math.max(1, maxP - minP);
+      const priceToY = (p) => padTop + ((maxP - p) / range) * (height - padTop - padBottom);
+
+      // Optional Support / Resistance Zones
+      if (options.supportLevel !== undefined) {
+        const sy = priceToY(options.supportLevel);
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
+        ctx.fillRect(0, sy - 8, width, 16);
+        ctx.strokeStyle = '#10b981';
+        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(width, sy); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#34d399';
+        ctx.font = 'bold 12px Nunito, sans-serif';
+        ctx.fillText('🟩 SUPPORT (Trampoline Floor)', 12, sy - 11);
+      }
+
+      if (options.resistanceLevel !== undefined) {
+        const ry = priceToY(options.resistanceLevel);
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.18)';
+        ctx.fillRect(0, ry - 8, width, 16);
+        ctx.strokeStyle = '#f43f5e';
+        ctx.setLineDash([6, 4]);
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(0, ry); ctx.lineTo(width, ry); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#fb7185';
+        ctx.font = 'bold 12px Nunito, sans-serif';
+        ctx.fillText('🟥 RESISTANCE (Bouncy Ceiling)', 12, ry - 11);
+      }
+
+      // Draw Candlesticks
+      const slotW = (width - padLeft - padRight) / candles.length;
+      const bodyW = Math.max(8, Math.min(28, slotW * 0.62));
+      const coords = [];
+
+      candles.forEach((c, idx) => {
+        const cx = padLeft + slotW * idx + slotW / 2;
+        const yHigh = priceToY(c.high);
+        const yLow = priceToY(c.low);
+        const yOpen = priceToY(c.open);
+        const yClose = priceToY(c.close);
+        const isBull = c.close >= c.open;
+
+        // Wick
+        ctx.strokeStyle = isBull ? '#34d399' : '#fb7185';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, yHigh);
+        ctx.lineTo(cx, yLow);
+        ctx.stroke();
+
+        // Body
+        const topY = Math.min(yOpen, yClose);
+        const boxH = Math.max(4, Math.abs(yClose - yOpen));
+        ctx.fillStyle = isBull ? '#10b981' : '#f43f5e';
+        ctx.beginPath();
+        ctx.roundRect(cx - bodyW / 2, topY, bodyW, boxH, 4);
+        ctx.fill();
+
+        // Optional Highlight Ring
+        if (c.highlight) {
+          ctx.strokeStyle = '#facc15';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(cx, (yHigh + yLow) / 2, bodyW * 0.95, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Optional Label above/below candle
+        if (c.label) {
+          ctx.fillStyle = '#fde047';
+          ctx.font = 'bold 12px Fredoka, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(c.label, cx, yHigh - 10);
+          ctx.textAlign = 'left';
+        }
+
+        coords.push({ x: cx, yHigh, yLow, yOpen, yClose, idx });
+      });
+
+      // Optional Trendline connecting indices
+      if (options.trendline && coords.length > options.trendline.endIdx) {
+        const p1 = coords[options.trendline.startIdx];
+        const p2 = coords[options.trendline.endIdx];
+        const y1 = options.trendline.type === 'up' ? p1.yLow + 6 : p1.yHigh - 6;
+        const y2 = options.trendline.type === 'up' ? p2.yLow + 6 : p2.yHigh - 6;
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.moveTo(p1.x, y1);
+        ctx.lineTo(p2.x, y2);
+        ctx.stroke();
+      }
+
+      // Optional Entry Marker
+      if (options.entryMarker && coords[options.entryMarker.idx]) {
+        const ep = coords[options.entryMarker.idx];
+        const ey = priceToY(options.entryMarker.price);
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.arc(ep.x, ey, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#0f172a';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      return { priceToY, coords };
+    }
+
+    /* =========================================================================
+       4. TAB 1: AUTOMATIC LEARNING JOURNEY (NEVER-ENDING QUEST)
+       ========================================================================= */
+    const CORE_LESSONS = [
+      {
+        topic: 'Lesson 1 • Bull vs Bear Candles',
+        title: (name) => `Hey ${name}! Meet Green Bulls & Red Bears!`,
+        teachText: (name) => `Look at the chart, ${name}! Green candles climb UP like a rocket ship! Red candles slide DOWN like a playground slide!`,
+        tryPrompt: 'Quick check! Which color candle shows price climbing UP like a rocket?',
+        choices: [
+          { label: '🟢 Green Candle', correct: true },
+          { label: '🔴 Red Candle', correct: false },
+          { label: '⚫ Black Line', correct: false }
+        ],
+        explainWhy: 'Green means buyers pushed the price UP higher than where it started!',
+        candles: [
+          { open: 40, close: 48, high: 50, low: 38 },
+          { open: 48, close: 58, high: 60, low: 46, label: '🚀 UP!' },
+          { open: 58, close: 50, high: 59, low: 48, label: '🛝 DOWN' },
+          { open: 50, close: 64, high: 66, low: 49, highlight: true }
+        ]
+      },
+      {
+        topic: 'Lesson 2 • Uptrend Stairs',
+        title: () => 'Climbing the Uptrend Stairs!',
+        teachText: (name) => `When candles make higher steps going up and to the right, we call it an UPTREND! Like climbing stairs to a treehouse, ${name}!`,
+        tryPrompt: 'Look at these stairs going up! Which direction should a smart trader look to trade?',
+        choices: [
+          { label: '🚀 BUY (Go Up)', correct: true },
+          { label: '🛝 SELL (Go Down)', correct: false },
+          { label: '😴 Close Eyes', correct: false }
+        ],
+        explainWhy: 'In an Uptrend, the trend is your friend! Buying with the upward stairs gives you the best chance to win!',
+        trendline: { startIdx: 0, endIdx: 5, type: 'up' },
+        candles: [
+          { open: 30, close: 38, high: 40, low: 28 },
+          { open: 38, close: 35, high: 40, low: 33 },
+          { open: 35, close: 47, high: 49, low: 34 },
+          { open: 47, close: 43, high: 48, low: 41 },
+          { open: 43, close: 56, high: 58, low: 42 },
+          { open: 56, close: 65, high: 67, low: 54, highlight: true }
+        ]
+      },
+      {
+        topic: 'Lesson 3 • Support (Trampoline Floor)',
+        title: () => 'The Magic Trampoline Floor (Support)!',
+        teachText: (name) => `See that green line at the bottom? That is SUPPORT! Every time price falls down and touches the floor, it bounces back UP like a trampoline!`,
+        tryPrompt: 'Price just bounced off the Green Trampoline Floor with a big green candle! What happens next?',
+        choices: [
+          { label: '🦘 Bounce UP!', correct: true },
+          { label: '🕳️ Sink Underground', correct: false },
+          { label: '🧊 Freeze Forever', correct: false }
+        ],
+        explainWhy: 'Support is a floor where lots of buyers wait to bounce price back up!',
+        supportLevel: 35,
+        candles: [
+          { open: 60, close: 50, high: 62, low: 48 },
+          { open: 50, close: 37, high: 51, low: 35 },
+          { open: 37, close: 49, high: 51, low: 36, label: 'Bounce!' },
+          { open: 49, close: 58, high: 60, low: 47 },
+          { open: 58, close: 38, high: 59, low: 35 },
+          { open: 38, close: 52, high: 54, low: 36, highlight: true, label: '🚀' }
+        ]
+      },
+      {
+        topic: 'Lesson 4 • Resistance (Bouncy Ceiling)',
+        title: () => 'Bonk! The Bouncy Ceiling (Resistance)!',
+        teachText: (name) => `Now look at the red line at the top! That is RESISTANCE! When price jumps up and bonks its head on the ceiling, it falls back down!`,
+        tryPrompt: 'Price just bonked the Red Ceiling twice and turned red! What should we press?',
+        choices: [
+          { label: '🛝 SELL (Go Down)', correct: true },
+          { label: '🚀 BUY (Go Up)', correct: false },
+          { label: '🎈 Fly Above Ceiling', correct: false }
+        ],
+        explainWhy: 'Resistance acts like a strong ceiling that pushes price back down when buyers get tired!',
+        resistanceLevel: 70,
+        candles: [
+          { open: 45, close: 58, high: 60, low: 44 },
+          { open: 58, close: 69, high: 70, low: 57, label: 'Bonk!' },
+          { open: 69, close: 55, high: 70, low: 53 },
+          { open: 55, close: 68, high: 70, low: 54, label: 'Bonk!' },
+          { open: 68, close: 56, high: 69, low: 54, highlight: true }
+        ]
+      },
+      {
+        topic: 'Lesson 5 • ICC Super Strategy!',
+        title: () => 'The 3-Step ICC Super Move!',
+        teachText: (name) => `Pro traders love I-C-C! First: I is INDICATION, a big strong push! Second: C is CORRECTION, a tiny rest! Third: C is CONTINUATION, blasting off again!`,
+        tryPrompt: 'Look at the chart: 1. Big Push (I), 2. Tiny Rest (C). What is the 3rd step of ICC?',
+        choices: [
+          { label: '⚡ Continuation (Blast Off!)', correct: true },
+          { label: '🛑 Crash to Zero', correct: false },
+          { label: '🍕 Pizza Break', correct: false }
+        ],
+        explainWhy: 'ICC stands for Indication, Correction, Continuation! After a big move and a small rest, price continues in the same direction!',
+        badgeReward: 'icc_master',
+        candles: [
+          { open: 30, close: 44, high: 45, low: 29, label: '1. I (Push)' },
+          { open: 44, close: 58, high: 60, low: 43 },
+          { open: 58, close: 53, high: 59, low: 51, label: '2. C (Rest)' },
+          { open: 53, close: 50, high: 55, low: 49 },
+          { open: 50, close: 66, high: 68, low: 49, highlight: true, label: '3. C (Go!)' }
+        ]
+      },
+      {
+        topic: 'Lesson 6 • Fakeout Trap!',
+        title: () => 'Watch Out for Sneaky Fakeouts!',
+        teachText: (name) => `Sometimes price pokes above the ceiling for one second, tricks everyone, and dives back down! That is a FAKEOUT trap!`,
+        tryPrompt: 'Price poked above the Red Ceiling, then slammed back below it with a big red candle! What is that?',
+        choices: [
+          { label: '🪤 A Sneaky Fakeout!', correct: true },
+          { label: '🚀 Safe Rocket Launch', correct: false },
+          { label: '🌈 Rainbow Trend', correct: false }
+        ],
+        explainWhy: 'A Fakeout tricks impatient traders! Always wait to see if price stays above the ceiling before buying!',
+        resistanceLevel: 65,
+        candles: [
+          { open: 48, close: 62, high: 64, low: 47 },
+          { open: 62, close: 69, high: 72, low: 61, label: '👀 Trap?' },
+          { open: 69, close: 54, high: 70, low: 52, highlight: true, label: '🪤 Fakeout!' }
+        ]
+      }
+    ];
+
+    // Infinite Procedural Quest Generator once core lessons are done!
+    function generateProceduralLesson(index) {
+      const patterns = ['uptrend', 'downtrend', 'support', 'resistance', 'icc'];
+      const pick = patterns[index % patterns.length];
+      const num = index + 1;
+
+      if (pick === 'uptrend') {
+        return {
+          topic: `Endless Quest #${num} • Trend Detective`,
+          title: (name) => `Spot the Trend, ${name}!`,
+          teachText: (name) => `Look closely at the purple trendline under the candles! They are climbing higher and higher!`,
+          tryPrompt: 'The purple trendline is pointing UP! Which button wins this trade?',
+          choices: [
+            { label: '🚀 BUY (Up)', correct: true },
+            { label: '🛝 SELL (Down)', correct: false },
+            { label: '❌ Do Nothing', correct: false }
+          ],
+          explainWhy: 'The candles are bouncing higher along the upward trendline, so BUY is the winning move!',
+          trendline: { startIdx: 0, endIdx: 5, type: 'up' },
+          candles: [
+            { open: 25, close: 34, high: 36, low: 24 },
+            { open: 34, close: 31, high: 35, low: 29 },
+            { open: 31, close: 44, high: 46, low: 30 },
+            { open: 44, close: 40, high: 45, low: 38 },
+            { open: 40, close: 54, high: 56, low: 39 },
+            { open: 54, close: 63, high: 65, low: 52, highlight: true }
+          ]
+        };
+      } else if (pick === 'downtrend') {
+        return {
+          topic: `Endless Quest #${num} • Slide Detector`,
+          title: () => 'Downward Slide Alert!',
+          teachText: (name) => `These red candles are sliding down step by step under the purple trendline!`,
+          tryPrompt: 'Price is sliding down! Should we BUY or SELL?',
+          choices: [
+            { label: '🛝 SELL (Down)', correct: true },
+            { label: '🚀 BUY (Up)', correct: false },
+            { label: '🎈 Wait for Moon', correct: false }
+          ],
+          explainWhy: 'In a downtrend, lower highs push price downward, so SELL wins!',
+          trendline: { startIdx: 0, endIdx: 5, type: 'down' },
+          candles: [
+            { open: 75, close: 66, high: 77, low: 64 },
+            { open: 66, close: 70, high: 72, low: 65 },
+            { open: 70, close: 56, high: 71, low: 54 },
+            { open: 56, close: 60, high: 62, low: 55 },
+            { open: 60, close: 45, high: 61, low: 43 },
+            { open: 45, close: 36, high: 46, low: 34, highlight: true }
+          ]
+        };
+      } else if (pick === 'support') {
+        return {
+          topic: `Endless Quest #${num} • Trampoline Bounce`,
+          title: () => 'Support Floor Bounce!',
+          teachText: (name) => `Price just touched the Green Support Floor and printed a bright green bounce candle!`,
+          tryPrompt: 'We see a green bounce right off Support! What is your move?',
+          choices: [
+            { label: '🚀 BUY the Bounce!', correct: true },
+            { label: '🛝 SELL at the Bottom', correct: false },
+            { label: '🙈 Look Away', correct: false }
+          ],
+          explainWhy: 'Buying right after a green confirmation candle off Support lets you ride the bounce up!',
+          supportLevel: 30,
+          candles: [
+            { open: 58, close: 46, high: 60, low: 45 },
+            { open: 46, close: 32, high: 47, low: 30 },
+            { open: 32, close: 44, high: 46, low: 31 },
+            { open: 44, close: 33, high: 45, low: 30 },
+            { open: 33, close: 48, high: 50, low: 32, highlight: true, label: 'Bounce!' }
+          ]
+        };
+      } else if (pick === 'resistance') {
+        return {
+          topic: `Endless Quest #${num} • Ceiling Bonk`,
+          title: () => 'Resistance Ceiling Test!',
+          teachText: (name) => `Price hit the Red Resistance Ceiling and could not break through!`,
+          tryPrompt: 'Price rejected the Red Ceiling with a red candle! What do we do?',
+          choices: [
+            { label: '🛝 SELL (Go Down)', correct: true },
+            { label: '🚀 BUY into Ceiling', correct: false },
+            { label: '🎲 Guess Randomly', correct: false }
+          ],
+          explainWhy: 'Resistance blocks price from going higher, so sellers push it back down!',
+          resistanceLevel: 72,
+          candles: [
+            { open: 48, close: 62, high: 63, low: 47 },
+            { open: 62, close: 71, high: 72, low: 61 },
+            { open: 71, close: 58, high: 72, low: 57 },
+            { open: 58, close: 70, high: 72, low: 57 },
+            { open: 70, close: 56, high: 71, low: 55, highlight: true, label: 'Bonk!' }
+          ]
+        };
+      } else {
+        return {
+          topic: `Endless Quest #${num} • ICC Master`,
+          title: () => 'Spot the ICC Setup!',
+          teachText: (name) => `Big strong push (Indication), tiny pullback rest (Correction), now ready for Continuation!`,
+          tryPrompt: 'After Indication and Correction, which way does Continuation go?',
+          choices: [
+            { label: '⚡ Same Way as the Big Push!', correct: true },
+            { label: '↩️ Backwards Forever', correct: false },
+            { label: '🌀 Sideways Circle', correct: false }
+          ],
+          explainWhy: 'ICC continues in the direction of the strong Indication move after resting!',
+          candles: [
+            { open: 28, close: 45, high: 46, low: 27, label: 'I' },
+            { open: 45, close: 62, high: 64, low: 44 },
+            { open: 62, close: 57, high: 63, low: 55, label: 'C' },
+            { open: 57, close: 55, high: 58, low: 54 },
+            { open: 55, close: 70, high: 72, low: 54, highlight: true, label: 'C!' }
+          ]
+        };
+      }
+    }
+
+    let currentQuest = null;
+    let questPhase = 'teach'; // 'teach' | 'try' | 'feedback'
+    let autoAdvanceInterval = null;
+    let lastFeedbackSpeech = '';
+
+    function getLessonByIndex(idx) {
+      if (idx < CORE_LESSONS.length) return CORE_LESSONS[idx];
+      return generateProceduralLesson(idx);
+    }
+
+    function loadQuestActivity(idx) {
+      clearInterval(autoAdvanceInterval);
+      currentQuest = getLessonByIndex(idx);
+      questPhase = 'teach';
+
+      document.getElementById('questStepBadge').textContent = 'Step 1 of 3: Watch & Listen';
+      document.getElementById('questStepBadge').className = 'bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm';
+      document.getElementById('questTopicTag').textContent = currentQuest.topic;
+      document.getElementById('questMascotIcon').textContent = appState.avatar;
+      document.getElementById('questTitle').textContent = currentQuest.title(appState.name);
+      document.getElementById('questPrompt').textContent = currentQuest.teachText(appState.name);
+      document.getElementById('questCanvasHint').textContent = '👀 Look at the chart picture, then tap "Let Me Try!"';
+
+      document.getElementById('questTeachActions').classList.remove('hidden');
+      document.getElementById('questChoiceButtons').classList.add('hidden');
+      document.getElementById('questFeedbackBox').classList.add('hidden');
+
+      drawQuestCanvas();
+
+      if (appState.autoRead) {
+        speakText(currentQuest.teachText(appState.name), 'questSpeakBtn');
+      }
+    }
+
+    function advanceQuestToTry() {
+      playTone('click');
+      questPhase = 'try';
+      document.getElementById('questStepBadge').textContent = 'Step 2 of 3: Your Turn!';
+      document.getElementById('questStepBadge').className = 'bg-sky-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
+      document.getElementById('questPrompt').textContent = currentQuest.tryPrompt;
+      document.getElementById('questCanvasHint').textContent = '👇 Pick the best answer below!';
+
+      document.getElementById('questTeachActions').classList.add('hidden');
+      const choicesEl = document.getElementById('questChoiceButtons');
+      choicesEl.classList.remove('hidden');
+
+      // Shuffle choices gently while preserving correctness
+      const shuffled = [...currentQuest.choices].sort(() => Math.random() - 0.5);
+      choicesEl.innerHTML = shuffled.map((ch, i) => `
+        <button onclick="submitQuestAnswer(${ch.correct}, this)"
+          class="btn-game bg-indigo-500 hover:bg-indigo-600 text-white font-display font-bold text-lg sm:text-xl py-4 px-4 rounded-2xl">
+          ${ch.label}
+        </button>
+      `).join('');
+
+      if (appState.autoRead) {
+        speakText(currentQuest.tryPrompt, 'questSpeakBtn');
+      }
+    }
+
+    function submitQuestAnswer(isCorrect, btnEl) {
+      if (questPhase === 'feedback') return;
+      questPhase = 'feedback';
+
+      // Disable all choice buttons
+      document.querySelectorAll('#questChoiceButtons button').forEach(b => b.disabled = true);
+
+      const fbBox = document.getElementById('questFeedbackBox');
+      const fbEmoji = document.getElementById('questFeedbackEmoji');
+      const fbHead = document.getElementById('questFeedbackHeading');
+      const fbText = document.getElementById('questFeedbackText');
+
+      fbBox.classList.remove('hidden');
+      document.getElementById('questStepBadge').textContent = 'Step 3 of 3: Why It Works';
+      document.getElementById('questStepBadge').className = 'bg-emerald-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
+
+      if (isCorrect) {
+        playTone('win');
+        fireConfetti();
+        btnEl.classList.remove('bg-indigo-500');
+        btnEl.classList.add('bg-emerald-500');
+        appState.streak += 1;
+        addXP(25);
+        unlockBadge('first_step');
+        if (appState.streak >= 3) unlockBadge('streak_3');
+        if (currentQuest.badgeReward) unlockBadge(currentQuest.badgeReward);
+
+        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
+        fbEmoji.textContent = '🎉';
+        fbHead.textContent = `Way to go, ${appState.name}! +25 XP!`;
+        fbText.textContent = currentQuest.explainWhy;
+        lastFeedbackSpeech = `Way to go ${appState.name}! ${currentQuest.explainWhy}`;
+      } else {
+        playTone('oops');
+        btnEl.classList.remove('bg-indigo-500');
+        btnEl.classList.add('bg-rose-500');
+        appState.streak = 0;
+        addXP(5); // Participation XP so 8yo never feels defeated!
+
+        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-amber-50 border-amber-400 text-amber-950';
+        fbEmoji.textContent = '💡';
+        fbHead.textContent = `Good try, ${appState.name}! Here's the secret:`;
+        fbText.textContent = currentQuest.explainWhy;
+        lastFeedbackSpeech = `Good try ${appState.name}! Here is why: ${currentQuest.explainWhy}`;
+      }
+
+      if (appState.autoRead) {
+        speakText(lastFeedbackSpeech);
+      }
+
+      // Start 6-second Automatic Advance Countdown
+      let remainingMs = 6000;
+      const totalMs = 6000;
+      document.getElementById('autoAdvanceBar').style.width = '100%';
+      document.getElementById('autoAdvanceTimerText').textContent = '6s';
+
+      clearInterval(autoAdvanceInterval);
+      autoAdvanceInterval = setInterval(() => {
+        remainingMs -= 100;
+        const pct = Math.max(0, (remainingMs / totalMs) * 100);
+        document.getElementById('autoAdvanceBar').style.width = `${pct}%`;
+        document.getElementById('autoAdvanceTimerText').textContent = `${Math.ceil(remainingMs / 1000)}s`;
+        if (remainingMs <= 0) {
+          clearInterval(autoAdvanceInterval);
+          loadNextQuestActivity();
+        }
+      }, 100);
+    }
+
+    function loadNextQuestActivity() {
+      playTone('click');
+      clearInterval(autoAdvanceInterval);
+      appState.questIndex += 1;
+      saveState();
+      loadQuestActivity(appState.questIndex);
+    }
+
+    function speakQuestCurrent() {
+      if (!currentQuest) return;
+      const txt = questPhase === 'teach'
+        ? currentQuest.teachText(appState.name)
+        : questPhase === 'try'
+          ? currentQuest.tryPrompt
+          : lastFeedbackSpeech;
+      speakText(txt, 'questSpeakBtn');
+    }
+
+    function speakFeedback() {
+      if (lastFeedbackSpeech) speakText(lastFeedbackSpeech);
+    }
+
+    function drawQuestCanvas() {
+      const canvas = document.getElementById('questCanvas');
+      if (!canvas || !currentQuest) return;
+      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
+      drawCandlesOnCanvas(ctx, width, height, currentQuest.candles, {
+        supportLevel: currentQuest.supportLevel,
+        resistanceLevel: currentQuest.resistanceLevel,
+        trendline: currentQuest.trendline
+      });
+    }
+
+    /* =========================================================================
+       5. TAB 2: LIVE CHART PLAYGROUND & TRADE SIMULATOR
+       ========================================================================= */
+    let simCandles = [];
+    let simTimer = null;
+    let simPlaying = true;
+    let simTickCount = 0;
+    let activePosition = null; // { side: 'BUY'|'SELL', entryPrice: number, entryIdx: number, shares: 10 }
+
+    function initSimChart() {
+      simCandles = [];
+      let price = 100;
+      for (let i = 0; i < 18; i++) {
+        const change = (Math.random() - 0.48) * 3.2;
+        const open = price;
+        const close = +(price + change).toFixed(2);
+        const high = +(Math.max(open, close) + Math.random() * 1.8).toFixed(2);
+        const low = +(Math.min(open, close) - Math.random() * 1.8).toFixed(2);
+        simCandles.push({ open, close, high, low });
+        price = close;
+      }
+      simTickCount = 0;
+      updateSimPriceDisplay();
+      drawSimChart();
+      startSimLoop();
+    }
+
+    function startSimLoop() {
+      clearInterval(simTimer);
+      simTimer = setInterval(() => {
+        if (simPlaying && !document.getElementById('view-playground').classList.contains('hidden')) {
+          stepSimCandle(true);
+        }
+      }, 1500);
+    }
+
+    function toggleSimPlay() {
+      playTone('click');
+      simPlaying = !simPlaying;
+      document.getElementById('btnSimPlayPause').textContent = simPlaying ? '⏸️ Pause' : '▶️ Play';
+    }
+
+    function changeSimMarketMode() {
+      playTone('click');
+      const mode = document.getElementById('simMarketMode').value;
+      const labels = {
+        uptrend: 'Uptrend mode! Watch price climb higher stairs!',
+        downtrend: 'Downtrend mode! Watch price slide down!',
+        sideways: 'Sideways mode! Price bounces between the Floor and Ceiling!',
+        icc: 'ICC Setup! Watch for Indication, Correction, and Continuation!',
+        random: 'Surprise market! Anything can happen!'
+      };
+      if (appState.autoRead) speakText(labels[mode]);
+    }
+
+    function stepSimCandle(isAuto = false) {
+      if (!isAuto) playTone('click');
+      const mode = document.getElementById('simMarketMode').value;
+      const last = simCandles[simCandles.length - 1];
+      let open = last.close;
+      let drift = 0;
+      let label = null;
+
+      simTickCount++;
+
+      if (mode === 'uptrend') {
+        drift = (simTickCount % 4 === 0) ? -1.4 : 1.7;
+      } else if (mode === 'downtrend') {
+        drift = (simTickCount % 4 === 0) ? 1.4 : -1.7;
+      } else if (mode === 'sideways') {
+        if (open > 112) drift = -2.6;
+        else if (open < 92) drift = 2.6;
+        else drift = (Math.random() - 0.5) * 3.5;
+      } else if (mode === 'icc') {
+        const phase = simTickCount % 6;
+        if (phase === 1 || phase === 2) { drift = 2.8; if (phase === 1) label = 'I'; }
+        else if (phase === 3 || phase === 4) { drift = -1.1; if (phase === 3) label = 'C'; }
+        else { drift = 2.9; if (phase === 5) label = 'C!'; }
+      } else {
+        drift = (Math.random() - 0.49) * 3.6;
+      }
+
+      const noise = (Math.random() - 0.5) * 1.4;
+      const close = Math.max(20, +(open + drift + noise).toFixed(2));
+      const high = +(Math.max(open, close) + Math.random() * 1.5).toFixed(2);
+      const low = +(Math.min(open, close) - Math.random() * 1.5).toFixed(2);
+
+      simCandles.push({ open, close, high, low, label });
+      if (simCandles.length > 26) {
+        simCandles.shift();
+        if (activePosition && activePosition.entryIdx > 0) {
+          activePosition.entryIdx -= 1;
+        }
+      }
+
+      updateSimPriceDisplay();
+      updateLivePnL();
+      drawSimChart();
+    }
+
+    function updateSimPriceDisplay() {
+      const last = simCandles[simCandles.length - 1];
+      if (last) {
+        document.getElementById('simCurrentPrice').textContent = last.close.toFixed(2);
+      }
+    }
+
+    function openSimTrade(side) {
+      if (activePosition) {
+        closeSimTrade();
+      }
+      playTone('click');
+      const last = simCandles[simCandles.length - 1];
+      activePosition = {
+        side,
+        entryPrice: last.close,
+        entryIdx: simCandles.length - 1,
+        multiplier: 50 // $50 per $1 price move so kid sees exciting dollars!
+      };
+
+      document.getElementById('btnSimClose').disabled = false;
+      document.getElementById('activeTradeStatus').textContent =
+        side === 'BUY' ? `🚀 BOUGHT (UP) @ $${last.close.toFixed(2)}` : `🛝 SOLD (DOWN) @ $${last.close.toFixed(2)}`;
+      document.getElementById('activeTradeHint').textContent = 'Generating new candles... watch your money move!';
+
+      if (appState.autoRead) {
+        speakText(side === 'BUY'
+          ? `You pressed BUY! Let's watch if new candles climb UP!`
+          : `You pressed SELL! Let's watch if new candles slide DOWN!`);
+      }
+
+      // Immediately generate 1 candle and ensure chart is playing so he sees action right away!
+      simPlaying = true;
+      document.getElementById('btnSimPlayPause').textContent = '⏸️ Pause';
+      stepSimCandle(true);
+      drawSimChart();
+    }
+
+    function updateLivePnL() {
+      if (!activePosition) return;
+      const current = simCandles[simCandles.length - 1].close;
+      const diff = activePosition.side === 'BUY'
+        ? (current - activePosition.entryPrice)
+        : (activePosition.entryPrice - current);
+      const pnl = +(diff * activePosition.multiplier).toFixed(2);
+
+      const card = document.getElementById('activeTradeCard');
+      const pnlEl = document.getElementById('activeTradePnl');
+      pnlEl.textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`;
+
+      if (pnl >= 0) {
+        card.className = 'rounded-2xl p-4 bg-emerald-50 border-2 border-emerald-400 text-center transition-all';
+        pnlEl.className = 'font-display font-bold text-3xl text-emerald-600 mt-1';
+      } else {
+        card.className = 'rounded-2xl p-4 bg-rose-50 border-2 border-rose-400 text-center transition-all';
+        pnlEl.className = 'font-display font-bold text-3xl text-rose-600 mt-1';
+      }
+    }
+
+    function closeSimTrade() {
+      if (!activePosition) return;
+      const current = simCandles[simCandles.length - 1].close;
+      const diff = activePosition.side === 'BUY'
+        ? (current - activePosition.entryPrice)
+        : (activePosition.entryPrice - current);
+      const pnl = Math.round(diff * activePosition.multiplier);
+
+      appState.balance = Math.max(100, appState.balance + pnl);
+      appState.tradeHistory.unshift({
+        side: activePosition.side,
+        entry: activePosition.entryPrice.toFixed(2),
+        exit: current.toFixed(2),
+        pnl
+      });
+      if (appState.tradeHistory.length > 15) appState.tradeHistory.pop();
+
+      if (pnl > 0) {
+        playTone('coin');
+        fireConfetti();
+        addXP(20);
+        unlockBadge('profit_maker');
+        if (appState.autoRead) speakText(`Woohoo! You cashed out with plus ${pnl} dollars profit!`);
+      } else {
+        playTone('oops');
+        if (appState.autoRead) speakText(`Trade closed! Good practice watching the candles, ${appState.name}!`);
+      }
+
+      activePosition = null;
+      document.getElementById('btnSimClose').disabled = true;
+      document.getElementById('activeTradeCard').className = 'rounded-2xl p-4 bg-slate-100 border-2 border-slate-200 text-center';
+      document.getElementById('activeTradeStatus').textContent = 'No Active Trade';
+      document.getElementById('activeTradePnl').textContent = '$0.00';
+      document.getElementById('activeTradePnl').className = 'font-display font-bold text-3xl text-slate-400 mt-1';
+      document.getElementById('activeTradeHint').textContent = 'Watch the chart, then press BUY or SELL!';
+
+      saveState();
+      renderTradeHistory();
+      drawSimChart();
+    }
+
+    function renderTradeHistory() {
+      const list = document.getElementById('tradeHistoryList');
+      if (appState.tradeHistory.length === 0) {
+        list.innerHTML = `<div class="text-center text-xs font-bold text-slate-400 py-6 bg-slate-50 rounded-2xl">No trades yet! Make your first prediction!</div>`;
+        return;
+      }
+      list.innerHTML = appState.tradeHistory.map(t => `
+        <div class="flex items-center justify-between px-3 py-2 rounded-xl border ${t.pnl >= 0 ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'} text-xs font-extrabold">
+          <span>${t.side === 'BUY' ? '🚀 BUY' : '🛝 SELL'} ($${t.entry} → $${t.exit})</span>
+          <span class="${t.pnl >= 0 ? 'text-emerald-600' : 'text-rose-600'}">${t.pnl >= 0 ? '+' : ''}$${t.pnl}</span>
+        </div>
+      `).join('');
+    }
+
+    function resetDemoAccount() {
+      playTone('click');
+      activePosition = null;
+      appState.balance = 10000;
+      appState.tradeHistory = [];
+      document.getElementById('btnSimClose').disabled = true;
+      document.getElementById('activeTradeStatus').textContent = 'No Active Trade';
+      document.getElementById('activeTradePnl').textContent = '$0.00';
+      saveState();
+      renderTradeHistory();
+      initSimChart();
+      if (appState.autoRead) speakText('Fresh start! Your pretend cash is back to ten thousand dollars!');
+    }
+
+    function speakPlaygroundTip() {
+      const mode = document.getElementById('simMarketMode').value;
+      const tips = {
+        uptrend: 'Look for tiny red dips in the uptrend, then press BUY when a green candle appears!',
+        downtrend: 'Price is making lower steps! Press SELL when a red candle pushes down!',
+        sideways: 'Wait for price to touch the green floor to BUY, or the red ceiling to SELL!',
+        icc: 'Wait for the big push, then the small rest, then press BUY on the third step!',
+        random: 'Look at the green floor and red ceiling lines to spot where price might bounce!'
+      };
+      speakText(tips[mode]);
+    }
+
+    function drawSimChart() {
+      const canvas = document.getElementById('simCanvas');
+      if (!canvas || simCandles.length === 0) return;
+      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
+
+      const lows = simCandles.map(c => c.low);
+      const highs = simCandles.map(c => c.high);
+      const minL = Math.min(...lows);
+      const maxH = Math.max(...highs);
+
+      const showSR = document.getElementById('chkShowSR').checked;
+      const showTrend = document.getElementById('chkShowTrend').checked;
+      const showICC = document.getElementById('chkShowICC').checked;
+
+      const displayCandles = simCandles.map(c => ({
+        ...c,
+        label: showICC ? c.label : null
+      }));
+
+      const trendType = simCandles[simCandles.length - 1].close >= simCandles[0].close ? 'up' : 'down';
+
+      drawCandlesOnCanvas(ctx, width, height, displayCandles, {
+        supportLevel: showSR ? minL : undefined,
+        resistanceLevel: showSR ? maxH : undefined,
+        trendline: showTrend && simCandles.length >= 6 ? { startIdx: 0, endIdx: simCandles.length - 1, type: trendType } : undefined,
+        entryMarker: activePosition ? { idx: activePosition.entryIdx, price: activePosition.entryPrice } : undefined
+      });
+    }
+
+    /* =========================================================================
+       6. TAB 3: REVERSAL TRAINER (PATIENCE & TIMING CHALLENGE)
+       ========================================================================= */
+    let reversalState = {
+      type: 'bottom', // 'bottom' (bullish bounce) or 'top' (bearish drop)
+      candles: [],
+      step: 0,
+      locked: false,
+      lastSpeech: ''
+    };
+
+    function startNewReversalRound() {
+      playTone('click');
+      const isBottom = Math.random() > 0.45;
+      reversalState.type = isBottom ? 'bottom' : 'top';
+      reversalState.step = 0;
+      reversalState.locked = false;
+
+      document.getElementById('reversalResultBox').classList.add('hidden');
+      document.getElementById('btnReversalEnter').disabled = false;
+      document.getElementById('btnReversalWait').disabled = false;
+
+      if (isBottom) {
+        reversalState.candles = [
+          { open: 72, close: 64, high: 74, low: 62 },
+          { open: 64, close: 54, high: 65, low: 52 },
+          { open: 54, close: 44, high: 55, low: 43 }
+        ];
+        document.getElementById('reversalInstruction').textContent =
+          'Price is falling toward the Green Trampoline Floor (35)! Wait for a BIG GREEN bounce candle before pressing BUY!';
+        document.getElementById('btnReversalEnterLabel').textContent = 'JUMP IN NOW (BUY)!';
+        document.getElementById('reversalPhaseBadge').textContent = 'Step 1: Falling Fast...';
+      } else {
+        reversalState.candles = [
+          { open: 30, close: 39, high: 41, low: 29 },
+          { open: 39, close: 49, high: 51, low: 38 },
+          { open: 49, close: 59, high: 61, low: 48 }
+        ];
+        document.getElementById('reversalInstruction').textContent =
+          'Price is flying up toward the Red Bouncy Ceiling (70)! Wait for a BIG RED drop candle before pressing SELL!';
+        document.getElementById('btnReversalEnterLabel').textContent = 'JUMP IN NOW (SELL)!';
+        document.getElementById('reversalPhaseBadge').textContent = 'Step 1: Flying Up...';
+      }
+
+      drawReversalCanvas();
+      if (appState.autoRead) speakReversalIntro();
+    }
+
+    function speakReversalIntro() {
+      speakText(document.getElementById('reversalInstruction').textContent);
+    }
+
+    function stepReversalCandle() {
+      if (reversalState.locked) return;
+      playTone('click');
+      reversalState.step += 1;
+
+      if (reversalState.type === 'bottom') {
+        if (reversalState.step === 1) {
+          // Still falling right onto floor - DANGER ZONE!
+          reversalState.candles.push({ open: 44, close: 36, high: 45, low: 35, label: '⚠️ Still Red!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 2: Touching Floor (No Bounce Yet!)';
+        } else if (reversalState.step === 2) {
+          // PERFECT CONFIRMATION CANDLE!
+          reversalState.candles.push({ open: 36, close: 48, high: 50, low: 35, highlight: true, label: '✅ Green Bounce!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 3: GREEN BOUNCE CONFIRMED!';
+        } else {
+          // TOO LATE - already rocketed!
+          reversalState.candles.push({ open: 48, close: 64, high: 66, low: 47, label: '🚀 Already Gone!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 4: Already Skyrocketed!';
+        }
+      } else {
+        if (reversalState.step === 1) {
+          reversalState.candles.push({ open: 59, close: 69, high: 70, low: 58, label: '⚠️ Still Green!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 2: Touching Ceiling (No Drop Yet!)';
+        } else if (reversalState.step === 2) {
+          reversalState.candles.push({ open: 69, close: 56, high: 70, low: 54, highlight: true, label: '✅ Red Drop!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 3: RED REJECTION CONFIRMED!';
+        } else {
+          reversalState.candles.push({ open: 56, close: 40, high: 57, low: 38, label: '🛝 Already Dropped!' });
+          document.getElementById('reversalPhaseBadge').textContent = 'Step 4: Already Slid Down!';
+        }
+      }
+
+      drawReversalCanvas();
+      if (reversalState.step >= 3) {
+        triggerReversalEntry(true);
+      }
+    }
+
+    function triggerReversalEntry(timedOut = false) {
+      if (reversalState.locked) return;
+      reversalState.locked = true;
+      document.getElementById('btnReversalEnter').disabled = true;
+      document.getElementById('btnReversalWait').disabled = true;
+
+      const box = document.getElementById('reversalResultBox');
+      const emoji = document.getElementById('reversalResultEmoji');
+      const title = document.getElementById('reversalResultTitle');
+      const desc = document.getElementById('reversalResultDesc');
+      const tip = document.getElementById('reversalLessonTip');
+      box.classList.remove('hidden');
+
+      const isBottom = reversalState.type === 'bottom';
+
+      if (reversalState.step < 2) {
+        // ENTERED BEFORE REVERSAL!
+        playTone('oops');
+        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-rose-50 border-rose-400 text-rose-950';
+        emoji.textContent = '🚨';
+        title.textContent = 'TOO EARLY! You Entered BEFORE the Reversal!';
+        desc.textContent = isBottom
+          ? `Price was still falling with red candles! Trying to catch a falling knife is risky because price might smash right through the floor!`
+          : `Price was still shooting up with green candles! Jumping in before a red candle appears can get you run over!`;
+        tip.textContent = isBottom
+          ? '👀 What to wait for: Wait until you see a BIG GREEN bounce candle off the floor!'
+          : '👀 What to wait for: Wait until you see a BIG RED drop candle off the ceiling!';
+        reversalState.lastSpeech = `${title.textContent} ${desc.textContent} ${tip.textContent}`;
+      } else if (reversalState.step === 2 && !timedOut) {
+        // PERFECT TIMING!
+        playTone('win');
+        fireConfetti();
+        addXP(35);
+        unlockBadge('patient_ninja');
+        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
+        emoji.textContent = '🥷';
+        title.textContent = `BULLSEYE! Perfect Patience, ${appState.name}! +35 XP!`;
+        desc.textContent = isBottom
+          ? `You waited for the big GREEN confirmation candle to bounce off the Support Floor before buying! That is how pro traders stay safe!`
+          : `You waited for the big RED confirmation candle to reject the Resistance Ceiling before selling! Awesome discipline!`;
+        tip.textContent = '🏆 Pro Habit Unlocked: Confirm the bounce first, then jump in!';
+        reversalState.lastSpeech = `Bullseye! Perfect patience ${appState.name}! ${desc.textContent}`;
+      } else {
+        // TOO LATE!
+        playTone('oops');
+        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-amber-50 border-amber-400 text-amber-950';
+        emoji.textContent = '🐢';
+        title.textContent = 'A Little Too Late! The Rocket Already Left!';
+        desc.textContent = `You waited past the confirmation candle, so most of the big move already happened!`;
+        tip.textContent = isBottom
+          ? '⚡ Next time: Jump in right as soon as the FIRST big green bounce candle closes!'
+          : '⚡ Next time: Jump in right as soon as the FIRST big red drop candle closes!';
+        reversalState.lastSpeech = `${title.textContent} ${desc.textContent} ${tip.textContent}`;
+      }
+
+      drawReversalCanvas();
+      if (appState.autoRead) speakReversalResult();
+    }
+
+    function speakReversalResult() {
+      if (reversalState.lastSpeech) speakText(reversalState.lastSpeech);
+    }
+
+    function drawReversalCanvas() {
+      const canvas = document.getElementById('reversalCanvas');
+      if (!canvas) return;
+      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
+      const isBottom = reversalState.type === 'bottom';
+      drawCandlesOnCanvas(ctx, width, height, reversalState.candles, {
+        supportLevel: isBottom ? 35 : undefined,
+        resistanceLevel: !isBottom ? 70 : undefined,
+        extraLevels: isBottom ? [32, 75] : [28, 73]
+      });
+    }
+
+    /* =========================================================================
+       7. TAB 4: PICTURE-BASED VISUAL ACADEMY (FLASHCARDS)
+       ========================================================================= */
+    const ACADEMY_CARDS = [
+      {
+        title: '🟢 Bullish Green Candle',
+        tag: 'Basic Power',
+        speech: 'A Bullish Green Candle means buyers won the battle and pushed price UP from bottom to top!',
+        summary: 'Starts low, finishes HIGH! Buyers are strong!',
+        candles: [
+          { open: 35, close: 65, high: 72, low: 30, highlight: true, label: 'Close High!' }
+        ]
+      },
+      {
+        title: '🔴 Bearish Red Candle',
+        tag: 'Basic Power',
+        speech: 'A Bearish Red Candle means sellers pushed price DOWN from top to bottom!',
+        summary: 'Starts high, finishes LOW! Sellers are in charge!',
+        candles: [
+          { open: 65, close: 35, high: 70, low: 28, highlight: true, label: 'Close Low!' }
+        ]
+      },
+      {
+        title: '🟩 Support (Trampoline Floor)',
+        tag: 'Key Zone',
+        speech: 'Support is like a trampoline floor! When price drops to this level, buyers bounce it right back up!',
+        summary: 'Price bounces UP whenever it touches this floor.',
+        supportLevel: 35,
+        candles: [
+          { open: 55, close: 37, high: 56, low: 35 },
+          { open: 37, close: 52, high: 54, low: 36, label: 'Bounce!' },
+          { open: 52, close: 36, high: 53, low: 35 },
+          { open: 36, close: 55, high: 57, low: 35, highlight: true }
+        ]
+      },
+      {
+        title: '🟥 Resistance (Bouncy Ceiling)',
+        tag: 'Key Zone',
+        speech: 'Resistance is like a hard ceiling! Price jumps up, bonks its head, and falls back down!',
+        summary: 'Price bonks its head and drops back down.',
+        resistanceLevel: 68,
+        candles: [
+          { open: 45, close: 66, high: 68, low: 44 },
+          { open: 66, close: 50, high: 67, low: 49, label: 'Bonk!' },
+          { open: 50, close: 67, high: 68, low: 49 },
+          { open: 67, close: 48, high: 68, low: 47, highlight: true }
+        ]
+      },
+      {
+        title: '⚡ ICC Strategy (3 Steps)',
+        tag: 'Super Strategy',
+        speech: 'I C C stands for Indication, Correction, Continuation! Big push, tiny rest, then blast off again!',
+        summary: '1. Indication (Push) → 2. Correction (Rest) → 3. Continuation (Go!)',
+        candles: [
+          { open: 28, close: 52, high: 54, low: 27, label: '1. I' },
+          { open: 52, close: 46, high: 53, low: 45, label: '2. C' },
+          { open: 46, close: 68, high: 70, low: 45, highlight: true, label: '3. C!' }
+        ]
+      },
+      {
+        title: '🪤 Breakout vs. Fakeout',
+        tag: 'Trap Shield',
+        speech: 'A real Breakout blasts through the ceiling and stays above! A Fakeout pokes above for a second and falls right back inside!',
+        summary: 'Wait to see if price stays outside the line before jumping in!',
+        resistanceLevel: 60,
+        candles: [
+          { open: 45, close: 58, high: 59, low: 44 },
+          { open: 58, close: 65, high: 68, low: 57, label: 'Poke!' },
+          { open: 65, close: 46, high: 66, low: 45, highlight: true, label: 'Fakeout!' }
+        ]
+      }
+    ];
+
+    function renderAcademyCards() {
+      const grid = document.getElementById('academyCardsGrid');
+      grid.innerHTML = ACADEMY_CARDS.map((card, i) => `
+        <div class="bg-slate-50 rounded-3xl p-4 border-2 border-purple-200 flex flex-col justify-between shadow-sm hover:shadow-md transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-extrabold uppercase bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full">${card.tag}</span>
+              <button onclick="speakAcademyCard(${i})"
+                class="btn-game bg-amber-400 text-amber-950 font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1">
+                <span>🔊</span> <span>Listen</span>
+              </button>
+            </div>
+            <h3 class="font-display font-bold text-xl text-slate-800 mb-2">${card.title}</h3>
+            <div class="rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-900 mb-3">
+              <canvas id="academyCanvas-${i}" class="w-full block" style="height: 170px;"></canvas>
+            </div>
+          </div>
+          <p class="text-sm font-extrabold text-slate-700 bg-white p-3 rounded-2xl border border-slate-200">
+            ${card.summary}
+          </p>
+        </div>
+      `).join('');
+
+      // Draw each card's custom canvas
+      ACADEMY_CARDS.forEach((card, i) => {
+        const canvas = document.getElementById(`academyCanvas-${i}`);
+        if (canvas) {
+          const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
+          drawCandlesOnCanvas(ctx, width, height, card.candles, {
+            supportLevel: card.supportLevel,
+            resistanceLevel: card.resistanceLevel,
+            padTop: 26,
+            padBottom: 20
+          });
+        }
+      });
+    }
+
+    function speakAcademyCard(index) {
+      playTone('click');
+      speakText(ACADEMY_CARDS[index].speech);
+    }
+
+    /* =========================================================================
+       8. CONFETTI CELEBRATION & TAB NAVIGATION
+       ========================================================================= */
+    let confettiParticles = [];
+    function fireConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#facc15', '#10b981', '#3b82f6', '#ec4899', '#a855f7'];
+      for (let i = 0; i < 65; i++) {
+        confettiParticles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 14,
+          vy: (Math.random() - 0.85) * 15,
+          size: Math.random() * 8 + 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          life: 80
+        });
+      }
+      requestAnimationFrame(updateConfetti);
+    }
+
+    function updateConfetti() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettiParticles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.45;
+        p.life -= 1;
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+      });
+      confettiParticles = confettiParticles.filter(p => p.life > 0);
+      if (confettiParticles.length > 0) requestAnimationFrame(updateConfetti);
+    }
+
+    function switchTab(tabName) {
+      playTone('click');
+      const tabs = ['journey', 'playground', 'reversal', 'academy'];
+      tabs.forEach(t => {
+        const view = document.getElementById(`view-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabName) {
+          view.classList.remove('hidden');
+          btn.className = 'tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-indigo-600 text-white';
+        } else {
+          view.classList.add('hidden');
+          btn.className = 'tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200';
+        }
+      });
+
+      // Redraw active canvas to ensure crisp responsive sizing
+      if (tabName === 'journey') drawQuestCanvas();
+      if (tabName === 'playground') drawSimChart();
+      if (tabName === 'reversal') {
+        if (reversalState.candles.length === 0) startNewReversalRound();
+        else drawReversalCanvas();
+      }
+      if (tabName === 'academy') renderAcademyCards();
+    }
+
+    /* =========================================================================
+       9. BOOTSTRAP ON WINDOW LOAD
+       ========================================================================= */
+    window.addEventListener('resize', () => {
+      drawQuestCanvas();
+      drawSimChart();
+      drawReversalCanvas();
+      if (!document.getElementById('view-academy').classList.contains('hidden')) {
+        renderAcademyCards();
+      }
+    });
+
+    window.onload = function () {
+      updateHUD();
+      renderBadges();
+      renderTradeHistory();
+      initSimChart();
+      startNewReversalRound();
+      loadQuestActivity(appState.questIndex);
+    };
+  </script>
 </body>
 </html>
