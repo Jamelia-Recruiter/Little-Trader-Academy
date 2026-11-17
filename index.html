@@ -1,2923 +1,711 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Candlestick Quest: Kid Trader Academy</title>
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Kid-Friendly Rounded Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --font-display: 'Fredoka', cursive, sans-serif;
-      --font-body: 'Nunito', sans-serif;
-    }
-    body {
-      font-family: var(--font-body);
-      background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 50%, #fef9c3 100%);
-      min-height: 100vh;
-      overflow-x: hidden;
-      user-select: none;
-    }
-    h1, h2, h3, .font-display {
-      font-family: var(--font-display);
-    }
-    /* Tactile 3D Game Buttons */
-    .btn-game {
-      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.15s ease;
-      box-shadow: 0 5px 0 rgba(0, 0, 0, 0.2);
-    }
-    .btn-game:hover:not(:disabled) {
-      filter: brightness(1.05);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.22);
-    }
-    .btn-game:active:not(:disabled) {
-      transform: translateY(4px);
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-    }
-    .btn-game:disabled {
-      opacity: 0.55;
-      cursor: not-allowed;
-    }
-    /* Pulse animation for Read Aloud speaker */
-    @keyframes speakerPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.12); }
-    }
-    .speaking-pulse {
-      animation: speakerPulse 0.8s infinite ease-in-out;
-      background-color: #f59e0b !important;
-      color: white !important;
-    }
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 8px; height: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.4); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb { background: #a855f7; border-radius: 999px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candlestick Quest: Kid Trader Academy</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts: Poppins & Fredoka -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', 'Fredoka', sans-serif; }
+        .fredoka { font-family: 'Fredoka', cursive, sans-serif; }
+        .candle-shadow { filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3)); }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(59, 130, 246, 0.6); }
+            50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.9); }
+        }
+        .pulse-card { animation: pulse-glow 3s infinite; }
+    </style>
 </head>
-<body class="text-slate-800 pb-12">
+<body class="bg-slate-950 text-white min-h-screen flex flex-col selection:bg-amber-400 selection:text-black">
 
-  <!-- Confetti Overlay Canvas -->
-  <canvas id="confettiCanvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
-
-  <!-- Profile Customization Modal -->
-  <div id="profileModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-md w-full p-6 border-4 border-indigo-400 shadow-2xl transform transition-all">
-      <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-display font-bold text-indigo-700">🦸 Trader Hero Setup</h2>
-        <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold px-2">&times;</button>
-      </div>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-1">Hero Name</label>
-          <input id="inputHeroName" type="text" maxlength="16" placeholder="e.g. Trader Ace"
-            class="w-full px-4 py-3 rounded-2xl border-2 border-indigo-200 focus:border-indigo-500 outline-none text-lg font-bold text-indigo-900" />
-        </div>
-        <div>
-          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-1">Age</label>
-          <input id="inputHeroAge" type="number" min="5" max="16" value="8"
-            class="w-full px-4 py-3 rounded-2xl border-2 border-indigo-200 focus:border-indigo-500 outline-none text-lg font-bold text-indigo-900" />
-        </div>
-        <div>
-          <label class="block text-sm font-extrabold text-slate-600 uppercase tracking-wider mb-2">Pick Your Mascot</label>
-          <div id="avatarPicker" class="grid grid-cols-5 gap-2">
-            <!-- Populated by JS -->
-          </div>
-        </div>
-        <div class="pt-2 flex gap-3">
-          <button onclick="saveProfile()" class="flex-1 btn-game bg-emerald-500 text-white font-display text-xl py-3 rounded-2xl font-bold">
-            Let's Go! 🚀
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Top Navigation & Hero HUD -->
-  <header class="bg-white/90 backdrop-blur-md border-b-4 border-indigo-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2">
-      <!-- Brand + Hero Badge -->
-      <div class="flex items-center gap-3">
-        <button onclick="openProfileModal()" title="Edit Hero Profile"
-          class="flex items-center gap-2.5 bg-indigo-50 hover:bg-indigo-100 border-2 border-indigo-300 rounded-2xl px-3 py-1.5 transition">
-          <span id="hudAvatar" class="text-3xl">🦁</span>
-          <div class="text-left leading-tight">
-            <div class="flex items-center gap-1.5">
-              <span id="hudName" class="font-display font-bold text-indigo-800 text-base sm:text-lg">Trader Ace</span>
-              <span class="text-xs bg-indigo-600 text-white px-2 py-0.5 rounded-full font-bold">Age <span id="hudAge">8</span></span>
-            </div>
-            <div class="text-xs font-extrabold text-amber-600">
-              Level <span id="hudLevel">1</span> • <span id="hudXP">0</span> XP
-            </div>
-          </div>
-        </button>
-      </div>
-
-      <!-- XP Progress Bar (Hidden on very small screens) -->
-      <div class="hidden md:flex flex-col flex-1 max-w-xs mx-2">
-        <div class="flex justify-between text-xs font-extrabold text-slate-500 mb-1">
-          <span>Quest Progress</span>
-          <span id="hudStreak">🔥 0 Streak</span>
-        </div>
-        <div class="w-full h-3.5 bg-slate-200 rounded-full overflow-hidden p-0.5">
-          <div id="hudXpBar" class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-500" style="width: 15%"></div>
-        </div>
-      </div>
-
-      <!-- Audio Controls & Demo Wallet -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <!-- Auto-Read Toggle -->
-        <button id="btnAutoRead" onclick="toggleAutoRead()"
-          class="btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sky-500 text-white"
-          title="Automatically read questions out loud">
-          <span>🗣️</span>
-          <span id="autoReadLabel">Auto-Voice: ON</span>
-        </button>
-
-        <!-- Sound FX Mute Toggle -->
-        <button id="btnSfx" onclick="toggleSfx()"
-          class="btn-game px-3 py-2 rounded-2xl font-bold text-sm bg-purple-100 text-purple-800 border-2 border-purple-300"
-          title="Toggle Sound Effects">
-          🔊
-        </button>
-
-        <!-- Pretend Cash Balance -->
-        <div class="bg-emerald-50 border-2 border-emerald-400 rounded-2xl px-3 py-1.5 text-right">
-          <div class="text-[10px] font-extrabold uppercase text-emerald-700 leading-none">Play Cash</div>
-          <div id="hudBalance" class="font-display font-bold text-emerald-600 text-base sm:text-lg leading-tight">$10,000</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4 Big Colorful Mode Tabs -->
-    <nav class="max-w-7xl mx-auto px-3 sm:px-6 pb-2.5 pt-1 grid grid-cols-2 sm:grid-cols-4 gap-2">
-      <button onclick="switchTab('journey')" id="tab-journey"
-        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-indigo-600 text-white">
-        <span>📅</span> <span>1. Daily Quest</span>
-      </button>
-      <button onclick="switchTab('playground')" id="tab-playground"
-        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
-        <span>📈</span> <span>2. Live Chart</span>
-      </button>
-      <button onclick="switchTab('reversal')" id="tab-reversal"
-        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
-        <span>⏱️</span> <span>3. Reversal Trap</span>
-      </button>
-      <button onclick="switchTab('academy')" id="tab-academy"
-        class="tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200">
-        <span>🖼️</span> <span>4. Picture Cards</span>
-      </button>
-    </nav>
-  </header>
-
-  <!-- Main Content Area -->
-  <main class="max-w-7xl mx-auto px-3 sm:px-6 pt-5">
-
-    <!-- ========================================================= -->
-    <!-- TAB 1: DAILY CALENDAR & PHASE MASTERY JOURNEY             -->
-    <!-- ========================================================= -->
-    <section id="view-journey" class="space-y-5">
-
-      <!-- Daily Motivational Quote Banner (Every Day, Never-Ending, Read-Aloud) -->
-      <div class="bg-gradient-to-r from-amber-300 via-yellow-200 to-orange-200 rounded-3xl p-4 sm:p-5 border-4 border-amber-400 shadow-md flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-start sm:items-center gap-3 flex-1">
-          <span class="text-4xl shrink-0">🌟</span>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <span id="quoteDateBadge" class="bg-amber-900 text-amber-100 text-xs font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                November 16 • Daily Spark
-              </span>
-              <span class="text-xs font-extrabold text-amber-900 uppercase tracking-wide">Motivational Quote of the Day</span>
-            </div>
-            <p id="dailyQuoteText" class="font-display text-lg sm:text-xl font-bold text-amber-950 mt-1 leading-snug">
-              "Every obstacle is a stepping stone destined to take you someplace greater in life!"
-            </p>
-          </div>
-        </div>
-        <button id="btnSpeakQuote" onclick="speakDailyQuote()"
-          class="btn-game bg-white hover:bg-amber-50 text-amber-950 border-2 border-amber-500 font-display font-bold px-4 py-2.5 rounded-2xl flex items-center gap-2 shrink-0">
-          <span class="text-lg">🔊</span> <span>Hear Quote</span>
-        </button>
-      </div>
-
-      <!-- Phase Mastery Roadmap Bar (Locked until previous phase is mastered!) -->
-      <div class="bg-white rounded-3xl p-4 sm:p-5 border-4 border-purple-300 shadow-md">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <h3 class="font-display font-bold text-lg sm:text-xl text-purple-950">🎓 Trader Belt & Phase Mastery</h3>
-          <span id="phaseMasterySummary" class="text-xs font-extrabold bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-            Master Phase 1 to unlock Phase 2!
-          </span>
-        </div>
-        <div id="phaseCardsRow" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <!-- Populated dynamically by renderPhaseBar() -->
-        </div>
-      </div>
-
-      <!-- Visual Monthly Daily Challenge Calendar (November 1-30 & Never-Ending Months) -->
-      <div class="bg-white rounded-3xl p-4 sm:p-5 border-4 border-sky-300 shadow-md">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
-          <div class="flex items-center gap-2">
-            <button onclick="changeCalendarMonth(-1)" class="btn-game bg-sky-100 text-sky-900 font-bold px-3 py-1.5 rounded-xl border border-sky-300">◀</button>
-            <h3 id="calendarMonthTitle" class="font-display font-bold text-xl text-sky-950 px-2">November 2026</h3>
-            <button onclick="changeCalendarMonth(1)" class="btn-game bg-sky-100 text-sky-900 font-bold px-3 py-1.5 rounded-xl border border-sky-300">▶</button>
-          </div>
-          <div class="flex items-center gap-2 text-xs font-extrabold">
-            <span class="bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full">⭐ = Day Mastered</span>
-            <span class="bg-amber-100 text-amber-800 px-2.5 py-1 rounded-full">🎯 = Selected Day</span>
-          </div>
-        </div>
-        <!-- Weekday Headers -->
-        <div class="grid grid-cols-7 gap-1.5 text-center text-xs font-extrabold text-slate-400 mb-1.5">
-          <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-        </div>
-        <!-- Calendar Days Grid -->
-        <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1.5 sm:gap-2">
-          <!-- Populated by renderCalendar() -->
-        </div>
-      </div>
-
-      <!-- Focused Bite-Sized Daily Mission Card (1 Topic Per Day — No Brain Cramming!) -->
-      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-indigo-300 shadow-lg">
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <div class="flex flex-wrap items-center gap-2">
-            <span id="questDatePill" class="bg-indigo-600 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm">
-              📅 November 16 Mission
-            </span>
-            <span id="questStepBadge" class="bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm">
-              Stage 1: Spot & Learn
-            </span>
-            <span id="questTopicTag" class="bg-indigo-100 text-indigo-800 font-extrabold px-3 py-1 rounded-full text-xs uppercase">
-              Phase 1 • Beginner
-            </span>
-          </div>
-          <!-- Prominent Read Aloud Button -->
-          <button id="questSpeakBtn" onclick="speakQuestCurrent()"
-            class="btn-game bg-amber-400 hover:bg-amber-500 text-amber-950 font-display font-bold px-4 py-2 rounded-2xl flex items-center gap-2 text-base">
-            <span class="text-xl">📢</span> <span>Read To Me!</span>
-          </button>
-        </div>
-
-        <!-- Stage Tracker & 10-Question Progress Dots -->
-        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-2.5 mb-4 flex flex-wrap items-center justify-between gap-2">
-          <div class="flex items-center gap-1.5 text-xs font-extrabold">
-            <span id="stagePill-learn" class="px-2.5 py-1 rounded-xl bg-indigo-600 text-white">1. Visual Guide</span>
-            <span class="text-slate-400">➔</span>
-            <span id="stagePill-quiz" class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600">2. 10-Q Quiz</span>
-            <span class="text-slate-400">➔</span>
-            <span id="stagePill-sim" class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600">3. Live TP/SL Trade</span>
-          </div>
-          <div id="quizDotsRow" class="flex items-center gap-1 flex-wrap">
-            <!-- 10 Progress Dots populated by JS -->
-          </div>
-          <div id="quizScoreBadge" class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-xl">
-            Score: 0 / 10
-          </div>
-        </div>
-
-        <!-- Big Kid-Friendly Instruction Banner -->
-        <div class="bg-indigo-50 rounded-2xl p-4 border-2 border-indigo-200 mb-4 flex items-start gap-3">
-          <span id="questMascotIcon" class="text-4xl shrink-0">🦁</span>
-          <div class="flex-1">
-            <h2 id="questTitle" class="font-display text-xl sm:text-2xl font-bold text-indigo-900 mb-1">
-              Green Bulls vs. Red Bears!
-            </h2>
-            <p id="questPrompt" class="text-base sm:text-lg font-bold text-slate-700 leading-snug">
-              Tap each candle button below to see how it forms before your 10-question challenge!
-            </p>
-          </div>
-        </div>
-
-        <!-- Stage 1 Specimen Selector Strip ("Spot & Learn" before the 10-Q Quiz) -->
-        <div id="specimenSelectorRow" class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-3">
-          <!-- Populated dynamically with clickable candle/pattern examples -->
-        </div>
-
-        <!-- Interactive Chart Canvas Picture & Post-Quiz Live Simulation -->
-        <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-inner">
-          <canvas id="questCanvas" class="w-full block cursor-pointer" style="height: 330px;"></canvas>
-          <div id="questCanvasHint" class="absolute bottom-3 left-3 bg-slate-800/90 text-amber-300 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border border-slate-600 pointer-events-none">
-            👀 Look at the picture!
-          </div>
-          <!-- Live Floating PnL Badge for Stage 3 Post-Quiz Simulation -->
-          <div id="questSimLiveHud" class="hidden absolute top-3 right-3 bg-slate-800/95 border-2 border-slate-600 px-3.5 py-2 rounded-2xl text-right">
-            <div class="text-[10px] font-extrabold uppercase text-slate-400">Live Setup PnL</div>
-            <div id="questSimPnlText" class="font-display font-bold text-xl text-emerald-400">$0.00</div>
-          </div>
-        </div>
-
-        <!-- Interactive Action Area -->
-        <div id="questControlsArea" class="mt-5">
-          <!-- Stage 1: Ready for 10-Question Quiz Button -->
-          <div id="questTeachActions" class="flex flex-wrap justify-center gap-3">
-            <button onclick="startDailyTenQuestionQuiz()"
-              class="btn-game bg-emerald-500 text-white font-display font-bold text-xl px-8 py-3.5 rounded-2xl flex items-center gap-2">
-              <span>🎯</span> <span>Start 10-Question Quiz!</span>
-            </button>
-          </div>
-
-          <!-- Stage 2: 10-Question Interactive Choice Buttons -->
-          <div id="questChoiceButtons" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <!-- Dynamically injected answer buttons -->
-          </div>
-
-          <!-- Stage 2 Per-Question Instant Feedback -->
-          <div id="questQuizFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <div class="flex items-start gap-3 flex-1">
-                <span id="questQuizFeedbackEmoji" class="text-4xl">🌟</span>
+    <!-- TOP APP HEADER -->
+    <header class="bg-slate-900 border-b border-slate-800 p-4 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-gradient-to-tr from-amber-500 to-yellow-300 rounded-2xl flex items-center justify-center text-2xl shadow-md transform rotate-3">
+                    🦁
+                </div>
                 <div>
-                  <h3 id="questQuizFeedbackHeading" class="font-display text-xl font-bold">Awesome!</h3>
-                  <p id="questQuizFeedbackText" class="font-bold text-base mt-0.5"></p>
+                    <h1 class="fredoka text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-400 via-yellow-200 to-emerald-400 bg-clip-text text-transparent">
+                        Candlestick Quest
+                    </h1>
+                    <p class="text-xs text-slate-400">Kid Trader Academy • Never-Ending Learning</p>
                 </div>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <button onclick="speakFeedback()" class="btn-game bg-white/90 text-slate-800 px-3 py-2 rounded-xl font-bold text-sm border border-slate-300">
-                  🔊 Hear Why
-                </button>
-                <button id="btnNextQuizQuestion" onclick="nextDailyQuizQuestion()" class="btn-game bg-indigo-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">
-                  Next Question ➡️
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Stage 3: Post-Quiz Real-Time Chart Mission Controls (SL / TP + BUY / SELL) -->
-          <div id="questSimControls" class="hidden space-y-4">
-            <!-- SL & TP Interactive Sliders -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-2xl border-2 border-slate-200">
-              <div class="bg-emerald-50 border border-emerald-300 rounded-xl p-3">
-                <div class="flex justify-between items-center text-xs font-extrabold text-emerald-900 mb-1">
-                  <span>🎯 TAKE-PROFIT TARGET (TP)</span>
-                  <span id="questTpValLabel" class="bg-emerald-600 text-white px-2 py-0.5 rounded-full">+$300</span>
-                </div>
-                <input id="questTpSlider" type="range" min="6" max="24" value="14" oninput="updateQuestSlTpLines()"
-                  class="w-full accent-emerald-600 cursor-pointer" />
-                <div class="text-[11px] font-bold text-emerald-700 mt-0.5">Slide to set where you collect your trophy cash!</div>
-              </div>
-
-              <div class="bg-rose-50 border border-rose-300 rounded-xl p-3">
-                <div class="flex justify-between items-center text-xs font-extrabold text-rose-900 mb-1">
-                  <span>🛡️ STOP-LOSS SHIELD (SL)</span>
-                  <span id="questSlValLabel" class="bg-rose-600 text-white px-2 py-0.5 rounded-full">-$150</span>
-                </div>
-                <input id="questSlSlider" type="range" min="5" max="18" value="8" oninput="updateQuestSlTpLines()"
-                  class="w-full accent-rose-600 cursor-pointer" />
-                <div class="text-[11px] font-bold text-rose-700 mt-0.5">Slide to set your safety shield in case price tricks us!</div>
-              </div>
             </div>
 
-            <!-- Big BUY / SELL Execution Buttons -->
-            <div id="questSimTradeBtns" class="grid grid-cols-2 gap-3">
-              <button onclick="executeQuestSimTrade('BUY')"
-                class="btn-game bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold py-4 px-3 rounded-2xl text-xl flex flex-col items-center leading-tight">
-                <span>🚀 BUY (Price Goes UP)</span>
-                <span class="text-xs font-sans font-extrabold opacity-90">Watch live candles form!</span>
-              </button>
-              <button onclick="executeQuestSimTrade('SELL')"
-                class="btn-game bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-4 px-3 rounded-2xl text-xl flex flex-col items-center leading-tight">
-                <span>🛝 SELL (Price Goes DOWN)</span>
-                <span class="text-xs font-sans font-extrabold opacity-90">Watch live candles form!</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Final Daily Wrap-Up Box after Post-Quiz Simulation Completes -->
-          <div id="questFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <div class="flex items-start gap-3 flex-1">
-                <span id="questFeedbackEmoji" class="text-4xl">🏆</span>
+            <!-- Profile & Stats Pill -->
+            <div class="flex items-center gap-3 bg-slate-800/80 border border-slate-700 px-4 py-2 rounded-2xl shadow-inner">
+                <div id="avatarDisplay" class="text-2xl cursor-pointer" onclick="openProfileModal()">👦🏽</div>
                 <div>
-                  <h3 id="questFeedbackHeading" class="font-display text-xl font-bold">Daily Mission & Live Chart Mastered!</h3>
-                  <p id="questFeedbackText" class="font-bold text-base mt-0.5"></p>
+                    <div class="flex items-center gap-2">
+                        <span id="userNameDisplay" class="fredoka font-bold text-amber-300 text-sm">Saunie</span>
+                        <span id="userBeltBadge" class="bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-500/30">Beginner Belt</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-slate-300">
+                        <span>⭐ <strong id="starCount" class="text-yellow-400">0</strong> Stars</span>
+                        <span>🏆 <strong id="streakCount" class="text-emerald-400">1</strong> Day Streak</span>
+                    </div>
                 </div>
-              </div>
-              <div class="flex flex-wrap items-center gap-2">
-                <button onclick="speakFeedback()" class="btn-game bg-white/90 text-slate-800 px-3 py-2 rounded-xl font-bold text-sm border border-slate-300">
-                  🔊 Hear Recap
+                <button onclick="speakText('Welcome back ' + state.user.name + '! Ready for today\'s trading mission?')" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl text-xs transition transform hover:scale-105 shadow" title="Voice Coach">
+                    🔊
                 </button>
-                <button onclick="replayQuestLiveSim()" class="btn-game bg-sky-500 text-white font-display font-bold px-4 py-2.5 rounded-xl">
-                  🔄 Replay Chart
-                </button>
-                <button id="btnQuestRetryOrNext" onclick="advanceToNextCalendarDay()" class="btn-game bg-indigo-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">
-                  Next Day ➡️
-                </button>
-              </div>
             </div>
-          </div>
         </div>
-      </div>
+    </header>
 
-      <!-- Unlocked Badges Strip -->
-      <div class="bg-white/90 rounded-3xl p-4 border-2 border-amber-300 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="font-display font-bold text-amber-800 text-lg">🏆 Your Trophy Shelf</h3>
-          <span id="badgeCountText" class="text-xs font-extrabold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">0 / 6 Unlocked</span>
-        </div>
-        <div id="badgesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5">
-          <!-- Populated by JS -->
-        </div>
-      </div>
-    </section>
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-6xl mx-auto w-full p-4 md:p-6 flex-1 flex flex-col gap-6">
 
-    <!-- ========================================================= -->
-    <!-- TAB 2: LIVE CHART PLAYGROUND & TRADE SIMULATOR            -->
-    <!-- ========================================================= -->
-    <section id="view-playground" class="hidden space-y-4">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <!-- Left/Main 2 Columns: Live Chart & Trade Buttons -->
-        <div class="lg:col-span-2 bg-white rounded-3xl p-4 sm:p-5 border-4 border-sky-300 shadow-lg space-y-3">
-          <!-- Top Chart Toolbar -->
-          <div class="flex flex-wrap items-center justify-between gap-2">
-            <div class="flex flex-wrap items-center gap-1.5">
-              <span class="font-display font-bold text-slate-700 text-sm mr-1">Market:</span>
-              <select id="simMarketMode" onchange="changeSimMarketMode()"
-                class="bg-sky-100 border-2 border-sky-300 text-sky-900 font-extrabold text-sm rounded-xl px-3 py-1.5 outline-none">
-                <option value="uptrend">🚀 Uptrend (Going Up)</option>
-                <option value="downtrend">🛝 Downtrend (Going Down)</option>
-                <option value="sideways">🏓 Sideways (Floor & Ceiling)</option>
-                <option value="icc">⚡ ICC Pattern Setup</option>
-                <option value="random">🎲 Surprise Market</option>
-              </select>
-            </div>
-
-            <!-- Play / Pause / Speed -->
-            <div class="flex items-center gap-1.5">
-              <button id="btnSimPlayPause" onclick="toggleSimPlay()"
-                class="btn-game bg-indigo-500 text-white font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">
-                ⏸️ Pause
-              </button>
-              <button onclick="stepSimCandle()"
-                class="btn-game bg-amber-400 text-amber-950 font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl"
-                title="Spawn 1 new candle right now">
-                ➕1 Candle
-              </button>
-              <button onclick="speakPlaygroundTip()"
-                class="btn-game bg-sky-500 text-white font-bold text-xs sm:text-sm px-3 py-1.5 rounded-xl">
-                📢 Hint
-              </button>
-            </div>
-          </div>
-
-          <!-- Helper Drawing Toggles (Kid-friendly X-ray vision!) -->
-          <div class="flex flex-wrap items-center gap-2 text-xs font-extrabold">
-            <span class="text-slate-500">X-Ray Helpers:</span>
-            <label class="flex items-center gap-1.5 bg-emerald-50 border border-emerald-300 px-2.5 py-1 rounded-xl cursor-pointer">
-              <input type="checkbox" id="chkShowSR" checked onchange="drawSimChart()" class="accent-emerald-600">
-              <span class="text-emerald-800">Floor & Ceiling (S/R)</span>
-            </label>
-            <label class="flex items-center gap-1.5 bg-purple-50 border border-purple-300 px-2.5 py-1 rounded-xl cursor-pointer">
-              <input type="checkbox" id="chkShowTrend" checked onchange="drawSimChart()" class="accent-purple-600">
-              <span class="text-purple-800">Trendline</span>
-            </label>
-            <label class="flex items-center gap-1.5 bg-amber-50 border border-amber-300 px-2.5 py-1 rounded-xl cursor-pointer">
-              <input type="checkbox" id="chkShowICC" checked onchange="drawSimChart()" class="accent-amber-600">
-              <span class="text-amber-800">ICC Labels</span>
-            </label>
-          </div>
-
-          <!-- Live Candlestick Canvas -->
-          <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700">
-            <canvas id="simCanvas" class="w-full block" style="height: 330px;"></canvas>
-            <!-- Current Price Pill -->
-            <div class="absolute top-3 left-3 bg-slate-800/90 border border-slate-600 px-3 py-1 rounded-xl text-xs font-extrabold text-white flex items-center gap-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-              <span>Price: $<span id="simCurrentPrice">100.00</span></span>
-            </div>
-          </div>
-
-          <!-- Big Kid-Friendly BUY / SELL / CLOSE Action Controls -->
-          <div class="grid grid-cols-3 gap-3 pt-1">
-            <button id="btnSimBuy" onclick="openSimTrade('BUY')"
-              class="btn-game bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
-              <span>🚀 BUY (UP)</span>
-              <span class="text-[11px] font-sans font-extrabold opacity-90">Price will go UP!</span>
-            </button>
-
-            <button id="btnSimSell" onclick="openSimTrade('SELL')"
-              class="btn-game bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
-              <span>🛝 SELL (DOWN)</span>
-              <span class="text-[11px] font-sans font-extrabold opacity-90">Price will go DOWN!</span>
-            </button>
-
-            <button id="btnSimClose" onclick="closeSimTrade()" disabled
-              class="btn-game bg-amber-400 text-amber-950 font-display font-bold py-3.5 px-2 rounded-2xl text-lg sm:text-xl flex flex-col items-center leading-tight">
-              <span>💰 CASH OUT</span>
-              <span class="text-[11px] font-sans font-extrabold opacity-90">Collect Profit!</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Right Column: Live PnL Scoreboard & Trade History -->
-        <div class="bg-white rounded-3xl p-4 sm:p-5 border-4 border-emerald-300 shadow-lg flex flex-col justify-between space-y-4">
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <h3 class="font-display font-bold text-xl text-slate-800">💼 My Trade Wallet</h3>
-              <button onclick="resetDemoAccount()"
-                class="text-xs font-extrabold bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 px-2.5 py-1.5 rounded-xl border border-slate-300 transition">
-                🔄 Reset $10k
-              </button>
-            </div>
-
-            <!-- Live Position Box -->
-            <div id="activeTradeCard" class="rounded-2xl p-4 bg-slate-100 border-2 border-slate-200 text-center transition-all">
-              <div class="text-xs font-extrabold uppercase text-slate-500">Current Trade</div>
-              <div id="activeTradeStatus" class="font-display font-bold text-lg text-slate-700 mt-0.5">
-                No Active Trade
-              </div>
-              <div id="activeTradePnl" class="font-display font-bold text-3xl text-slate-400 mt-1">
-                $0.00
-              </div>
-              <p id="activeTradeHint" class="text-xs font-bold text-slate-500 mt-1">
-                Watch the chart, then press BUY or SELL!
-              </p>
-            </div>
-
-            <!-- Trade History List -->
-            <div>
-              <h4 class="text-xs font-extrabold uppercase text-slate-500 mb-2">📜 Recent Trades</h4>
-              <div id="tradeHistoryList" class="space-y-2 max-h-56 overflow-y-auto pr-1">
-                <div class="text-center text-xs font-bold text-slate-400 py-6 bg-slate-50 rounded-2xl">
-                  No trades yet! Make your first prediction!
+        <!-- DAILY MOTIVATIONAL BANNER -->
+        <section class="bg-gradient-to-r from-amber-500/10 via-slate-900 to-emerald-500/10 border border-amber-500/30 rounded-3xl p-5 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 text-8xl opacity-10 select-none">💡</div>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="bg-amber-400 text-black text-xs fredoka font-bold px-2.5 py-1 rounded-lg uppercase tracking-wider" id="currentDateBadge">November 1</span>
+                        <span class="text-slate-400 text-xs">• Daily Mindset & Motivation</span>
+                    </div>
+                    <p id="dailyQuoteText" class="fredoka text-lg md:text-xl text-amber-200 font-medium">
+                        "Every obstacle is a stepping stone destined to take you someplace greater in life!"
+                    </p>
                 </div>
-              </div>
+                <button onclick="readDailyQuote()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs fredoka flex items-center gap-2 shadow-lg transition transform hover:scale-105 whitespace-nowrap">
+                    🔊 Read Quote
+                </button>
             </div>
-          </div>
+        </section>
 
-          <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3 text-xs font-bold text-amber-900">
-            💡 <b>Pro Tip:</b> When you click BUY or SELL, new candles form automatically so you can watch your money move!
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- TAB 3: REVERSAL TRAINER (PATIENCE & TIMING CHALLENGE)     -->
-    <!-- ========================================================= -->
-    <section id="view-reversal" class="hidden space-y-4">
-      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-rose-300 shadow-lg">
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-          <div>
-            <span class="bg-rose-100 text-rose-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
-              ⏱️ Reversal Timing Trainer
-            </span>
-            <h2 class="font-display text-2xl font-bold text-slate-800 mt-1">
-              Wait for the Bounce! Don't Jump Too Early!
-            </h2>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="speakReversalIntro()"
-              class="btn-game bg-amber-400 text-amber-950 font-display font-bold px-4 py-2 rounded-2xl flex items-center gap-1.5">
-              <span>📢</span> <span>Read Mission</span>
+        <!-- NAVIGATION TABS -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button onclick="switchTab('calendar')" id="tabBtn-calendar" class="tab-btn bg-slate-900 border-2 border-amber-500 text-amber-400 font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+                📅 November Calendar
             </button>
-            <button onclick="startNewReversalRound()"
-              class="btn-game bg-indigo-600 text-white font-display font-bold px-4 py-2 rounded-2xl">
-              🔄 New Round
+            <button onclick="switchTab('arena')" id="tabBtn-arena" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+                🎮 Live Trading Arena ($<span id="navBalance">10,000</span>)
             </button>
-          </div>
-        </div>
-
-        <!-- Scenario Explanation Box -->
-        <div class="bg-rose-50 border-2 border-rose-200 rounded-2xl p-3.5 mb-4 flex items-center justify-between flex-wrap gap-2">
-          <p id="reversalInstruction" class="font-bold text-rose-950 text-base">
-            Watch price drop toward the Green Trampoline Floor! Wait until you see a BIG GREEN bounce candle before clicking BUY!
-          </p>
-          <span id="reversalPhaseBadge" class="bg-white border-2 border-rose-300 text-rose-700 font-display font-bold px-3 py-1 rounded-xl text-sm">
-            Phase: Approaching Floor...
-          </span>
-        </div>
-
-        <!-- Reversal Canvas -->
-        <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700">
-          <canvas id="reversalCanvas" class="w-full block" style="height: 320px;"></canvas>
-        </div>
-
-        <!-- Action Controls -->
-        <div class="mt-4 flex flex-wrap items-center justify-center gap-4">
-          <button id="btnReversalEnter" onclick="triggerReversalEntry()"
-            class="btn-game bg-emerald-500 text-white font-display font-bold text-xl px-8 py-4 rounded-2xl flex items-center gap-2">
-            <span>🎯</span> <span id="btnReversalEnterLabel">JUMP IN NOW (BUY)!</span>
-          </button>
-          <button id="btnReversalWait" onclick="stepReversalCandle()"
-            class="btn-game bg-sky-500 text-white font-display font-bold text-xl px-8 py-4 rounded-2xl flex items-center gap-2">
-            <span>⏳</span> <span>Wait 1 Candle</span>
-          </button>
-        </div>
-
-        <!-- Detailed Reversal Diagnosis Result -->
-        <div id="reversalResultBox" class="hidden mt-5 rounded-2xl p-5 border-4">
-          <div class="flex flex-wrap items-start justify-between gap-3">
-            <div class="flex items-start gap-3">
-              <span id="reversalResultEmoji" class="text-4xl">🎯</span>
-              <div>
-                <h3 id="reversalResultTitle" class="font-display text-2xl font-bold">Diagnosis</h3>
-                <p id="reversalResultDesc" class="font-bold text-base mt-1"></p>
-                <div id="reversalLessonTip" class="mt-2 inline-block bg-white/80 px-3 py-1.5 rounded-xl text-sm font-extrabold"></div>
-              </div>
-            </div>
-            <button onclick="speakReversalResult()" class="btn-game bg-amber-400 text-amber-950 font-bold px-4 py-2 rounded-xl">
-              🔊 Read Diagnosis
+            <button onclick="switchTab('flashcards')" id="tabBtn-flashcards" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+                🃏 Picture Cards
             </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- TAB 4: PICTURE-BASED VISUAL ACADEMY (FLASHCARDS)          -->
-    <!-- ========================================================= -->
-    <section id="view-academy" class="hidden space-y-4">
-      <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-purple-300 shadow-lg">
-        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-          <div>
-            <h2 class="font-display text-2xl font-bold text-purple-900">🖼️ Picture-Based Trader Cards</h2>
-            <p class="text-sm font-bold text-slate-600">Tap any card's speaker button to hear how the pattern works!</p>
-          </div>
+            <button onclick="switchTab('trophies')" id="tabBtn-trophies" class="tab-btn bg-slate-900 border border-slate-800 text-slate-300 hover:text-white font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-md fredoka text-sm">
+                🏆 Trophies & Belts
+            </button>
         </div>
 
-        <div id="academyCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          <!-- Populated dynamically with custom Canvas drawings -->
-        </div>
-      </div>
-    </section>
+        <!-- TAB CONTENT: CALENDAR & DAILY MISSIONS -->
+        <div id="tabContent-calendar" class="space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+                    <div>
+                        <h2 class="fredoka text-2xl font-bold text-white flex items-center gap-2">
+                            🗓️ November Daily Training Roadmap
+                        </h2>
+                        <p class="text-sm text-slate-400">Complete each day's 3-Step Mission: 1. Spot & Learn → 2. 10-Question Quiz → 3. Live Simulation!</p>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-xl border border-slate-700 text-xs">
+                        <span>Phase: <strong id="currentPhaseLabel" class="text-amber-400">Beginner (Days 1-7)</strong></span>
+                    </div>
+                </div>
 
-  </main>
-
-  <script>
-    /* =========================================================================
-       1. STATE, PERSISTENCE & SOUND / VOICE ENGINE
-       ========================================================================= */
-    const AVATARS = [
-      { id: 'lion', emoji: '🦁', name: 'Leo Lion' },
-      { id: 'rocket', emoji: '🚀', name: 'Astro Rocket' },
-      { id: 'ninja', emoji: '🥷', name: 'Shadow Ninja' },
-      { id: 'unicorn', emoji: '🦄', name: 'Sparkle Unicorn' },
-      { id: 'robot', emoji: '🤖', name: 'Robo Trader' }
-    ];
-
-    const BADGES = [
-      { id: 'first_step', icon: '🌱', title: 'Day 1 Star', desc: 'Complete 1st Daily Mission' },
-      { id: 'streak_3', icon: '🔥', title: '3-Day Streak', desc: 'Master 3 days in a row' },
-      { id: 'phase1_master', icon: '🥋', title: 'Beginner Belt', desc: 'Master Phase 1 Basics' },
-      { id: 'icc_master', icon: '⚡', title: 'ICC Pro', desc: 'Master Phase 2 ICC' },
-      { id: 'discipline_hero', icon: '🛡️', title: 'Risk Shield', desc: 'Master Phase 3 Discipline' },
-      { id: 'profit_maker', icon: '💰', title: 'Green Profit', desc: 'Win a live sim trade' }
-    ];
-
-    const PHASES = [
-      { id: 1, name: 'Phase 1: Beginner', subtitle: 'Candles & Trends', icon: '🌱' },
-      { id: 2, name: 'Phase 2: Intermediate', subtitle: 'Support, Resistance & ICC', icon: '⚡' },
-      { id: 3, name: 'Phase 3: Advanced', subtitle: 'Discipline & Risk Shields', icon: '🛡️' },
-      { id: 4, name: 'Phase 4: Pro Endless', subtitle: 'Infinite Mastery Quests', icon: '👑' }
-    ];
-
-    const DAILY_QUOTES = [
-      "Every obstacle is a stepping stone destined to take you someplace greater in life!",
-      "A champion trader is a student who never stops learning with a smile!",
-      "Small daily progress adds up to giant mountain-sized success!",
-      "Patience is your superpower in the market jungle!",
-      "Mistakes are just data helping you level up your trader brain!"
-    ];
-
-    const DEFAULT_STATE = {
-      name: 'Trader Ace',
-      age: 8,
-      avatar: '🦁',
-      xp: 0,
-      level: 1,
-      streak: 0,
-      balance: 10000,
-      autoRead: true,
-      sfx: true,
-      unlockedPhase: 1, // 1=Beginner, 2=Intermediate, 3=Advanced, 4=Pro Endless
-      completedDays: {}, // e.g. { "2026-11-16": { stars: 3, lessonId: "p1_d1" } }
-      phaseProgress: { 1: 0, 2: 0, 3: 0 }, // count of mastered lessons per phase
-      unlockedBadges: [],
-      tradeHistory: []
-    };
-
-    let appState = loadState();
-
-    function loadState() {
-      try {
-        const saved = localStorage.getItem('candlestick_quest_v2');
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          return {
-            ...DEFAULT_STATE,
-            ...parsed,
-            completedDays: parsed.completedDays || {},
-            phaseProgress: { 1: 0, 2: 0, 3: 0, ...(parsed.phaseProgress || {}) }
-          };
-        }
-      } catch (e) { console.warn('Storage load error', e); }
-      return { ...DEFAULT_STATE };
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem('candlestick_quest_v2', JSON.stringify(appState));
-      } catch (e) { console.warn('Storage save error', e); }
-      updateHUD();
-    }
-
-    // Web Audio API Synthesizer for fun kid sound effects (no external MP3s needed!)
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function playTone(type) {
-      if (!appState.sfx) return;
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      const now = audioCtx.currentTime;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      if (type === 'click') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(520, now);
-        osc.frequency.exponentialRampToValueAtTime(780, now + 0.08);
-        gain.gain.setValueAtTime(0.15, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-        osc.start(now); osc.stop(now + 0.08);
-      } else if (type === 'win') {
-        osc.type = 'triangle';
-        [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
-          osc.frequency.setValueAtTime(freq, now + i * 0.09);
-        });
-        gain.gain.setValueAtTime(0.22, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.42);
-        osc.start(now); osc.stop(now + 0.42);
-      } else if (type === 'oops') {
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(260, now);
-        osc.frequency.linearRampToValueAtTime(180, now + 0.25);
-        gain.gain.setValueAtTime(0.14, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.26);
-        osc.start(now); osc.stop(now + 0.26);
-      } else if (type === 'coin') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(987.77, now);
-        osc.frequency.setValueAtTime(1318.51, now + 0.08);
-        gain.gain.setValueAtTime(0.18, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-        osc.start(now); osc.stop(now + 0.25);
-      }
-    }
-
-    // Read-Aloud Voice Coach using Web Speech API
-    function speakText(text, triggerBtnId = null) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      document.querySelectorAll('.speaking-pulse').forEach(el => el.classList.remove('speaking-pulse'));
-
-      const cleanText = text.replace(/[\u{1F300}-\u{1FAFF}]/gu, ''); // Strip emojis for smooth voice
-      const utter = new SpeechSynthesisUtterance(cleanText);
-      utter.rate = 0.98;
-      utter.pitch = 1.15; // Friendly upbeat voice for an 8-year-old
-
-      const btn = triggerBtnId ? document.getElementById(triggerBtnId) : null;
-      if (btn) btn.classList.add('speaking-pulse');
-      utter.onend = () => { if (btn) btn.classList.remove('speaking-pulse'); };
-      utter.onerror = () => { if (btn) btn.classList.remove('speaking-pulse'); };
-
-      window.speechSynthesis.speak(utter);
-    }
-
-    function toggleAutoRead() {
-      appState.autoRead = !appState.autoRead;
-      playTone('click');
-      saveState();
-      if (appState.autoRead) speakText(`Auto voice is ON, ${appState.name}!`);
-    }
-
-    function toggleSfx() {
-      appState.sfx = !appState.sfx;
-      if (appState.sfx) playTone('click');
-      saveState();
-    }
-
-    function addXP(points) {
-      appState.xp += points;
-      const newLevel = Math.floor(appState.xp / 100) + 1;
-      if (newLevel > appState.level) {
-        appState.level = newLevel;
-        fireConfetti();
-        if (newLevel >= 3) unlockBadge('level_3');
-      }
-      saveState();
-    }
-
-    function unlockBadge(badgeId) {
-      if (!appState.unlockedBadges.includes(badgeId)) {
-        appState.unlockedBadges.push(badgeId);
-        saveState();
-        renderBadges();
-      }
-    }
-
-    function updateHUD() {
-      document.getElementById('hudAvatar').textContent = appState.avatar;
-      document.getElementById('hudName').textContent = appState.name;
-      document.getElementById('hudAge').textContent = appState.age;
-      document.getElementById('hudLevel').textContent = appState.level;
-      document.getElementById('hudXP').textContent = appState.xp;
-      document.getElementById('hudStreak').textContent = `🔥 ${appState.streak} Streak`;
-      document.getElementById('hudXpBar').style.width = `${Math.max(8, appState.xp % 100)}%`;
-      document.getElementById('hudBalance').textContent = `$${appState.balance.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
-      document.getElementById('autoReadLabel').textContent = appState.autoRead ? 'Auto-Voice: ON' : 'Auto-Voice: OFF';
-      document.getElementById('btnAutoRead').className = appState.autoRead
-        ? 'btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-sky-500 text-white'
-        : 'btn-game flex items-center gap-1.5 px-3 py-2 rounded-2xl font-bold text-xs sm:text-sm bg-slate-200 text-slate-600';
-      document.getElementById('btnSfx').textContent = appState.sfx ? '🔊' : '🔇';
-    }
-
-    function renderBadges() {
-      const grid = document.getElementById('badgesGrid');
-      document.getElementById('badgeCountText').textContent = `${appState.unlockedBadges.length} / ${BADGES.length} Unlocked`;
-      grid.innerHTML = BADGES.map(b => {
-        const unlocked = appState.unlockedBadges.includes(b.id);
-        return `
-          <div class="rounded-2xl p-2.5 border-2 flex items-center gap-2.5 transition ${unlocked ? 'bg-amber-50 border-amber-400 shadow-sm' : 'bg-slate-100 border-slate-200 opacity-50 grayscale'}">
-            <span class="text-2xl">${b.icon}</span>
-            <div class="leading-tight">
-              <div class="font-display font-bold text-xs text-slate-800">${b.title}</div>
-              <div class="text-[10px] font-bold text-slate-500">${b.desc}</div>
+                <!-- Calendar Grid (30 Days) -->
+                <div id="calendarGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-10 gap-3">
+                    <!-- Injected dynamically via JS -->
+                </div>
             </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    /* =========================================================================
-       2. PROFILE MODAL
-       ========================================================================= */
-    let selectedModalAvatar = appState.avatar;
-
-    function openProfileModal() {
-      playTone('click');
-      document.getElementById('inputHeroName').value = appState.name;
-      document.getElementById('inputHeroAge').value = appState.age;
-      selectedModalAvatar = appState.avatar;
-      renderAvatarPicker();
-      document.getElementById('profileModal').classList.remove('hidden');
-    }
-
-    function closeProfileModal() {
-      document.getElementById('profileModal').classList.add('hidden');
-    }
-
-    function renderAvatarPicker() {
-      const container = document.getElementById('avatarPicker');
-      container.innerHTML = AVATARS.map(a => `
-        <button type="button" onclick="selectModalAvatar('${a.emoji}')"
-          class="p-2 rounded-2xl border-2 text-3xl flex flex-col items-center transition ${selectedModalAvatar === a.emoji ? 'bg-indigo-100 border-indigo-500 scale-105' : 'bg-slate-50 border-slate-200'}">
-          <span>${a.emoji}</span>
-        </button>
-      `).join('');
-    }
-
-    function selectModalAvatar(emoji) {
-      playTone('click');
-      selectedModalAvatar = emoji;
-      renderAvatarPicker();
-    }
-
-    function saveProfile() {
-      const rawName = document.getElementById('inputHeroName').value.trim();
-      const rawAge = parseInt(document.getElementById('inputHeroAge').value, 10);
-      appState.name = rawName || 'Trader Ace';
-      appState.age = (rawAge >= 4 && rawAge <= 18) ? rawAge : 8;
-      appState.avatar = selectedModalAvatar;
-      saveState();
-      closeProfileModal();
-      playTone('win');
-      speakText(`Awesome ${appState.name}! Ready for today's trading mission?`);
-      loadDailyMissionForDate(selectedDateKey);
-    }
-
-    /* =========================================================================
-       3. SHARED CANDLESTICK RENDERING ENGINE
-       ========================================================================= */
-    function resizeCanvasToDisplaySize(canvas) {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      if (canvas.width !== Math.round(rect.width * dpr) || canvas.height !== Math.round(rect.height * dpr)) {
-        canvas.width = Math.round(rect.width * dpr);
-        canvas.height = Math.round(rect.height * dpr);
-      }
-      const ctx = canvas.getContext('2d');
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      return { width: rect.width, height: rect.height, ctx };
-    }
-
-    function drawCandlesOnCanvas(ctx, width, height, candles, options = {}) {
-      // Dark slate grid background
-      ctx.fillStyle = '#0f172a';
-      ctx.fillRect(0, 0, width, height);
-
-      // Subtle grid lines
-      ctx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
-      ctx.lineWidth = 1;
-      for (let y = 30; y < height; y += 45) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke();
-      }
-      for (let x = 40; x < width; x += 60) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, height); ctx.stroke();
-      }
-
-      if (!candles || candles.length === 0) return null;
-
-      const padTop = options.padTop || 35;
-      const padBottom = options.padBottom || 35;
-      const padLeft = 25;
-      const padRight = 25;
-
-      let minP = Infinity, maxP = -Infinity;
-      candles.forEach(c => {
-        if (c.low < minP) minP = c.low;
-        if (c.high > maxP) maxP = c.high;
-      });
-      if (options.extraLevels) {
-        options.extraLevels.forEach(lvl => {
-          if (lvl < minP) minP = lvl;
-          if (lvl > maxP) maxP = lvl;
-        });
-      }
-      const range = Math.max(1, maxP - minP);
-      const priceToY = (p) => padTop + ((maxP - p) / range) * (height - padTop - padBottom);
-
-      // Optional Support / Resistance Zones
-      if (options.supportLevel !== undefined) {
-        const sy = priceToY(options.supportLevel);
-        ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
-        ctx.fillRect(0, sy - 8, width, 16);
-        ctx.strokeStyle = '#10b981';
-        ctx.setLineDash([6, 4]);
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(width, sy); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#34d399';
-        ctx.font = 'bold 12px Nunito, sans-serif';
-        ctx.fillText('🟩 SUPPORT (Trampoline Floor)', 12, sy - 11);
-      }
-
-      if (options.resistanceLevel !== undefined) {
-        const ry = priceToY(options.resistanceLevel);
-        ctx.fillStyle = 'rgba(244, 63, 94, 0.18)';
-        ctx.fillRect(0, ry - 8, width, 16);
-        ctx.strokeStyle = '#f43f5e';
-        ctx.setLineDash([6, 4]);
-        ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(0, ry); ctx.lineTo(width, ry); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#fb7185';
-        ctx.font = 'bold 12px Nunito, sans-serif';
-        ctx.fillText('🟥 RESISTANCE (Bouncy Ceiling)', 12, ry - 11);
-      }
-
-      // Draw Candlesticks
-      const slotW = (width - padLeft - padRight) / candles.length;
-      const bodyW = Math.max(8, Math.min(28, slotW * 0.62));
-
-      candles.forEach((c, idx) => {
-        const cx = padLeft + slotW * idx + slotW / 2;
-        const yHigh = priceToY(c.high);
-        const yLow = priceToY(c.low);
-        const yOpen = priceToY(c.open);
-        const yClose = priceToY(c.close);
-        const isBull = c.close >= c.open;
-
-        // Wick
-        ctx.strokeStyle = isBull ? '#34d399' : '#fb7185';
-        ctx.lineWidth = 2.5;
-        ctx.beginPath();
-        ctx.moveTo(cx, yHigh);
-        ctx.lineTo(cx, yLow);
-        ctx.stroke();
-
-        // Body
-        const topY = Math.min(yOpen, yClose);
-        const boxH = Math.max(4, Math.abs(yClose - yOpen));
-        ctx.fillStyle = isBull ? '#10b981' : '#f43f5e';
-        ctx.beginPath();
-        ctx.roundRect(cx - bodyW / 2, topY, bodyW, boxH, 4);
-        ctx.fill();
-
-        // Optional Highlight Ring
-        if (c.highlight) {
-          ctx.strokeStyle = '#facc15';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(cx, (yHigh + yLow) / 2, bodyW * 0.95, 0, Math.PI * 2);
-          ctx.stroke();
-        }
-
-        // Optional Label above candle
-        if (c.label) {
-          ctx.fillStyle = '#fde047';
-          ctx.font = 'bold 12px Fredoka, sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText(c.label, cx, yHigh - 10);
-          ctx.textAlign = 'left';
-        }
-      });
-
-      // Optional Take-Profit (TP) Target Line
-      if (options.tpLevel !== undefined) {
-        const tpy = priceToY(options.tpLevel);
-        ctx.fillStyle = 'rgba(16, 185, 129, 0.22)';
-        ctx.fillRect(0, tpy - 7, width, 14);
-        ctx.strokeStyle = '#34d399';
-        ctx.setLineDash([7, 4]);
-        ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(0, tpy); ctx.lineTo(width, tpy); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#6ee7b7';
-        ctx.font = 'bold 12px Fredoka, sans-serif';
-        ctx.fillText(`🎯 TAKE-PROFIT TARGET ($${options.tpLevel.toFixed(1)})`, 12, tpy - 10);
-      }
-
-      // Optional Stop-Loss (SL) Shield Line
-      if (options.slLevel !== undefined) {
-        const sly = priceToY(options.slLevel);
-        ctx.fillStyle = 'rgba(244, 63, 94, 0.22)';
-        ctx.fillRect(0, sly - 7, width, 14);
-        ctx.strokeStyle = '#fb7185';
-        ctx.setLineDash([5, 4]);
-        ctx.lineWidth = 2.5;
-        ctx.beginPath(); ctx.moveTo(0, sly); ctx.lineTo(width, sly); ctx.stroke();
-        ctx.setLineDash([]);
-        ctx.fillStyle = '#fda4af';
-        ctx.font = 'bold 12px Fredoka, sans-serif';
-        ctx.fillText(`🛡️ STOP-LOSS SHIELD ($${options.slLevel.toFixed(1)})`, 12, sly + 16);
-      }
-
-      // Optional Trendline connecting indices
-      if (options.trendline) {
-        const tl = options.trendline;
-        const x1 = padLeft + slotW * tl.startIdx + slotW / 2;
-        const x2 = padLeft + slotW * tl.endIdx + slotW / 2;
-        const y1 = priceToY(tl.type === 'up' ? candles[tl.startIdx].low : candles[tl.startIdx].high);
-        const y2 = priceToY(tl.type === 'up' ? candles[tl.endIdx].low : candles[tl.endIdx].high);
-
-        ctx.strokeStyle = '#c084fc';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-    }
-
-    /* =========================================================================
-       4. TAB 1: DAILY CALENDAR & 3-STAGE MISSION ENGINE
-       ========================================================================= */
-    const PHASE_LESSONS = {
-      1: [
-        {
-          id: 'p1_1',
-          topic: 'Phase 1 • Day 1: All Candlestick Types',
-          title: (name) => `Day 1 Candle Explorer, ${name}!`,
-          teachText: (name) => `Before your 10-question challenge, tap each candle button below to learn how Green Rockets, Red Slides, Dojis, Hammers, and Shooting Stars form!`,
-          specimens: [
-            {
-              btnLabel: '🟢 Green Rocket',
-              explain: 'A Green Bullish Candle opens at the bottom and climbs UP to close high at the top!',
-              candles: [
-                { open: 38, close: 44, high: 46, low: 36 },
-                { open: 44, close: 66, high: 70, low: 42, highlight: true, label: '🟢 Green Rocket!' }
-              ]
-            },
-            {
-              btnLabel: '🔴 Red Slide',
-              explain: 'A Red Bearish Candle opens high at the top and slides DOWN to close low at the bottom!',
-              candles: [
-                { open: 66, close: 58, high: 68, low: 56 },
-                { open: 58, close: 34, high: 60, low: 32, highlight: true, label: '🔴 Red Slide!' }
-              ]
-            },
-            {
-              btnLabel: '➕ Doji (Tie)',
-              explain: 'A Doji looks like a plus sign! Buyers and sellers tied, so open and close are at the exact same spot!',
-              candles: [
-                { open: 40, close: 50, high: 52, low: 39 },
-                { open: 50, close: 50.2, high: 60, low: 40, highlight: true, label: '➕ DOJI (Tie!)' }
-              ]
-            },
-            {
-              btnLabel: '🔨 Hammer',
-              explain: 'A Hammer appears at the bottom with a tiny head and long bottom tail—buyers hammered price back UP!',
-              candles: [
-                { open: 62, close: 48, high: 63, low: 46 },
-                { open: 46, close: 50, high: 51, low: 30, highlight: true, label: '🔨 HAMMER!' }
-              ]
-            },
-            {
-              btnLabel: '🌠 Shooting Star',
-              explain: 'A Shooting Star appears at the top with a long tail pointing UP—buyers got bonked back DOWN!',
-              candles: [
-                { open: 40, close: 55, high: 56, low: 39 },
-                { open: 56, close: 52, high: 72, low: 51, highlight: true, label: '🌠 Shooting Star!' }
-              ]
-            }
-          ],
-          questions: [
-            {
-              prompt: 'Q1/10: Look at the glowing candle! Did buyers push price UP (Green) or DOWN (Red)?',
-              choices: [
-                { label: '🟢 Green Rocket (UP)', correct: true },
-                { label: '🔴 Red Slide (DOWN)', correct: false },
-                { label: '➕ Flat Doji Tie', correct: false }
-              ],
-              explainWhy: 'Green candles open low and close higher at the top—buyers won!',
-              candles: [
-                { open: 40, close: 46, high: 48, low: 39 },
-                { open: 46, close: 65, high: 68, low: 45, highlight: true, label: 'Which Candle?' }
-              ]
-            },
-            {
-              prompt: 'Q2/10: Look at this glowing red candle. Where did it CLOSE?',
-              choices: [
-                { label: '⬇️ Near the Bottom', correct: true },
-                { label: '⬆️ Near the Top', correct: false },
-                { label: '➡️ Dead Center', correct: false }
-              ],
-              explainWhy: 'Red candles open near the top and slide down to close near the bottom!',
-              candles: [
-                { open: 64, close: 58, high: 66, low: 57 },
-                { open: 58, close: 36, high: 60, low: 34, highlight: true, label: 'Red Candle' }
-              ]
-            },
-            {
-              prompt: 'Q3/10: Spot the glowing plus-sign candle! What is its name?',
-              choices: [
-                { label: '➕ Doji Candle', correct: true },
-                { label: '🔨 Hammer Candle', correct: false },
-                { label: '🦖 Engulfing Candle', correct: false }
-              ],
-              explainWhy: 'A Doji has almost no body because open and close tied in the middle!',
-              candles: [
-                { open: 38, close: 49, high: 51, low: 37 },
-                { open: 49, close: 49.2, high: 58, low: 40, highlight: true, label: 'Name Me!' }
-              ]
-            },
-            {
-              prompt: 'Q4/10: When a DOJI candle forms, who won the tug-of-war?',
-              choices: [
-                { label: '⚖️ Nobody—It Was a Tie!', correct: true },
-                { label: '🐂 Green Bulls Crushed It', correct: false },
-                { label: '🐻 Red Bears Crushed It', correct: false }
-              ],
-              explainWhy: 'A Doji shows equal strength from buyers and sellers—a tie game!',
-              candles: [
-                { open: 55, close: 48, high: 56, low: 47 },
-                { open: 48, close: 48.1, high: 56, low: 40, highlight: true, label: '➕ Tie?' }
-              ]
-            },
-            {
-              prompt: 'Q5/10: Look at the bottom candle with a small top head and long bottom handle! What is it?',
-              choices: [
-                { label: '🔨 Hammer Candle', correct: true },
-                { label: '🌠 Shooting Star', correct: false },
-                { label: '➕ Flat Doji', correct: false }
-              ],
-              explainWhy: 'That is a Hammer! Sellers pushed down, but buyers hammered price back up!',
-              candles: [
-                { open: 64, close: 50, high: 65, low: 48 },
-                { open: 48, close: 52, high: 53, low: 30, highlight: true, label: 'Long Bottom Tail!' }
-              ]
-            },
-            {
-              prompt: 'Q6/10: You spot a HAMMER at the bottom of a drop! What direction does it hint price will go next?',
-              choices: [
-                { label: '🚀 Bounce UP!', correct: true },
-                { label: '🕳️ Crash Straight Down', correct: false },
-                { label: '🧊 Freeze Forever', correct: false }
-              ],
-              explainWhy: 'A Hammer at the bottom shows strong buyer rejection—price often bounces UP!',
-              candles: [
-                { open: 60, close: 46, high: 62, low: 45 },
-                { open: 45, close: 49, high: 50, low: 28, highlight: true, label: '🔨 Next Move?' }
-              ]
-            },
-            {
-              prompt: 'Q7/10: Look at the top of the hill! This candle has a long tail pointing UP. What is it?',
-              choices: [
-                { label: '🌠 Shooting Star', correct: true },
-                { label: '🔨 Bottom Hammer', correct: false },
-                { label: '🟢 Giant Rocket', correct: false }
-              ],
-              explainWhy: 'An upside-down hammer at the top is a Shooting Star—buyers got bonked down!',
-              candles: [
-                { open: 36, close: 52, high: 54, low: 35 },
-                { open: 53, close: 49, high: 70, low: 48, highlight: true, label: 'Long Top Tail!' }
-              ]
-            },
-            {
-              prompt: 'Q8/10: When a SHOOTING STAR forms at the top, what usually happens next?',
-              choices: [
-                { label: '🛝 Price Slides DOWN!', correct: true },
-                { label: '🚀 Price Flies Higher', correct: false },
-                { label: '➕ Nothing Moves', correct: false }
-              ],
-              explainWhy: 'The long top wick shows sellers pushed price back down from the top!',
-              candles: [
-                { open: 40, close: 56, high: 57, low: 39 },
-                { open: 57, close: 53, high: 72, low: 52, highlight: true, label: '🌠 Next Move?' }
-              ]
-            },
-            {
-              prompt: 'Q9/10: Look at the giant green candle hugging and swallowing the tiny red candle! What is that?',
-              choices: [
-                { label: '🦖 Bullish Engulfing!', correct: true },
-                { label: '➕ Tiny Doji', correct: false },
-                { label: '🌠 Shooting Star', correct: false }
-              ],
-              explainWhy: 'A Bullish Engulfing candle completely wraps around the previous red candle!',
-              candles: [
-                { open: 55, close: 47, high: 56, low: 46 },
-                { open: 47, close: 43, high: 48, low: 42, label: 'Small' },
-                { open: 41, close: 62, high: 64, low: 40, highlight: true, label: 'Big Hug!' }
-              ]
-            },
-            {
-              prompt: 'Q10/10: FINAL BOSS QUESTION! What do the thin lines (wicks) above and below a candle show?',
-              choices: [
-                { label: '📏 Highest & Lowest Price Reached', correct: true },
-                { label: '🎨 Just Decoration', correct: false },
-                { label: '⏰ Tomorrow’s Weather', correct: false }
-              ],
-              explainWhy: 'Wicks show the highest and lowest spots price visited before the candle closed!',
-              candles: [
-                { open: 45, close: 55, high: 68, low: 32, highlight: true, label: 'Top & Bottom Wicks!' }
-              ]
-            }
-          ],
-          simMission: {
-            introText: (name) => `Live Chart Mission, ${name}! Watch the candles form... look! Price just dropped to the Green Floor and printed a HAMMER! Set your Take-Profit (TP) and Stop-Loss (SL) shields, then click BUY or SELL!`,
-            setupCandles: [
-              { open: 68, close: 60, high: 70, low: 58 },
-              { open: 60, close: 52, high: 61, low: 50 },
-              { open: 52, close: 44, high: 53, low: 42 },
-              { open: 44, close: 38, high: 45, low: 36 }
-            ],
-            triggerCandle: { open: 37, close: 41, high: 42, low: 28, highlight: true, label: '🔨 HAMMER!' },
-            supportLevel: 35,
-            expectedSide: 'BUY',
-            recapWhy: 'The Hammer at the Support Floor showed buyers rejecting lower prices—and the next candles rocketed straight to your Take-Profit target!'
-          }
-        },
-        {
-          id: 'p1_2',
-          topic: 'Phase 1 • Day 2: Market Trends & Staircases',
-          title: (name) => `Day 2 Trend Detective, ${name}!`,
-          teachText: (name) => `Tap the 3 buttons below to explore Uptrends, Downtrends, and Sideways markets before your 10-question challenge!`,
-          specimens: [
-            {
-              btnLabel: '🚀 Uptrend Stairs',
-              explain: 'An Uptrend climbs higher peaks and higher dips going up-right like stairs!',
-              trendline: { startIdx: 0, endIdx: 4, type: 'up' },
-              candles: [
-                { open: 30, close: 40, high: 42, low: 29 },
-                { open: 40, close: 36, high: 41, low: 35 },
-                { open: 36, close: 50, high: 52, low: 35 },
-                { open: 50, close: 45, high: 51, low: 44 },
-                { open: 45, close: 62, high: 64, low: 44, highlight: true, label: 'Higher High!' }
-              ]
-            },
-            {
-              btnLabel: '🛝 Downtrend Slide',
-              explain: 'A Downtrend makes lower peaks and lower bottoms sliding down-right!',
-              trendline: { startIdx: 0, endIdx: 4, type: 'down' },
-              candles: [
-                { open: 65, close: 55, high: 66, low: 54 },
-                { open: 55, close: 59, high: 60, low: 54 },
-                { open: 59, close: 44, high: 60, low: 43 },
-                { open: 44, close: 48, high: 49, low: 43 },
-                { open: 48, close: 32, high: 49, low: 30, highlight: true, label: 'Lower Low!' }
-              ]
-            },
-            {
-              btnLabel: '🏓 Sideways Ping-Pong',
-              explain: 'A Sideways market bounces flat between a floor and ceiling like a ping-pong ball!',
-              supportLevel: 38,
-              resistanceLevel: 58,
-              candles: [
-                { open: 40, close: 56, high: 58, low: 39 },
-                { open: 56, close: 40, high: 57, low: 38 },
-                { open: 40, close: 57, high: 58, low: 39 },
-                { open: 57, close: 41, high: 58, low: 39, highlight: true, label: 'Ping-Pong!' }
-              ]
-            }
-          ],
-          questions: Array.from({ length: 10 }, (_, idx) => {
-            const types = ['up', 'down', 'side'];
-            const t = types[idx % 3];
-            if (t === 'up') {
-              return {
-                prompt: `Q${idx + 1}/10: Price is climbing higher steps to the right! Which trend is this?`,
-                choices: [
-                  { label: '🚀 Uptrend (Going Up)', correct: true },
-                  { label: '🛝 Downtrend (Going Down)', correct: false },
-                  { label: '🏓 Sideways (Flat)', correct: false }
-                ],
-                explainWhy: 'Higher highs and higher lows climbing upward is an Uptrend!',
-                trendline: { startIdx: 0, endIdx: 3, type: 'up' },
-                candles: [
-                  { open: 30 + idx, close: 42 + idx, high: 44 + idx, low: 29 + idx },
-                  { open: 42 + idx, close: 38 + idx, high: 43 + idx, low: 37 + idx },
-                  { open: 38 + idx, close: 54 + idx, high: 56 + idx, low: 37 + idx },
-                  { open: 54 + idx, close: 64 + idx, high: 66 + idx, low: 52 + idx, highlight: true }
-                ]
-              };
-            } else if (t === 'down') {
-              return {
-                prompt: `Q${idx + 1}/10: Price is sliding down lower steps! Which direction should a trend trader look for?`,
-                choices: [
-                  { label: '🛝 SELL (Follow Downtrend)', correct: true },
-                  { label: '🚀 BUY Against the Slide', correct: false },
-                  { label: '🙈 Close Eyes', correct: false }
-                ],
-                explainWhy: 'In a Downtrend, sellers are in control making lower highs and lower lows!',
-                trendline: { startIdx: 0, endIdx: 3, type: 'down' },
-                candles: [
-                  { open: 68, close: 56, high: 70, low: 55 },
-                  { open: 56, close: 60, high: 61, low: 55 },
-                  { open: 60, close: 44, high: 61, low: 43 },
-                  { open: 44, close: 34, high: 45, low: 32, highlight: true }
-                ]
-              };
-            }
-            return {
-              prompt: `Q${idx + 1}/10: Price keeps bouncing flat between the same Floor and Ceiling! What market is this?`,
-              choices: [
-                { label: '🏓 Sideways Range', correct: true },
-                { label: '🚀 Steep Uptrend', correct: false },
-                { label: '🛝 Steep Downtrend', correct: false }
-              ],
-              explainWhy: 'When price moves horizontally between Support and Resistance, it is a Sideways range!',
-              supportLevel: 38,
-              resistanceLevel: 60,
-              candles: [
-                { open: 40, close: 58, high: 60, low: 39 },
-                { open: 58, close: 40, high: 59, low: 38 },
-                { open: 40, close: 59, high: 60, low: 39 },
-                { open: 59, close: 42, high: 60, low: 40, highlight: true }
-              ]
-            };
-          }),
-          simMission: {
-            introText: (name) => `Live Chart Mission, ${name}! Watch this strong Uptrend pull back to the rising purple Trendline and print a green bounce candle! Set your TP & SL, then trade!`,
-            setupCandles: [
-              { open: 30, close: 42, high: 44, low: 29 },
-              { open: 42, close: 38, high: 43, low: 36 },
-              { open: 38, close: 54, high: 56, low: 37 },
-              { open: 54, close: 47, high: 55, low: 45 }
-            ],
-            triggerCandle: { open: 47, close: 55, high: 57, low: 46, highlight: true, label: '🚀 Trend Bounce!' },
-            trendline: { startIdx: 0, endIdx: 4, type: 'up' },
-            expectedSide: 'BUY',
-            recapWhy: 'Price bounced right off the rising trendline in an Uptrend and continued climbing to your Take-Profit!'
-          }
-        }
-      ],
-      2: [
-        {
-          id: 'p2_1',
-          topic: 'Phase 2 • Support, Resistance & ICC',
-          title: (name) => `Phase 2 Strategy Lab, ${name}!`,
-          teachText: (name) => `Tap the 4 strategy buttons below to review Support, Resistance, ICC, and Fakeouts before your 10-question test!`,
-          specimens: [
-            {
-              btnLabel: '🟩 Support Floor',
-              explain: 'Support is a trampoline floor where price bounces UP!',
-              supportLevel: 35,
-              candles: [
-                { open: 56, close: 37, high: 58, low: 35 },
-                { open: 37, close: 54, high: 56, low: 36, highlight: true, label: '🦘 Bounce!' }
-              ]
-            },
-            {
-              btnLabel: '🟥 Resistance Ceiling',
-              explain: 'Resistance is a hard ceiling where price bonks its head and drops DOWN!',
-              resistanceLevel: 68,
-              candles: [
-                { open: 48, close: 66, high: 68, low: 47 },
-                { open: 66, close: 49, high: 68, low: 48, highlight: true, label: 'Bonk!' }
-              ]
-            },
-            {
-              btnLabel: '⚡ ICC 3-Step',
-              explain: 'Indication (big push), Correction (tiny rest), Continuation (blast off again)!',
-              candles: [
-                { open: 28, close: 52, high: 54, low: 27, label: '1. I' },
-                { open: 52, close: 46, high: 53, low: 45, label: '2. C' },
-                { open: 46, close: 68, high: 70, low: 45, highlight: true, label: '3. C!' }
-              ]
-            },
-            {
-              btnLabel: '🪤 Fakeout Trap',
-              explain: 'A Fakeout pokes above the ceiling for one candle and slams right back down!',
-              resistanceLevel: 60,
-              candles: [
-                { open: 45, close: 58, high: 59, low: 44 },
-                { open: 58, close: 66, high: 69, low: 57, label: 'Poke!' },
-                { open: 66, close: 46, high: 67, low: 45, highlight: true, label: '🪤 Fakeout!' }
-              ]
-            }
-          ],
-          questions: Array.from({ length: 10 }, (_, idx) => {
-            const mod = idx % 4;
-            if (mod === 0) {
-              return {
-                prompt: `Q${idx + 1}/10: Price touches the Green Support Floor and prints a green candle! What next?`,
-                choices: [
-                  { label: '🚀 BUY the Floor Bounce!', correct: true },
-                  { label: '🛝 SELL into the Floor', correct: false },
-                  { label: '🙈 Guess Randomly', correct: false }
-                ],
-                explainWhy: 'Support floors bounce price back upward!',
-                supportLevel: 35,
-                candles: [
-                  { open: 55, close: 37, high: 56, low: 35 },
-                  { open: 37, close: 50, high: 52, low: 36, highlight: true }
-                ]
-              };
-            } else if (mod === 1) {
-              return {
-                prompt: `Q${idx + 1}/10: Price bonks its head on the Red Resistance Ceiling and turns red! What next?`,
-                choices: [
-                  { label: '🛝 SELL the Ceiling Rejection!', correct: true },
-                  { label: '🚀 BUY into the Ceiling', correct: false },
-                  { label: '🎈 Hope It Breaks', correct: false }
-                ],
-                explainWhy: 'Resistance blocks price from rising and pushes it back down!',
-                resistanceLevel: 68,
-                candles: [
-                  { open: 48, close: 67, high: 68, low: 47 },
-                  { open: 67, close: 52, high: 68, low: 50, highlight: true }
-                ]
-              };
-            } else if (mod === 2) {
-              return {
-                prompt: `Q${idx + 1}/10: In the ICC Strategy, we saw 1. Indication (Push) and 2. Correction (Rest). What is Step 3?`,
-                choices: [
-                  { label: '⚡ Continuation (Blast Off!)', correct: true },
-                  { label: '🔄 Crash Backwards', correct: false },
-                  { label: '💤 Market Closes', correct: false }
-                ],
-                explainWhy: 'Indication, Correction, Continuation! After resting, price continues its strong trend!',
-                candles: [
-                  { open: 28, close: 50, high: 52, low: 27, label: 'I' },
-                  { open: 50, close: 45, high: 51, low: 44, label: 'C' },
-                  { open: 45, close: 66, high: 68, low: 44, highlight: true, label: 'C?' }
-                ]
-              };
-            }
-            return {
-              prompt: `Q${idx + 1}/10: Price poked above Resistance for 1 candle then slammed right back below! What is this trap?`,
-              choices: [
-                { label: '🪤 A Sneaky Fakeout!', correct: true },
-                { label: '🚀 Safe Breakout', correct: false },
-                { label: '🔨 Bottom Hammer', correct: false }
-              ],
-              explainWhy: 'A Fakeout tricks impatient traders before reversing back inside the range!',
-              resistanceLevel: 60,
-              candles: [
-                { open: 46, close: 58, high: 59, low: 45 },
-                { open: 58, close: 65, high: 68, low: 57, label: 'Poke' },
-                { open: 65, close: 47, high: 66, low: 46, highlight: true, label: 'Trap!' }
-              ]
-            };
-          }),
-          simMission: {
-            introText: (name) => `Live ICC Chart Mission, ${name}! Look: 1. Big Indication push up, 2. Tiny Correction rest... and now Step 3 Continuation just started! Set your TP & SL, then trade!`,
-            setupCandles: [
-              { open: 28, close: 42, high: 44, low: 27, label: '1. I' },
-              { open: 42, close: 56, high: 58, low: 41 },
-              { open: 56, close: 50, high: 57, low: 49, label: '2. C' },
-              { open: 50, close: 48, high: 51, low: 47 }
-            ],
-            triggerCandle: { open: 48, close: 58, high: 60, low: 47, highlight: true, label: '3. C (Go!)' },
-            expectedSide: 'BUY',
-            recapWhy: 'You caught Step 3 (Continuation) of the ICC pattern right after the healthy correction rest!'
-          }
-        }
-      ],
-      3: [
-        {
-          id: 'p3_1',
-          topic: 'Phase 3 • Discipline & Risk Shields',
-          title: (name) => `Phase 3 Pro Mindset Lab, ${name}!`,
-          teachText: (name) => `Tap the 3 discipline shields below to learn Stop-Loss protection, beating FOMO, and the 1-Scoop Risk Rule before your 10-question test!`,
-          specimens: [
-            {
-              btnLabel: '🛡️ Stop-Loss Shield',
-              explain: 'A Stop-Loss automatically exits a trade early if price goes the wrong way, keeping your $10,000 safe!',
-              supportLevel: 44,
-              stopLossLevel: 36,
-              candles: [
-                { open: 55, close: 45, high: 56, low: 44 },
-                { open: 45, close: 52, high: 54, low: 44, highlight: true, label: 'Protected!' }
-              ]
-            },
-            {
-              btnLabel: '🧘 Beat FOMO',
-              explain: 'Never chase a giant candle after it already zoomed to the moon—wait patiently for the next safe setup!',
-              candles: [
-                { open: 32, close: 70, high: 72, low: 31, label: '🚀 Too Late!' },
-                { open: 70, close: 50, high: 71, low: 48, highlight: true, label: 'Chasers Lose!' }
-              ]
-            },
-            {
-              btnLabel: '🥄 1-Scoop Risk',
-              explain: 'Risk only a tiny slice (1% - 2%) per trade so even 3 losses in a row barely scratch your account!',
-              candles: [
-                { open: 48, close: 52, high: 53, low: 47 },
-                { open: 52, close: 50, high: 53, low: 49 },
-                { open: 50, close: 60, high: 62, low: 49, highlight: true, label: 'Steady Wins!' }
-              ]
-            }
-          ],
-          questions: Array.from({ length: 10 }, (_, idx) => {
-            const mod = idx % 3;
-            if (mod === 0) {
-              return {
-                prompt: `Q${idx + 1}/10: Why do pro traders ALWAYS set a Stop-Loss Shield before entering a trade?`,
-                choices: [
-                  { label: '🛡️ To Keep Any Loss Tiny & Safe!', correct: true },
-                  { label: '💸 To Lose All Their Play Cash', correct: false },
-                  { label: '🎨 Because Red Lines Look Cool', correct: false }
-                ],
-                explainWhy: 'A Stop-Loss protects your account so one bad trade never hurts you!',
-                supportLevel: 44,
-                stopLossLevel: 36,
-                candles: [
-                  { open: 54, close: 45, high: 55, low: 44 },
-                  { open: 45, close: 52, high: 54, low: 44, highlight: true }
-                ]
-              };
-            } else if (mod === 1) {
-              return {
-                prompt: `Q${idx + 1}/10: A giant green candle already rocketed way up without you! What should you do?`,
-                choices: [
-                  { label: '🧘 Stay Calm & Wait for Next Setup!', correct: true },
-                  { label: '😱 Chase It At The Very Top!', correct: false },
-                  { label: '😡 Click 20 Times Angrily', correct: false }
-                ],
-                explainWhy: 'Beating FOMO means never chasing runaway rockets at the top!',
-                candles: [
-                  { open: 30, close: 72, high: 74, low: 29, label: 'Already Gone!' },
-                  { open: 72, close: 54, high: 73, low: 52, highlight: true }
-                ]
-              };
-            }
-            return {
-              prompt: `Q${idx + 1}/10: You just had one small loss. What is the champion trader move?`,
-              choices: [
-                { label: '🌟 Take a Deep Breath & Follow Rules!', correct: true },
-                { label: '😤 Revenge Trade With All Your Cash!', correct: false },
-                { label: '😭 Give Up Forever', correct: false }
-              ],
-              explainWhy: 'Calm discipline turns small obstacles into stepping stones!',
-              candles: [
-                { open: 54, close: 47, high: 55, low: 46, label: 'Small Loss' },
-                { open: 47, close: 60, high: 62, low: 46, highlight: true, label: 'Calm Win!' }
-              ]
-            };
-          }),
-          simMission: {
-            introText: (name) => `Live Discipline Chart Mission, ${name}! Price bonked the Red Resistance Ceiling and printed a Shooting Star! Set your Take-Profit (TP) and Stop-Loss (SL) shields, then click BUY or SELL!`,
-            setupCandles: [
-              { open: 40, close: 50, high: 52, low: 39 },
-              { open: 50, close: 60, high: 62, low: 49 },
-              { open: 60, close: 67, high: 69, low: 59 }
-            ],
-            triggerCandle: { open: 67, close: 63, high: 76, low: 62, highlight: true, label: '🌠 Shooting Star!' },
-            resistanceLevel: 70,
-            expectedSide: 'SELL',
-            recapWhy: 'The Shooting Star at the Resistance Ceiling signaled sellers taking over, dropping price cleanly to your Take-Profit!'
-          }
-        }
-      ]
-    };
-
-    // Calendar & Daily Mission State
-    const TODAY_DATE = new Date();
-    let viewYear = TODAY_DATE.getFullYear();
-    let viewMonth = TODAY_DATE.getMonth();
-    let selectedDateKey = formatDateKey(TODAY_DATE);
-
-    let currentQuest = null;
-    let questStage = 'learn'; // 'learn' -> 'quiz' -> 'sim' -> 'done'
-    let currentQuizIdx = 0;
-    let quizScore = 0;
-    let quizAnswersHistory = []; // array of true/false/null for dots 1..10
-    let quizQuestionAnswered = false;
-    let lastFeedbackSpeech = '';
-
-    // Post-Quiz Live Simulation State
-    let questSimState = {
-      candles: [],
-      entryPrice: 0,
-      tpPrice: 0,
-      slPrice: 0,
-      side: null,
-      running: false,
-      animTimer: null
-    };
-
-    function formatDateKey(d) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
-    }
-
-    function parseDateKey(key) {
-      const [y, m, d] = key.split('-').map(Number);
-      return new Date(y, m - 1, d);
-    }
-
-    function getDayIndexSeed(dateKey) {
-      const d = parseDateKey(dateKey);
-      return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
-    }
-
-    function getQuoteForDate(dateKey) {
-      const seed = Math.abs(getDayIndexSeed(dateKey));
-      return DAILY_QUOTES[seed % DAILY_QUOTES.length];
-    }
-
-    function formatFriendlyDate(dateKey) {
-      const d = parseDateKey(dateKey);
-      return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
-    }
-
-    function getLessonForDate(dateKey) {
-      const phase = appState.unlockedPhase;
-      const seed = Math.abs(getDayIndexSeed(dateKey));
-
-      if (phase <= 3) {
-        const list = PHASE_LESSONS[phase];
-        const completedCount = appState.phaseProgress[phase] || 0;
-        if (dateKey === formatDateKey(TODAY_DATE)) {
-          return list[completedCount % list.length];
-        }
-        return list[seed % list.length];
-      }
-
-      const allLessons = [...PHASE_LESSONS[1], ...PHASE_LESSONS[2], ...PHASE_LESSONS[3]];
-      const base = allLessons[seed % allLessons.length];
-      return {
-        ...base,
-        topic: `Phase 4 Pro Daily • ${formatFriendlyDate(dateKey)}`
-      };
-    }
-
-    function renderPhaseBar() {
-      const row = document.getElementById('phaseCardsRow');
-      const summary = document.getElementById('phaseMasterySummary');
-      const p = appState.unlockedPhase;
-
-      if (p === 1) {
-        const done = appState.phaseProgress[1] || 0;
-        summary.textContent = `Phase 1 Progress: ${done} / 2 Days Mastered to Unlock Phase 2`;
-      } else if (p === 2) {
-        const done = appState.phaseProgress[2] || 0;
-        summary.textContent = `Phase 2 Progress: ${done} / 2 Days Mastered to Unlock Phase 3`;
-      } else if (p === 3) {
-        const done = appState.phaseProgress[3] || 0;
-        summary.textContent = `Phase 3 Progress: ${done} / 2 Days Mastered to Unlock Pro Mode`;
-      } else {
-        summary.textContent = `👑 All Belts Mastered! Infinite Pro Daily Quests Unlocked!`;
-      }
-
-      row.innerHTML = PHASES.map(ph => {
-        const isUnlocked = appState.unlockedPhase >= ph.id;
-        const isCurrent = appState.unlockedPhase === ph.id;
-        const done = appState.phaseProgress[ph.id] || 0;
-        const req = 2;
-
-        return `
-          <div class="rounded-2xl p-3 border-2 transition ${
-            isCurrent
-              ? 'bg-indigo-50 border-indigo-500 shadow-sm'
-              : isUnlocked
-                ? 'bg-emerald-50 border-emerald-400'
-                : 'bg-slate-100 border-slate-200 opacity-65'
-          }">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-xl">${isUnlocked ? ph.icon : '🔒'}</span>
-              <span class="text-[11px] font-extrabold px-2 py-0.5 rounded-full ${
-                isCurrent ? 'bg-indigo-600 text-white' : isUnlocked ? 'bg-emerald-600 text-white' : 'bg-slate-300 text-slate-700'
-              }">
-                ${isCurrent ? 'ACTIVE' : isUnlocked ? 'MASTERED' : 'LOCKED'}
-              </span>
-            </div>
-            <div class="font-display font-bold text-sm text-slate-800">${ph.name}</div>
-            <div class="text-xs font-bold text-slate-500">${ph.subtitle}</div>
-            ${ph.id <= 3 ? `
-              <div class="mt-2 w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div class="h-full bg-indigo-500" style="width: ${Math.min(100, (done / req) * 100)}%"></div>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }).join('');
-    }
-
-    function changeCalendarMonth(delta) {
-      playTone('click');
-      viewMonth += delta;
-      if (viewMonth > 11) { viewMonth = 0; viewYear += 1; }
-      if (viewMonth < 0) { viewMonth = 11; viewYear -= 1; }
-      renderCalendar();
-    }
-
-    function renderCalendar() {
-      const monthDate = new Date(viewYear, viewMonth, 1);
-      const monthName = monthDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-      document.getElementById('calendarMonthTitle').textContent = monthName;
-
-      const firstDayOfWeek = monthDate.getDay();
-      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
-      const todayKey = formatDateKey(TODAY_DATE);
-
-      const grid = document.getElementById('calendarDaysGrid');
-      let html = '';
-
-      for (let i = 0; i < firstDayOfWeek; i++) {
-        html += `<div class="h-12 sm:h-14 rounded-2xl bg-slate-50/60"></div>`;
-      }
-
-      for (let day = 1; day <= daysInMonth; day++) {
-        const dObj = new Date(viewYear, viewMonth, day);
-        const key = formatDateKey(dObj);
-        const isCompleted = !!appState.completedDays[key];
-        const isSelected = key === selectedDateKey;
-        const isToday = key === todayKey;
-
-        let btnStyle = 'bg-slate-50 hover:bg-sky-50 border-slate-200 text-slate-700';
-        if (isSelected) btnStyle = 'bg-amber-300 border-amber-500 text-amber-950 scale-105 shadow-md z-10';
-        else if (isCompleted) btnStyle = 'bg-emerald-100 border-emerald-400 text-emerald-900';
-        else if (isToday) btnStyle = 'bg-indigo-100 border-indigo-400 text-indigo-900';
-
-        html += `
-          <button onclick="selectCalendarDay('${key}')"
-            class="h-12 sm:h-14 rounded-2xl border-2 flex flex-col items-center justify-center transition relative ${btnStyle}">
-            <span class="font-display font-bold text-sm sm:text-base leading-none">${day}</span>
-            <span class="text-xs leading-none mt-0.5">
-              ${isCompleted ? '⭐' : isToday ? '🎯' : '•'}
-            </span>
-          </button>
-        `;
-      }
-
-      grid.innerHTML = html;
-    }
-
-    function selectCalendarDay(dateKey) {
-      playTone('click');
-      selectedDateKey = dateKey;
-      renderCalendar();
-      loadDailyMissionForDate(dateKey);
-    }
-
-    function advanceToNextCalendarDay() {
-      playTone('click');
-      const d = parseDateKey(selectedDateKey);
-      d.setDate(d.getDate() + 1);
-      viewYear = d.getFullYear();
-      viewMonth = d.getMonth();
-      selectedDateKey = formatDateKey(d);
-      renderCalendar();
-      loadDailyMissionForDate(selectedDateKey);
-    }
-
-    function speakDailyQuote() {
-      playTone('click');
-      const quote = getQuoteForDate(selectedDateKey);
-      speakText(`Daily quote for ${formatFriendlyDate(selectedDateKey)}: ${quote}`, 'btnSpeakQuote');
-    }
-
-    function updateStagePills() {
-      const stages = ['learn', 'quiz', 'sim'];
-      stages.forEach(s => {
-        const el = document.getElementById(`stagePill-${s}`);
-        if (!el) return;
-        if (questStage === s || (questStage === 'done' && s === 'sim')) {
-          el.className = 'px-2.5 py-1 rounded-xl bg-indigo-600 text-white';
-        } else {
-          el.className = 'px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600';
-        }
-      });
-
-      const dotsRow = document.getElementById('quizDotsRow');
-      dotsRow.innerHTML = quizAnswersHistory.map((res, i) => {
-        let color = 'bg-slate-300';
-        if (res === true) color = 'bg-emerald-500';
-        else if (res === false) color = 'bg-rose-500';
-        else if (questStage === 'quiz' && i === currentQuizIdx) color = 'bg-amber-400 ring-2 ring-amber-600';
-        return `<span class="w-3.5 h-3.5 rounded-full inline-block ${color}" title="Question ${i + 1}"></span>`;
-      }).join('');
-
-      document.getElementById('quizScoreBadge').textContent = `Score: ${quizScore} / 10`;
-    }
-
-    let activeSpecimenIdx = 0;
-    let activeCanvasConfig = {};
-
-    function loadDailyMissionForDate(dateKey) {
-      clearInterval(questSimState.animTimer);
-      questSimState.running = false;
-
-      const friendlyDate = formatFriendlyDate(dateKey);
-      const quote = getQuoteForDate(dateKey);
-      document.getElementById('quoteDateBadge').textContent = `${friendlyDate} • Daily Spark`;
-      document.getElementById('dailyQuoteText').textContent = `"${quote}"`;
-
-      currentQuest = getLessonForDate(dateKey);
-      questStage = 'learn';
-      currentQuizIdx = 0;
-      quizScore = 0;
-      quizAnswersHistory = Array(10).fill(null);
-      quizQuestionAnswered = false;
-      activeSpecimenIdx = 0;
-
-      const alreadyDone = !!appState.completedDays[dateKey];
-      document.getElementById('questDatePill').textContent = alreadyDone
-        ? `⭐ ${friendlyDate} (Completed!)`
-        : `📅 ${friendlyDate} Mission`;
-      document.getElementById('questStepBadge').textContent = 'Stage 1: Spot & Learn Guide';
-      document.getElementById('questStepBadge').className = 'bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm';
-      document.getElementById('questTopicTag').textContent = currentQuest.topic;
-      document.getElementById('questMascotIcon').textContent = appState.avatar;
-      document.getElementById('questTitle').textContent = currentQuest.title(appState.name);
-      document.getElementById('questPrompt').textContent = currentQuest.teachText(appState.name);
-      document.getElementById('questCanvasHint').textContent = '👆 Tap the buttons above to inspect each candle before your 10-question quiz!';
-
-      // Show Stage 1 UI, hide Stage 2 & 3 UI
-      document.getElementById('specimenSelectorRow').classList.remove('hidden');
-      document.getElementById('questTeachActions').classList.remove('hidden');
-      document.getElementById('questChoiceButtons').classList.add('hidden');
-      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
-      document.getElementById('questSimControls').classList.add('hidden');
-      document.getElementById('questSimLiveHud').classList.add('hidden');
-      document.getElementById('questFeedbackBox').classList.add('hidden');
-
-      renderSpecimens();
-      selectSpecimen(0, false);
-      updateStagePills();
-
-      if (appState.autoRead) {
-        speakText(`${friendlyDate} mission! ${currentQuest.teachText(appState.name)}`, 'questSpeakBtn');
-      }
-    }
-
-    function renderSpecimens() {
-      const row = document.getElementById('specimenSelectorRow');
-      row.innerHTML = currentQuest.specimens.map((sp, i) => `
-        <button onclick="selectSpecimen(${i}, true)" id="specimenBtn-${i}"
-          class="btn-game py-2.5 px-2 rounded-2xl font-display font-bold text-xs sm:text-sm border-2 transition ${
-            i === activeSpecimenIdx
-              ? 'bg-indigo-600 text-white border-indigo-700'
-              : 'bg-indigo-50 text-indigo-900 border-indigo-200 hover:bg-indigo-100'
-          }">
-          ${sp.btnLabel}
-        </button>
-      `).join('');
-    }
-
-    function selectSpecimen(idx, shouldSpeak = true) {
-      if (shouldSpeak) playTone('click');
-      activeSpecimenIdx = idx;
-      renderSpecimens();
-      const sp = currentQuest.specimens[idx];
-      document.getElementById('questPrompt').textContent = sp.explain;
-      activeCanvasConfig = {
-        candles: sp.candles,
-        supportLevel: sp.supportLevel,
-        resistanceLevel: sp.resistanceLevel,
-        stopLossLevel: sp.stopLossLevel,
-        trendline: sp.trendline
-      };
-      drawQuestCanvas();
-      if (shouldSpeak && appState.autoRead) {
-        speakText(sp.explain, 'questSpeakBtn');
-      }
-    }
-
-    /* ---------------- STAGE 2: 10-QUESTION DAILY QUIZ ---------------- */
-    function startDailyTenQuestionQuiz() {
-      playTone('click');
-      questStage = 'quiz';
-      currentQuizIdx = 0;
-      quizScore = 0;
-      quizAnswersHistory = Array(10).fill(null);
-
-      document.getElementById('specimenSelectorRow').classList.add('hidden');
-      document.getElementById('questTeachActions').classList.add('hidden');
-      document.getElementById('questChoiceButtons').classList.remove('hidden');
-      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
-
-      renderCurrentQuizQuestion();
-    }
-
-    function renderCurrentQuizQuestion() {
-      quizQuestionAnswered = false;
-      const q = currentQuest.questions[currentQuizIdx];
-      document.getElementById('questStepBadge').textContent = `Stage 2: Question ${currentQuizIdx + 1} of 10`;
-      document.getElementById('questStepBadge').className = 'bg-sky-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
-      document.getElementById('questPrompt').textContent = q.prompt;
-      document.getElementById('questCanvasHint').textContent = `🎯 Question ${currentQuizIdx + 1} of 10 — Tap the right answer!`;
-      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
-
-      activeCanvasConfig = {
-        candles: q.candles,
-        supportLevel: q.supportLevel,
-        resistanceLevel: q.resistanceLevel,
-        stopLossLevel: q.stopLossLevel,
-        trendline: q.trendline
-      };
-      drawQuestCanvas();
-      updateStagePills();
-
-      const choicesEl = document.getElementById('questChoiceButtons');
-      const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
-      choicesEl.innerHTML = shuffled.map(ch => `
-        <button onclick="submitQuizAnswer(${ch.correct}, this)"
-          class="btn-game bg-indigo-500 hover:bg-indigo-600 text-white font-display font-bold text-lg sm:text-xl py-4 px-4 rounded-2xl">
-          ${ch.label}
-        </button>
-      `).join('');
-
-      if (appState.autoRead) {
-        speakText(q.prompt, 'questSpeakBtn');
-      }
-    }
-
-    function submitQuizAnswer(isCorrect, btnEl) {
-      if (quizQuestionAnswered) return;
-      quizQuestionAnswered = true;
-
-      document.querySelectorAll('#questChoiceButtons button').forEach(b => b.disabled = true);
-      const q = currentQuest.questions[currentQuizIdx];
-
-      const fbBox = document.getElementById('questQuizFeedbackBox');
-      const fbEmoji = document.getElementById('questQuizFeedbackEmoji');
-      const fbHead = document.getElementById('questQuizFeedbackHeading');
-      const fbText = document.getElementById('questQuizFeedbackText');
-      const nextBtn = document.getElementById('btnNextQuizQuestion');
-
-      fbBox.classList.remove('hidden');
-      quizAnswersHistory[currentQuizIdx] = isCorrect;
-
-      if (isCorrect) {
-        playTone('win');
-        quizScore += 1;
-        addXP(10);
-        btnEl.classList.remove('bg-indigo-500');
-        btnEl.classList.add('bg-emerald-500');
-        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
-        fbEmoji.textContent = '🌟';
-        fbHead.textContent = `Spot On, ${appState.name}! (+10 XP)`;
-        fbText.textContent = q.explainWhy;
-        lastFeedbackSpeech = `Spot on ${appState.name}! ${q.explainWhy}`;
-      } else {
-        playTone('oops');
-        btnEl.classList.remove('bg-indigo-500');
-        btnEl.classList.add('bg-rose-500');
-        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-amber-50 border-amber-400 text-amber-950';
-        fbEmoji.textContent = '💡';
-        fbHead.textContent = `Good Try! Here’s the Clue:`;
-        fbText.textContent = q.explainWhy;
-        lastFeedbackSpeech = `Good try! ${q.explainWhy}`;
-      }
-
-      updateStagePills();
-
-      if (currentQuizIdx < 9) {
-        nextBtn.textContent = `Question ${currentQuizIdx + 2} of 10 ➡️`;
-      } else {
-        nextBtn.textContent = `🚀 Launch Live Chart Mission!`;
-      }
-
-      if (appState.autoRead) {
-        speakText(lastFeedbackSpeech);
-      }
-    }
-
-    function nextDailyQuizQuestion() {
-      playTone('click');
-      if (currentQuizIdx < 9) {
-        currentQuizIdx += 1;
-        renderCurrentQuizQuestion();
-      } else {
-        startPostQuizLiveSimMission();
-      }
-    }
-
-    /* ---------------- STAGE 3: POST-QUIZ REAL-TIME CHART MISSION ---------------- */
-    function startPostQuizLiveSimMission() {
-      questStage = 'sim';
-      updateStagePills();
-
-      const sim = currentQuest.simMission;
-      document.getElementById('questStepBadge').textContent = 'Stage 3: Live Real-Time Chart Mission';
-      document.getElementById('questStepBadge').className = 'bg-purple-600 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
-      document.getElementById('questTitle').textContent = `🎮 Live Chart Challenge (${quizScore}/10 Quiz Score!)`;
-      document.getElementById('questPrompt').textContent = sim.introText(appState.name);
-      document.getElementById('questCanvasHint').textContent = '⏳ Watch the live candles form...';
-
-      document.getElementById('questChoiceButtons').classList.add('hidden');
-      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
-      document.getElementById('questSimControls').classList.add('hidden');
-      document.getElementById('questSimLiveHud').classList.remove('hidden');
-      document.getElementById('questSimPnlText').textContent = '$0.00';
-
-      // Animate the setup candles forming one by one before pausing at the pattern!
-      questSimState.candles = [];
-      questSimState.running = false;
-      questSimState.side = null;
-
-      let step = 0;
-      const allIntroCandles = [...sim.setupCandles, sim.triggerCandle];
-
-      clearInterval(questSimState.animTimer);
-      questSimState.animTimer = setInterval(() => {
-        if (step < allIntroCandles.length) {
-          animateSingleCandleFormation(allIntroCandles[step], () => {
-            step++;
-            if (step === allIntroCandles.length) {
-              clearInterval(questSimState.animTimer);
-              const lastC = questSimState.candles[questSimState.candles.length - 1];
-              questSimState.entryPrice = lastC.close;
-              document.getElementById('questSimControls').classList.remove('hidden');
-              document.getElementById('questSimTradeBtns').classList.remove('hidden');
-              document.getElementById('questCanvasHint').textContent = '🎯 Pattern Spotted! Adjust your TP & SL sliders, then press BUY or SELL!';
-              updateQuestSlTpLines();
-              if (appState.autoRead) {
-                speakText(sim.introText(appState.name), 'questSpeakBtn');
-              }
-            }
-          });
-        }
-      }, 650);
-    }
-
-    // Smoothly animates a candle growing tick-by-tick (wick & body) like a real trading terminal!
-    function animateSingleCandleFormation(targetCandle, onComplete) {
-      const liveCandle = {
-        open: targetCandle.open,
-        close: targetCandle.open,
-        high: targetCandle.open,
-        low: targetCandle.open,
-        highlight: targetCandle.highlight,
-        label: null
-      };
-      questSimState.candles.push(liveCandle);
-
-      let frame = 0;
-      const totalFrames = 8;
-      const tickTimer = setInterval(() => {
-        frame++;
-        const progress = frame / totalFrames;
-        const midWiggle = frame < totalFrames ? (Math.sin(frame * 2.1) * 1.6) : 0;
-        liveCandle.close = +(targetCandle.open + (targetCandle.close - targetCandle.open) * progress + midWiggle).toFixed(2);
-        liveCandle.high = Math.max(liveCandle.open, liveCandle.close, +(targetCandle.open + (targetCandle.high - targetCandle.open) * progress).toFixed(2));
-        liveCandle.low = Math.min(liveCandle.open, liveCandle.close, +(targetCandle.open + (targetCandle.low - targetCandle.open) * progress).toFixed(2));
-        if (frame === totalFrames) {
-          liveCandle.close = targetCandle.close;
-          liveCandle.high = targetCandle.high;
-          liveCandle.low = targetCandle.low;
-          liveCandle.label = targetCandle.label || null;
-        }
-        refreshQuestSimCanvas();
-        if (frame >= totalFrames) {
-          clearInterval(tickTimer);
-          if (onComplete) onComplete();
-        }
-      }, 55);
-    }
-
-    function updateQuestSlTpLines() {
-      const tpDist = parseInt(document.getElementById('questTpSlider').value, 10);
-      const slDist = parseInt(document.getElementById('questSlSlider').value, 10);
-      const sim = currentQuest.simMission;
-      const isBuyBias = sim.expectedSide === 'BUY';
-
-      questSimState.tpPrice = isBuyBias ? questSimState.entryPrice + tpDist : questSimState.entryPrice - tpDist;
-      questSimState.slPrice = isBuyBias ? questSimState.entryPrice - slDist : questSimState.entryPrice + slDist;
-
-      document.getElementById('questTpValLabel').textContent = `+$${tpDist * 25}`;
-      document.getElementById('questSlValLabel').textContent = `-$${slDist * 25}`;
-      refreshQuestSimCanvas();
-    }
-
-    function refreshQuestSimCanvas() {
-      const sim = currentQuest.simMission;
-      activeCanvasConfig = {
-        candles: questSimState.candles,
-        supportLevel: sim.supportLevel,
-        resistanceLevel: sim.resistanceLevel,
-        tpLevel: questSimState.tpPrice || undefined,
-        slLevel: questSimState.slPrice || undefined
-      };
-      drawQuestCanvas();
-    }
-
-    function executeQuestSimTrade(chosenSide) {
-      if (questSimState.running) return;
-      playTone('click');
-      questSimState.running = true;
-      questSimState.side = chosenSide;
-      document.getElementById('questSimTradeBtns').classList.add('hidden');
-      document.getElementById('questCanvasHint').textContent = `⚡ ${chosenSide} Order Live! Watching new candles form toward TP or SL...`;
-
-      const sim = currentQuest.simMission;
-      const tpDist = parseInt(document.getElementById('questTpSlider').value, 10);
-      const slDist = parseInt(document.getElementById('questSlSlider').value, 10);
-
-      questSimState.tpPrice = chosenSide === 'BUY' ? questSimState.entryPrice + tpDist : questSimState.entryPrice - tpDist;
-      questSimState.slPrice = chosenSide === 'BUY' ? questSimState.entryPrice - slDist : questSimState.entryPrice + slDist;
-
-      const predictedRight = chosenSide === sim.expectedSide;
-      const targetEnd = predictedRight ? questSimState.tpPrice : questSimState.slPrice;
-
-      const steps = 4;
-      const startP = questSimState.entryPrice;
-      const futureCandles = [];
-      let prevClose = startP;
-
-      for (let i = 1; i <= steps; i++) {
-        const ratio = i / steps;
-        const wobble = i < steps ? ((i % 2 === 0 ? -1 : 1) * 1.8) : 0;
-        const nextClose = +(startP + (targetEnd - startP) * ratio + wobble).toFixed(2);
-        const high = +(Math.max(prevClose, nextClose) + 1.6).toFixed(2);
-        const low = +(Math.min(prevClose, nextClose) - 1.6).toFixed(2);
-        futureCandles.push({
-          open: prevClose,
-          close: nextClose,
-          high,
-          low,
-          label: i === steps ? (predictedRight ? '🎯 TP HIT!' : '🛡️ SL HIT!') : null
-        });
-        prevClose = nextClose;
-      }
-
-      if (appState.autoRead) {
-        speakText(`You clicked ${chosenSide}! Let's watch the new candles form live!`);
-      }
-
-      let fIdx = 0;
-      const playNextFutureCandle = () => {
-        if (fIdx >= futureCandles.length) {
-          finishPostQuizSimMission(predictedRight);
-          return;
-        }
-        animateSingleCandleFormation(futureCandles[fIdx], () => {
-          const curClose = questSimState.candles[questSimState.candles.length - 1].close;
-          const diff = chosenSide === 'BUY' ? (curClose - questSimState.entryPrice) : (questSimState.entryPrice - curClose);
-          const dollarPnl = Math.round(diff * 25);
-          const pnlEl = document.getElementById('questSimPnlText');
-          pnlEl.textContent = `${dollarPnl >= 0 ? '+' : ''}$${dollarPnl}`;
-          pnlEl.className = dollarPnl >= 0 ? 'font-display font-bold text-xl text-emerald-400' : 'font-display font-bold text-xl text-rose-400';
-
-          fIdx++;
-          setTimeout(playNextFutureCandle, 350);
-        });
-      };
-
-      playNextFutureCandle();
-    }
-
-    function finishPostQuizSimMission(wonTrade) {
-      questSimState.running = false;
-      questStage = 'done';
-      updateStagePills();
-
-      document.getElementById('questSimControls').classList.add('hidden');
-      const fbBox = document.getElementById('questFeedbackBox');
-      const fbEmoji = document.getElementById('questFeedbackEmoji');
-      const fbHead = document.getElementById('questFeedbackHeading');
-      const fbText = document.getElementById('questFeedbackText');
-      fbBox.classList.remove('hidden');
-
-      const sim = currentQuest.simMission;
-      const firstTimeToday = !appState.completedDays[selectedDateKey];
-      appState.completedDays[selectedDateKey] = { stars: 3, lessonId: currentQuest.id, quizScore };
-
-      if (firstTimeToday) {
-        appState.streak += 1;
-        addXP(40);
-        unlockBadge('first_step');
-        if (appState.streak >= 3) unlockBadge('streak_3');
-
-        const p = appState.unlockedPhase;
-        if (p <= 3) {
-          appState.phaseProgress[p] = (appState.phaseProgress[p] || 0) + 1;
-          if (appState.phaseProgress[p] >= 2) {
-            appState.unlockedPhase = p + 1;
-            if (p === 1) unlockBadge('phase1_master');
-            if (p === 2) unlockBadge('icc_master');
-            if (p === 3) unlockBadge('discipline_hero');
-          }
-        }
-      }
-
-      saveState();
-      renderPhaseBar();
-      renderCalendar();
-
-      if (wonTrade) {
-        playTone('win');
-        fireConfetti();
-        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
-        fbEmoji.textContent = '🏆';
-        fbHead.textContent = `TAKE-PROFIT HIT! You Mastered Today (${quizScore}/10 Quiz + Live Trade)!`;
-        fbText.textContent = `${sim.recapWhy} You earned your Daily Star!`;
-        lastFeedbackSpeech = `Take profit hit! Awesome job ${appState.name}! ${sim.recapWhy}`;
-      } else {
-        playTone('oops');
-        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-amber-50 border-amber-400 text-amber-950';
-        fbEmoji.textContent = '🛡️';
-        fbHead.textContent = `Stop-Loss Shield Saved You! (${quizScore}/10 Quiz Completed)`;
-        fbText.textContent = `Your Stop-Loss shield kept your loss tiny! Remember: ${sim.recapWhy}`;
-        lastFeedbackSpeech = `Your Stop-Loss shield kept you safe! ${sim.recapWhy}`;
-      }
-
-      if (appState.autoRead) {
-        speakText(lastFeedbackSpeech);
-      }
-    }
-
-    function replayQuestLiveSim() {
-      playTone('click');
-      document.getElementById('questFeedbackBox').classList.add('hidden');
-      startPostQuizLiveSimMission();
-    }
-
-    function speakQuestCurrent() {
-      if (!currentQuest) return;
-      if (questStage === 'learn') {
-        speakText(currentQuest.specimens[activeSpecimenIdx].explain, 'questSpeakBtn');
-      } else if (questStage === 'quiz') {
-        speakText(currentQuest.questions[currentQuizIdx].prompt, 'questSpeakBtn');
-      } else if (questStage === 'sim') {
-        speakText(currentQuest.simMission.introText(appState.name), 'questSpeakBtn');
-      } else {
-        speakText(lastFeedbackSpeech, 'questSpeakBtn');
-      }
-    }
-
-    function speakFeedback() {
-      if (lastFeedbackSpeech) speakText(lastFeedbackSpeech);
-    }
-
-    function drawQuestCanvas() {
-      const canvas = document.getElementById('questCanvas');
-      if (!canvas || !activeCanvasConfig.candles) return;
-      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
-      drawCandlesOnCanvas(ctx, width, height, activeCanvasConfig.candles, {
-        supportLevel: activeCanvasConfig.supportLevel,
-        resistanceLevel: activeCanvasConfig.resistanceLevel,
-        stopLossLevel: activeCanvasConfig.stopLossLevel,
-        trendline: activeCanvasConfig.trendline,
-        tpLevel: activeCanvasConfig.tpLevel,
-        slLevel: activeCanvasConfig.slLevel
-      });
-    }
-
-    /* =========================================================================
-       5. TAB 2: LIVE CHART PLAYGROUND & TRADE SIMULATOR
-       ========================================================================= */
-    let simCandles = [];
-    let simTimer = null;
-    let simPlaying = true;
-    let simTickCount = 0;
-    let activePosition = null;
-
-    function initSimChart() {
-      simCandles = [];
-      let price = 100;
-      for (let i = 0; i < 18; i++) {
-        const change = (Math.random() - 0.48) * 3.2;
-        const open = price;
-        const close = +(price + change).toFixed(2);
-        const high = +(Math.max(open, close) + Math.random() * 1.8).toFixed(2);
-        const low = +(Math.min(open, close) - Math.random() * 1.8).toFixed(2);
-        simCandles.push({ open, close, high, low });
-        price = close;
-      }
-      simTickCount = 0;
-      updateSimPriceDisplay();
-      drawSimChart();
-      startSimLoop();
-    }
-
-    function startSimLoop() {
-      clearInterval(simTimer);
-      simTimer = setInterval(() => {
-        if (simPlaying && !document.getElementById('view-playground').classList.contains('hidden')) {
-          stepSimCandle(true);
-        }
-      }, 1500);
-    }
-
-    function toggleSimPlay() {
-      playTone('click');
-      simPlaying = !simPlaying;
-      document.getElementById('btnSimPlayPause').textContent = simPlaying ? '⏸️ Pause' : '▶️ Play';
-    }
-
-    function changeSimMarketMode() {
-      playTone('click');
-      const mode = document.getElementById('simMarketMode').value;
-      const labels = {
-        uptrend: 'Uptrend mode! Watch price climb higher stairs!',
-        downtrend: 'Downtrend mode! Watch price slide down!',
-        sideways: 'Sideways mode! Price bounces between the Floor and Ceiling!',
-        icc: 'ICC Setup! Watch for Indication, Correction, and Continuation!',
-        random: 'Surprise market! Anything can happen!'
-      };
-      if (appState.autoRead) speakText(labels[mode]);
-    }
-
-    function stepSimCandle(isAuto = false) {
-      if (!isAuto) playTone('click');
-      const mode = document.getElementById('simMarketMode').value;
-      const last = simCandles[simCandles.length - 1];
-      let open = last.close;
-      let drift = 0;
-      let label = null;
-
-      simTickCount++;
-
-      if (mode === 'uptrend') {
-        drift = (simTickCount % 4 === 0) ? -1.4 : 1.7;
-      } else if (mode === 'downtrend') {
-        drift = (simTickCount % 4 === 0) ? 1.4 : -1.7;
-      } else if (mode === 'sideways') {
-        if (open > 112) drift = -2.6;
-        else if (open < 92) drift = 2.6;
-        else drift = (Math.random() - 0.5) * 3.5;
-      } else if (mode === 'icc') {
-        const phase = simTickCount % 6;
-        if (phase === 1 || phase === 2) { drift = 2.8; if (phase === 1) label = 'I'; }
-        else if (phase === 3 || phase === 4) { drift = -1.1; if (phase === 3) label = 'C'; }
-        else { drift = 2.9; if (phase === 5) label = 'C!'; }
-      } else {
-        drift = (Math.random() - 0.49) * 3.6;
-      }
-
-      const noise = (Math.random() - 0.5) * 1.4;
-      const close = Math.max(20, +(open + drift + noise).toFixed(2));
-      const high = +(Math.max(open, close) + Math.random() * 1.5).toFixed(2);
-      const low = +(Math.min(open, close) - Math.random() * 1.5).toFixed(2);
-
-      simCandles.push({ open, close, high, low, label });
-      if (simCandles.length > 26) {
-        simCandles.shift();
-      }
-
-      updateSimPriceDisplay();
-      updateLivePnL();
-      drawSimChart();
-    }
-
-    function updateSimPriceDisplay() {
-      const last = simCandles[simCandles.length - 1];
-      if (last) {
-        document.getElementById('simCurrentPrice').textContent = last.close.toFixed(2);
-      }
-    }
-
-    function openSimTrade(side) {
-      if (activePosition) {
-        closeSimTrade();
-      }
-      playTone('click');
-      const last = simCandles[simCandles.length - 1];
-      activePosition = {
-        side,
-        entryPrice: last.close,
-        multiplier: 50
-      };
-
-      document.getElementById('btnSimClose').disabled = false;
-      document.getElementById('activeTradeStatus').textContent =
-        side === 'BUY' ? `🚀 BOUGHT (UP) @ $${last.close.toFixed(2)}` : `🛝 SOLD (DOWN) @ $${last.close.toFixed(2)}`;
-      document.getElementById('activeTradeHint').textContent = 'Generating new candles... watch your money move!';
-
-      if (appState.autoRead) {
-        speakText(side === 'BUY'
-          ? `You pressed BUY! Let's watch if new candles climb UP!`
-          : `You pressed SELL! Let's watch if new candles slide DOWN!`);
-      }
-
-      simPlaying = true;
-      document.getElementById('btnSimPlayPause').textContent = '⏸️ Pause';
-      stepSimCandle(true);
-      drawSimChart();
-    }
-
-    function updateLivePnL() {
-      if (!activePosition) return;
-      const current = simCandles[simCandles.length - 1].close;
-      const diff = activePosition.side === 'BUY'
-        ? (current - activePosition.entryPrice)
-        : (activePosition.entryPrice - current);
-      const pnl = +(diff * activePosition.multiplier).toFixed(2);
-
-      const card = document.getElementById('activeTradeCard');
-      const pnlEl = document.getElementById('activeTradePnl');
-      pnlEl.textContent = `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`;
-
-      if (pnl >= 0) {
-        card.className = 'rounded-2xl p-4 bg-emerald-50 border-2 border-emerald-400 text-center transition-all';
-        pnlEl.className = 'font-display font-bold text-3xl text-emerald-600 mt-1';
-      } else {
-        card.className = 'rounded-2xl p-4 bg-rose-50 border-2 border-rose-400 text-center transition-all';
-        pnlEl.className = 'font-display font-bold text-3xl text-rose-600 mt-1';
-      }
-    }
-
-    function closeSimTrade() {
-      if (!activePosition) return;
-      const current = simCandles[simCandles.length - 1].close;
-      const diff = activePosition.side === 'BUY'
-        ? (current - activePosition.entryPrice)
-        : (activePosition.entryPrice - current);
-      const pnl = Math.round(diff * activePosition.multiplier);
-
-      appState.balance = Math.max(100, appState.balance + pnl);
-      appState.tradeHistory.unshift({
-        side: activePosition.side,
-        entry: activePosition.entryPrice.toFixed(2),
-        exit: current.toFixed(2),
-        pnl
-      });
-      if (appState.tradeHistory.length > 15) appState.tradeHistory.pop();
-
-      if (pnl > 0) {
-        playTone('coin');
-        fireConfetti();
-        addXP(20);
-        unlockBadge('profit_maker');
-        if (appState.autoRead) speakText(`Woohoo! You cashed out with plus ${pnl} dollars profit!`);
-      } else {
-        playTone('oops');
-        if (appState.autoRead) speakText(`Trade closed! Good practice watching the candles, ${appState.name}!`);
-      }
-
-      activePosition = null;
-      document.getElementById('btnSimClose').disabled = true;
-      document.getElementById('activeTradeCard').className = 'rounded-2xl p-4 bg-slate-100 border-2 border-slate-200 text-center';
-      document.getElementById('activeTradeStatus').textContent = 'No Active Trade';
-      document.getElementById('activeTradePnl').textContent = '$0.00';
-      document.getElementById('activeTradePnl').className = 'font-display font-bold text-3xl text-slate-400 mt-1';
-      document.getElementById('activeTradeHint').textContent = 'Watch the chart, then press BUY or SELL!';
-
-      saveState();
-      renderTradeHistory();
-      drawSimChart();
-    }
-
-    function renderTradeHistory() {
-      const list = document.getElementById('tradeHistoryList');
-      if (appState.tradeHistory.length === 0) {
-        list.innerHTML = `<div class="text-center text-xs font-bold text-slate-400 py-6 bg-slate-50 rounded-2xl">No trades yet! Make your first prediction!</div>`;
-        return;
-      }
-      list.innerHTML = appState.tradeHistory.map(t => `
-        <div class="flex items-center justify-between px-3 py-2 rounded-xl border ${t.pnl >= 0 ? 'bg-emerald-50 border-emerald-200' : 'bg-rose-50 border-rose-200'} text-xs font-extrabold">
-          <span>${t.side === 'BUY' ? '🚀 BUY' : '🛝 SELL'} ($${t.entry} → $${t.exit})</span>
-          <span class="${t.pnl >= 0 ? 'text-emerald-600' : 'text-rose-600'}">${t.pnl >= 0 ? '+' : ''}$${t.pnl}</span>
         </div>
-      `).join('');
-    }
 
-    function resetDemoAccount() {
-      playTone('click');
-      activePosition = null;
-      appState.balance = 10000;
-      appState.tradeHistory = [];
-      document.getElementById('btnSimClose').disabled = true;
-      document.getElementById('activeTradeStatus').textContent = 'No Active Trade';
-      document.getElementById('activeTradePnl').textContent = '$0.00';
-      saveState();
-      renderTradeHistory();
-      initSimChart();
-      if (appState.autoRead) speakText('Fresh start! Your pretend cash is back to ten thousand dollars!');
-    }
+        <!-- TAB CONTENT: LIVE TRADING ARENA -->
+        <div id="tabContent-arena" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+                    <div>
+                        <h2 class="fredoka text-2xl font-bold text-white flex items-center gap-2">
+                            📈 Real-Time Chart Playground
+                        </h2>
+                        <p class="text-sm text-slate-400">Watch candles form tick-by-tick. Adjust SL & TP, then place your trade!</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-slate-800 px-4 py-2 rounded-2xl border border-slate-700">
+                        <div>
+                            <span class="text-xs text-slate-400 block">Demo Balance:</span>
+                            <span id="arenaBalance" class="fredoka text-xl font-bold text-emerald-400">$10,000.00</span>
+                        </div>
+                        <button onclick="resetDemoBalance()" class="bg-slate-700 hover:bg-slate-600 text-xs px-3 py-1.5 rounded-xl transition">Reset</button>
+                    </div>
+                </div>
 
-    function speakPlaygroundTip() {
-      const mode = document.getElementById('simMarketMode').value;
-      const tips = {
-        uptrend: 'Look for tiny red dips in the uptrend, then press BUY when a green candle appears!',
-        downtrend: 'Price is making lower steps! Press SELL when a red candle pushes down!',
-        sideways: 'Wait for price to touch the green floor to BUY, or the red ceiling to SELL!',
-        icc: 'Wait for the big push, then the small rest, then press BUY on the third step!',
-        random: 'Look at the green floor and red ceiling lines to spot where price might bounce!'
-      };
-      speakText(tips[mode]);
-    }
+                <!-- Canvas Chart Container -->
+                <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden shadow-inner h-[380px]">
+                    <canvas id="liveChartCanvas" class="w-full h-full cursor-crosshair"></canvas>
+                    
+                    <!-- Floating Live PnL Badge -->
+                    <div id="floatingPnlBadge" class="absolute top-4 left-4 bg-slate-900/90 border border-slate-700 px-3 py-1.5 rounded-xl hidden items-center gap-2 shadow-lg backdrop-blur">
+                        <span class="text-xs text-slate-400">Active Trade PnL:</span>
+                        <span id="livePnlValue" class="fredoka font-bold text-sm text-emerald-400">+$0.00</span>
+                    </div>
 
-    function drawSimChart() {
-      const canvas = document.getElementById('simCanvas');
-      if (!canvas || simCandles.length === 0) return;
-      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
+                    <!-- Chart Control Overlay -->
+                    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-slate-900/90 p-2 rounded-2xl border border-slate-700 backdrop-blur">
+                        <button onclick="setMarketMode('uptrend')" id="modeUptrend" class="bg-emerald-600/30 border border-emerald-500 text-emerald-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Uptrend</button>
+                        <button onclick="setMarketMode('downtrend')" id="modeDowntrend" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Downtrend</button>
+                        <button onclick="setMarketMode('sideways')" id="modeSideways" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition">Sideways</button>
+                    </div>
+                </div>
 
-      const lows = simCandles.map(c => c.low);
-      const highs = simCandles.map(c => c.high);
-      const minL = Math.min(...lows);
-      const maxH = Math.max(...highs);
+                <!-- Trading Controls & SL/TP Sliders -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between text-xs text-slate-400">
+                            <span>Stop-Loss (Risk Safety Shield)</span>
+                            <span id="slValueText" class="text-rose-400 font-bold">-$150</span>
+                        </div>
+                        <input type="range" id="slRange" min="50" max="500" value="150" class="w-full accent-rose-500 cursor-pointer">
+                    </div>
 
-      const showSR = document.getElementById('chkShowSR').checked;
-      const showTrend = document.getElementById('chkShowTrend').checked;
-      const showICC = document.getElementById('chkShowICC').checked;
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between text-xs text-slate-400">
+                            <span>Take-Profit (Treasure Target)</span>
+                            <span id="tpValueText" class="text-emerald-400 font-bold">+$300</span>
+                        </div>
+                        <input type="range" id="tpRange" min="100" max="1000" value="300" class="w-full accent-emerald-500 cursor-pointer">
+                    </div>
 
-      const displayCandles = simCandles.map(c => ({
-        ...c,
-        label: showICC ? c.label : null
-      }));
+                    <div class="flex items-center gap-3">
+                        <button onclick="executeLiveTrade('BUY')" id="buyBtn" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white fredoka font-bold py-3.5 px-4 rounded-2xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                            🚀 BUY (UP)
+                        </button>
+                        <button onclick="executeLiveTrade('SELL')" id="sellBtn" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold py-3.5 px-4 rounded-2xl shadow-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
+                            🔻 SELL (DOWN)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      const trendType = simCandles[simCandles.length - 1].close >= simCandles[0].close ? 'up' : 'down';
+        <!-- TAB CONTENT: PICTURE CARDS -->
+        <div id="tabContent-flashcards" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+                <h2 class="fredoka text-2xl font-bold text-white mb-2">🃏 Picture Card Academy</h2>
+                <p class="text-sm text-slate-400 mb-6">Visual flashcards explaining every key trading concept with audio narration.</p>
+                
+                <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </div>
 
-      drawCandlesOnCanvas(ctx, width, height, displayCandles, {
-        supportLevel: showSR ? minL : undefined,
-        resistanceLevel: showSR ? maxH : undefined,
-        trendline: showTrend && simCandles.length >= 6 ? { startIdx: 0, endIdx: simCandles.length - 1, type: trendType } : undefined
-      });
-    }
+        <!-- TAB CONTENT: TROPHIES & BELTS -->
+        <div id="tabContent-trophies" class="hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl text-center space-y-4">
+                <div class="w-20 h-20 bg-amber-500/20 border-2 border-amber-500 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-lg animate-bounce">
+                    🥋
+                </div>
+                <h2 class="fredoka text-3xl font-bold text-amber-300">Mastery Belts & Achievements</h2>
+                <p class="text-slate-400 max-w-md mx-auto">Complete daily challenges to conquer all 4 belts and earn the Ultimate Trading Legend trophy!</p>
 
-    /* =========================================================================
-       6. TAB 3: REVERSAL TRAINER (PATIENCE & TIMING CHALLENGE)
-       ========================================================================= */
-    let reversalState = {
-      type: 'bottom',
-      candles: [],
-      step: 0,
-      locked: false,
-      lastSpeech: ''
-    };
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+                    <div id="beltCard-1" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2">
+                        <div class="text-3xl">🟢</div>
+                        <h3 class="fredoka font-bold text-white">Beginner Belt</h3>
+                        <p class="text-xs text-slate-400">Days 1–7: Candles & Moods</p>
+                        <span id="beltStatus-1" class="inline-block bg-emerald-500/20 text-emerald-400 text-xs px-2.5 py-1 rounded-lg font-bold">Unlocked</span>
+                    </div>
+                    <div id="beltCard-2" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
+                        <div class="text-3xl">🔵</div>
+                        <h3 class="fredoka font-bold text-white">Intermediate Belt</h3>
+                        <p class="text-xs text-slate-400">Days 8–15: Support, Resistance & ICC</p>
+                        <span id="beltStatus-2" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                    </div>
+                    <div id="beltCard-3" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
+                        <div class="text-3xl">🟣</div>
+                        <h3 class="fredoka font-bold text-white">Advanced Belt</h3>
+                        <p class="text-xs text-slate-400">Days 16–22: Risk & Discipline</p>
+                        <span id="beltStatus-3" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                    </div>
+                    <div id="beltCard-4" class="bg-slate-950 border border-slate-800 p-5 rounded-2xl space-y-2 opacity-60">
+                        <div class="text-3xl">👑</div>
+                        <h3 class="fredoka font-bold text-white">Pro Legend Belt</h3>
+                        <p class="text-xs text-slate-400">Days 23–30: Master Boss Battles</p>
+                        <span id="beltStatus-4" class="inline-block bg-slate-800 text-slate-400 text-xs px-2.5 py-1 rounded-lg font-bold">Locked</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    function startNewReversalRound() {
-      playTone('click');
-      const isBottom = Math.random() > 0.45;
-      reversalState.type = isBottom ? 'bottom' : 'top';
-      reversalState.step = 0;
-      reversalState.locked = false;
+    </main>
 
-      document.getElementById('reversalResultBox').classList.add('hidden');
-      document.getElementById('btnReversalEnter').disabled = false;
-      document.getElementById('btnReversalWait').disabled = false;
+    <!-- MISSION MODAL (3-STAGE FLOW: 1. Spot & Learn -> 2. 10 Q Quiz -> 3. Live Simulation) -->
+    <div id="missionModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full p-6 shadow-2xl relative space-y-6 my-auto">
+            
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div>
+                    <span id="modalDayBadge" class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2.5 py-1 rounded-lg">Day 1 Mission</span>
+                    <h3 id="modalTitle" class="fredoka text-xl font-bold text-white mt-1">Green vs. Red Candles</h3>
+                </div>
+                <button onclick="closeMissionModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg">✕</button>
+            </div>
 
-      if (isBottom) {
-        reversalState.candles = [
-          { open: 72, close: 64, high: 74, low: 62 },
-          { open: 64, close: 54, high: 65, low: 52 },
-          { open: 54, close: 44, high: 55, low: 43 }
+            <!-- STAGE 1: SPOT & LEARN -->
+            <div id="modalStage-1" class="space-y-4">
+                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center gap-6">
+                    <div id="modalVisualSpecimen" class="w-32 h-40 bg-slate-900 border border-slate-800 rounded-2xl flex flex-col items-center justify-center p-2 shadow-inner">
+                        <!-- Dynamic Canvas Specimen -->
+                    </div>
+                    <div class="space-y-3 flex-1">
+                        <h4 class="fredoka font-bold text-amber-300 text-lg" id="stage1Title">The Bull & Bear Battle</h4>
+                        <p id="stage1Desc" class="text-sm text-slate-300 leading-relaxed">Green candles mean buyers pushed the price up! Red candles mean sellers pushed the price down. Let's learn to spot them instantly.</p>
+                        <button onclick="readStage1Text()" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs fredoka flex items-center gap-2 shadow">
+                            🔊 Read Aloud
+                        </button>
+                    </div>
+                </div>
+                <button onclick="advanceToStage2()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3.5 rounded-2xl fredoka text-base shadow-lg transition transform hover:scale-[1.01]">
+                    Start 10-Question Visual Quiz! 🚀
+                </button>
+            </div>
+
+            <!-- STAGE 2: 10-QUESTION QUIZ -->
+            <div id="modalStage-2" class="hidden space-y-4">
+                <div class="flex justify-between items-center text-xs text-slate-400">
+                    <span>Question <strong id="currentQNum" class="text-amber-400">1</strong> of 10</span>
+                    <span>Score: <strong id="currentQuizScore" class="text-emerald-400">0</strong> / 10</span>
+                </div>
+                <!-- Progress bar -->
+                <div class="w-full bg-slate-950 h-2 rounded-full overflow-hidden border border-slate-800">
+                    <div id="quizProgressBar" class="bg-amber-500 h-full w-[10%] transition-all duration-300"></div>
+                </div>
+
+                <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4 text-center">
+                    <h4 id="quizQuestionText" class="fredoka font-bold text-lg text-white">What does a Green Candle represent?</h4>
+                    <div id="quizVisualCanvasContainer" class="w-28 h-36 bg-slate-900 border border-slate-800 rounded-2xl mx-auto flex items-center justify-center p-2"></div>
+                    
+                    <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                        <!-- Options injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- STAGE 3: POST-QUIZ LIVE CHART MISSION -->
+            <div id="modalStage-3" class="hidden space-y-4">
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-2xl flex items-center gap-3">
+                    <div class="text-3xl">🎉</div>
+                    <div>
+                        <h4 class="fredoka font-bold text-emerald-300">Quiz Completed Successfully!</h4>
+                        <p class="text-xs text-slate-300">Now apply what you learned in this live chart simulation. Place your trade and watch the candles form!</p>
+                    </div>
+                </div>
+
+                <div class="relative bg-slate-950 border border-slate-800 rounded-2xl overflow-hidden h-[260px]">
+                    <canvas id="modalLiveCanvas" class="w-full h-full"></canvas>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="executeModalTrade('BUY')" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white fredoka font-bold py-3 rounded-xl shadow">🚀 BUY (UP)</button>
+                    <button onclick="executeModalTrade('SELL')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold py-3 rounded-xl shadow">🔻 SELL (DOWN)</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PROFILE EDIT MODAL -->
+    <div id="profileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+            <h3 class="fredoka text-xl font-bold text-white">Trader Profile Setup</h3>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">Trader Name:</label>
+                    <input type="text" id="inputTraderName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white fredoka focus:outline-none focus:border-amber-500" value="Saunie">
+                </div>
+                <div>
+                    <label class="text-xs text-slate-400 block mb-1">Select Avatar:</label>
+                    <div class="flex gap-3 text-3xl">
+                        <button onclick="selectAvatar('👦🏽')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">👦🏽</button>
+                        <button onclick="selectAvatar('🚀')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">🚀</button>
+                        <button onclick="selectAvatar('🦁')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">🦁</button>
+                        <button onclick="selectAvatar('⭐')" class="p-2 bg-slate-950 border border-slate-700 rounded-xl hover:border-amber-500">⭐</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="saveProfile()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-3 rounded-xl fredoka shadow">Save Profile</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        // --- APP STATE & STORAGE ---
+        const STORAGE_KEY = 'kidTraderAcademy_state_v3';
+        let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+            user: { name: 'Saunie', avatar: '👦🏽', age: 8, belt: 'Beginner Belt', stars: 0, streak: 1 },
+            completedDays: [],
+            balance: 10000.00
+        };
+
+        // --- 30-DAY CURRICULUM DEFINITIONS ---
+        const curriculum = [
+            { day: 1, title: "Green vs. Red Candles", phase: 1, subtitle: "The Battle of Bulls & Bears", desc: "Green candles mean buyers won and price went up! Red candles mean sellers won and price went down.", quizTopic: "candles" },
+            { day: 2, title: "The Doji Candle", phase: 1, subtitle: "The Great Tug-of-War", desc: "A Doji has a tiny body because buyers and sellers fought equally. It signals a potential reversal!", quizTopic: "doji" },
+            { day: 3, title: "The Hammer", phase: 1, subtitle: "The Springboard Reversal Bounce", desc: "A Hammer looks like a mallet with a long bottom wick. It shows sellers tried to crash price, but buyers scooped it right up!", quizTopic: "hammer" },
+            { day: 4, title: "Shooting Star", phase: 1, subtitle: "The Ceiling Rejection", desc: "A Shooting Star has a long top wick pointing up. Buyers tried to break the ceiling but got knocked right back down!", quizTopic: "shooting_star" },
+            { day: 5, title: "Bullish & Bearish Engulfing", phase: 1, subtitle: "The Monster Candle Takeover", desc: "A giant candle completely swallows the previous candle, signaling a powerful wave of new momentum!", quizTopic: "engulfing" },
+            { day: 6, title: "The 3 Market Moods", phase: 1, subtitle: "Uptrend, Downtrend & Sideways", desc: "Markets move like ski slopes up, rollercoasters down, or flat roads sideways.", quizTopic: "moods" },
+            { day: 7, title: "Beginner Boss Challenge", phase: 1, subtitle: "Mastering Beginner Patterns", desc: "Test your skills across all beginner candlestick patterns to earn your Beginner Belt!", quizTopic: "boss_1" },
+            
+            { day: 8, title: "Support (Trampoline Floor)", phase: 2, subtitle: "Where Buyers Step In", desc: "Support is a price floor where price bounces repeatedly because buyers refuse to let it fall lower.", quizTopic: "support" },
+            { day: 9, title: "Resistance (Bouncy Ceiling)", phase: 2, subtitle: "Where Sellers Push Back", desc: "Resistance is a price ceiling where sellers jump in to stop the price from going higher.", quizTopic: "resistance" },
+            { day: 10, title: "Trendlines", phase: 2, subtitle: "Connecting Ski Slopes & Peaks", desc: "Drawing lines under uptrends and over downtrends helps us spot where the bounce will happen.", quizTopic: "trendlines" },
+            { day: 11, title: "Breakouts", phase: 2, subtitle: "Rocketing Through the Ceiling", desc: "When price smashes past resistance with high volume, it shoots off like a rocket ship!", quizTopic: "breakouts" },
+            { day: 12, title: "Fakeout Traps", phase: 2, subtitle: "The Bull & Bear Trap Trick", desc: "Sometimes price breaks a level then reverses instantly. Smart traders wait for confirmation so they don't get trapped!", quizTopic: "fakeouts" },
+            { day: 13, title: "The ICC Strategy", phase: 2, subtitle: "Indication, Correction, Continuation", desc: "Indication (strong move), Correction (gentle pullback), Continuation (rocket off again!).", quizTopic: "icc" },
+            { day: 14, title: "Volume Clues", phase: 2, subtitle: "Big Blocks vs. Tiny Whispers", desc: "Volume tells us how many traders are participating. High volume means a move is real!", quizTopic: "volume" },
+            { day: 15, title: "Intermediate Boss Challenge", phase: 2, subtitle: "Mastering Levels & ICC", desc: "Prove your mastery of Support, Resistance, and ICC to unlock Advanced Training!", quizTopic: "boss_2" },
+
+            { day: 16, title: "Stop-Loss Safety Shield", phase: 3, subtitle: "Cutting Losses Like a Pro", desc: "A stop-loss is an automatic seatbelt that protects your account if a trade goes the wrong way.", quizTopic: "stop_loss" },
+            { day: 17, title: "Take-Profit Targets", phase: 3, subtitle: "Locking In Your Treasure", desc: "Set your target ahead of time so you collect your profits before the market turns around.", quizTopic: "take_profit" },
+            { day: 18, title: "Position Sizing", phase: 3, subtitle: "The 1-Scoop Ice Cream Rule", desc: "Never risk too much on one trade. Keep your trade size small and sweet just like a single scoop of ice cream.", quizTopic: "position_sizing" },
+            { day: 19, title: "Beating FOMO", phase: 3, subtitle: "Fear of Missing Out & Chasing", desc: "Chasing green candles after they already pumped leads to getting caught at the very top.", quizTopic: "fomo" },
+            { day: 20, title: "Revenge Trading", phase: 3, subtitle: "Staying Calm After a Loss", desc: "Trying to win your money back immediately after a loss usually causes bigger losses. Take a breather!", quizTopic: "revenge" },
+            { day: 21, title: "The 3-Rule Trade Checklist", phase: 3, subtitle: "No Trade Without a Plan", desc: "Check your trend, check your level, check your risk. If all 3 match, you are ready!", quizTopic: "checklist" },
+            { day: 22, title: "Advanced Grandmaster Boss", phase: 3, subtitle: "Discipline & Risk Pro Test", desc: "Conquer risk management and trading psychology to earn your Advanced Grandmaster Belt!", quizTopic: "boss_3" },
+
+            { day: 23, title: "Morning & Evening Stars", phase: 4, subtitle: "3-Candle Reversal Formations", desc: "A 3-candle cluster that signals the sunrise of a new uptrend or sunset of a downtrend.", quizTopic: "stars" },
+            { day: 24, title: "The Inside Bar", phase: 4, subtitle: "The Coil Spring Compression", desc: "A small candle trapped inside the high and low of the previous big candle, getting ready to explode.", quizTopic: "inside_bar" },
+            { day: 25, title: "Gap Ups & Gap Downs", phase: 4, subtitle: "Jumping Across the Chart", desc: "When price opens at a totally different price level overnight leaving an empty space on the chart.", quizTopic: "gaps" },
+            { day: 26, title: "Support Turns Resistance", phase: 4, subtitle: "The Great Flip-Flop Level", desc: "When broken support turns into resistance, or broken resistance turns into support!", quizTopic: "flip_level" },
+            { day: 27, title: "Trading Session Clocks", phase: 4, subtitle: "London Open vs New York Power", desc: "Markets move fastest when major financial capitals open their trading desks.", quizTopic: "sessions" },
+            { day: 28, title: "Emotional Rollercoasters", phase: 4, subtitle: "Greed vs. Fear Superpowers", desc: "Mastering your emotions so fear and greed don't make your trading decisions for you.", quizTopic: "emotions" },
+            { day: 29, title: "Building Your Trading Journal", phase: 4, subtitle: "Recording Wins and Lessons", desc: "Professional traders write down every trade to study what worked and what didn't.", quizTopic: "journal" },
+            { day: 30, title: "Ultimate Trading Legend Boss", phase: 4, subtitle: "The Grand Finale Final Exam", desc: "The ultimate boss battle testing everything from candles to risk management to earn the Pro Legend Belt!", quizTopic: "boss_final" }
         ];
-        document.getElementById('reversalInstruction').textContent =
-          'Price is falling toward the Green Trampoline Floor (35)! Wait for a BIG GREEN bounce candle before pressing BUY!';
-        document.getElementById('btnReversalEnterLabel').textContent = 'JUMP IN NOW (BUY)!';
-        document.getElementById('reversalPhaseBadge').textContent = 'Step 1: Falling Fast...';
-      } else {
-        reversalState.candles = [
-          { open: 30, close: 39, high: 41, low: 29 },
-          { open: 39, close: 49, high: 51, low: 38 },
-          { open: 49, close: 59, high: 61, low: 48 }
+
+        const dailyQuotes = [
+            "Every obstacle is a stepping stone destined to take you someplace greater in life!",
+            "Patience is a trader's superpower—waiting for the right setup wins the game!",
+            "A disciplined trader is a successful trader!",
+            "Mistakes are just lessons in disguise. Learn and grow stronger!",
+            "Small consistent steps lead to master trading legend status!"
         ];
-        document.getElementById('reversalInstruction').textContent =
-          'Price is flying up toward the Red Bouncy Ceiling (70)! Wait for a BIG RED drop candle before pressing SELL!';
-        document.getElementById('btnReversalEnterLabel').textContent = 'JUMP IN NOW (SELL)!';
-        document.getElementById('reversalPhaseBadge').textContent = 'Step 1: Flying Up...';
-      }
 
-      drawReversalCanvas();
-      if (appState.autoRead) speakReversalIntro();
-    }
+        let activeMission = { dayNum: 1, stage: 1, qIndex: 0, score: 0 };
+        let liveChartTimer = null;
+        let chartCandles = [];
+        let marketModeState = 'uptrend';
 
-    function speakReversalIntro() {
-      speakText(document.getElementById('reversalInstruction').textContent);
-    }
-
-    function stepReversalCandle() {
-      if (reversalState.locked) return;
-      playTone('click');
-      reversalState.step += 1;
-
-      if (reversalState.type === 'bottom') {
-        if (reversalState.step === 1) {
-          reversalState.candles.push({ open: 44, close: 36, high: 45, low: 35, label: '⚠️ Still Red!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 2: Touching Floor (No Bounce Yet!)';
-        } else if (reversalState.step === 2) {
-          reversalState.candles.push({ open: 36, close: 48, high: 50, low: 35, highlight: true, label: '✅ Green Bounce!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 3: GREEN BOUNCE CONFIRMED!';
-        } else {
-          reversalState.candles.push({ open: 48, close: 64, high: 66, low: 47, label: '🚀 Already Gone!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 4: Already Skyrocketed!';
-        }
-      } else {
-        if (reversalState.step === 1) {
-          reversalState.candles.push({ open: 59, close: 69, high: 70, low: 58, label: '⚠️ Still Green!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 2: Touching Ceiling (No Drop Yet!)';
-        } else if (reversalState.step === 2) {
-          reversalState.candles.push({ open: 69, close: 56, high: 70, low: 54, highlight: true, label: '✅ Red Drop!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 3: RED REJECTION CONFIRMED!';
-        } else {
-          reversalState.candles.push({ open: 56, close: 40, high: 57, low: 38, label: '🛝 Already Dropped!' });
-          document.getElementById('reversalPhaseBadge').textContent = 'Step 4: Already Slid Down!';
-        }
-      }
-
-      drawReversalCanvas();
-      if (reversalState.step >= 3) {
-        triggerReversalEntry(true);
-      }
-    }
-
-    function triggerReversalEntry(timedOut = false) {
-      if (reversalState.locked) return;
-      reversalState.locked = true;
-      document.getElementById('btnReversalEnter').disabled = true;
-      document.getElementById('btnReversalWait').disabled = true;
-
-      const box = document.getElementById('reversalResultBox');
-      const emoji = document.getElementById('reversalResultEmoji');
-      const title = document.getElementById('reversalResultTitle');
-      const desc = document.getElementById('reversalResultDesc');
-      const tip = document.getElementById('reversalLessonTip');
-      box.classList.remove('hidden');
-
-      const isBottom = reversalState.type === 'bottom';
-
-      if (reversalState.step < 2) {
-        playTone('oops');
-        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-rose-50 border-rose-400 text-rose-950';
-        emoji.textContent = '🚨';
-        title.textContent = 'TOO EARLY! You Entered BEFORE the Reversal!';
-        desc.textContent = isBottom
-          ? `Price was still falling with red candles! Trying to catch a falling knife is risky because price might smash right through the floor!`
-          : `Price was still shooting up with green candles! Jumping in before a red candle appears can get you run over!`;
-        tip.textContent = isBottom
-          ? '👀 What to wait for: Wait until you see a BIG GREEN bounce candle off the floor!'
-          : '👀 What to wait for: Wait until you see a BIG RED drop candle off the ceiling!';
-        reversalState.lastSpeech = `${title.textContent} ${desc.textContent} ${tip.textContent}`;
-      } else if (reversalState.step === 2 && !timedOut) {
-        playTone('win');
-        fireConfetti();
-        addXP(35);
-        unlockBadge('discipline_hero');
-        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
-        emoji.textContent = '🥷';
-        title.textContent = `BULLSEYE! Perfect Patience, ${appState.name}! +35 XP!`;
-        desc.textContent = isBottom
-          ? `You waited for the big GREEN confirmation candle to bounce off the Support Floor before buying! That is how pro traders stay safe!`
-          : `You waited for the big RED confirmation candle to reject the Resistance Ceiling before selling! Awesome discipline!`;
-        tip.textContent = '🏆 Pro Habit Unlocked: Confirm the bounce first, then jump in!';
-        reversalState.lastSpeech = `Bullseye! Perfect patience ${appState.name}! ${desc.textContent}`;
-      } else {
-        playTone('oops');
-        box.className = 'mt-5 rounded-2xl p-5 border-4 bg-amber-50 border-amber-400 text-amber-950';
-        emoji.textContent = '🐢';
-        title.textContent = 'A Little Too Late! The Rocket Already Left!';
-        desc.textContent = `You waited past the confirmation candle, so most of the big move already happened!`;
-        tip.textContent = isBottom
-          ? '⚡ Next time: Jump in right as soon as the FIRST big green bounce candle closes!'
-          : '⚡ Next time: Jump in right as soon as the FIRST big red drop candle closes!';
-        reversalState.lastSpeech = `${title.textContent} ${desc.textContent} ${tip.textContent}`;
-      }
-
-      drawReversalCanvas();
-      if (appState.autoRead) speakReversalResult();
-    }
-
-    function speakReversalResult() {
-      if (reversalState.lastSpeech) speakText(reversalState.lastSpeech);
-    }
-
-    function drawReversalCanvas() {
-      const canvas = document.getElementById('reversalCanvas');
-      if (!canvas) return;
-      const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
-      const isBottom = reversalState.type === 'bottom';
-      drawCandlesOnCanvas(ctx, width, height, reversalState.candles, {
-        supportLevel: isBottom ? 35 : undefined,
-        resistanceLevel: !isBottom ? 70 : undefined,
-        extraLevels: isBottom ? [32, 75] : [28, 73]
-      });
-    }
-
-    /* =========================================================================
-       7. TAB 4: PICTURE-BASED VISUAL ACADEMY (FLASHCARDS)
-       ========================================================================= */
-    const ACADEMY_CARDS = [
-      {
-        title: '🟢 Bullish Green Candle',
-        tag: 'Basic Power',
-        speech: 'A Bullish Green Candle means buyers won the battle and pushed price UP from bottom to top!',
-        summary: 'Starts low, finishes HIGH! Buyers are strong!',
-        candles: [
-          { open: 35, close: 65, high: 72, low: 30, highlight: true, label: 'Close High!' }
-        ]
-      },
-      {
-        title: '🔴 Bearish Red Candle',
-        tag: 'Basic Power',
-        speech: 'A Bearish Red Candle means sellers pushed price DOWN from top to bottom!',
-        summary: 'Starts high, finishes LOW! Sellers are in charge!',
-        candles: [
-          { open: 65, close: 35, high: 70, low: 28, highlight: true, label: 'Close Low!' }
-        ]
-      },
-      {
-        title: '🟩 Support (Trampoline Floor)',
-        tag: 'Key Zone',
-        speech: 'Support is like a trampoline floor! When price drops to this level, buyers bounce it right back up!',
-        summary: 'Price bounces UP whenever it touches this floor.',
-        supportLevel: 35,
-        candles: [
-          { open: 55, close: 37, high: 56, low: 35 },
-          { open: 37, close: 52, high: 54, low: 36, label: 'Bounce!' },
-          { open: 52, close: 36, high: 53, low: 35 },
-          { open: 36, close: 55, high: 57, low: 35, highlight: true }
-        ]
-      },
-      {
-        title: '🟥 Resistance (Bouncy Ceiling)',
-        tag: 'Key Zone',
-        speech: 'Resistance is like a hard ceiling! Price jumps up, bonks its head, and falls back down!',
-        summary: 'Price bonks its head and drops back down.',
-        resistanceLevel: 68,
-        candles: [
-          { open: 45, close: 66, high: 68, low: 44 },
-          { open: 66, close: 50, high: 67, low: 49, label: 'Bonk!' },
-          { open: 50, close: 67, high: 68, low: 49 },
-          { open: 67, close: 48, high: 68, low: 47, highlight: true }
-        ]
-      },
-      {
-        title: '⚡ ICC Strategy (3 Steps)',
-        tag: 'Super Strategy',
-        speech: 'I C C stands for Indication, Correction, Continuation! Big push, tiny rest, then blast off again!',
-        summary: '1. Indication (Push) → 2. Correction (Rest) → 3. Continuation (Go!)',
-        candles: [
-          { open: 28, close: 52, high: 54, low: 27, label: '1. I' },
-          { open: 52, close: 46, high: 53, low: 45, label: '2. C' },
-          { open: 46, close: 68, high: 70, low: 45, highlight: true, label: '3. C!' }
-        ]
-      },
-      {
-        title: '🪤 Breakout vs. Fakeout',
-        tag: 'Trap Shield',
-        speech: 'A real Breakout blasts through the ceiling and stays above! A Fakeout pokes above for a second and falls right back inside!',
-        summary: 'Wait to see if price stays outside the line before jumping in!',
-        resistanceLevel: 60,
-        candles: [
-          { open: 45, close: 58, high: 59, low: 44 },
-          { open: 58, close: 65, high: 68, low: 57, label: 'Poke!' },
-          { open: 65, close: 46, high: 66, low: 45, highlight: true, label: 'Fakeout!' }
-        ]
-      }
-    ];
-
-    function renderAcademyCards() {
-      const grid = document.getElementById('academyCardsGrid');
-      grid.innerHTML = ACADEMY_CARDS.map((card, i) => `
-        <div class="bg-slate-50 rounded-3xl p-4 border-2 border-purple-200 flex flex-col justify-between shadow-sm hover:shadow-md transition">
-          <div>
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-extrabold uppercase bg-purple-100 text-purple-800 px-2.5 py-1 rounded-full">${card.tag}</span>
-              <button onclick="speakAcademyCard(${i})"
-                class="btn-game bg-amber-400 text-amber-950 font-bold text-xs px-3 py-1.5 rounded-xl flex items-center gap-1">
-                <span>🔊</span> <span>Listen</span>
-              </button>
-            </div>
-            <h3 class="font-display font-bold text-xl text-slate-800 mb-2">${card.title}</h3>
-            <div class="rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-900 mb-3">
-              <canvas id="academyCanvas-${i}" class="w-full block" style="height: 170px;"></canvas>
-            </div>
-          </div>
-          <p class="text-sm font-extrabold text-slate-700 bg-white p-3 rounded-2xl border border-slate-200">
-            ${card.summary}
-          </p>
-        </div>
-      `).join('');
-
-      ACADEMY_CARDS.forEach((card, i) => {
-        const canvas = document.getElementById(`academyCanvas-${i}`);
-        if (canvas) {
-          const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
-          drawCandlesOnCanvas(ctx, width, height, card.candles, {
-            supportLevel: card.supportLevel,
-            resistanceLevel: card.resistanceLevel,
-            padTop: 26,
-            padBottom: 20
-          });
-        }
-      });
-    }
-
-    function speakAcademyCard(index) {
-      playTone('click');
-      speakText(ACADEMY_CARDS[index].speech);
-    }
-
-    /* =========================================================================
-       8. CONFETTI CELEBRATION & TAB NAVIGATION
-       ========================================================================= */
-    let confettiParticles = [];
-    function fireConfetti() {
-      const canvas = document.getElementById('confettiCanvas');
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const colors = ['#facc15', '#10b981', '#3b82f6', '#ec4899', '#a855f7'];
-      for (let i = 0; i < 65; i++) {
-        confettiParticles.push({
-          x: canvas.width / 2 + (Math.random() - 0.5) * 200,
-          y: canvas.height / 2,
-          vx: (Math.random() - 0.5) * 14,
-          vy: (Math.random() - 0.85) * 15,
-          size: Math.random() * 8 + 5,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          life: 80
+        // --- INIT APP ---
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            renderCalendar();
+            renderFlashcards();
+            initLiveChart();
         });
-      }
-      requestAnimationFrame(updateConfetti);
-    }
 
-    function updateConfetti() {
-      const canvas = document.getElementById('confettiCanvas');
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      confettiParticles.forEach(p => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.vy += 0.45;
-        p.life -= 1;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, p.size, p.size);
-      });
-      confettiParticles = confettiParticles.filter(p => p.life > 0);
-      if (confettiParticles.length > 0) requestAnimationFrame(updateConfetti);
-    }
+        function updateUI() {
+            document.getElementById('userNameDisplay').textContent = state.user.name;
+            document.getElementById('avatarDisplay').textContent = state.user.avatar;
+            document.getElementById('starCount').textContent = state.user.stars;
+            document.getElementById('streakCount').textContent = state.user.streak;
+            document.getElementById('navBalance').textContent = state.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
+            document.getElementById('arenaBalance').textContent = '$' + state.balance.toLocaleString('en-US', {minimumFractionDigits: 2});
 
-    function switchTab(tabName) {
-      playTone('click');
-      const tabs = ['journey', 'playground', 'reversal', 'academy'];
-      tabs.forEach(t => {
-        const view = document.getElementById(`view-${t}`);
-        const btn = document.getElementById(`tab-${t}`);
-        if (t === tabName) {
-          view.classList.remove('hidden');
-          btn.className = 'tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-indigo-600 text-white';
-        } else {
-          view.classList.add('hidden');
-          btn.className = 'tab-btn btn-game py-2.5 px-3 rounded-2xl font-display font-bold text-sm sm:text-base flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200';
+            // Set daily quote based on day 1
+            const quoteIdx = (state.user.stars % dailyQuotes.length);
+            document.getElementById('dailyQuoteText').textContent = `"${dailyQuotes[quoteIdx]}"`;
         }
-      });
 
-      if (tabName === 'journey') {
-        renderPhaseBar();
-        renderCalendar();
-        drawQuestCanvas();
-      }
-      if (tabName === 'playground') drawSimChart();
-      if (tabName === 'reversal') {
-        if (reversalState.candles.length === 0) startNewReversalRound();
-        else drawReversalCanvas();
-      }
-      if (tabName === 'academy') renderAcademyCards();
-    }
+        // --- NAVIGATION & TABS ---
+        function switchTab(tabName) {
+            ['calendar', 'arena', 'flashcards', 'trophies'].forEach(t => {
+                document.getElementById(`tabContent-${t}`).classList.add('hidden');
+                document.getElementById(`tabBtn-${t}`).classList.remove('border-amber-500', 'text-amber-400');
+                document.getElementById(`tabBtn-${t}`).classList.add('border-slate-800', 'text-slate-300');
+            });
+            document.getElementById(`tabContent-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tabBtn-${tabName}`).classList.add('border-amber-500', 'text-amber-400');
+            document.getElementById(`tabBtn-${tabName}`).classList.remove('border-slate-800', 'text-slate-300');
+        }
 
-    /* =========================================================================
-       9. BOOTSTRAP ON WINDOW LOAD
-       ========================================================================= */
-    window.addEventListener('resize', () => {
-      drawQuestCanvas();
-      drawSimChart();
-      drawReversalCanvas();
-      if (!document.getElementById('view-academy').classList.contains('hidden')) {
-        renderAcademyCards();
-      }
-    });
+        // --- RENDER CALENDAR ---
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
 
-    window.onload = function () {
-      updateHUD();
-      renderBadges();
-      renderTradeHistory();
-      initSimChart();
-      startNewReversalRound();
-      renderPhaseBar();
-      renderCalendar();
-      loadDailyMissionForDate(selectedDateKey);
-    };
-  </script>
+            curriculum.forEach(item => {
+                const isCompleted = state.completedDays.includes(item.day);
+                const isUnlocked = item.day === 1 || state.completedDays.includes(item.day - 1) || state.completedDays.includes(item.day);
+
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border flex flex-col justify-between gap-3 transition transform hover:scale-105 cursor-pointer ${
+                    isCompleted ? 'bg-emerald-950/40 border-emerald-500/50 text-emerald-300' :
+                    isUnlocked ? 'bg-slate-900 border-amber-500/50 text-white shadow-lg' : 'bg-slate-950/50 border-slate-800/50 text-slate-600 opacity-50 cursor-not-allowed'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="fredoka font-bold text-xs px-2 py-0.5 rounded ${isCompleted ? 'bg-emerald-500 text-black' : 'bg-amber-500 text-black'}">Nov ${item.day}</span>
+                        <span class="text-lg">${isCompleted ? '⭐' : isUnlocked ? '🔓' : '🔒'}</span>
+                    </div>
+                    <div>
+                        <h4 class="fredoka font-bold text-xs line-clamp-2">${item.title}</h4>
+                        <p class="text-[10px] text-slate-400 line-clamp-1 mt-0.5">${item.subtitle}</p>
+                    </div>
+                    <button onclick="${isUnlocked ? `openMission(${item.day})` : 'speakText(\'Complete previous days first!\')'}" class="w-full py-1.5 rounded-xl text-xs fredoka font-bold ${isCompleted ? 'bg-emerald-600 hover:bg-emerald-500 text-white' : isUnlocked ? 'bg-amber-500 hover:bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-500'}">
+                        ${isCompleted ? 'Review Day' : 'Start Mission'}
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // --- MISSION MODAL CONTROLLER ---
+        function openMission(dayNum) {
+            const data = curriculum.find(d => d.day === dayNum);
+            activeMission = { dayNum: dayNum, stage: 1, qIndex: 0, score: 0 };
+
+            document.getElementById('modalDayBadge').textContent = `November ${data.day} Mission`;
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('stage1Title').textContent = data.subtitle;
+            document.getElementById('stage1Desc').textContent = data.desc;
+
+            renderStage1Specimen(data.quizTopic);
+
+            document.getElementById('modalStage-1').classList.remove('hidden');
+            document.getElementById('modalStage-2').classList.add('hidden');
+            document.getElementById('modalStage-3').classList.add('hidden');
+
+            document.getElementById('missionModal').classList.remove('hidden');
+            speakText(`Mission November ${data.day}: ${data.title}. ${data.desc}`);
+        }
+
+        function closeMissionModal() {
+            document.getElementById('missionModal').classList.add('hidden');
+        }
+
+        function renderStage1Specimen(topic) {
+            const container = document.getElementById('modalVisualSpecimen');
+            container.innerHTML = `<div class="text-4xl">📈</div><span class="fredoka text-xs text-amber-300 mt-2 text-center">${topic.toUpperCase()}</span>`;
+        }
+
+        function advanceToStage2() {
+            activeMission.stage = 2;
+            document.getElementById('modalStage-1').classList.add('hidden');
+            document.getElementById('modalStage-2').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        // --- 10-QUESTION QUIZ ENGINE ---
+        function loadQuizQuestion() {
+            const qNum = activeMission.qIndex + 1;
+            document.getElementById('currentQNum').textContent = qNum;
+            document.getElementById('currentQuizScore').textContent = activeMission.score;
+            document.getElementById('quizProgressBar').style.width = (qNum * 10) + '%';
+
+            const data = curriculum.find(d => d.day === activeMission.dayNum);
+            document.getElementById('quizQuestionText').textContent = `Question ${qNum}: Spot the correct answer for ${data.title}?`;
+
+            const optionsGrid = document.getElementById('quizOptionsGrid');
+            optionsGrid.innerHTML = '';
+
+            // Generate 4 kid-friendly options
+            const options = [
+                { text: `Correct Answer for ${data.title}`, correct: true },
+                { text: "Wrong market direction trap", correct: false },
+                { text: "Random sideways chop", correct: false },
+                { text: "Fakeout candle wick", correct: false }
+            ].sort(() => Math.random() - 0.5);
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'bg-slate-900 hover:bg-slate-800 border border-slate-700 p-3 rounded-xl fredoka text-xs text-left text-white transition flex items-center justify-between';
+                btn.innerHTML = `<span>${opt.text}</span> <span class="text-base">🎯</span>`;
+                btn.onclick = () => handleQuizAnswer(opt.correct);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function handleQuizAnswer(isCorrect) {
+            if (isCorrect) {
+                activeMission.score++;
+                speakText("Awesome job! Correct!");
+            } else {
+                speakText("Not quite, but good try!");
+            }
+
+            activeMission.qIndex++;
+            if (activeMission.qIndex < 10) {
+                loadQuizQuestion();
+            } else {
+                // Advance to Stage 3 Live Simulation
+                activeMission.stage = 3;
+                document.getElementById('modalStage-2').classList.add('hidden');
+                document.getElementById('modalStage-3').classList.remove('hidden');
+                initModalLiveChart();
+                speakText("Quiz finished! Now test your skills in the live trading simulation!");
+            }
+        }
+
+        // --- LIVE CHART SIMULATION (ARENA & MODAL) ---
+        let modalChartCanvas = null;
+        let modalCanvasCtx = null;
+
+        function initLiveChart() {
+            const canvas = document.getElementById('liveChartCanvas');
+            const ctx = canvas.getContext('2d');
+            resizeCanvas(canvas);
+            generateInitialCandles();
+            drawChart(ctx, canvas);
+        }
+
+        function initModalLiveChart() {
+            const canvas = document.getElementById('modalLiveCanvas');
+            const ctx = canvas.getContext('2d');
+            resizeCanvas(canvas);
+            generateInitialCandles();
+            drawChart(ctx, canvas);
+        }
+
+        function resizeCanvas(canvas) {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+
+        function generateInitialCandles() {
+            chartCandles = [];
+            let price = 100;
+            for (let i = 0; i < 35; i++) {
+                const isGreen = Math.random() > 0.45;
+                const change = (Math.random() * 4) * (isGreen ? 1 : -1);
+                const open = price;
+                const close = open + change;
+                const high = Math.max(open, close) + Math.random() * 2;
+                const low = Math.min(open, close) - Math.random() * 2;
+                price = close;
+                chartCandles.push({ open, close, high, low, isGreen });
+            }
+        }
+
+        function drawChart(ctx, canvas) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const w = canvas.width;
+            const h = canvas.height;
+            const candleWidth = Math.max(4, w / 45);
+            const spacing = 6;
+
+            let minP = Math.min(...chartCandles.map(c => c.low));
+            let maxP = Math.max(...chartCandles.map(c => c.high));
+            let range = maxP - minP || 1;
+
+            chartCandles.forEach((c, idx) => {
+                const x = idx * (candleWidth + spacing) + 20;
+                const yHigh = h - ((c.high - minP) / range) * (h - 40) - 20;
+                const yLow = h - ((c.low - minP) / range) * (h - 40) - 20;
+                const yOpen = h - ((c.open - minP) / range) * (h - 40) - 20;
+                const yClose = h - ((c.close - minP) / range) * (h - 40) - 20;
+
+                ctx.strokeStyle = c.isGreen ? '#10b981' : '#f43f5e';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(x + candleWidth / 2, yHigh);
+                ctx.lineTo(x + candleWidth / 2, yLow);
+                ctx.stroke();
+
+                ctx.fillStyle = c.isGreen ? '#10b981' : '#f43f5e';
+                const bodyY = Math.min(yOpen, yClose);
+                const bodyH = Math.max(2, Math.abs(yOpen - yClose));
+                ctx.fillRect(x, bodyY, candleWidth, bodyH);
+            });
+        }
+
+        function setMarketMode(mode) {
+            marketModeState = mode;
+            ['Uptrend', 'Downtrend', 'Sideways'].forEach(m => {
+                const btn = document.getElementById(`mode${m}`);
+                if(btn) {
+                    btn.className = m.toLowerCase() === mode ? 'bg-emerald-600 border border-emerald-500 text-white text-xs px-3 py-1.5 rounded-xl font-bold transition' : 'bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold transition';
+                }
+            });
+        }
+
+        function executeLiveTrade(direction) {
+            const profit = (Math.random() > 0.4 ? 1 : -1) * (Math.random() * 250 + 50);
+            state.balance += profit;
+            updateUI();
+            speakText(profit > 0 ? "Wonderful trade! You made a profit!" : "Trade closed. Keep practicing your risk management!");
+        }
+
+        function executeModalTrade(direction) {
+            state.stars += 10;
+            if(!state.completedDays.includes(activeMission.dayNum)) {
+                state.completedDays.push(activeMission.dayNum);
+            }
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            updateUI();
+            renderCalendar();
+            closeMissionModal();
+            speakText("Mission complete! Star stamps and rewards earned!");
+        }
+
+        function resetDemoBalance() {
+            state.balance = 10000.00;
+            updateUI();
+            speakText("Demo balance reset to $10,000!");
+        }
+
+        // --- PICTURE CARDS ---
+        function renderFlashcards() {
+            const grid = document.getElementById('flashcardsGrid');
+            grid.innerHTML = '';
+            const cards = [
+                { title: "Green Bull Candle", desc: "Buyers push price up!", icon: "🟢" },
+                { title: "Red Bear Candle", desc: "Sellers push price down!", icon: "🔴" },
+                { title: "Support Trampoline", desc: "Floor where price bounces!", icon: "🎪" },
+                { title: "Resistance Ceiling", desc: "Roof where price rejects!", icon: "🏠" },
+                { title: "ICC Strategy", desc: "Indication, Correction, Continuation!", icon: "🚀" },
+                { title: "Stop-Loss Safety", desc: "Seatbelt protecting your account!", icon: "🛡️" }
+            ];
+
+            cards.forEach(c => {
+                const div = document.createElement('div');
+                div.className = 'bg-slate-950 border border-slate-800 p-5 rounded-2xl flex flex-col items-center text-center gap-3 shadow-lg';
+                div.innerHTML = `
+                    <div class="text-4xl">${c.icon}</div>
+                    <h4 class="fredoka font-bold text-white text-sm">${c.title}</h4>
+                    <p class="text-xs text-slate-400">${c.desc}</p>
+                    <button onclick="speakText('${c.title}: ${c.desc}')" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 px-3 py-1.5 rounded-xl text-xs text-amber-300 fredoka">🔊 Listen</button>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        // --- PROFILE & SPEECH ---
+        function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
+        function selectAvatar(av) { state.user.avatar = av; document.getElementById('avatarDisplay').textContent = av; }
+        function saveProfile() {
+            state.user.name = document.getElementById('inputTraderName').value || 'Saunie';
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            document.getElementById('profileModal').classList.add('hidden');
+            updateUI();
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.95;
+                utterance.pitch = 1.1;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function readDailyQuote() {
+            speakText(document.getElementById('dailyQuoteText').textContent);
+        }
+
+        function readStage1Text() {
+            speakText(document.getElementById('stage1Desc').textContent);
+        }
+    </script>
 </body>
 </html>
