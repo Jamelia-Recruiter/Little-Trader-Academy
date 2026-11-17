@@ -242,13 +242,13 @@
 
       <!-- Focused Bite-Sized Daily Mission Card (1 Topic Per Day — No Brain Cramming!) -->
       <div class="bg-white rounded-3xl p-4 sm:p-6 border-4 border-indigo-300 shadow-lg">
-        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div class="flex flex-wrap items-center gap-2">
             <span id="questDatePill" class="bg-indigo-600 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm">
               📅 November 16 Mission
             </span>
             <span id="questStepBadge" class="bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm">
-              Step 1 of 3: Picture Lesson
+              Stage 1: Spot & Learn
             </span>
             <span id="questTopicTag" class="bg-indigo-100 text-indigo-800 font-extrabold px-3 py-1 rounded-full text-xs uppercase">
               Phase 1 • Beginner
@@ -261,58 +261,149 @@
           </button>
         </div>
 
+        <!-- Stage Tracker & 10-Question Progress Dots -->
+        <div class="bg-slate-50 border-2 border-slate-200 rounded-2xl p-2.5 mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="flex items-center gap-1.5 text-xs font-extrabold">
+            <span id="stagePill-learn" class="px-2.5 py-1 rounded-xl bg-indigo-600 text-white">1. Visual Guide</span>
+            <span class="text-slate-400">➔</span>
+            <span id="stagePill-quiz" class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600">2. 10-Q Quiz</span>
+            <span class="text-slate-400">➔</span>
+            <span id="stagePill-sim" class="px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600">3. Live TP/SL Trade</span>
+          </div>
+          <div id="quizDotsRow" class="flex items-center gap-1 flex-wrap">
+            <!-- 10 Progress Dots populated by JS -->
+          </div>
+          <div id="quizScoreBadge" class="text-xs font-extrabold bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-xl">
+            Score: 0 / 10
+          </div>
+        </div>
+
         <!-- Big Kid-Friendly Instruction Banner -->
         <div class="bg-indigo-50 rounded-2xl p-4 border-2 border-indigo-200 mb-4 flex items-start gap-3">
           <span id="questMascotIcon" class="text-4xl shrink-0">🦁</span>
-          <div>
+          <div class="flex-1">
             <h2 id="questTitle" class="font-display text-xl sm:text-2xl font-bold text-indigo-900 mb-1">
               Green Bulls vs. Red Bears!
             </h2>
             <p id="questPrompt" class="text-base sm:text-lg font-bold text-slate-700 leading-snug">
-              Green candles go UP like a rocket! Red candles go DOWN like a slide!
+              Tap each candle button below to see how it forms before your 10-question challenge!
             </p>
           </div>
         </div>
 
-        <!-- Interactive Chart Canvas Picture -->
+        <!-- Stage 1 Specimen Selector Strip ("Spot & Learn" before the 10-Q Quiz) -->
+        <div id="specimenSelectorRow" class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-3">
+          <!-- Populated dynamically with clickable candle/pattern examples -->
+        </div>
+
+        <!-- Interactive Chart Canvas Picture & Post-Quiz Live Simulation -->
         <div class="relative bg-slate-900 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-inner">
-          <canvas id="questCanvas" class="w-full block cursor-pointer" style="height: 310px;"></canvas>
+          <canvas id="questCanvas" class="w-full block cursor-pointer" style="height: 330px;"></canvas>
           <div id="questCanvasHint" class="absolute bottom-3 left-3 bg-slate-800/90 text-amber-300 text-xs sm:text-sm font-bold px-3 py-1.5 rounded-xl border border-slate-600 pointer-events-none">
             👀 Look at the picture!
           </div>
+          <!-- Live Floating PnL Badge for Stage 3 Post-Quiz Simulation -->
+          <div id="questSimLiveHud" class="hidden absolute top-3 right-3 bg-slate-800/95 border-2 border-slate-600 px-3.5 py-2 rounded-2xl text-right">
+            <div class="text-[10px] font-extrabold uppercase text-slate-400">Live Setup PnL</div>
+            <div id="questSimPnlText" class="font-display font-bold text-xl text-emerald-400">$0.00</div>
+          </div>
         </div>
 
-        <!-- Interactive Action Area ("Let Him Try" Buttons) -->
+        <!-- Interactive Action Area -->
         <div id="questControlsArea" class="mt-5">
-          <!-- Step 1: Ready to Try Button -->
-          <div id="questTeachActions" class="flex justify-center">
-            <button onclick="advanceQuestToTry()"
+          <!-- Stage 1: Ready for 10-Question Quiz Button -->
+          <div id="questTeachActions" class="flex flex-wrap justify-center gap-3">
+            <button onclick="startDailyTenQuestionQuiz()"
               class="btn-game bg-emerald-500 text-white font-display font-bold text-xl px-8 py-3.5 rounded-2xl flex items-center gap-2">
-              <span>🎮</span> <span>Let Me Try Today's Challenge!</span>
+              <span>🎯</span> <span>Start 10-Question Quiz!</span>
             </button>
           </div>
 
-          <!-- Step 2: Interactive Choice Buttons -->
+          <!-- Stage 2: 10-Question Interactive Choice Buttons -->
           <div id="questChoiceButtons" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-3">
             <!-- Dynamically injected answer buttons -->
           </div>
 
-          <!-- Step 3: Bite-Sized Daily Completion & Calm Brain Rest Prompt -->
-          <div id="questFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
+          <!-- Stage 2 Per-Question Instant Feedback -->
+          <div id="questQuizFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
             <div class="flex flex-wrap items-center justify-between gap-3">
               <div class="flex items-start gap-3 flex-1">
-                <span id="questFeedbackEmoji" class="text-4xl">🌟</span>
+                <span id="questQuizFeedbackEmoji" class="text-4xl">🌟</span>
                 <div>
-                  <h3 id="questFeedbackHeading" class="font-display text-xl font-bold">Daily Mission Complete!</h3>
-                  <p id="questFeedbackText" class="font-bold text-base mt-0.5"></p>
+                  <h3 id="questQuizFeedbackHeading" class="font-display text-xl font-bold">Awesome!</h3>
+                  <p id="questQuizFeedbackText" class="font-bold text-base mt-0.5"></p>
                 </div>
               </div>
               <div class="flex flex-wrap items-center gap-2">
                 <button onclick="speakFeedback()" class="btn-game bg-white/90 text-slate-800 px-3 py-2 rounded-xl font-bold text-sm border border-slate-300">
                   🔊 Hear Why
                 </button>
+                <button id="btnNextQuizQuestion" onclick="nextDailyQuizQuestion()" class="btn-game bg-indigo-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">
+                  Next Question ➡️
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stage 3: Post-Quiz Real-Time Chart Mission Controls (SL / TP + BUY / SELL) -->
+          <div id="questSimControls" class="hidden space-y-4">
+            <!-- SL & TP Interactive Sliders -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3.5 rounded-2xl border-2 border-slate-200">
+              <div class="bg-emerald-50 border border-emerald-300 rounded-xl p-3">
+                <div class="flex justify-between items-center text-xs font-extrabold text-emerald-900 mb-1">
+                  <span>🎯 TAKE-PROFIT TARGET (TP)</span>
+                  <span id="questTpValLabel" class="bg-emerald-600 text-white px-2 py-0.5 rounded-full">+$300</span>
+                </div>
+                <input id="questTpSlider" type="range" min="6" max="24" value="14" oninput="updateQuestSlTpLines()"
+                  class="w-full accent-emerald-600 cursor-pointer" />
+                <div class="text-[11px] font-bold text-emerald-700 mt-0.5">Slide to set where you collect your trophy cash!</div>
+              </div>
+
+              <div class="bg-rose-50 border border-rose-300 rounded-xl p-3">
+                <div class="flex justify-between items-center text-xs font-extrabold text-rose-900 mb-1">
+                  <span>🛡️ STOP-LOSS SHIELD (SL)</span>
+                  <span id="questSlValLabel" class="bg-rose-600 text-white px-2 py-0.5 rounded-full">-$150</span>
+                </div>
+                <input id="questSlSlider" type="range" min="5" max="18" value="8" oninput="updateQuestSlTpLines()"
+                  class="w-full accent-rose-600 cursor-pointer" />
+                <div class="text-[11px] font-bold text-rose-700 mt-0.5">Slide to set your safety shield in case price tricks us!</div>
+              </div>
+            </div>
+
+            <!-- Big BUY / SELL Execution Buttons -->
+            <div id="questSimTradeBtns" class="grid grid-cols-2 gap-3">
+              <button onclick="executeQuestSimTrade('BUY')"
+                class="btn-game bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold py-4 px-3 rounded-2xl text-xl flex flex-col items-center leading-tight">
+                <span>🚀 BUY (Price Goes UP)</span>
+                <span class="text-xs font-sans font-extrabold opacity-90">Watch live candles form!</span>
+              </button>
+              <button onclick="executeQuestSimTrade('SELL')"
+                class="btn-game bg-rose-500 hover:bg-rose-600 text-white font-display font-bold py-4 px-3 rounded-2xl text-xl flex flex-col items-center leading-tight">
+                <span>🛝 SELL (Price Goes DOWN)</span>
+                <span class="text-xs font-sans font-extrabold opacity-90">Watch live candles form!</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Final Daily Wrap-Up Box after Post-Quiz Simulation Completes -->
+          <div id="questFeedbackBox" class="hidden mt-4 rounded-2xl p-4 border-4 transition-all">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-start gap-3 flex-1">
+                <span id="questFeedbackEmoji" class="text-4xl">🏆</span>
+                <div>
+                  <h3 id="questFeedbackHeading" class="font-display text-xl font-bold">Daily Mission & Live Chart Mastered!</h3>
+                  <p id="questFeedbackText" class="font-bold text-base mt-0.5"></p>
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <button onclick="speakFeedback()" class="btn-game bg-white/90 text-slate-800 px-3 py-2 rounded-xl font-bold text-sm border border-slate-300">
+                  🔊 Hear Recap
+                </button>
+                <button onclick="replayQuestLiveSim()" class="btn-game bg-sky-500 text-white font-display font-bold px-4 py-2.5 rounded-xl">
+                  🔄 Replay Chart
+                </button>
                 <button id="btnQuestRetryOrNext" onclick="advanceToNextCalendarDay()" class="btn-game bg-indigo-600 text-white font-display font-bold px-5 py-2.5 rounded-xl">
-                  Tomorrow's Day ➡️
+                  Next Day ➡️
                 </button>
               </div>
             </div>
@@ -936,459 +1027,575 @@
         coords.push({ x: cx, yHigh, yLow, yOpen, yClose, idx });
       });
 
+      // Optional Take-Profit (TP) Target Line
+      if (options.tpLevel !== undefined) {
+        const tpy = priceToY(options.tpLevel);
+        ctx.fillStyle = 'rgba(16, 185, 129, 0.22)';
+        ctx.fillRect(0, tpy - 7, width, 14);
+        ctx.strokeStyle = '#34d399';
+        ctx.setLineDash([7, 4]);
+        ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(0, tpy); ctx.lineTo(width, tpy); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#6ee7b7';
+        ctx.font = 'bold 12px Fredoka, sans-serif';
+        ctx.fillText(`🎯 TAKE-PROFIT TARGET ($${options.tpLevel.toFixed(1)})`, 12, tpy - 10);
+      }
+
+      // Optional Stop-Loss (SL) Shield Line
+      if (options.slLevel !== undefined) {
+        const sly = priceToY(options.slLevel);
+        ctx.fillStyle = 'rgba(244, 63, 94, 0.22)';
+        ctx.fillRect(0, sly - 7, width, 14);
+        ctx.strokeStyle = '#fb7185';
+        ctx.setLineDash([5, 4]);
+        ctx.lineWidth = 2.5;
+        ctx.beginPath(); ctx.moveTo(0, sly); ctx.lineTo(width, sly); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#fda4af';
+        ctx.font = 'bold 12px Fredoka, sans-serif';
+        ctx.fillText(`🛡️ STOP-LOSS SHIELD ($${options.slLevel.toFixed(1)})`, 12, sly + 16);
+      }
+
       // Optional Trendline connecting indices
-      if (options.trendline && coords.length > options.trendline.endIdx) {
-        const p1 = coords[options.trendline.startIdx];
-        const p2 = coords[options.trendline.endIdx];
-        const y1 = options.trendline.type === 'up' ? p1.yLow + 6 : p1.yHigh - 6;
-        const y2 = options.trendline.type === 'up' ? p2.yLow + 6 : p2.yHigh - 6;
-        ctx.strokeStyle = '#c084fc';
-        ctx.lineWidth = 3.5;
-        ctx.beginPath();
-        ctx.moveTo(p1.x, y1);
-        ctx.lineTo(p2.x, y2);
-        ctx.stroke();
-      }
-
-      // Optional Entry Marker
-      if (options.entryMarker && coords[options.entryMarker.idx]) {
-        const ep = coords[options.entryMarker.idx];
-        const ey = priceToY(options.entryMarker.price);
-        ctx.fillStyle = '#facc15';
-        ctx.beginPath();
-        ctx.arc(ep.x, ey, 7, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#0f172a';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      return { priceToY, coords };
-    }
-
-    /* =========================================================================
-       4. DAILY MOTIVATIONAL QUOTES & PHASE-GATED CURRICULUM (NO CRAMMING!)
-       ========================================================================= */
-    const DAILY_QUOTES = [
-      "Every obstacle is a stepping stone destined to take you someplace greater!",
-      "Big oak trees start as tiny acorns. One small lesson a day makes a master trader!",
-      "Patience is a superpower! Waiting for the right candle beats rushing every time.",
-      "Mistakes are just clues showing you how to win next time!",
-      "A smart trader protects their treasure chest first, and grows it second!",
-      "You don't have to trade every candle. Even superheroes wait for the right moment!",
-      "Steady steps climb the tallest mountains. Keep showing up every day!",
-      "Calm minds spot the clearest patterns. Take a deep breath and look closely!",
-      "Rules keep you safe! Following your trading plan is how champions play.",
-      "Every pro trader was once an 8-year-old learning their very first green candle!",
-      "Small losses are tiny scrapes; big discipline keeps you in the game forever!",
-      "Don't chase a runaway rocket—another great setup is always right around the corner!",
-      "Your brain gets stronger every single day you practice one bite-sized skill!",
-      "Greatness isn't built in one giant cram session—it's built day by day!",
-      "Trust your eyes, check your rules, and never let FOMO trick you!"
-    ];
-
-    const PHASES = [
-      {
-        id: 1,
-        name: 'Phase 1: Beginner',
-        subtitle: 'Candles, Doji, Hammer & Trends',
-        icon: '🌱',
-        color: 'emerald',
-        requiredToUnlockNext: 7 // Must master all 7 beginner days to unlock Phase 2!
-      },
-      {
-        id: 2,
-        name: 'Phase 2: Intermediate',
-        subtitle: 'S/R, Trendlines, ICC & Fakeouts',
-        icon: '⚡',
-        color: 'sky',
-        requiredToUnlockNext: 6 // Must master all 6 intermediate days to unlock Phase 3!
-      },
-      {
-        id: 3,
-        name: 'Phase 3: Advanced',
-        subtitle: 'Discipline, Stop-Loss & Mindset',
-        icon: '🛡️',
-        color: 'purple',
-        requiredToUnlockNext: 6 // Must master all 6 advanced days to unlock Phase 4!
-      },
-      {
-        id: 4,
-        name: 'Phase 4: Pro Daily',
-        subtitle: 'Never-Ending Master Quests',
-        icon: '👑',
-        color: 'amber',
-        requiredToUnlockNext: 9999
-      }
-    ];
-
-    // Structured Phase Curriculum — 1 bite-sized concept per day!
+    // Structured Phase Curriculum — Each Day includes:
+    // 1. Visual Guide Specimens ("Spot & Learn" before quiz)
+    // 2. 10 Deep-Dive Picture Quiz Questions on that exact day's topic
+    // 3. Post-Quiz Real-Time Chart Mission with live forming candles + SL/TP!
     const PHASE_LESSONS = {
       1: [
         {
           id: 'p1_1',
-          topic: 'Phase 1 • Day 1: Green & Red Candles',
-          title: (name) => `Welcome ${name}! Green Rockets vs. Red Slides`,
-          teachText: (name) => `Today is just ONE simple idea, ${name}! Green candles climb UP like a rocket! Red candles slide DOWN like a slide!`,
-          tryPrompt: 'Look at the glowing candle! Did buyers push it UP (Green) or DOWN (Red)?',
-          choices: [
-            { label: '🟢 Green Rocket (UP)', correct: true },
-            { label: '🔴 Red Slide (DOWN)', correct: false },
-            { label: '⚪ Invisible', correct: false }
+          topic: 'Phase 1 • Day 1: All Candlestick Types',
+          title: (name) => `Day 1 Candle Explorer, ${name}!`,
+          teachText: (name) => `Before your 10-question challenge, tap each candle button below to learn how Green Rockets, Red Slides, Dojis, Hammers, and Shooting Stars form!`,
+          specimens: [
+            {
+              btnLabel: '🟢 Green Rocket',
+              explain: 'A Green Bullish Candle opens at the bottom and climbs UP to close high at the top!',
+              candles: [
+                { open: 38, close: 44, high: 46, low: 36 },
+                { open: 44, close: 66, high: 70, low: 42, highlight: true, label: '🟢 Green Rocket!' }
+              ]
+            },
+            {
+              btnLabel: '🔴 Red Slide',
+              explain: 'A Red Bearish Candle opens high at the top and slides DOWN to close low at the bottom!',
+              candles: [
+                { open: 66, close: 58, high: 68, low: 56 },
+                { open: 58, close: 34, high: 60, low: 32, highlight: true, label: '🔴 Red Slide!' }
+              ]
+            },
+            {
+              btnLabel: '➕ Doji (Tie)',
+              explain: 'A Doji looks like a plus sign! Buyers and sellers tied, so open and close are at the exact same spot!',
+              candles: [
+                { open: 40, close: 50, high: 52, low: 39 },
+                { open: 50, close: 50.2, high: 60, low: 40, highlight: true, label: '➕ DOJI (Tie!)' }
+              ]
+            },
+            {
+              btnLabel: '🔨 Hammer',
+              explain: 'A Hammer appears at the bottom with a tiny head and long bottom tail—buyers hammered price back UP!',
+              candles: [
+                { open: 62, close: 48, high: 63, low: 46 },
+                { open: 46, close: 50, high: 51, low: 30, highlight: true, label: '🔨 HAMMER!' }
+              ]
+            },
+            {
+              btnLabel: '🌠 Shooting Star',
+              explain: 'A Shooting Star appears at the top with a long tail pointing UP—buyers got bonked back DOWN!',
+              candles: [
+                { open: 40, close: 55, high: 56, low: 39 },
+                { open: 56, close: 52, high: 72, low: 51, highlight: true, label: '🌠 Shooting Star!' }
+              ]
+            }
           ],
-          explainWhy: 'Green candles open at the bottom and close higher at the top—buyers won!',
-          candles: [
-            { open: 40, close: 48, high: 50, low: 38 },
-            { open: 48, close: 42, high: 49, low: 40, label: 'Red Slide' },
-            { open: 42, close: 62, high: 65, low: 41, highlight: true, label: 'Green Rocket!' }
-          ]
+          questions: [
+            {
+              prompt: 'Q1/10: Look at the glowing candle! Did buyers push price UP (Green) or DOWN (Red)?',
+              choices: [
+                { label: '🟢 Green Rocket (UP)', correct: true },
+                { label: '🔴 Red Slide (DOWN)', correct: false },
+                { label: '➕ Flat Doji Tie', correct: false }
+              ],
+              explainWhy: 'Green candles open low and close higher at the top—buyers won!',
+              candles: [
+                { open: 40, close: 46, high: 48, low: 39 },
+                { open: 46, close: 65, high: 68, low: 45, highlight: true, label: 'Which Candle?' }
+              ]
+            },
+            {
+              prompt: 'Q2/10: Look at this glowing red candle. Where did it CLOSE?',
+              choices: [
+                { label: '⬇️ Near the Bottom', correct: true },
+                { label: '⬆️ Near the Top', correct: false },
+                { label: '➡️ Dead Center', correct: false }
+              ],
+              explainWhy: 'Red candles open near the top and slide down to close near the bottom!',
+              candles: [
+                { open: 64, close: 58, high: 66, low: 57 },
+                { open: 58, close: 36, high: 60, low: 34, highlight: true, label: 'Red Candle' }
+              ]
+            },
+            {
+              prompt: 'Q3/10: Spot the glowing plus-sign candle! What is its name?',
+              choices: [
+                { label: '➕ Doji Candle', correct: true },
+                { label: '🔨 Hammer Candle', correct: false },
+                { label: '🦖 Engulfing Candle', correct: false }
+              ],
+              explainWhy: 'A Doji has almost no body because open and close tied in the middle!',
+              candles: [
+                { open: 38, close: 49, high: 51, low: 37 },
+                { open: 49, close: 49.2, high: 58, low: 40, highlight: true, label: 'Name Me!' }
+              ]
+            },
+            {
+              prompt: 'Q4/10: When a DOJI candle forms, who won the tug-of-war?',
+              choices: [
+                { label: '⚖️ Nobody—It Was a Tie!', correct: true },
+                { label: '🐂 Green Bulls Crushed It', correct: false },
+                { label: '🐻 Red Bears Crushed It', correct: false }
+              ],
+              explainWhy: 'A Doji shows equal strength from buyers and sellers—a tie game!',
+              candles: [
+                { open: 55, close: 48, high: 56, low: 47 },
+                { open: 48, close: 48.1, high: 56, low: 40, highlight: true, label: '➕ Tie?' }
+              ]
+            },
+            {
+              prompt: 'Q5/10: Look at the bottom candle with a small top head and long bottom handle! What is it?',
+              choices: [
+                { label: '🔨 Hammer Candle', correct: true },
+                { label: '🌠 Shooting Star', correct: false },
+                { label: '➕ Flat Doji', correct: false }
+              ],
+              explainWhy: 'That is a Hammer! Sellers pushed down, but buyers hammered price back up!',
+              candles: [
+                { open: 64, close: 50, high: 65, low: 48 },
+                { open: 48, close: 52, high: 53, low: 30, highlight: true, label: 'Long Bottom Tail!' }
+              ]
+            },
+            {
+              prompt: 'Q6/10: You spot a HAMMER at the bottom of a drop! What direction does it hint price will go next?',
+              choices: [
+                { label: '🚀 Bounce UP!', correct: true },
+                { label: '🕳️ Crash Straight Down', correct: false },
+                { label: '🧊 Freeze Forever', correct: false }
+              ],
+              explainWhy: 'A Hammer at the bottom shows strong buyer rejection—price often bounces UP!',
+              candles: [
+                { open: 60, close: 46, high: 62, low: 45 },
+                { open: 45, close: 49, high: 50, low: 28, highlight: true, label: '🔨 Next Move?' }
+              ]
+            },
+            {
+              prompt: 'Q7/10: Look at the top of the hill! This candle has a long tail pointing UP. What is it?',
+              choices: [
+                { label: '🌠 Shooting Star', correct: true },
+                { label: '🔨 Bottom Hammer', correct: false },
+                { label: '🟢 Giant Rocket', correct: false }
+              ],
+              explainWhy: 'An upside-down hammer at the top is a Shooting Star—buyers got bonked down!',
+              candles: [
+                { open: 36, close: 52, high: 54, low: 35 },
+                { open: 53, close: 49, high: 70, low: 48, highlight: true, label: 'Long Top Tail!' }
+              ]
+            },
+            {
+              prompt: 'Q8/10: When a SHOOTING STAR forms at the top, what usually happens next?',
+              choices: [
+                { label: '🛝 Price Slides DOWN!', correct: true },
+                { label: '🚀 Price Flies Higher', correct: false },
+                { label: '➕ Nothing Moves', correct: false }
+              ],
+              explainWhy: 'The long top wick shows sellers pushed price back down from the top!',
+              candles: [
+                { open: 40, close: 56, high: 57, low: 39 },
+                { open: 57, close: 53, high: 72, low: 52, highlight: true, label: '🌠 Next Move?' }
+              ]
+            },
+            {
+              prompt: 'Q9/10: Look at the giant green candle hugging and swallowing the tiny red candle! What is that?',
+              choices: [
+                { label: '🦖 Bullish Engulfing!', correct: true },
+                { label: '➕ Tiny Doji', correct: false },
+                { label: '🌠 Shooting Star', correct: false }
+              ],
+              explainWhy: 'A Bullish Engulfing candle completely wraps around the previous red candle!',
+              candles: [
+                { open: 55, close: 47, high: 56, low: 46 },
+                { open: 47, close: 43, high: 48, low: 42, label: 'Small' },
+                { open: 41, close: 62, high: 64, low: 40, highlight: true, label: 'Big Hug!' }
+              ]
+            },
+            {
+              prompt: 'Q10/10: FINAL BOSS QUESTION! What do the thin lines (wicks) above and below a candle show?',
+              choices: [
+                { label: '📏 Highest & Lowest Price Reached', correct: true },
+                { label: '🎨 Just Decoration', correct: false },
+                { label: '⏰ Tomorrow’s Weather', correct: false }
+              ],
+              explainWhy: 'Wicks show the highest and lowest spots price visited before the candle closed!',
+              candles: [
+                { open: 45, close: 55, high: 68, low: 32, highlight: true, label: 'Top & Bottom Wicks!' }
+              ]
+            }
+          ],
+          simMission: {
+            introText: (name) => `Live Chart Mission, ${name}! Watch the candles form... look! Price just dropped to the Green Floor and printed a HAMMER! Set your Take-Profit (TP) and Stop-Loss (SL) shields, then click BUY or SELL!`,
+            setupCandles: [
+              { open: 68, close: 60, high: 70, low: 58 },
+              { open: 60, close: 52, high: 61, low: 50 },
+              { open: 52, close: 44, high: 53, low: 42 },
+              { open: 44, close: 38, high: 45, low: 36 }
+            ],
+            triggerCandle: { open: 37, close: 41, high: 42, low: 28, highlight: true, label: '🔨 HAMMER!' },
+            supportLevel: 35,
+            expectedSide: 'BUY',
+            winPath: [45, 51, 58, 65],
+            losePath: [34, 29, 24],
+            recapWhy: 'The Hammer at the Support Floor showed buyers rejecting lower prices—and the next candles rocketed straight to your Take-Profit target!'
+          }
         },
         {
           id: 'p1_2',
-          topic: 'Phase 1 • Day 2: The Doji Candle',
-          title: () => 'Meet the Doji: A Tie Game!',
-          teachText: (name) => `See that tiny plus-sign candle in the middle? That is a DOJI! Buyers and sellers pulled equally hard, so it ended in a TIE!`,
-          tryPrompt: 'When you see a flat plus-sign DOJI candle, what does it mean?',
-          choices: [
-            { label: '⚖️ A Tug-of-War Tie!', correct: true },
-            { label: '🚀 Huge Rocket Blast', correct: false },
-            { label: '💥 Market Closed', correct: false }
+          topic: 'Phase 1 • Day 2: Market Trends & Staircases',
+          title: (name) => `Day 2 Trend Detective, ${name}!`,
+          teachText: (name) => `Tap the 3 buttons below to explore Uptrends, Downtrends, and Sideways markets before your 10-question challenge!`,
+          specimens: [
+            {
+              btnLabel: '🚀 Uptrend Stairs',
+              explain: 'An Uptrend climbs higher peaks and higher dips going up-right like stairs!',
+              trendline: { startIdx: 0, endIdx: 4, type: 'up' },
+              candles: [
+                { open: 30, close: 40, high: 42, low: 29 },
+                { open: 40, close: 36, high: 41, low: 35 },
+                { open: 36, close: 50, high: 52, low: 35 },
+                { open: 50, close: 45, high: 51, low: 44 },
+                { open: 45, close: 62, high: 64, low: 44, highlight: true, label: 'Higher High!' }
+              ]
+            },
+            {
+              btnLabel: '🛝 Downtrend Slide',
+              explain: 'A Downtrend makes lower peaks and lower bottoms sliding down-right!',
+              trendline: { startIdx: 0, endIdx: 4, type: 'down' },
+              candles: [
+                { open: 65, close: 55, high: 66, low: 54 },
+                { open: 55, close: 59, high: 60, low: 54 },
+                { open: 59, close: 44, high: 60, low: 43 },
+                { open: 44, close: 48, high: 49, low: 43 },
+                { open: 48, close: 32, high: 49, low: 30, highlight: true, label: 'Lower Low!' }
+              ]
+            },
+            {
+              btnLabel: '🏓 Sideways Ping-Pong',
+              explain: 'A Sideways market bounces flat between a floor and ceiling like a ping-pong ball!',
+              supportLevel: 38,
+              resistanceLevel: 58,
+              candles: [
+                { open: 40, close: 56, high: 58, low: 39 },
+                { open: 56, close: 40, high: 57, low: 38 },
+                { open: 40, close: 57, high: 58, low: 39 },
+                { open: 57, close: 41, high: 58, low: 39, highlight: true, label: 'Ping-Pong!' }
+              ]
+            }
           ],
-          explainWhy: 'A Doji has almost no body because price opened and closed at the exact same spot—a tie between buyers and sellers!',
-          candles: [
-            { open: 35, close: 48, high: 50, low: 34 },
-            { open: 48, close: 48.2, high: 56, low: 40, highlight: true, label: '➕ DOJI (Tie!)' },
-            { open: 48, close: 44, high: 50, low: 42 }
-          ]
-        },
-        {
-          id: 'p1_3',
-          topic: 'Phase 1 • Day 3: The Hammer Candle',
-          title: () => 'The Super Hammer Bounce!',
-          teachText: (name) => `Look at the candle shaped like a HAMMER! Sellers tried to push price way down, leaving a long tail, but buyers hammered it right back up!`,
-          tryPrompt: 'A Hammer candle appears at the bottom with a long tail pointing down! What does it hint?',
-          choices: [
-            { label: '🔨 Buyers Bouncing UP!', correct: true },
-            { label: '🛝 Sliding Further Down', correct: false },
-            { label: '😴 Nothing At All', correct: false }
-          ],
-          explainWhy: 'That long bottom wick shows sellers failed to keep price down—buyers hammered price back up!',
-          candles: [
-            { open: 64, close: 52, high: 65, low: 50 },
-            { open: 52, close: 42, high: 53, low: 40 },
-            { open: 41, close: 45, high: 46, low: 26, highlight: true, label: '🔨 HAMMER!' },
-            { open: 45, close: 56, high: 58, low: 44 }
-          ]
-        },
-        {
-          id: 'p1_4',
-          topic: 'Phase 1 • Day 4: Shooting Star Candle',
-          title: () => 'Watch Out for the Shooting Star!',
-          teachText: (name) => `An upside-down hammer at the top is a SHOOTING STAR! Price tried to fly high, got bonked down, and left a long tail on top!`,
-          tryPrompt: 'You spot a Shooting Star at the top of a hill with a long wick on top. What might happen next?',
-          choices: [
-            { label: '🌠 Fall Back DOWN!', correct: true },
-            { label: '🚀 Fly to Mars', correct: false },
-            { label: '🧊 Freeze Flat', correct: false }
-          ],
-          explainWhy: 'The long top tail shows buyers got rejected at the top, so price often falls back down!',
-          candles: [
-            { open: 35, close: 48, high: 50, low: 34 },
-            { open: 48, close: 58, high: 60, low: 47 },
-            { open: 59, close: 55, high: 75, low: 54, highlight: true, label: '🌠 Shooting Star' },
-            { open: 55, close: 43, high: 56, low: 41 }
-          ]
-        },
-        {
-          id: 'p1_5',
-          topic: 'Phase 1 • Day 5: Bullish Engulfing',
-          title: () => 'The Giant Hug (Engulfing Candle)!',
-          teachText: (name) => `See how that huge green candle completely swallows the tiny red candle next to it? That is a BULLISH ENGULFING candle!`,
-          tryPrompt: 'When a giant green candle swallows a small red candle, who just took control?',
-          choices: [
-            { label: '🐂 Strong Green Buyers!', correct: true },
-            { label: '🐻 Tiny Red Sellers', correct: false },
-            { label: '🐢 Sleepy Turtles', correct: false }
-          ],
-          explainWhy: 'A Bullish Engulfing candle completely wraps around the previous red candle, showing huge buyer power!',
-          candles: [
-            { open: 56, close: 48, high: 58, low: 46 },
-            { open: 48, close: 43, high: 49, low: 42, label: 'Tiny' },
-            { open: 41, close: 62, high: 64, low: 40, highlight: true, label: '🦖 ENGULFING!' }
-          ]
-        },
-        {
-          id: 'p1_6',
-          topic: 'Phase 1 • Day 6: 3 Market Moods',
-          title: () => 'Uptrend, Downtrend & Sideways!',
-          teachText: (name) => `Markets have 3 moods: Climbing stairs (Uptrend), sliding down (Downtrend), or bouncing flat like ping-pong (Sideways)!`,
-          tryPrompt: 'Look at this chart climbing higher stairs to the right! Which mood is it?',
-          choices: [
-            { label: '🚀 Uptrend (Climbing)', correct: true },
-            { label: '🛝 Downtrend (Sliding)', correct: false },
-            { label: '🏓 Sideways (Flat)', correct: false }
-          ],
-          explainWhy: 'Higher peaks and higher dips going up-right is a classic Uptrend!',
-          trendline: { startIdx: 0, endIdx: 5, type: 'up' },
-          candles: [
-            { open: 30, close: 38, high: 40, low: 28 },
-            { open: 38, close: 35, high: 40, low: 33 },
-            { open: 35, close: 48, high: 50, low: 34 },
-            { open: 48, close: 44, high: 49, low: 42 },
-            { open: 44, close: 58, high: 60, low: 43 },
-            { open: 58, close: 66, high: 68, low: 56, highlight: true }
-          ]
-        },
-        {
-          id: 'p1_7',
-          topic: 'Phase 1 • Day 7: Beginner Boss Check!',
-          title: (name) => `Beginner Belt Boss Test, ${name}!`,
-          teachText: (name) => `Pass today's Boss Check to earn your Beginner Belt and unlock Phase 2 Intermediate Strategies!`,
-          tryPrompt: 'BOSS QUESTION: Price falls to the bottom and prints a HAMMER with a long bottom tail. What is happening?',
-          choices: [
-            { label: '🔨 Buyers Bouncing Price UP!', correct: true },
-            { label: '⚖️ A Flat Doji Tie', correct: false },
-            { label: '🌠 Shooting Star at the Top', correct: false }
-          ],
-          explainWhy: 'You nailed it! A Hammer at the bottom shows buyers rejecting lower prices and bouncing back up!',
-          candles: [
-            { open: 65, close: 52, high: 66, low: 50 },
-            { open: 52, close: 42, high: 53, low: 40 },
-            { open: 41, close: 46, high: 47, low: 25, highlight: true, label: '👑 BOSS CANDLE' }
-          ]
+          questions: Array.from({ length: 10 }, (_, idx) => {
+            const types = ['up', 'down', 'side'];
+            const t = types[idx % 3];
+            if (t === 'up') {
+              return {
+                prompt: `Q${idx + 1}/10: Price is climbing higher steps to the right! Which trend is this?`,
+                choices: [
+                  { label: '🚀 Uptrend (Going Up)', correct: true },
+                  { label: '🛝 Downtrend (Going Down)', correct: false },
+                  { label: '🏓 Sideways (Flat)', correct: false }
+                ],
+                explainWhy: 'Higher highs and higher lows climbing upward is an Uptrend!',
+                trendline: { startIdx: 0, endIdx: 3, type: 'up' },
+                candles: [
+                  { open: 30 + idx, close: 42 + idx, high: 44 + idx, low: 29 + idx },
+                  { open: 42 + idx, close: 38 + idx, high: 43 + idx, low: 37 + idx },
+                  { open: 38 + idx, close: 54 + idx, high: 56 + idx, low: 37 + idx },
+                  { open: 54 + idx, close: 64 + idx, high: 66 + idx, low: 52 + idx, highlight: true }
+                ]
+              };
+            } else if (t === 'down') {
+              return {
+                prompt: `Q${idx + 1}/10: Price is sliding down lower steps! Which direction should a trend trader look for?`,
+                choices: [
+                  { label: '🛝 SELL (Follow Downtrend)', correct: true },
+                  { label: '🚀 BUY Against the Slide', correct: false },
+                  { label: '🙈 Close Eyes', correct: false }
+                ],
+                explainWhy: 'In a Downtrend, sellers are in control making lower highs and lower lows!',
+                trendline: { startIdx: 0, endIdx: 3, type: 'down' },
+                candles: [
+                  { open: 68, close: 56, high: 70, low: 55 },
+                  { open: 56, close: 60, high: 61, low: 55 },
+                  { open: 60, close: 44, high: 61, low: 43 },
+                  { open: 44, close: 34, high: 45, low: 32, highlight: true }
+                ]
+              };
+            }
+            return {
+              prompt: `Q${idx + 1}/10: Price keeps bouncing flat between the same Floor and Ceiling! What market is this?`,
+              choices: [
+                { label: '🏓 Sideways Range', correct: true },
+                { label: '🚀 Steep Uptrend', correct: false },
+                { label: '🛝 Steep Downtrend', correct: false }
+              ],
+              explainWhy: 'When price moves horizontally between Support and Resistance, it is a Sideways range!',
+              supportLevel: 38,
+              resistanceLevel: 60,
+              candles: [
+                { open: 40, close: 58, high: 60, low: 39 },
+                { open: 58, close: 40, high: 59, low: 38 },
+                { open: 40, close: 59, high: 60, low: 39 },
+                { open: 59, close: 42, high: 60, low: 40, highlight: true }
+              ]
+            };
+          }),
+          simMission: {
+            introText: (name) => `Live Chart Mission, ${name}! Watch this strong Uptrend pull back to the rising purple Trendline and print a green bounce candle! Set your TP & SL, then trade!`,
+            setupCandles: [
+              { open: 30, close: 42, high: 44, low: 29 },
+              { open: 42, close: 38, high: 43, low: 36 },
+              { open: 38, close: 54, high: 56, low: 37 },
+              { open: 54, close: 47, high: 55, low: 45 }
+            ],
+            triggerCandle: { open: 47, close: 55, high: 57, low: 46, highlight: true, label: '🚀 Trend Bounce!' },
+            trendline: { startIdx: 0, endIdx: 4, type: 'up' },
+            expectedSide: 'BUY',
+            winPath: [60, 66, 72],
+            losePath: [42, 36, 31],
+            recapWhy: 'Price bounced right off the rising trendline in an Uptrend and continued climbing to your Take-Profit!'
+          }
         }
       ],
       2: [
         {
           id: 'p2_1',
-          topic: 'Phase 2 • Day 1: Support (Trampoline Floor)',
-          title: () => 'The Magic Trampoline Floor (Support)!',
-          teachText: (name) => `Welcome to Phase 2, ${name}! That green line at the bottom is SUPPORT. Price bounces off it like a trampoline!`,
-          tryPrompt: 'Price touched the Green Support Floor and printed a green bounce candle. What is the smart move?',
-          choices: [
-            { label: '🚀 BUY the Bounce!', correct: true },
-            { label: '🛝 SELL into the Floor', correct: false },
-            { label: '🙈 Guess Blindly', correct: false }
+          topic: 'Phase 2 • Support, Resistance & ICC',
+          title: (name) => `Phase 2 Strategy Lab, ${name}!`,
+          teachText: (name) => `Tap the 4 strategy buttons below to review Support, Resistance, ICC, and Fakeouts before your 10-question test!`,
+          specimens: [
+            {
+              btnLabel: '🟩 Support Floor',
+              explain: 'Support is a trampoline floor where price bounces UP!',
+              supportLevel: 35,
+              candles: [
+                { open: 56, close: 37, high: 58, low: 35 },
+                { open: 37, close: 54, high: 56, low: 36, highlight: true, label: '🦘 Bounce!' }
+              ]
+            },
+            {
+              btnLabel: '🟥 Resistance Ceiling',
+              explain: 'Resistance is a hard ceiling where price bonks its head and drops DOWN!',
+              resistanceLevel: 68,
+              candles: [
+                { open: 48, close: 66, high: 68, low: 47 },
+                { open: 66, close: 49, high: 68, low: 48, highlight: true, label: 'Bonk!' }
+              ]
+            },
+            {
+              btnLabel: '⚡ ICC 3-Step',
+              explain: 'Indication (big push), Correction (tiny rest), Continuation (blast off again)!',
+              candles: [
+                { open: 28, close: 52, high: 54, low: 27, label: '1. I' },
+                { open: 52, close: 46, high: 53, low: 45, label: '2. C' },
+                { open: 46, close: 68, high: 70, low: 45, highlight: true, label: '3. C!' }
+              ]
+            },
+            {
+              btnLabel: '🪤 Fakeout Trap',
+              explain: 'A Fakeout pokes above the ceiling for one candle and slams right back down!',
+              resistanceLevel: 60,
+              candles: [
+                { open: 45, close: 58, high: 59, low: 44 },
+                { open: 58, close: 66, high: 69, low: 57, label: 'Poke!' },
+                { open: 66, close: 46, high: 67, low: 45, highlight: true, label: '🪤 Fakeout!' }
+              ]
+            }
           ],
-          explainWhy: 'Support is a floor where buyers step in to bounce price back upward!',
-          supportLevel: 35,
-          candles: [
-            { open: 58, close: 46, high: 60, low: 45 },
-            { open: 46, close: 36, high: 47, low: 35 },
-            { open: 36, close: 50, high: 52, low: 35, highlight: true, label: '🦘 Bounce!' }
-          ]
-        },
-        {
-          id: 'p2_2',
-          topic: 'Phase 2 • Day 2: Resistance (Bouncy Ceiling)',
-          title: () => 'Bonk! The Bouncy Ceiling (Resistance)!',
-          teachText: (name) => `The red line at the top is RESISTANCE! Price jumps up, bonks its head on the ceiling, and falls back down!`,
-          tryPrompt: 'Price bonked its head on the Red Ceiling twice and turned red. What should we do?',
-          choices: [
-            { label: '🛝 SELL (Go Down)', correct: true },
-            { label: '🚀 BUY into Ceiling', correct: false },
-            { label: '🎈 Hope It Breaks', correct: false }
-          ],
-          explainWhy: 'Resistance blocks price from going higher until buyers get super strong!',
-          resistanceLevel: 70,
-          candles: [
-            { open: 48, close: 68, high: 70, low: 47, label: 'Bonk 1' },
-            { open: 68, close: 55, high: 69, low: 54 },
-            { open: 55, close: 69, high: 70, low: 54, label: 'Bonk 2' },
-            { open: 69, close: 54, high: 70, low: 53, highlight: true }
-          ]
-        },
-        {
-          id: 'p2_3',
-          topic: 'Phase 2 • Day 3: Trendline Bounces',
-          title: () => 'Riding the Purple Trendline!',
-          teachText: (name) => `Connect two higher bottoms with a diagonal TRENDLINE! Every time price touches that purple slide going up, it bounces!`,
-          tryPrompt: 'Price just came down and touched our rising Purple Trendline with a green candle! What next?',
-          choices: [
-            { label: '🚀 Bounce UP Along Line!', correct: true },
-            { label: '🕳️ Drop Straight Down', correct: false },
-            { label: '🛑 Stop Moving', correct: false }
-          ],
-          explainWhy: 'A rising trendline acts like a diagonal trampoline supporting an uptrend!',
-          trendline: { startIdx: 0, endIdx: 4, type: 'up' },
-          candles: [
-            { open: 28, close: 38, high: 40, low: 27 },
-            { open: 38, close: 34, high: 39, low: 32 },
-            { open: 34, close: 50, high: 52, low: 33 },
-            { open: 50, close: 44, high: 51, low: 42 },
-            { open: 44, close: 58, high: 60, low: 43, highlight: true, label: 'Touch & Go!' }
-          ]
-        },
-        {
-          id: 'p2_4',
-          topic: 'Phase 2 • Day 4: The ICC Strategy',
-          title: () => 'The 3-Step ICC Super Strategy!',
-          teachText: (name) => `I-C-C is a pro secret: 1. INDICATION (big strong push), 2. CORRECTION (tiny rest), 3. CONTINUATION (blast off again)!`,
-          tryPrompt: 'We saw 1. Big Push (I) and 2. Tiny Rest (C). What is Step 3 of ICC?',
-          choices: [
-            { label: '⚡ Continuation (Blast Off!)', correct: true },
-            { label: '🔄 Reverse Backwards', correct: false },
-            { label: '💤 Go To Sleep', correct: false }
-          ],
-          explainWhy: 'Indication, Correction, Continuation! Price rests briefly before continuing its strong move!',
-          badgeReward: 'icc_master',
-          candles: [
-            { open: 28, close: 44, high: 46, low: 27, label: '1. I (Push)' },
-            { open: 44, close: 58, high: 60, low: 43 },
-            { open: 58, close: 52, high: 59, low: 50, label: '2. C (Rest)' },
-            { open: 52, close: 68, high: 70, low: 51, highlight: true, label: '3. C (Go!)' }
-          ]
-        },
-        {
-          id: 'p2_5',
-          topic: 'Phase 2 • Day 5: Fakeout Traps',
-          title: () => 'Don’t Get Tricked by a Fakeout!',
-          teachText: (name) => `A FAKEOUT happens when price pokes above the ceiling for one second, tricks impatient buyers, and slams back down!`,
-          tryPrompt: 'Price poked above the Red Ceiling, then closed right back below it with a big red candle! What is it?',
-          choices: [
-            { label: '🪤 A Sneaky Fakeout Trap!', correct: true },
-            { label: '🚀 Safe Breakout', correct: false },
-            { label: '🔨 Bullish Hammer', correct: false }
-          ],
-          explainWhy: 'Always wait for a candle to stay safely outside the line so you never fall for a Fakeout!',
-          resistanceLevel: 62,
-          candles: [
-            { open: 46, close: 60, high: 61, low: 45 },
-            { open: 60, close: 67, high: 70, low: 59, label: '👀 Poke' },
-            { open: 67, close: 48, high: 68, low: 47, highlight: true, label: '🪤 Fakeout!' }
-          ]
-        },
-        {
-          id: 'p2_6',
-          topic: 'Phase 2 • Day 6: Intermediate Boss Check!',
-          title: (name) => `Intermediate Belt Boss Test, ${name}!`,
-          teachText: (name) => `Pass this Boss Check to unlock Phase 3: Advanced Discipline & Risk Management!`,
-          tryPrompt: 'BOSS QUESTION: In the ICC strategy, what should you wait for after the big Indication push?',
-          choices: [
-            { label: '⏳ A Tiny Correction Rest!', correct: true },
-            { label: '😱 Panic & Press Everything', correct: false },
-            { label: '🪤 A Fakeout Crash', correct: false }
-          ],
-          explainWhy: 'Waiting for the tiny Correction rest gives you a safe, smart entry before Continuation!',
-          candles: [
-            { open: 30, close: 55, high: 57, low: 29, label: 'I' },
-            { open: 55, close: 49, high: 56, low: 48, highlight: true, label: 'C (Rest)' },
-            { open: 49, close: 68, high: 70, low: 48, label: 'C!' }
-          ]
+          questions: Array.from({ length: 10 }, (_, idx) => {
+            const mod = idx % 4;
+            if (mod === 0) {
+              return {
+                prompt: `Q${idx + 1}/10: Price touches the Green Support Floor and prints a green candle! What next?`,
+                choices: [
+                  { label: '🚀 BUY the Floor Bounce!', correct: true },
+                  { label: '🛝 SELL into the Floor', correct: false },
+                  { label: '🙈 Guess Randomly', correct: false }
+                ],
+                explainWhy: 'Support floors bounce price back upward!',
+                supportLevel: 35,
+                candles: [
+                  { open: 55, close: 37, high: 56, low: 35 },
+                  { open: 37, close: 50, high: 52, low: 36, highlight: true }
+                ]
+              };
+            } else if (mod === 1) {
+              return {
+                prompt: `Q${idx + 1}/10: Price bonks its head on the Red Resistance Ceiling and turns red! What next?`,
+                choices: [
+                  { label: '🛝 SELL the Ceiling Rejection!', correct: true },
+                  { label: '🚀 BUY into the Ceiling', correct: false },
+                  { label: '🎈 Hope It Breaks', correct: false }
+                ],
+                explainWhy: 'Resistance blocks price from rising and pushes it back down!',
+                resistanceLevel: 68,
+                candles: [
+                  { open: 48, close: 67, high: 68, low: 47 },
+                  { open: 67, close: 52, high: 68, low: 50, highlight: true }
+                ]
+              };
+            } else if (mod === 2) {
+              return {
+                prompt: `Q${idx + 1}/10: In the ICC Strategy, we saw 1. Indication (Push) and 2. Correction (Rest). What is Step 3?`,
+                choices: [
+                  { label: '⚡ Continuation (Blast Off!)', correct: true },
+                  { label: '🔄 Crash Backwards', correct: false },
+                  { label: '💤 Market Closes', correct: false }
+                ],
+                explainWhy: 'Indication, Correction, Continuation! After resting, price continues its strong trend!',
+                candles: [
+                  { open: 28, close: 50, high: 52, low: 27, label: 'I' },
+                  { open: 50, close: 45, high: 51, low: 44, label: 'C' },
+                  { open: 45, close: 66, high: 68, low: 44, highlight: true, label: 'C?' }
+                ]
+              };
+            }
+            return {
+              prompt: `Q${idx + 1}/10: Price poked above Resistance for 1 candle then slammed right back below! What is this trap?`,
+              choices: [
+                { label: '🪤 A Sneaky Fakeout!', correct: true },
+                { label: '🚀 Safe Breakout', correct: false },
+                { label: '🔨 Bottom Hammer', correct: false }
+              ],
+              explainWhy: 'A Fakeout tricks impatient traders before reversing back inside the range!',
+              resistanceLevel: 60,
+              candles: [
+                { open: 46, close: 58, high: 59, low: 45 },
+                { open: 58, close: 65, high: 68, low: 57, label: 'Poke' },
+                { open: 65, close: 47, high: 66, low: 46, highlight: true, label: 'Trap!' }
+              ]
+            };
+          }),
+          simMission: {
+            introText: (name) => `Live ICC Chart Mission, ${name}! Look: 1. Big Indication push up, 2. Tiny Correction rest... and now Step 3 Continuation just started! Set your TP & SL, then trade!`,
+            setupCandles: [
+              { open: 28, close: 42, high: 44, low: 27, label: '1. I' },
+              { open: 42, close: 56, high: 58, low: 41 },
+              { open: 56, close: 50, high: 57, low: 49, label: '2. C' },
+              { open: 50, close: 48, high: 51, low: 47 }
+            ],
+            triggerCandle: { open: 48, close: 58, high: 60, low: 47, highlight: true, label: '3. C (Go!)' },
+            expectedSide: 'BUY',
+            winPath: [63, 69, 75],
+            losePath: [43, 38, 33],
+            recapWhy: 'You caught Step 3 (Continuation) of the ICC pattern right after the healthy correction rest!'
+          }
         }
       ],
       3: [
         {
           id: 'p3_1',
-          topic: 'Phase 3 • Day 1: Stop-Loss Safety Shield',
-          title: () => 'Your Stop-Loss Safety Shield!',
-          teachText: (name) => `Welcome to Phase 3, ${name}! Real pros ALWAYS use a STOP-LOSS shield—an automatic exit line so one bad trade only costs a tiny scratch!`,
-          tryPrompt: 'Why does a smart trader put an orange Stop-Loss Safety Shield below their trade?',
-          choices: [
-            { label: '🛡️ To Protect Their Play Cash!', correct: true },
-            { label: '💸 To Lose Everything Fast', correct: false },
-            { label: '🎨 Because Orange Is Pretty', correct: false }
+          topic: 'Phase 3 • Discipline & Risk Shields',
+          title: (name) => `Phase 3 Pro Mindset Lab, ${name}!`,
+          teachText: (name) => `Tap the 3 discipline shields below to learn Stop-Loss protection, beating FOMO, and the 1-Scoop Risk Rule before your 10-question test!`,
+          specimens: [
+            {
+              btnLabel: '🛡️ Stop-Loss Shield',
+              explain: 'A Stop-Loss automatically exits a trade early if price goes the wrong way, keeping your $10,000 safe!',
+              supportLevel: 44,
+              stopLossLevel: 36,
+              candles: [
+                { open: 55, close: 45, high: 56, low: 44 },
+                { open: 45, close: 52, high: 54, low: 44, highlight: true, label: 'Protected!' }
+              ]
+            },
+            {
+              btnLabel: '🧘 Beat FOMO',
+              explain: 'Never chase a giant candle after it already zoomed to the moon—wait patiently for the next safe setup!',
+              candles: [
+                { open: 32, close: 70, high: 72, low: 31, label: '🚀 Too Late!' },
+                { open: 70, close: 50, high: 71, low: 48, highlight: true, label: 'Chasers Lose!' }
+              ]
+            },
+            {
+              btnLabel: '🥄 1-Scoop Risk',
+              explain: 'Risk only a tiny slice (1% - 2%) per trade so even 3 losses in a row barely scratch your account!',
+              candles: [
+                { open: 48, close: 52, high: 53, low: 47 },
+                { open: 52, close: 50, high: 53, low: 49 },
+                { open: 50, close: 60, high: 62, low: 49, highlight: true, label: 'Steady Wins!' }
+              ]
+            }
           ],
-          explainWhy: 'A Stop-Loss automatically closes a losing trade early so your $10,000 treasure chest stays safe!',
-          supportLevel: 44,
-          stopLossLevel: 36,
-          candles: [
-            { open: 55, close: 45, high: 56, low: 44 },
-            { open: 45, close: 52, high: 54, low: 44, highlight: true, label: 'Entry' }
-          ]
-        },
-        {
-          id: 'p3_2',
-          topic: 'Phase 3 • Day 2: No FOMO (Patience Rule)',
-          title: () => 'Beat the FOMO Monster!',
-          teachText: (name) => `FOMO means "Fear Of Missing Out"—jumping onto a giant green rocket AFTER it already flew way up! Usually it drops right after!`,
-          tryPrompt: 'A giant green candle already zoomed to the moon without you. What does a disciplined trader do?',
-          choices: [
-            { label: '🧘 Stay Calm & Wait for Next Setup!', correct: true },
-            { label: '😱 Chase It At The Very Top!', correct: false },
-            { label: '😡 Slam The Keyboard', correct: false }
-          ],
-          explainWhy: 'Chasing runaway candles at the top is a classic trap. Patient traders wait for the next clean setup!',
-          candles: [
-            { open: 30, close: 36, high: 37, low: 29 },
-            { open: 36, close: 72, high: 74, low: 35, label: '🚀 Too Late!' },
-            { open: 72, close: 54, high: 73, low: 52, highlight: true, label: 'Ouch!' }
-          ]
-        },
-        {
-          id: 'p3_3',
-          topic: 'Phase 3 • Day 3: Don’t Risk All Your Coins',
-          title: () => 'The 1-Scoop Risk Rule!',
-          teachText: (name) => `If you have 10 scoops of ice cream, never bet all 10 on one flip! Risk only 1 tiny scoop per trade so you can play all day!`,
-          tryPrompt: 'If you have $10,000 play cash, how much should you risk on a single trade?',
-          choices: [
-            { label: '🥄 Just a Tiny Bit (1% - 2%)', correct: true },
-            { label: '💣 All $10,000 At Once!', correct: false },
-            { label: '🎲 Half Of Everything', correct: false }
-          ],
-          explainWhy: 'Risking a tiny amount per trade means even 3 losses in a row barely dent your balance!',
-          candles: [
-            { open: 50, close: 54, high: 55, low: 49 },
-            { open: 54, close: 51, high: 55, low: 50 },
-            { open: 51, close: 58, high: 60, low: 50, highlight: true, label: 'Safe Growth!' }
-          ]
-        },
-        {
-          id: 'p3_4',
-          topic: 'Phase 3 • Day 4: Handling a Loss Like a Pro',
-          title: () => 'No Revenge Trading!',
-          teachText: (name) => `Even the best traders in the world lose some trades! When you lose one, take a breath—never press buttons angrily to "win it back fast"!`,
-          tryPrompt: 'You just had a small losing trade. What is the champion mindset?',
-          choices: [
-            { label: '🌟 Take a Breath & Stick to Rules!', correct: true },
-            { label: '😤 Click BUY 10 Times Angrily!', correct: false },
-            { label: '😭 Quit Forever', correct: false }
-          ],
-          explainWhy: 'Revenge trading causes bigger mistakes. Calm discipline turns obstacles into stepping stones!',
-          candles: [
-            { open: 55, close: 46, high: 56, low: 45, label: 'Small Loss' },
-            { open: 46, close: 48, high: 49, low: 45, label: 'Deep Breath' },
-            { open: 48, close: 62, high: 64, low: 47, highlight: true, label: 'Smart Win!' }
-          ]
-        },
-        {
-          id: 'p3_5',
-          topic: 'Phase 3 • Day 5: 3-Rule Checklist',
-          title: () => 'Check All 3 Rules Before Clicking!',
-          teachText: (name) => `Before every trade, check 3 boxes: 1. Is there a clear trend or bounce? 2. Did I wait for confirmation? 3. Is my Stop-Loss shield set?`,
-          tryPrompt: 'Only 1 of your 3 checklist rules is ready, and the chart looks messy. What should you do?',
-          choices: [
-            { label: '🛑 Wait! No Checklist = No Trade!', correct: true },
-            { label: '🎲 Trade Anyway For Fun', correct: false },
-            { label: '🙈 Close Eyes & Click', correct: false }
-          ],
-          explainWhy: 'Saying "NO" to messy charts is a trader’s greatest superpower!',
-          supportLevel: 40,
-          stopLossLevel: 33,
-          candles: [
-            { open: 58, close: 42, high: 59, low: 40 },
-            { open: 42, close: 54, high: 56, low: 41, highlight: true, label: '✅ 3/3 Rules!' }
-          ]
-        },
-        {
-          id: 'p3_6',
-          topic: 'Phase 3 • Day 6: Grandmaster Discipline Boss!',
-          title: (name) => `Grandmaster Boss Check, ${name}!`,
-          teachText: (name) => `Pass this final discipline check to unlock Phase 4: Infinite Pro Daily Quests!`,
-          tryPrompt: 'BOSS QUESTION: What is the #1 secret that separates Pro Traders from gamblers?',
-          choices: [
-            { label: '🛡️ Discipline, Patience & Risk Shields!', correct: true },
-            { label: '🔮 Guessing Which Candle Is Lucky', correct: false },
-            { label: '😱 Chasing Every Big Candle', correct: false }
-          ],
-          explainWhy: 'CONGRATULATIONS! You mastered Discipline, Risk Management, and Chart Patterns—you are now a Phase 4 Pro Trader!',
-          badgeReward: 'discipline_hero',
-          supportLevel: 38,
-          stopLossLevel: 31,
-          candles: [
-            { open: 60, close: 40, high: 61, low: 38 },
-            { open: 40, close: 56, high: 58, low: 39, highlight: true, label: '👑 MASTER!' }
-          ]
+          questions: Array.from({ length: 10 }, (_, idx) => {
+            const mod = idx % 3;
+            if (mod === 0) {
+              return {
+                prompt: `Q${idx + 1}/10: Why do pro traders ALWAYS set a Stop-Loss Shield before entering a trade?`,
+                choices: [
+                  { label: '🛡️ To Keep Any Loss Tiny & Safe!', correct: true },
+                  { label: '💸 To Lose All Their Play Cash', correct: false },
+                  { label: '🎨 Because Red Lines Look Cool', correct: false }
+                ],
+                explainWhy: 'A Stop-Loss protects your account so one bad trade never hurts you!',
+                supportLevel: 44,
+                stopLossLevel: 36,
+                candles: [
+                  { open: 54, close: 45, high: 55, low: 44 },
+                  { open: 45, close: 52, high: 54, low: 44, highlight: true }
+                ]
+              };
+            } else if (mod === 1) {
+              return {
+                prompt: `Q${idx + 1}/10: A giant green candle already rocketed way up without you! What should you do?`,
+                choices: [
+                  { label: '🧘 Stay Calm & Wait for Next Setup!', correct: true },
+                  { label: '😱 Chase It At The Very Top!', correct: false },
+                  { label: '😡 Click 20 Times Angrily', correct: false }
+                ],
+                explainWhy: 'Beating FOMO means never chasing runaway rockets at the top!',
+                candles: [
+                  { open: 30, close: 72, high: 74, low: 29, label: 'Already Gone!' },
+                  { open: 72, close: 54, high: 73, low: 52, highlight: true }
+                ]
+              };
+            }
+            return {
+              prompt: `Q${idx + 1}/10: You just had one small loss. What is the champion trader move?`,
+              choices: [
+                { label: '🌟 Take a Deep Breath & Follow Rules!', correct: true },
+                { label: '😤 Revenge Trade With All Your Cash!', correct: false },
+                { label: '😭 Give Up Forever', correct: false }
+              ],
+              explainWhy: 'Calm discipline turns small obstacles into stepping stones!',
+              candles: [
+                { open: 54, close: 47, high: 55, low: 46, label: 'Small Loss' },
+                { open: 47, close: 60, high: 62, low: 46, highlight: true, label: 'Calm Win!' }
+              ]
+            };
+          }),
+          simMission: {
+            introText: (name) => `Live Discipline Chart Mission, ${name}! Price bonked the Red Resistance Ceiling and printed a Shooting Star! Set your Take-Profit (TP) and Stop-Loss (SL) shields, then click BUY or SELL!`,
+            setupCandles: [
+              { open: 40, close: 50, high: 52, low: 39 },
+              { open: 50, close: 60, high: 62, low: 49 },
+              { open: 60, close: 67, high: 69, low: 59 }
+            ],
+            triggerCandle: { open: 67, close: 63, high: 76, low: 62, highlight: true, label: '🌠 Shooting Star!' },
+            resistanceLevel: 70,
+            expectedSide: 'SELL',
+            winPath: [56, 49, 42],
+            losePath: [71, 76, 81],
+            recapWhy: 'The Shooting Star at the Resistance Ceiling signaled sellers taking over, dropping price cleanly to your Take-Profit!'
+          }
         }
       ]
     };
@@ -1396,12 +1603,27 @@
     // Calendar & Daily Mission State
     const TODAY_DATE = new Date();
     let viewYear = TODAY_DATE.getFullYear();
-    let viewMonth = TODAY_DATE.getMonth(); // 0-indexed (10 = November)
+    let viewMonth = TODAY_DATE.getMonth();
     let selectedDateKey = formatDateKey(TODAY_DATE);
 
     let currentQuest = null;
-    let questPhase = 'teach';
+    let questStage = 'learn'; // 'learn' -> 'quiz' -> 'sim' -> 'done'
+    let currentQuizIdx = 0;
+    let quizScore = 0;
+    let quizAnswersHistory = []; // array of true/false/null for dots 1..10
+    let quizQuestionAnswered = false;
     let lastFeedbackSpeech = '';
+
+    // Post-Quiz Live Simulation State
+    let questSimState = {
+      candles: [],
+      entryPrice: 0,
+      tpPrice: 0,
+      slPrice: 0,
+      side: null,
+      running: false,
+      animTimer: null
+    };
 
     function formatDateKey(d) {
       const y = d.getFullYear();
@@ -1430,23 +1652,19 @@
       return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
     }
 
-    // Determines which lesson corresponds to a calendar date based on his current unlocked Phase!
     function getLessonForDate(dateKey) {
-      // If this day was already completed, retrieve its stored lesson or deterministic mapping
       const phase = appState.unlockedPhase;
       const seed = Math.abs(getDayIndexSeed(dateKey));
 
       if (phase <= 3) {
         const list = PHASE_LESSONS[phase];
-        // Map sequential days nicely: today's uncompleted lesson is his next unmastered step in the current phase!
         const completedCount = appState.phaseProgress[phase] || 0;
         if (dateKey === formatDateKey(TODAY_DATE)) {
-          return list[Math.min(completedCount, list.length - 1)];
+          return list[completedCount % list.length];
         }
         return list[seed % list.length];
       }
 
-      // Phase 4: Infinite Pro Daily Quests combining everything!
       const allLessons = [...PHASE_LESSONS[1], ...PHASE_LESSONS[2], ...PHASE_LESSONS[3]];
       const base = allLessons[seed % allLessons.length];
       return {
@@ -1462,13 +1680,13 @@
 
       if (p === 1) {
         const done = appState.phaseProgress[1] || 0;
-        summary.textContent = `Phase 1 Progress: ${done} / 7 Days Mastered to Unlock Phase 2`;
+        summary.textContent = `Phase 1 Progress: ${done} / 2 Days Mastered to Unlock Phase 2`;
       } else if (p === 2) {
         const done = appState.phaseProgress[2] || 0;
-        summary.textContent = `Phase 2 Progress: ${done} / 6 Days Mastered to Unlock Phase 3`;
+        summary.textContent = `Phase 2 Progress: ${done} / 2 Days Mastered to Unlock Phase 3`;
       } else if (p === 3) {
         const done = appState.phaseProgress[3] || 0;
-        summary.textContent = `Phase 3 Progress: ${done} / 6 Days Mastered to Unlock Pro Mode`;
+        summary.textContent = `Phase 3 Progress: ${done} / 2 Days Mastered to Unlock Pro Mode`;
       } else {
         summary.textContent = `👑 All Belts Mastered! Infinite Pro Daily Quests Unlocked!`;
       }
@@ -1477,7 +1695,7 @@
         const isUnlocked = appState.unlockedPhase >= ph.id;
         const isCurrent = appState.unlockedPhase === ph.id;
         const done = appState.phaseProgress[ph.id] || 0;
-        const req = ph.requiredToUnlockNext;
+        const req = 2;
 
         return `
           <div class="rounded-2xl p-3 border-2 transition ${
@@ -1581,134 +1799,206 @@
       speakText(`Daily quote for ${formatFriendlyDate(selectedDateKey)}: ${quote}`, 'btnSpeakQuote');
     }
 
+    function updateStagePills() {
+      const stages = ['learn', 'quiz', 'sim'];
+      stages.forEach(s => {
+        const el = document.getElementById(`stagePill-${s}`);
+        if (!el) return;
+        if (questStage === s || (questStage === 'done' && s === 'sim')) {
+          el.className = 'px-2.5 py-1 rounded-xl bg-indigo-600 text-white';
+        } else {
+          el.className = 'px-2.5 py-1 rounded-xl bg-slate-200 text-slate-600';
+        }
+      });
+
+      const dotsRow = document.getElementById('quizDotsRow');
+      dotsRow.innerHTML = quizAnswersHistory.map((res, i) => {
+        let color = 'bg-slate-300';
+        if (res === true) color = 'bg-emerald-500';
+        else if (res === false) color = 'bg-rose-500';
+        else if (questStage === 'quiz' && i === currentQuizIdx) color = 'bg-amber-400 ring-2 ring-amber-600';
+        return `<span class="w-3.5 h-3.5 rounded-full inline-block ${color}" title="Question ${i + 1}"></span>`;
+      }).join('');
+
+      document.getElementById('quizScoreBadge').textContent = `Score: ${quizScore} / 10`;
+    }
+
+    let activeSpecimenIdx = 0;
+    let activeCanvasConfig = {};
+
     function loadDailyMissionForDate(dateKey) {
-      // Update Daily Quote Banner
+      clearInterval(questSimState.animTimer);
+      questSimState.running = false;
+
       const friendlyDate = formatFriendlyDate(dateKey);
       const quote = getQuoteForDate(dateKey);
       document.getElementById('quoteDateBadge').textContent = `${friendlyDate} • Daily Spark`;
       document.getElementById('dailyQuoteText').textContent = `"${quote}"`;
 
-      // Load single focused lesson for this day
       currentQuest = getLessonForDate(dateKey);
-      questPhase = 'teach';
+      questStage = 'learn';
+      currentQuizIdx = 0;
+      quizScore = 0;
+      quizAnswersHistory = Array(10).fill(null);
+      quizQuestionAnswered = false;
+      activeSpecimenIdx = 0;
 
       const alreadyDone = !!appState.completedDays[dateKey];
       document.getElementById('questDatePill').textContent = alreadyDone
         ? `⭐ ${friendlyDate} (Completed!)`
         : `📅 ${friendlyDate} Mission`;
-      document.getElementById('questStepBadge').textContent = 'Step 1 of 3: Picture Lesson';
+      document.getElementById('questStepBadge').textContent = 'Stage 1: Spot & Learn Guide';
       document.getElementById('questStepBadge').className = 'bg-amber-400 text-amber-950 font-display font-bold px-3.5 py-1 rounded-full text-sm';
       document.getElementById('questTopicTag').textContent = currentQuest.topic;
       document.getElementById('questMascotIcon').textContent = appState.avatar;
       document.getElementById('questTitle').textContent = currentQuest.title(appState.name);
       document.getElementById('questPrompt').textContent = currentQuest.teachText(appState.name);
-      document.getElementById('questCanvasHint').textContent = '👀 One bite-sized skill today! Study the picture, then tap below!';
+      document.getElementById('questCanvasHint').textContent = '👆 Tap the buttons above to inspect each candle before your 10-question quiz!';
 
+      // Show Stage 1 UI, hide Stage 2 & 3 UI
+      document.getElementById('specimenSelectorRow').classList.remove('hidden');
       document.getElementById('questTeachActions').classList.remove('hidden');
       document.getElementById('questChoiceButtons').classList.add('hidden');
+      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
+      document.getElementById('questSimControls').classList.add('hidden');
+      document.getElementById('questSimLiveHud').classList.add('hidden');
       document.getElementById('questFeedbackBox').classList.add('hidden');
 
-      drawQuestCanvas();
+      renderSpecimens();
+      selectSpecimen(0, false);
+      updateStagePills();
 
       if (appState.autoRead) {
         speakText(`${friendlyDate} mission! ${currentQuest.teachText(appState.name)}`, 'questSpeakBtn');
       }
     }
 
-    function advanceQuestToTry() {
+    function renderSpecimens() {
+      const row = document.getElementById('specimenSelectorRow');
+      row.innerHTML = currentQuest.specimens.map((sp, i) => `
+        <button onclick="selectSpecimen(${i}, true)" id="specimenBtn-${i}"
+          class="btn-game py-2.5 px-2 rounded-2xl font-display font-bold text-xs sm:text-sm border-2 transition ${
+            i === activeSpecimenIdx
+              ? 'bg-indigo-600 text-white border-indigo-700'
+              : 'bg-indigo-50 text-indigo-900 border-indigo-200 hover:bg-indigo-100'
+          }">
+          ${sp.btnLabel}
+        </button>
+      `).join('');
+    }
+
+    function selectSpecimen(idx, shouldSpeak = true) {
+      if (shouldSpeak) playTone('click');
+      activeSpecimenIdx = idx;
+      renderSpecimens();
+      const sp = currentQuest.specimens[idx];
+      document.getElementById('questPrompt').textContent = sp.explain;
+      activeCanvasConfig = {
+        candles: sp.candles,
+        supportLevel: sp.supportLevel,
+        resistanceLevel: sp.resistanceLevel,
+        stopLossLevel: sp.stopLossLevel,
+        trendline: sp.trendline
+      };
+      drawQuestCanvas();
+      if (shouldSpeak && appState.autoRead) {
+        speakText(sp.explain, 'questSpeakBtn');
+      }
+    }
+
+    /* ---------------- STAGE 2: 10-QUESTION DAILY QUIZ ---------------- */
+    function startDailyTenQuestionQuiz() {
       playTone('click');
-      questPhase = 'try';
-      document.getElementById('questStepBadge').textContent = 'Step 2 of 3: Daily Challenge';
-      document.getElementById('questStepBadge').className = 'bg-sky-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
-      document.getElementById('questPrompt').textContent = currentQuest.tryPrompt;
-      document.getElementById('questCanvasHint').textContent = '👇 Tap the right answer to earn your Daily Star!';
+      questStage = 'quiz';
+      currentQuizIdx = 0;
+      quizScore = 0;
+      quizAnswersHistory = Array(10).fill(null);
 
+      document.getElementById('specimenSelectorRow').classList.add('hidden');
       document.getElementById('questTeachActions').classList.add('hidden');
-      const choicesEl = document.getElementById('questChoiceButtons');
-      choicesEl.classList.remove('hidden');
+      document.getElementById('questChoiceButtons').classList.remove('hidden');
+      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
 
-      const shuffled = [...currentQuest.choices].sort(() => Math.random() - 0.5);
+      renderCurrentQuizQuestion();
+    }
+
+    function renderCurrentQuizQuestion() {
+      quizQuestionAnswered = false;
+      const q = currentQuest.questions[currentQuizIdx];
+      document.getElementById('questStepBadge').textContent = `Stage 2: Question ${currentQuizIdx + 1} of 10`;
+      document.getElementById('questStepBadge').className = 'bg-sky-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
+      document.getElementById('questPrompt').textContent = q.prompt;
+      document.getElementById('questCanvasHint').textContent = `🎯 Question ${currentQuizIdx + 1} of 10 — Tap the right answer!`;
+      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
+
+      activeCanvasConfig = {
+        candles: q.candles,
+        supportLevel: q.supportLevel,
+        resistanceLevel: q.resistanceLevel,
+        stopLossLevel: q.stopLossLevel,
+        trendline: q.trendline
+      };
+      drawQuestCanvas();
+      updateStagePills();
+
+      const choicesEl = document.getElementById('questChoiceButtons');
+      const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
       choicesEl.innerHTML = shuffled.map(ch => `
-        <button onclick="submitQuestAnswer(${ch.correct}, this)"
+        <button onclick="submitQuizAnswer(${ch.correct}, this)"
           class="btn-game bg-indigo-500 hover:bg-indigo-600 text-white font-display font-bold text-lg sm:text-xl py-4 px-4 rounded-2xl">
           ${ch.label}
         </button>
       `).join('');
 
       if (appState.autoRead) {
-        speakText(currentQuest.tryPrompt, 'questSpeakBtn');
+        speakText(q.prompt, 'questSpeakBtn');
       }
     }
 
-    function submitQuestAnswer(isCorrect, btnEl) {
-      if (questPhase === 'feedback') return;
-      questPhase = 'feedback';
+    function submitQuizAnswer(isCorrect, btnEl) {
+      if (quizQuestionAnswered) return;
+      quizQuestionAnswered = true;
 
       document.querySelectorAll('#questChoiceButtons button').forEach(b => b.disabled = true);
+      const q = currentQuest.questions[currentQuizIdx];
 
-      const fbBox = document.getElementById('questFeedbackBox');
-      const fbEmoji = document.getElementById('questFeedbackEmoji');
-      const fbHead = document.getElementById('questFeedbackHeading');
-      const fbText = document.getElementById('questFeedbackText');
-      const nextBtn = document.getElementById('btnQuestRetryOrNext');
+      const fbBox = document.getElementById('questQuizFeedbackBox');
+      const fbEmoji = document.getElementById('questQuizFeedbackEmoji');
+      const fbHead = document.getElementById('questQuizFeedbackHeading');
+      const fbText = document.getElementById('questQuizFeedbackText');
+      const nextBtn = document.getElementById('btnNextQuizQuestion');
 
       fbBox.classList.remove('hidden');
-      document.getElementById('questStepBadge').textContent = 'Step 3 of 3: Daily Wrap-Up';
-      document.getElementById('questStepBadge').className = 'bg-emerald-500 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
+      quizAnswersHistory[currentQuizIdx] = isCorrect;
 
       if (isCorrect) {
         playTone('win');
-        fireConfetti();
+        quizScore += 1;
+        addXP(10);
         btnEl.classList.remove('bg-indigo-500');
         btnEl.classList.add('bg-emerald-500');
-
-        const firstTimeToday = !appState.completedDays[selectedDateKey];
-        appState.completedDays[selectedDateKey] = { stars: 3, lessonId: currentQuest.id };
-
-        if (firstTimeToday) {
-          appState.streak += 1;
-          addXP(30);
-          unlockBadge('first_step');
-          if (appState.streak >= 3) unlockBadge('streak_3');
-          if (currentQuest.badgeReward) unlockBadge(currentQuest.badgeReward);
-
-          // Advance Phase Mastery Progress
-          const p = appState.unlockedPhase;
-          if (p <= 3) {
-            appState.phaseProgress[p] = (appState.phaseProgress[p] || 0) + 1;
-            const req = PHASES[p - 1].requiredToUnlockNext;
-            if (appState.phaseProgress[p] >= req) {
-              appState.unlockedPhase = p + 1;
-              if (p === 1) unlockBadge('phase1_master');
-              if (p === 3) unlockBadge('discipline_hero');
-            }
-          }
-        }
-
-        saveState();
-        renderPhaseBar();
-        renderCalendar();
-
         fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
-        fbEmoji.textContent = '⭐';
-        fbHead.textContent = `Daily Star Earned, ${appState.name}! Brain Power Unlocked!`;
-        fbText.textContent = `${currentQuest.explainWhy} Great job taking it one day at a time—go test this in the Live Chart or come back tomorrow!`;
-        nextBtn.textContent = 'Practice Next Day ➡️';
-        nextBtn.onclick = advanceToNextCalendarDay;
-        lastFeedbackSpeech = `Awesome job ${appState.name}! ${currentQuest.explainWhy} You earned your daily star!`;
+        fbEmoji.textContent = '🌟';
+        fbHead.textContent = `Spot On, ${appState.name}! (+10 XP)`;
+        fbText.textContent = q.explainWhy;
+        lastFeedbackSpeech = `Spot on ${appState.name}! ${q.explainWhy}`;
       } else {
         playTone('oops');
         btnEl.classList.remove('bg-indigo-500');
         btnEl.classList.add('bg-rose-500');
-        addXP(5);
-
         fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-amber-50 border-amber-400 text-amber-950';
         fbEmoji.textContent = '💡';
-        fbHead.textContent = `Almost, ${appState.name}! No rush—let's see why:`;
-        fbText.textContent = currentQuest.explainWhy;
-        nextBtn.textContent = '🔄 Try Today Again';
-        nextBtn.onclick = () => loadDailyMissionForDate(selectedDateKey);
-        lastFeedbackSpeech = `Good try ${appState.name}! ${currentQuest.explainWhy} Tap Try Today Again to earn your daily star!`;
+        fbHead.textContent = `Good Try! Here’s the Clue:`;
+        fbText.textContent = q.explainWhy;
+        lastFeedbackSpeech = `Good try! ${q.explainWhy}`;
+      }
+
+      updateStagePills();
+
+      if (currentQuizIdx < 9) {
+        nextBtn.textContent = `Question ${currentQuizIdx + 2} of 10 ➡️`;
+      } else {
+        nextBtn.textContent = `🚀 Launch Live Chart Mission!`;
       }
 
       if (appState.autoRead) {
@@ -1716,14 +2006,274 @@
       }
     }
 
+    function nextDailyQuizQuestion() {
+      playTone('click');
+      if (currentQuizIdx < 9) {
+        currentQuizIdx += 1;
+        renderCurrentQuizQuestion();
+      } else {
+        startPostQuizLiveSimMission();
+      }
+    }
+
+    /* ---------------- STAGE 3: POST-QUIZ REAL-TIME CHART MISSION ---------------- */
+    function startPostQuizLiveSimMission() {
+      questStage = 'sim';
+      updateStagePills();
+
+      const sim = currentQuest.simMission;
+      document.getElementById('questStepBadge').textContent = 'Stage 3: Live Real-Time Chart Mission';
+      document.getElementById('questStepBadge').className = 'bg-purple-600 text-white font-display font-bold px-3.5 py-1 rounded-full text-sm';
+      document.getElementById('questTitle').textContent = `🎮 Live Chart Challenge (${quizScore}/10 Quiz Score!)`;
+      document.getElementById('questPrompt').textContent = sim.introText(appState.name);
+      document.getElementById('questCanvasHint').textContent = '⏳ Watch the live candles form...';
+
+      document.getElementById('questChoiceButtons').classList.add('hidden');
+      document.getElementById('questQuizFeedbackBox').classList.add('hidden');
+      document.getElementById('questSimControls').classList.add('hidden');
+      document.getElementById('questSimLiveHud').classList.remove('hidden');
+      document.getElementById('questSimPnlText').textContent = '$0.00';
+
+      // Animate the setup candles forming one by one before pausing at the pattern!
+      questSimState.candles = [];
+      questSimState.running = false;
+      questSimState.side = null;
+
+      let step = 0;
+      const allIntroCandles = [...sim.setupCandles, sim.triggerCandle];
+
+      clearInterval(questSimState.animTimer);
+      questSimState.animTimer = setInterval(() => {
+        if (step < allIntroCandles.length) {
+          animateSingleCandleFormation(allIntroCandles[step], () => {
+            step++;
+            if (step === allIntroCandles.length) {
+              clearInterval(questSimState.animTimer);
+              const lastC = questSimState.candles[questSimState.candles.length - 1];
+              questSimState.entryPrice = lastC.close;
+              document.getElementById('questSimControls').classList.remove('hidden');
+              document.getElementById('questSimTradeBtns').classList.remove('hidden');
+              document.getElementById('questCanvasHint').textContent = '🎯 Pattern Spotted! Adjust your TP & SL sliders, then press BUY or SELL!';
+              updateQuestSlTpLines();
+              if (appState.autoRead) {
+                speakText(sim.introText(appState.name), 'questSpeakBtn');
+              }
+            }
+          });
+        }
+      }, 650);
+    }
+
+    // Smoothly animates a candle growing tick-by-tick (wick & body) like a real trading terminal!
+    function animateSingleCandleFormation(targetCandle, onComplete) {
+      const idx = questSimState.candles.length;
+      const liveCandle = {
+        open: targetCandle.open,
+        close: targetCandle.open,
+        high: targetCandle.open,
+        low: targetCandle.open,
+        highlight: targetCandle.highlight,
+        label: null
+      };
+      questSimState.candles.push(liveCandle);
+
+      let frame = 0;
+      const totalFrames = 8;
+      const tickTimer = setInterval(() => {
+        frame++;
+        const progress = frame / totalFrames;
+        const midWiggle = frame < totalFrames ? (Math.sin(frame * 2.1) * 1.6) : 0;
+        liveCandle.close = +(targetCandle.open + (targetCandle.close - targetCandle.open) * progress + midWiggle).toFixed(2);
+        liveCandle.high = Math.max(liveCandle.open, liveCandle.close, +(targetCandle.open + (targetCandle.high - targetCandle.open) * progress).toFixed(2));
+        liveCandle.low = Math.min(liveCandle.open, liveCandle.close, +(targetCandle.open + (targetCandle.low - targetCandle.open) * progress).toFixed(2));
+        if (frame === totalFrames) {
+          liveCandle.close = targetCandle.close;
+          liveCandle.high = targetCandle.high;
+          liveCandle.low = targetCandle.low;
+          liveCandle.label = targetCandle.label || null;
+        }
+        refreshQuestSimCanvas();
+        if (frame >= totalFrames) {
+          clearInterval(tickTimer);
+          if (onComplete) onComplete();
+        }
+      }, 55);
+    }
+
+    function updateQuestSlTpLines() {
+      const tpDist = parseInt(document.getElementById('questTpSlider').value, 10);
+      const slDist = parseInt(document.getElementById('questSlSlider').value, 10);
+      const sim = currentQuest.simMission;
+      const isBuyBias = sim.expectedSide === 'BUY';
+
+      questSimState.tpPrice = isBuyBias ? questSimState.entryPrice + tpDist : questSimState.entryPrice - tpDist;
+      questSimState.slPrice = isBuyBias ? questSimState.entryPrice - slDist : questSimState.entryPrice + slDist;
+
+      document.getElementById('questTpValLabel').textContent = `+$${tpDist * 25}`;
+      document.getElementById('questSlValLabel').textContent = `-$${slDist * 25}`;
+      refreshQuestSimCanvas();
+    }
+
+    function refreshQuestSimCanvas() {
+      const sim = currentQuest.simMission;
+      activeCanvasConfig = {
+        candles: questSimState.candles,
+        supportLevel: sim.supportLevel,
+        resistanceLevel: sim.resistanceLevel,
+        trendline: sim.trendline,
+        tpLevel: questSimState.tpPrice || undefined,
+        slLevel: questSimState.slPrice || undefined,
+        entryMarker: questSimState.side
+          ? { idx: sim.setupCandles.length, price: questSimState.entryPrice }
+          : undefined
+      };
+      drawQuestCanvas();
+    }
+
+    function executeQuestSimTrade(chosenSide) {
+      if (questSimState.running) return;
+      playTone('click');
+      questSimState.running = true;
+      questSimState.side = chosenSide;
+      document.getElementById('questSimTradeBtns').classList.add('hidden');
+      document.getElementById('questCanvasHint').textContent = `⚡ ${chosenSide} Order Live! Watching new candles form toward TP or SL...`;
+
+      const sim = currentQuest.simMission;
+      const tpDist = parseInt(document.getElementById('questTpSlider').value, 10);
+      const slDist = parseInt(document.getElementById('questSlSlider').value, 10);
+
+      // Update TP/SL relative to his exact chosen direction!
+      questSimState.tpPrice = chosenSide === 'BUY' ? questSimState.entryPrice + tpDist : questSimState.entryPrice - tpDist;
+      questSimState.slPrice = chosenSide === 'BUY' ? questSimState.entryPrice - slDist : questSimState.entryPrice + slDist;
+
+      const predictedRight = chosenSide === sim.expectedSide;
+      const targetEnd = predictedRight ? questSimState.tpPrice : questSimState.slPrice;
+
+      // Build 4 realistic future candles moving smoothly toward TP or SL
+      const steps = 4;
+      const startP = questSimState.entryPrice;
+      const futureCandles = [];
+      let prevClose = startP;
+
+      for (let i = 1; i <= steps; i++) {
+        const ratio = i / steps;
+        const wobble = i < steps ? ((i % 2 === 0 ? -1 : 1) * 1.8) : 0;
+        const nextClose = +(startP + (targetEnd - startP) * ratio + wobble).toFixed(2);
+        const high = +(Math.max(prevClose, nextClose) + 1.6).toFixed(2);
+        const low = +(Math.min(prevClose, nextClose) - 1.6).toFixed(2);
+        futureCandles.push({
+          open: prevClose,
+          close: nextClose,
+          high,
+          low,
+          label: i === steps ? (predictedRight ? '🎯 TP HIT!' : '🛡️ SL HIT!') : null
+        });
+        prevClose = nextClose;
+      }
+
+      if (appState.autoRead) {
+        speakText(`You clicked ${chosenSide}! Let's watch the new candles form live!`);
+      }
+
+      let fIdx = 0;
+      const playNextFutureCandle = () => {
+        if (fIdx >= futureCandles.length) {
+          finishPostQuizSimMission(predictedRight);
+          return;
+        }
+        animateSingleCandleFormation(futureCandles[fIdx], () => {
+          const curClose = questSimState.candles[questSimState.candles.length - 1].close;
+          const diff = chosenSide === 'BUY' ? (curClose - questSimState.entryPrice) : (questSimState.entryPrice - curClose);
+          const dollarPnl = Math.round(diff * 25);
+          const pnlEl = document.getElementById('questSimPnlText');
+          pnlEl.textContent = `${dollarPnl >= 0 ? '+' : ''}$${dollarPnl}`;
+          pnlEl.className = dollarPnl >= 0 ? 'font-display font-bold text-xl text-emerald-400' : 'font-display font-bold text-xl text-rose-400';
+
+          fIdx++;
+          setTimeout(playNextFutureCandle, 350);
+        });
+      };
+
+      playNextFutureCandle();
+    }
+
+    function finishPostQuizSimMission(wonTrade) {
+      questSimState.running = false;
+      questStage = 'done';
+      updateStagePills();
+
+      document.getElementById('questSimControls').classList.add('hidden');
+      const fbBox = document.getElementById('questFeedbackBox');
+      const fbEmoji = document.getElementById('questFeedbackEmoji');
+      const fbHead = document.getElementById('questFeedbackHeading');
+      const fbText = document.getElementById('questFeedbackText');
+      fbBox.classList.remove('hidden');
+
+      const sim = currentQuest.simMission;
+      const firstTimeToday = !appState.completedDays[selectedDateKey];
+      appState.completedDays[selectedDateKey] = { stars: 3, lessonId: currentQuest.id, quizScore };
+
+      if (firstTimeToday) {
+        appState.streak += 1;
+        addXP(40);
+        unlockBadge('first_step');
+        if (appState.streak >= 3) unlockBadge('streak_3');
+
+        const p = appState.unlockedPhase;
+        if (p <= 3) {
+          appState.phaseProgress[p] = (appState.phaseProgress[p] || 0) + 1;
+          if (appState.phaseProgress[p] >= 2) {
+            appState.unlockedPhase = p + 1;
+            if (p === 1) unlockBadge('phase1_master');
+            if (p === 2) unlockBadge('icc_master');
+            if (p === 3) unlockBadge('discipline_hero');
+          }
+        }
+      }
+
+      saveState();
+      renderPhaseBar();
+      renderCalendar();
+
+      if (wonTrade) {
+        playTone('win');
+        fireConfetti();
+        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-emerald-50 border-emerald-400 text-emerald-950';
+        fbEmoji.textContent = '🏆';
+        fbHead.textContent = `TAKE-PROFIT HIT! You Mastered Today (${quizScore}/10 Quiz + Live Trade)!`;
+        fbText.textContent = `${sim.recapWhy} You earned your Daily Star!`;
+        lastFeedbackSpeech = `Take profit hit! Awesome job ${appState.name}! ${sim.recapWhy}`;
+      } else {
+        playTone('oops');
+        fbBox.className = 'mt-4 rounded-2xl p-4 border-4 bg-amber-50 border-amber-400 text-amber-950';
+        fbEmoji.textContent = '🛡️';
+        fbHead.textContent = `Stop-Loss Shield Saved You! (${quizScore}/10 Quiz Completed)`;
+        fbText.textContent = `Your Stop-Loss shield kept your loss tiny! Remember: ${sim.recapWhy}`;
+        lastFeedbackSpeech = `Your Stop-Loss shield kept you safe! ${sim.recapWhy}`;
+      }
+
+      if (appState.autoRead) {
+        speakText(lastFeedbackSpeech);
+      }
+    }
+
+    function replayQuestLiveSim() {
+      playTone('click');
+      document.getElementById('questFeedbackBox').classList.add('hidden');
+      startPostQuizLiveSimMission();
+    }
+
     function speakQuestCurrent() {
       if (!currentQuest) return;
-      const txt = questPhase === 'teach'
-        ? currentQuest.teachText(appState.name)
-        : questPhase === 'try'
-          ? currentQuest.tryPrompt
-          : lastFeedbackSpeech;
-      speakText(txt, 'questSpeakBtn');
+      if (questStage === 'learn') {
+        speakText(currentQuest.specimens[activeSpecimenIdx].explain, 'questSpeakBtn');
+      } else if (questStage === 'quiz') {
+        speakText(currentQuest.questions[currentQuizIdx].prompt, 'questSpeakBtn');
+      } else if (questStage === 'sim') {
+        speakText(currentQuest.simMission.introText(appState.name), 'questSpeakBtn');
+      } else {
+        speakText(lastFeedbackSpeech, 'questSpeakBtn');
+      }
     }
 
     function speakFeedback() {
@@ -1732,13 +2282,16 @@
 
     function drawQuestCanvas() {
       const canvas = document.getElementById('questCanvas');
-      if (!canvas || !currentQuest) return;
+      if (!canvas || !activeCanvasConfig.candles) return;
       const { width, height, ctx } = resizeCanvasToDisplaySize(canvas);
-      drawCandlesOnCanvas(ctx, width, height, currentQuest.candles, {
-        supportLevel: currentQuest.supportLevel,
-        resistanceLevel: currentQuest.resistanceLevel,
-        stopLossLevel: currentQuest.stopLossLevel,
-        trendline: currentQuest.trendline
+      drawCandlesOnCanvas(ctx, width, height, activeCanvasConfig.candles, {
+        supportLevel: activeCanvasConfig.supportLevel,
+        resistanceLevel: activeCanvasConfig.resistanceLevel,
+        stopLossLevel: activeCanvasConfig.stopLossLevel,
+        trendline: activeCanvasConfig.trendline,
+        tpLevel: activeCanvasConfig.tpLevel,
+        slLevel: activeCanvasConfig.slLevel,
+        entryMarker: activeCanvasConfig.entryMarker
       });
     }
 
