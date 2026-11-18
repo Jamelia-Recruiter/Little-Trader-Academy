@@ -107,7 +107,7 @@
                         <h2 class="fredoka text-2xl md:text-3xl font-bold text-slate-800 flex items-center gap-2">
                             🗓️ 30-Day Step-by-Step Training
                         </h2>
-                        <p class="text-sm text-slate-600 mt-1">Rich context learning + 1-touch tap challenge + <strong>Custom Live Pattern Formation Animation</strong> for every lesson!</p>
+                        <p class="text-sm text-slate-600 mt-1">Rich context learning + 1-touch tap challenge + <strong>Smooth Live Price Action Formation</strong> for every lesson!</p>
                     </div>
                     <button onclick="unlockAllDemo()" class="bg-amber-100 hover:bg-amber-200 text-amber-800 border border-amber-300 px-3.5 py-2 rounded-xl text-xs fredoka font-bold transition">
                         🔓 Unlock All 30 Days
@@ -251,30 +251,33 @@
                 <div id="tapFeedbackBox" class="hidden p-3.5 rounded-2xl fredoka text-sm font-bold shadow-sm"></div>
 
                 <button id="goToStep3Btn" onclick="startStep3LiveFormation()" class="hidden w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white font-bold py-4 rounded-2xl fredoka text-lg shadow-lg animate-bounce">
-                    Awesome! Watch Live Candle Formation 📈
+                    Awesome! Watch Live Price Movement 📈
                 </button>
             </div>
 
-            <!-- STEP 3: CUSTOM LIVE CANDLE FORMATION ANIMATION -->
+            <!-- STEP 3: SMOOTH REAL-TIME PRICE MOVEMENT & CANDLE FORMATION -->
             <div id="modalStage-3" class="hidden space-y-4">
                 <div class="bg-slate-50 border border-slate-200 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
                     <div class="text-left">
-                        <h4 class="fredoka font-bold text-slate-900 text-base">📈 Step 3: Watch How It Forms Live in Real Life!</h4>
-                        <p id="step3LivePrompt" class="text-xs md:text-sm text-slate-600 mt-0.5">Watch price tick up and down tick-by-tick to form this exact pattern live!</p>
+                        <h4 class="fredoka font-bold text-slate-900 text-base">📈 Step 3: Live Price Ticker & Candle Formation</h4>
+                        <p id="step3LivePrompt" class="text-xs md:text-sm text-slate-600 mt-0.5">Follow the glowing price dot as it moves up and down, stretching the body and leaving wicks behind!</p>
                     </div>
-                    <button onclick="speakText(document.getElementById('step3LivePrompt').textContent)" class="bg-blue-600 text-white px-3.5 py-2 rounded-xl text-xs fredoka font-bold whitespace-nowrap shadow">🔊 Listen</button>
+                    <div class="flex items-center gap-2">
+                        <button onclick="startStep3LiveFormation()" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-3 py-2 rounded-xl text-xs fredoka font-bold whitespace-nowrap shadow-sm">🔄 Replay</button>
+                        <button onclick="speakText(document.getElementById('step3LivePrompt').textContent)" class="bg-blue-600 text-white px-3 py-2 rounded-xl text-xs fredoka font-bold whitespace-nowrap shadow">🔊 Listen</button>
+                    </div>
                 </div>
 
-                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden h-[260px] shadow-2xl flex flex-col items-center justify-center">
-                    <canvas id="step3LiveCanvas" width="360" height="220" class="rounded-2xl"></canvas>
-                    <div id="liveFormationStatus" class="absolute top-3 left-3 bg-amber-400 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg">
-                        ⏳ Tick... Price moving live...
+                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden h-[270px] shadow-2xl flex flex-col items-center justify-center">
+                    <canvas id="step3LiveCanvas" width="440" height="240" class="w-full h-full"></canvas>
+                    <div id="liveFormationStatus" class="absolute top-3 left-3 bg-amber-400 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg max-w-[90%]">
+                        ⏳ Watching live price ticker...
                     </div>
                 </div>
 
                 <div id="step3ActionArea" class="hidden space-y-3">
                     <div class="bg-emerald-50 border border-emerald-300 p-3 rounded-2xl text-center text-xs fredoka text-emerald-800 font-bold shadow-sm">
-                        🎉 You just watched how this exact pattern forms tick-by-tick! Ready to collect your star stamp?
+                        🎉 See how the moving price dot created the wicks and body? Tap below to collect your star!
                     </div>
                     <button onclick="completeCurrentMission()" class="w-full bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-500 text-slate-950 font-bold py-4 rounded-2xl shadow-xl text-lg animate-bounce">
                         ⭐ Collect Star Stamp & Complete Day!
@@ -310,7 +313,7 @@
 
     <script>
         // ================= PERSISTENT STATE =================
-        const STORAGE_KEY = 'candlestickQuest_whiteColorful_v8';
+        const STORAGE_KEY = 'candlestickQuest_smoothLiveTicker_v9';
         let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
             user: { name: 'Champ', avatar: '👦🏽', belt: '🟢 Beginner Belt', stars: 0 },
             completedDays: [],
@@ -324,29 +327,29 @@
 
         const quotes = [
             "Every obstacle is a stepping stone destined to take you someplace greater in life!",
-            "Patience is a trader's superpower—watch how candles form tick by tick!",
-            "Understanding how a candle forms in real life gives you superpowers!",
-            "You don't need to rush—observe the wicks and bodies as they grow!",
+            "Patience is a trader's superpower—watch how price moves tick by tick!",
+            "Seeing how the wicks and body form in real life makes you a chart master!",
+            "You don't need to rush—observe where price opens, travels, and closes!",
             "A disciplined trader stays calm and watches the market story unfold!"
         ];
 
-        // ================= 30-DAY CURRICULUM WITH DEDICATED LIVE ANIMATION TYPE PER LESSON =================
+        // ================= 30-DAY CURRICULUM =================
         const curriculum = [
-            { day: 1, title: "Green vs. Red Candles", subtitle: "Rocket Up vs. Slide Down", visual: "bull_bear", animType: "bull_bear", story: "Look at the two candles! The GREEN candle means buyers pushed price UP like a rocket ship. The RED candle means sellers pushed price DOWN!", extraContext: "In real life, every single second people are buying and selling. When buyers win the battle at the closing bell, the box turns green. When sellers win, it turns red!", tapPrompt: "Tap the GREEN rocket candle on the left!", target: { x: 108, y: 110, r: 55 }, successMsg: "Yes! Green means buyers pushed price UP!" },
-            { day: 2, title: "The Doji (+)", subtitle: "The Great Tug-of-War Tie", visual: "doji", animType: "doji", story: "See that skinny plus-sign candle in the middle? That is a Doji! Buyers and sellers fought to a tie—meaning price might turn around!", extraContext: "Real life formation: Price opened, zoomed up high, crashed way down low, and then finished right back where it started. That leaves a cross shape showing total tie and indecision!", tapPrompt: "Tap the skinny Doji plus-sign in the middle!", target: { x: 170, y: 110, r: 50 }, successMsg: "Spot on! That Doji warns us a reversal is coming!" },
-            { day: 3, title: "The Hammer Reversal", subtitle: "Springboard Bounce at the Bottom", visual: "hammer", animType: "hammer", story: "Look at that candle with the super long bottom tail! Sellers tried to push price down, but buyers hammered it right back up!", extraContext: "Real life formation: Sellers crashed price down during the session leaving a long wick, but buyers stepped in heavy at the floor and pushed the close right back to the top!", tapPrompt: "Tap the Hammer candle with the long bottom tail!", target: { x: 210, y: 120, r: 55 }, successMsg: "Awesome! That long bottom wick shows buyers bounced price up!" },
-            { day: 4, title: "Shooting Star Reversal", subtitle: "Ceiling Rejection at the Top", visual: "shooting_star", animType: "shooting_star", story: "A Shooting Star has a long tail pointing straight up! Buyers tried to fly higher, but sellers knocked price back down!", extraContext: "Real life formation: Buyers tried to pump price up to the ceiling, but sellers piled in with giant sell orders, rejecting the high and closing price near the bottom!", tapPrompt: "Tap the Shooting Star candle with the long top tail!", target: { x: 210, y: 85, r: 55 }, successMsg: "Great eyes! Sellers rejected price at the top!" },
-            { day: 5, title: "Giant Engulfing Candle", subtitle: "Monster Candle Takeover", visual: "engulfing", animType: "engulfing", story: "Watch how the giant green candle completely swallows the tiny red candle next to it! That shows buyers just took full control!", extraContext: "Real life formation: A sudden wave of big volume orders flooded in, blowing past the previous candle's high and low instantly.", tapPrompt: "Tap the GIANT green engulfing candle!", target: { x: 215, y: 110, r: 60 }, successMsg: "Boom! That giant candle means strong upward power!" },
-            { day: 6, title: "The 3 Market Moods", subtitle: "Climbing Stairs Up vs. Down", visual: "moods", animType: "moods", story: "Markets move like stairs! On the left, green stairs climb UP. On the right, red stairs slide DOWN. Always ride with the stairs!", extraContext: "Real life formation: Higher highs and higher lows create an uptrend stair pattern, while lower highs and lower lows form a downtrend.", tapPrompt: "Tap the green UPTREND stairs on the left!", target: { x: 105, y: 115, r: 65 }, successMsg: "Nice! Riding the uptrend stairs is smart trading!" },
+            { day: 1, title: "Green vs. Red Candles", subtitle: "Rocket Up vs. Slide Down", visual: "bull_bear", animType: "bull_bear", story: "Look at the two candles! The GREEN candle means buyers pushed price UP like a rocket ship. The RED candle means sellers pushed price DOWN!", extraContext: "In real life, every second people are buying and selling. When price closes higher than the dotted Open Line, the body turns green. When it closes below, it turns red!", tapPrompt: "Tap the GREEN rocket candle on the left!", target: { x: 108, y: 110, r: 55 }, successMsg: "Yes! Green means buyers pushed price UP!" },
+            { day: 2, title: "The Doji (+)", subtitle: "The Great Tug-of-War Tie", visual: "doji", animType: "doji", story: "See that skinny plus-sign candle in the middle? That is a Doji! Buyers and sellers fought to a tie—meaning price might turn around!", extraContext: "Real life formation: Watch the live price dot zoom up high, crash way down low, and then finish right back on the dotted Open Line!", tapPrompt: "Tap the skinny Doji plus-sign in the middle!", target: { x: 170, y: 110, r: 50 }, successMsg: "Spot on! That Doji warns us a reversal is coming!" },
+            { day: 3, title: "The Hammer Reversal", subtitle: "Springboard Bounce at the Bottom", visual: "hammer", animType: "hammer", story: "Look at that candle with the super long bottom tail! Sellers tried to push price down, but buyers hammered it right back up!", extraContext: "Real life formation: Watch the price dot plunge down deep (stretching a red candle), then snap all the way back up above the Open Line leaving a long bottom wick!", tapPrompt: "Tap the Hammer candle with the long bottom tail!", target: { x: 210, y: 120, r: 55 }, successMsg: "Awesome! That long bottom wick shows buyers bounced price up!" },
+            { day: 4, title: "Shooting Star Reversal", subtitle: "Ceiling Rejection at the Top", visual: "shooting_star", animType: "shooting_star", story: "A Shooting Star has a long tail pointing straight up! Buyers tried to fly higher, but sellers knocked price back down!", extraContext: "Real life formation: Watch the price dot rocket up to the ceiling (turning green), then get slammed down below the Open Line leaving a long top wick!", tapPrompt: "Tap the Shooting Star candle with the long top tail!", target: { x: 210, y: 85, r: 55 }, successMsg: "Great eyes! Sellers rejected price at the top!" },
+            { day: 5, title: "Giant Engulfing Candle", subtitle: "Monster Candle Takeover", visual: "engulfing", animType: "engulfing", story: "Watch how the giant green candle completely swallows the tiny red candle next to it! That shows buyers just took full control!", extraContext: "Real life formation: A sudden wave of big buy orders floods in, pushing the live price dot straight past the previous candle's high!", tapPrompt: "Tap the GIANT green engulfing candle!", target: { x: 215, y: 110, r: 60 }, successMsg: "Boom! That giant candle means strong upward power!" },
+            { day: 6, title: "The 3 Market Moods", subtitle: "Climbing Stairs Up vs. Down", visual: "moods", animType: "moods", story: "Markets move like stairs! On the left, green stairs climb UP. On the right, red stairs slide DOWN. Always ride with the stairs!", extraContext: "Real life formation: Higher highs and higher lows create an uptrend stair pattern as buyers push each wave higher.", tapPrompt: "Tap the green UPTREND stairs on the left!", target: { x: 105, y: 115, r: 65 }, successMsg: "Nice! Riding the uptrend stairs is smart trading!" },
             { day: 7, title: "Beginner Belt Boss", subtitle: "Spot the Reversal Bounce!", visual: "hammer", animType: "hammer", story: "Time to earn your Beginner Belt! Price dropped down and formed a Hammer reversal at the bottom. Show me where the Hammer is!", extraContext: "In real life, spotting this bounce pattern at support gives you high confidence before entering.", tapPrompt: "Tap the Hammer reversal candle to unlock your Belt!", target: { x: 210, y: 120, r: 55 }, successMsg: "You earned your Beginner Belt! Amazing job!" },
 
-            { day: 8, title: "Support Trampoline Floor", subtitle: "Where Price Bounces Up", visual: "support", animType: "support", story: "See that blue dotted floor at the bottom? That is Support! Every time price touches the trampoline floor, buyers bounce it back up!", extraContext: "Real life formation: Institutional buy orders cluster at this exact price level because previous buyers defended it successfully.", tapPrompt: "Tap the blue Support trampoline floor at the bottom!", target: { x: 170, y: 175, r: 75 }, successMsg: "Yes! Support acts like a trampoline bouncing price up!" },
-            { day: 9, title: "Resistance Bouncy Ceiling", subtitle: "Where Price Gets Knocked Down", visual: "resistance", animType: "resistance", story: "Look at the red dotted ceiling at the top! That is Resistance. When price hits the ceiling, sellers knock it back down!", extraContext: "Real life formation: Profit-takers and short sellers step in at this price ceiling, creating a wall of selling pressure.", tapPrompt: "Tap the red Resistance ceiling at the top!", target: { x: 170, y: 55, r: 75 }, successMsg: "Spot on! Resistance stops price from going higher!" },
+            { day: 8, title: "Support Trampoline Floor", subtitle: "Where Price Bounces Up", visual: "support", animType: "support", story: "See that blue dotted floor at the bottom? That is Support! Every time price touches the trampoline floor, buyers bounce it back up!", extraContext: "Real life formation: Watch price drop down to the blue Support line, tap it, and spring straight back up!", tapPrompt: "Tap the blue Support trampoline floor at the bottom!", target: { x: 170, y: 175, r: 75 }, successMsg: "Yes! Support acts like a trampoline bouncing price up!" },
+            { day: 9, title: "Resistance Bouncy Ceiling", subtitle: "Where Price Gets Knocked Down", visual: "resistance", animType: "resistance", story: "Look at the red dotted ceiling at the top! That is Resistance. When price hits the ceiling, sellers knock it back down!", extraContext: "Real life formation: Watch price climb up to the red Resistance ceiling, hit a wall of sellers, and drop back down!", tapPrompt: "Tap the red Resistance ceiling at the top!", target: { x: 170, y: 55, r: 75 }, successMsg: "Spot on! Resistance stops price from going higher!" },
             { day: 10, title: "Trendline Ski Slopes", subtitle: "Connecting the Bounce Points", visual: "trendline", animType: "trendline", story: "Connecting the bottom bounces creates a rising yellow Trendline! Price loves to tap this diagonal ski slope and bounce higher!", extraContext: "Real life formation: As buyers gain confidence, they step in earlier on every pullback, forming a neat upward slope.", tapPrompt: "Tap along the rising yellow Trendline!", target: { x: 175, y: 135, r: 70 }, successMsg: "Awesome! Trendlines guide us on where the next bounce will be!" },
             { day: 11, title: "Rocket Breakouts", subtitle: "Smashing Through the Ceiling", visual: "breakout", animType: "breakout", story: "When buyers get super strong, a big green candle smashes straight through the ceiling line and rockets upward!", extraContext: "Real life formation: Trapped sellers rush to buy back their positions when resistance breaks, fueling a rapid price explosion.", tapPrompt: "Tap the big green candle blasting above the line!", target: { x: 175, y: 95, r: 60 }, successMsg: "Blast off! That is a true breakout!" },
-            { day: 12, title: "Fakeout Traps", subtitle: "Don't Get Tricked by Long Wicks!", visual: "fakeout", animType: "fakeout", story: "Careful! Sometimes price pokes above the ceiling with a skinny wick, traps eager buyers, and crashes right back down!", extraContext: "Real life formation: Market makers sweep liquidity above old highs to trap breakout chasers before reversing hard.", tapPrompt: "Tap the Fakeout wick poking above the red line!", target: { x: 155, y: 65, r: 55 }, successMsg: "Smart catch! Waiting for a candle close saves you from fakeouts!" },
+            { day: 12, title: "Fakeout Traps", subtitle: "Don't Get Tricked by Long Wicks!", visual: "fakeout", animType: "fakeout", story: "Careful! Sometimes price pokes above the ceiling with a skinny wick, traps eager buyers, and crashes right back down!", extraContext: "Real life formation: Watch price poke above the red line, trap buyers, and snap right back down below!", tapPrompt: "Tap the Fakeout wick poking above the red line!", target: { x: 155, y: 65, r: 55 }, successMsg: "Smart catch! Waiting for a candle close saves you from fakeouts!" },
             { day: 13, title: "The ICC Strategy", subtitle: "Indication, Correction, Continuation", visual: "icc", animType: "icc", story: "ICC is a pro secret! First: big Indication jump up. Second: calm Correction pullback. Third: Continuation rocket wave!", extraContext: "Real life formation: Markets breathe in and out. The impulsive expansion is followed by a gentle retracement before the next leg.", tapPrompt: "Tap the calm pullback dip in the middle before the rocket!", target: { x: 165, y: 125, r: 55 }, successMsg: "You nailed ICC! Entering after the Correction catches the big wave!" },
-            { day: 14, title: "Order Block Zones", subtitle: "Where Big Banks Bounce Price", visual: "support", animType: "support", story: "Big banks leave footprints at strong floor zones. When price comes back to visit that floor, buyers jump right back in!", extraContext: "Real life formation: Large institutional orders cannot be filled all at once, leaving unfilled limit orders that act as magnets later.", tapPrompt: "Tap the bounce zone at the bottom floor!", target: { x: 170, y: 175, r: 75 }, successMsg: "Great eyes! That floor zone held strong!" },
+            { day: 14, title: "Order Block Zones", subtitle: "Where Big Banks Bounce Price", visual: "support", animType: "support", story: "Big banks leave footprints at strong floor zones. When price comes back to visit that floor, buyers jump right back in!", extraContext: "Real life formation: Large institutional orders cluster at strong demand zones and bounce price upward.", tapPrompt: "Tap the bounce zone at the bottom floor!", target: { x: 170, y: 175, r: 75 }, successMsg: "Great eyes! That floor zone held strong!" },
             { day: 15, title: "Intermediate Belt Boss", subtitle: "Master Levels & ICC", visual: "icc", animType: "icc", story: "Prove your chart reading skills! Find the Correction pullback on this ICC setup to earn your blue Intermediate Belt!", extraContext: "Real life formation: Recognizing pullbacks prevents you from buying at the very peak of a surge.", tapPrompt: "Tap the Correction pullback in the middle!", target: { x: 165, y: 125, r: 55 }, successMsg: "Intermediate Belt unlocked! You are reading charts like a pro!" },
 
             { day: 16, title: "Stop-Loss Safety Shield", subtitle: "Your Automatic Seatbelt", visual: "sl_tp", animType: "sl_tp", story: "See the red Shield zone below the yellow entry line? That is your Stop-Loss! If price drops, it closes the trade automatically to keep you safe!", extraContext: "Real life formation: Professional risk management dictates exact invalidation points before risking a single dollar.", tapPrompt: "Tap the red Stop-Loss Shield zone at the bottom!", target: { x: 170, y: 165, r: 70 }, successMsg: "Yes! Never trade without your Stop-Loss Safety Shield!" },
@@ -412,7 +415,7 @@
             active.classList.add('bg-white', 'border-2', 'border-amber-400', 'text-amber-700', 'shadow-md');
         }
 
-        // ================= VISUAL CANVAS ILLUSTRATOR =================
+        // ================= STATIC VISUAL ILLUSTRATOR =================
         function drawIllustration(canvas, type, highlightTarget = null) {
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
@@ -618,12 +621,11 @@
             });
         }
 
-        // ================= 3-STEP MISSION ENGINE WITH DEDICATED LIVE ANIMATIONS =================
+        // ================= 3-STEP MISSION ENGINE =================
         let currentMission = null;
         let isInfiniteRun = false;
         let step2Solved = false;
-        let liveAnimTimer = null;
-        let liveAnimTick = 0;
+        let animFrameId = null;
 
         function launchInfiniteMission() {
             const randomLesson = curriculum[Math.floor(Math.random() * curriculum.length)];
@@ -652,7 +654,7 @@
         }
 
         function closeMissionModal() {
-            if (liveAnimTimer) clearInterval(liveAnimTimer);
+            if (animFrameId) cancelAnimationFrame(animFrameId);
             document.getElementById('missionModal').classList.add('hidden');
         }
 
@@ -703,163 +705,299 @@
             };
         }
 
-        // --- STEP 3: DEDICATED LIVE PATTERN FORMATION ANIMATION ---
+        // ================= STEP 3: SMOOTH 60FPS REAL-LIFE PRICE MOVEMENT ENGINE =================
+        function getLiveAnimationScript(type) {
+            if (type === 'doji') {
+                return {
+                    bgCandles: [
+                        { x: 110, open: 80, close: 110, high: 72, low: 116 },
+                        { x: 165, open: 110, close: 138, high: 105, low: 144 }
+                    ],
+                    liveX: 235,
+                    openY: 135,
+                    keyframes: [
+                        { t: 0.0, y: 135, msg: "🟡 Candle opens at the dotted yellow line..." },
+                        { t: 0.28, y: 78, msg: "🟢 Buyers push price UP first..." },
+                        { t: 0.65, y: 192, msg: "🔻 Sellers crash price DOWN low..." },
+                        { t: 0.90, y: 136, msg: "⚖️ Price snaps back to the exact Open Line!" },
+                        { t: 1.0, y: 136, msg: "✅ Doji (+) Formed! Total tug-of-war tie!" }
+                    ]
+                };
+            }
+            if (type === 'hammer') {
+                return {
+                    bgCandles: [
+                        { x: 105, open: 65, close: 100, high: 58, low: 106 },
+                        { x: 160, open: 100, close: 135, high: 95, low: 140 }
+                    ],
+                    liveX: 235,
+                    openY: 120,
+                    keyframes: [
+                        { t: 0.0, y: 120, msg: "🟡 Candle opens after a downtrend..." },
+                        { t: 0.42, y: 198, msg: "🔻 Sellers smash price down deep (stretching red body)..." },
+                        { t: 0.85, y: 98, msg: "🔨 Buyers hammer price all the way back UP leaving a long tail!" },
+                        { t: 1.0, y: 98, msg: "✅ Hammer Reversal Formed! Buyers took control!" }
+                    ]
+                };
+            }
+            if (type === 'shooting_star') {
+                return {
+                    bgCandles: [
+                        { x: 105, open: 175, close: 140, high: 134, low: 182 },
+                        { x: 160, open: 140, close: 105, high: 98, low: 146 }
+                    ],
+                    liveX: 235,
+                    openY: 118,
+                    keyframes: [
+                        { t: 0.0, y: 118, msg: "🟡 Candle opens at the top of an uptrend..." },
+                        { t: 0.42, y: 42, msg: "🟢 Buyers pump price up toward the ceiling..." },
+                        { t: 0.85, y: 142, msg: "🌠 Sellers slam price back down leaving a long top wick!" },
+                        { t: 1.0, y: 142, msg: "✅ Shooting Star Formed! Ceiling rejection!" }
+                    ]
+                };
+            }
+            if (type === 'engulfing') {
+                return {
+                    bgCandles: [
+                        { x: 115, open: 110, close: 130, high: 104, low: 136 },
+                        { x: 175, open: 122, close: 148, high: 116, low: 154 }
+                    ],
+                    liveX: 245,
+                    openY: 152,
+                    width: 34,
+                    keyframes: [
+                        { t: 0.0, y: 152, msg: "🟡 New candle opens below the small red candle..." },
+                        { t: 0.25, y: 162, msg: "🔻 Tiny dip at the bottom..." },
+                        { t: 0.85, y: 68, msg: "🚀 Massive wave of buyers engulfs the previous candle!" },
+                        { t: 1.0, y: 68, msg: "✅ Bullish Engulfing Takeover Formed!" }
+                    ]
+                };
+            }
+            if (type === 'support') {
+                return {
+                    levelLine: { y: 175, color: '#38bdf8', label: 'SUPPORT TRAMPOLINE FLOOR' },
+                    bgCandles: [
+                        { x: 110, open: 90, close: 135, high: 84, low: 142 },
+                        { x: 165, open: 135, close: 172, high: 130, low: 175 }
+                    ],
+                    liveX: 235,
+                    openY: 170,
+                    keyframes: [
+                        { t: 0.0, y: 170, msg: "🟡 Price tests the blue Support floor..." },
+                        { t: 0.30, y: 175, msg: "🎪 Price touches the floor—buyers step in!" },
+                        { t: 0.88, y: 102, msg: "🚀 Trampoline bounce sends price flying UP!" },
+                        { t: 1.0, y: 102, msg: "✅ Support Floor Bounce Confirmed!" }
+                    ]
+                };
+            }
+            if (type === 'resistance') {
+                return {
+                    levelLine: { y: 65, color: '#fb7185', label: 'RESISTANCE BOUNCY CEILING' },
+                    bgCandles: [
+                        { x: 110, open: 160, close: 115, high: 108, low: 166 },
+                        { x: 165, open: 115, close: 68, high: 65, low: 120 }
+                    ],
+                    liveX: 235,
+                    openY: 70,
+                    keyframes: [
+                        { t: 0.0, y: 70, msg: "🟡 Price tests the red Resistance ceiling..." },
+                        { t: 0.30, y: 65, msg: "🏠 Price hits the ceiling—sellers step in!" },
+                        { t: 0.88, y: 142, msg: "🔻 Sellers reject the ceiling and push price DOWN!" },
+                        { t: 1.0, y: 142, msg: "✅ Resistance Rejection Confirmed!" }
+                    ]
+                };
+            }
+            if (type === 'fakeout') {
+                return {
+                    levelLine: { y: 95, color: '#fb7185', label: 'RESISTANCE CEILING' },
+                    bgCandles: [
+                        { x: 110, open: 165, close: 125, high: 118, low: 172 },
+                        { x: 165, open: 125, close: 98, high: 92, low: 130 }
+                    ],
+                    liveX: 235,
+                    openY: 98,
+                    keyframes: [
+                        { t: 0.0, y: 98, msg: "🟡 Price sits right under the ceiling..." },
+                        { t: 0.40, y: 45, msg: "⚠️ Price pokes above the ceiling—trapping eager buyers!" },
+                        { t: 0.88, y: 148, msg: "💥 Fakeout! Price crashes back below the line!" },
+                        { t: 1.0, y: 148, msg: "✅ Bull Trap Fakeout Formed! Glad we waited!" }
+                    ]
+                };
+            }
+            // Default dynamic price movement script
+            return {
+                bgCandles: [
+                    { x: 110, open: 165, close: 115, high: 108, low: 172 },
+                    { x: 165, open: 115, close: 135, high: 110, low: 142 }
+                ],
+                liveX: 235,
+                openY: 135,
+                keyframes: [
+                    { t: 0.0, y: 135, msg: "🟡 Candle opens after pullback..." },
+                    { t: 0.30, y: 152, msg: "📉 Brief dip tests the low wick..." },
+                    { t: 0.88, y: 72, msg: "🚀 Strong momentum pushes price UP!" },
+                    { t: 1.0, y: 72, msg: "✅ Live Pattern Formation Complete!" }
+                ]
+            };
+        }
+
         function startStep3LiveFormation() {
-            document.getElementById('modalStepIndicator').textContent = 'Step 3 of 3: Live Pattern Formation';
+            if (animFrameId) cancelAnimationFrame(animFrameId);
+
+            document.getElementById('modalStepIndicator').textContent = 'Step 3 of 3: Live Price Ticker';
             document.getElementById('modalStage-2').classList.add('hidden');
             document.getElementById('modalStage-3').classList.remove('hidden');
             document.getElementById('step3ActionArea').classList.add('hidden');
 
-            liveAnimTick = 0;
             const statusEl = document.getElementById('liveFormationStatus');
-            statusEl.textContent = '⏳ Tick... Price opening live...';
-            speakText(`Now watch how a real ${currentMission.title} forms tick by tick!`);
-
             const canvas = document.getElementById('step3LiveCanvas');
             const ctx = canvas.getContext('2d');
+            const script = getLiveAnimationScript(currentMission.animType);
 
-            if (liveAnimTimer) clearInterval(liveAnimTimer);
+            speakText(`Watch the glowing price dot move live to form a ${currentMission.title}!`);
 
-            liveAnimTimer = setInterval(() => {
-                liveAnimTick++;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const duration = 5200; // 5.2 seconds smooth real-time playback
+            const startTime = performance.now();
+            let highY = script.openY;
+            let lowY = script.openY;
+            let lastSpokenIdx = -1;
 
-                // Background grid
-                ctx.fillStyle = '#030712';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
-                ctx.lineWidth = 1;
-                for (let x = 20; x < canvas.width; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
+            function renderFrame(now) {
+                const elapsed = now - startTime;
+                const progress = Math.min(1, elapsed / duration);
 
-                const type = currentMission.animType;
-
-                // RENDER CUSTOM LIVE FORMATION BASED ON PATTERN TYPE
-                if (type === 'bull_bear') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '🟢 Tick 1: Buyers step in and push price UP...';
-                        drawSingleCandle(ctx, 180, 140, 70, 60, 160, '#10b981');
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '🔻 Tick 2: Sellers step in and push price DOWN...';
-                        drawSingleCandle(ctx, 180, 70, 140, 60, 160, '#f43f5e');
-                    } else {
-                        statusEl.textContent = `✅ ${currentMission.title} Formed Live!`;
-                        drawSingleCandle(ctx, 130, 140, 70, 60, 160, '#10b981');
-                        drawSingleCandle(ctx, 230, 70, 140, 60, 160, '#f43f5e');
-                        finishLiveAnimation();
-                    }
-                } else if (type === 'doji') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '📈 Tick 1: Buyers push price up to the high...';
-                        drawSingleCandle(ctx, 180, 120, 90, 80, 150, '#10b981');
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '📉 Tick 2: Sellers crash price down to the low...';
-                        drawSingleCandle(ctx, 180, 90, 120, 70, 160, '#f43f5e');
-                    } else if (liveAnimTick === 3) {
-                        statusEl.textContent = '⚖️ Tick 3: Price closes right back where it opened (+)...';
-                        drawSingleCandle(ctx, 180, 110, 112, 70, 160, '#f43f5e');
-                    } else {
-                        statusEl.textContent = '✅ Doji Tug-of-War Tie Completed!';
-                        drawSingleCandle(ctx, 180, 110, 112, 70, 160, '#f43f5e');
-                        finishLiveAnimation();
-                    }
-                } else if (type === 'hammer') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '📉 Tick 1: Sellers crash price way down leaving a long tail...';
-                        drawSingleCandle(ctx, 180, 80, 110, 75, 185, '#f43f5e', 14);
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '🔨 Tick 2: Buyers step in at the floor and hammer price back up!';
-                        drawSingleCandle(ctx, 180, 110, 75, 70, 190, '#10b981', 18);
-                    } else {
-                        statusEl.textContent = '✅ Hammer Springboard Bounce Formed!';
-                        drawSingleCandle(ctx, 180, 110, 75, 70, 190, '#10b981', 18);
-                        finishLiveAnimation();
-                    }
-                } else if (type === 'shooting_star') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '🚀 Tick 1: Buyers pump price up to the ceiling leaving a long wick...';
-                        drawSingleCandle(ctx, 180, 130, 95, 45, 140, '#10b981', 14);
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '🌠 Tick 2: Sellers reject the high and knock price down!';
-                        drawSingleCandle(ctx, 180, 95, 130, 45, 140, '#f43f5e', 18);
-                    } else {
-                        statusEl.textContent = '✅ Shooting Star Rejection Formed!';
-                        drawSingleCandle(ctx, 180, 95, 130, 45, 140, '#f43f5e', 18);
-                        finishLiveAnimation();
-                    }
-                } else if (type === 'engulfing') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '🔻 Tick 1: Small red candle forms...';
-                        drawSingleCandle(ctx, 140, 100, 130, 90, 140, '#f43f5e', 16);
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '🚀 Tick 2: Giant green monster candle swallows it up!';
-                        drawSingleCandle(ctx, 140, 100, 130, 90, 140, '#f43f5e', 16);
-                        drawSingleCandle(ctx, 220, 145, 65, 55, 160, '#10b981', 34);
-                    } else {
-                        statusEl.textContent = '✅ Giant Engulfing Takeover Formed!';
-                        drawSingleCandle(ctx, 140, 100, 130, 90, 140, '#f43f5e', 16);
-                        drawSingleCandle(ctx, 220, 145, 65, 55, 160, '#10b981', 34);
-                        finishLiveAnimation();
-                    }
-                } else if (type === 'support' || type === 'resistance') {
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '📉 Tick 1: Price approaches the strong level...';
-                        drawLevelLine(ctx, type === 'support' ? '#0284c7' : '#e11d48', type === 'support' ? 150 : 70);
-                        drawSingleCandle(ctx, 180, 100, type === 'support' ? 146 : 74, 90, type === 'support' ? 155 : 68, '#f43f5e');
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = type === 'support' ? '🎪 Tick 2: Trampoline floor bounces price UP!' : '🏠 Tick 2: Bouncy ceiling rejects price DOWN!';
-                        drawLevelLine(ctx, type === 'support' ? '#0284c7' : '#e11d48', type === 'support' ? 150 : 70);
-                        drawSingleCandle(ctx, 180, 100, type === 'support' ? 146 : 74, 90, type === 'support' ? 155 : 68, '#f43f5e');
-                        drawSingleCandle(ctx, 230, type === 'support' ? 146 : 74, type === 'support' ? 95 : 125, type === 'support' ? 90 : 120, type === 'support' ? 152 : 130, type === 'support' ? '#10b981' : '#f43f5e');
-                    } else {
-                        statusEl.textContent = '✅ Level Bounce Formed Live!';
-                        drawLevelLine(ctx, type === 'support' ? '#0284c7' : '#e11d48', type === 'support' ? 150 : 70);
-                        drawSingleCandle(ctx, 180, 100, type === 'support' ? 146 : 74, 90, type === 'support' ? 155 : 68, '#f43f5e');
-                        drawSingleCandle(ctx, 230, type === 'support' ? 146 : 74, type === 'support' ? 95 : 125, type === 'support' ? 90 : 120, type === 'support' ? 152 : 130, type === 'support' ? '#10b981' : '#f43f5e');
-                        finishLiveAnimation();
-                    }
-                } else {
-                    // Default multi-candle formation for remaining lessons
-                    if (liveAnimTick === 1) {
-                        statusEl.textContent = '📈 Tick 1: Initial impulse wave forms...';
-                        drawSingleCandle(ctx, 130, 130, 90, 80, 140, '#10b981', 20);
-                    } else if (liveAnimTick === 2) {
-                        statusEl.textContent = '📉 Tick 2: Correction pullback forms...';
-                        drawSingleCandle(ctx, 130, 130, 90, 80, 140, '#10b981', 20);
-                        drawSingleCandle(ctx, 180, 90, 120, 85, 128, '#f43f5e', 20);
-                    } else if (liveAnimTick === 3) {
-                        statusEl.textContent = '🚀 Tick 3: Continuation rocket wave takes off!';
-                        drawSingleCandle(ctx, 130, 130, 90, 80, 140, '#10b981', 20);
-                        drawSingleCandle(ctx, 180, 90, 120, 85, 128, '#f43f5e', 20);
-                        drawSingleCandle(ctx, 230, 120, 50, 42, 130, '#10b981', 26);
-                    } else {
-                        statusEl.textContent = '✅ Live Setup Completed Successfully!';
-                        drawSingleCandle(ctx, 130, 130, 90, 80, 140, '#10b981', 20);
-                        drawSingleCandle(ctx, 180, 90, 120, 85, 128, '#f43f5e', 20);
-                        drawSingleCandle(ctx, 230, 120, 50, 42, 130, '#10b981', 26);
-                        finishLiveAnimation();
+                // Interpolate current Y position along keyframes
+                let currentY = script.openY;
+                let currentMsg = script.keyframes[0].msg;
+                for (let i = 0; i < script.keyframes.length - 1; i++) {
+                    const k1 = script.keyframes[i];
+                    const k2 = script.keyframes[i + 1];
+                    if (progress >= k1.t && progress <= k2.t) {
+                        const localT = (progress - k1.t) / (k2.t - k1.t);
+                        // Smooth ease-in-out
+                        const ease = localT < 0.5 ? 2 * localT * localT : 1 - Math.pow(-2 * localT + 2, 2) / 2;
+                        currentY = k1.y + (k2.y - k1.y) * ease;
+                        currentMsg = k1.msg;
+                        if (i !== lastSpokenIdx && progress < 0.98) {
+                            lastSpokenIdx = i;
+                            statusEl.textContent = currentMsg;
+                        }
+                        break;
                     }
                 }
+                if (progress >= 1) {
+                    currentY = script.keyframes[script.keyframes.length - 1].y;
+                    statusEl.textContent = script.keyframes[script.keyframes.length - 1].msg;
+                }
 
-            }, 900);
-        }
+                // Track live high and low wicks dynamically as price travels!
+                if (currentY < highY) highY = currentY;
+                if (currentY > lowY) lowY = currentY;
 
-        function drawSingleCandle(ctx, cx, open, close, high, low, color, width = 24) {
-            ctx.strokeStyle = color; ctx.lineWidth = 2.5;
-            ctx.beginPath(); ctx.moveTo(cx, high); ctx.lineTo(cx, low); ctx.stroke();
-            ctx.fillStyle = color;
-            ctx.fillRect(cx - width / 2, Math.min(open, close), width, Math.max(3, Math.abs(close - open)));
-        }
+                // Clear & draw dark pro chart background
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#030712';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        function drawLevelLine(ctx, color, y) {
-            ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.setLineDash([6, 4]);
-            ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(340, y); ctx.stroke();
-            ctx.setLineDash([]);
-        }
+                // Grid lines
+                ctx.strokeStyle = 'rgba(148, 163, 184, 0.12)';
+                ctx.lineWidth = 1;
+                for (let x = 20; x < canvas.width; x += 35) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke(); }
+                for (let y = 30; y < canvas.height; y += 35) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke(); }
 
-        function finishLiveAnimation() {
-            if (liveAnimTimer) clearInterval(liveAnimTimer);
-            document.getElementById('step3ActionArea').classList.remove('hidden');
-            speakText("Live formation complete! You can now collect your star stamp.");
+                // Optional Support/Resistance Level Line
+                if (script.levelLine) {
+                    ctx.strokeStyle = script.levelLine.color;
+                    ctx.lineWidth = 2.5;
+                    ctx.setLineDash([6, 4]);
+                    ctx.beginPath(); ctx.moveTo(20, script.levelLine.y); ctx.lineTo(canvas.width - 20, script.levelLine.y); ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.fillStyle = script.levelLine.color;
+                    ctx.font = 'bold 10px Fredoka';
+                    ctx.fillText(script.levelLine.label, 28, script.levelLine.y - 6);
+                }
+
+                // Draw previous context candles
+                script.bgCandles.forEach(c => {
+                    const isG = c.close < c.open;
+                    const col = isG ? '#10b981' : '#f43f5e';
+                    ctx.strokeStyle = col; ctx.lineWidth = 2.5;
+                    ctx.beginPath(); ctx.moveTo(c.x, c.high); ctx.lineTo(c.x, c.low); ctx.stroke();
+                    ctx.fillStyle = col;
+                    ctx.beginPath();
+                    ctx.roundRect(c.x - 13, Math.min(c.open, c.close), 26, Math.max(4, Math.abs(c.close - c.open)), 4);
+                    ctx.fill();
+                });
+
+                // Dotted Open Price Reference Line
+                ctx.strokeStyle = 'rgba(251, 191, 36, 0.55)';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath(); ctx.moveTo(script.liveX - 45, script.openY); ctx.lineTo(canvas.width - 25, script.openY); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#fbbf24';
+                ctx.font = 'bold 10px Fredoka';
+                ctx.fillText('OPEN PRICE', canvas.width - 85, script.openY - 5);
+
+                // Draw the Live Forming Candle!
+                const isBullish = currentY <= script.openY;
+                const liveColor = isBullish ? '#10b981' : '#f43f5e';
+                const cw = script.width || 28;
+
+                // Wick line (grows automatically as highY / lowY expand)
+                ctx.strokeStyle = liveColor;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(script.liveX, highY);
+                ctx.lineTo(script.liveX, lowY);
+                ctx.stroke();
+
+                // Candle body
+                ctx.fillStyle = liveColor;
+                const bodyTop = Math.min(script.openY, currentY);
+                const bodyHeight = Math.max(3, Math.abs(currentY - script.openY));
+                ctx.beginPath();
+                ctx.roundRect(script.liveX - cw / 2, bodyTop, cw, bodyHeight, 4);
+                ctx.fill();
+
+                // Live horizontal price tracker line + glowing price dot
+                ctx.strokeStyle = liveColor;
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(script.liveX, currentY);
+                ctx.lineTo(canvas.width - 15, currentY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Glowing Live Price Dot
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(script.liveX + cw / 2 + 8, currentY, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = liveColor;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Price pill tag on right edge
+                ctx.fillStyle = liveColor;
+                ctx.beginPath();
+                ctx.roundRect(canvas.width - 78, currentY - 10, 68, 20, 6);
+                ctx.fill();
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 10px Fredoka';
+                const simPrice = (2650 + (140 - currentY) * 0.5).toFixed(1);
+                ctx.fillText(`$${simPrice}`, canvas.width - 68, currentY + 4);
+
+                if (progress < 1) {
+                    animFrameId = requestAnimationFrame(renderFrame);
+                } else {
+                    document.getElementById('step3ActionArea').classList.remove('hidden');
+                    speakText("Look at how the price dot formed the wicks and body! Tap the gold button to collect your star stamp.");
+                }
+            }
+
+            animFrameId = requestAnimationFrame(renderFrame);
         }
 
         function completeCurrentMission() {
@@ -879,7 +1017,7 @@
             updateUI();
             renderCalendar();
             closeMissionModal();
-            speakText("Star stamp collected! Excellent job mastering live candle formation today!");
+            speakText("Star stamp collected! Great job watching how real candles form!");
         }
 
         // ================= HELPERS & VOICE =================
