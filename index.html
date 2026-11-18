@@ -319,6 +319,30 @@
             </div>
           </div>
           <p class="text-xs text-slate-500 font-bold mt-3">💡 Patterns are clues, not promises. This is practice with pretend money only — no real-money trading.</p>
+          <div id="teacherPracticeCard" class="hidden mt-4 rounded-3xl border-4 border-emerald-300 bg-emerald-50 p-4 sm:p-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <div><div class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">🎮 Hands-on chart lab</div><h3 class="font-display text-xl sm:text-2xl font-bold text-emerald-950">Find it on the chart!</h3></div>
+              <span id="teacherPracticeStep" class="rounded-full bg-white border border-emerald-300 px-3 py-1 text-xs font-extrabold text-emerald-800">Chart task</span>
+            </div>
+            <p id="teacherChartTask" class="font-bold text-emerald-950 mb-3">Study the chart, then tap the correct candle.</p>
+            <div class="rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950">
+              <svg id="teacherInteractiveChart" viewBox="0 0 620 280" role="img" aria-label="Interactive candlestick chart" class="w-full block" style="touch-action:manipulation"></svg>
+            </div>
+            <p class="text-xs font-bold text-slate-600 mt-2">The numbers on the right are prices. Each candle shows how price moved during one time period.</p>
+            <div id="teacherChartChoices" class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3"></div>
+            <div id="teacherChartFeedback" class="hidden mt-3 rounded-xl bg-white border-2 border-emerald-300 p-3 font-bold text-sm" aria-live="polite"></div>
+            <div id="teacherCheckArea" class="hidden mt-4 rounded-2xl bg-white border-2 border-indigo-200 p-4">
+              <div class="flex items-center justify-between gap-2"><h4 class="font-display text-lg font-bold text-indigo-950">🧠 Show what you learned</h4><span id="teacherCheckProgress" class="text-xs font-extrabold text-indigo-700">1 of 3</span></div>
+              <p id="teacherCheckQuestion" class="font-bold text-slate-800 my-3"></p>
+              <div id="teacherCheckChoices" class="grid grid-cols-1 sm:grid-cols-3 gap-2"></div>
+              <p id="teacherCheckFeedback" class="text-sm font-bold mt-3" aria-live="polite"></p>
+            </div>
+            <div id="teacherMasteryComplete" class="hidden mt-4 rounded-2xl bg-white border-2 border-emerald-400 p-4">
+              <div class="font-display text-xl font-bold text-emerald-900">🏆 Lesson mastered!</div>
+              <p class="text-sm font-bold text-emerald-800 mt-1">You found it on the chart and showed what you understand. Your next lesson is now unlocked.</p>
+              <button onclick="goToNextTeacherLesson()" class="btn-game bg-emerald-600 text-white rounded-xl px-5 py-3 font-display font-bold mt-3">Continue to Next Lesson ➡️</button>
+            </div>
+          </div>
         </div>
 
         <!-- Course index modal: all lessons are available for review -->
@@ -719,7 +743,8 @@
       completedDays: {}, // e.g. { "2026-11-16": { stars: 3, lessonId: "p1_d1" } }
       phaseProgress: { 1: 0, 2: 0, 3: 0 }, // count of mastered lessons per phase
       unlockedBadges: [],
-      tradeHistory: []
+      tradeHistory: [],
+      teacherCompletedLessons: {}
     };
 
     let appState = loadState();
@@ -733,7 +758,8 @@
             ...DEFAULT_STATE,
             ...parsed,
             completedDays: parsed.completedDays || {},
-            phaseProgress: { 1: 0, 2: 0, 3: 0, ...(parsed.phaseProgress || {}) }
+            phaseProgress: { 1: 0, 2: 0, 3: 0, ...(parsed.phaseProgress || {}) },
+            teacherCompletedLessons: parsed.teacherCompletedLessons || {}
           };
         }
       } catch (e) { console.warn('Storage load error', e); }
@@ -1901,38 +1927,45 @@
 
     let teacherLessonIndex = 0;
     let teacherStepIndex = 0;
-    function getTeacherLessonForDate(dateKey) {
-      const day = parseDateKey(dateKey).getDate();
-      return Math.min(TEACHER_COURSE.length - 1, Math.max(0, day - 1));
+    let teacherChartPassed = false;
+    let teacherCheckIndex = 0;
+    let teacherCheckCorrect = 0;
+    let teacherCheckAnswered = false;
+
+    function getNextUnlockedTeacherLessonIndex() {
+      const done = appState.teacherCompletedLessons || {};
+      const firstIncomplete = TEACHER_COURSE.findIndex((_, i) => !done[i]);
+      return firstIncomplete === -1 ? TEACHER_COURSE.length - 1 : firstIncomplete;
+    }
+    function isTeacherLessonUnlocked(index) {
+      if (index === 0) return true;
+      return !!(appState.teacherCompletedLessons && appState.teacherCompletedLessons[index - 1]);
     }
     function renderTeacherLesson() {
       const lesson = TEACHER_COURSE[teacherLessonIndex];
       const step = lesson.steps[teacherStepIndex];
-      document.getElementById('teacherLessonTitle').textContent = `Day ${teacherLessonIndex + 1}: ${lesson.title}`;
-      document.getElementById('teacherLessonProgress').textContent = `Part ${teacherStepIndex + 1} of ${lesson.steps.length} • Learn at your own speed`;
+      document.getElementById('teacherLessonTitle').textContent = `Lesson ${teacherLessonIndex + 1}: ${lesson.title}`;
+      const masteredCount=Object.values(appState.teacherCompletedLessons||{}).filter(Boolean).length;
+      document.getElementById('teacherLessonProgress').textContent = `Part ${teacherStepIndex + 1} of ${lesson.steps.length} • ${masteredCount}/${TEACHER_COURSE.length} lessons mastered • Learn at your own speed`;
       document.getElementById('teacherProgressBar').style.width = `${((teacherStepIndex + 1) / lesson.steps.length) * 100}%`;
       document.getElementById('teacherStepHeading').textContent = step[0];
       document.getElementById('teacherStepBody').textContent = step[1];
       document.getElementById('teacherStepExample').textContent = step[2];
       document.getElementById('teacherRemember').textContent = `⭐ Remember: ${step[3]}`;
       document.getElementById('teacherPrevBtn').disabled = teacherStepIndex === 0;
-      document.getElementById('teacherNextBtn').textContent = teacherStepIndex === lesson.steps.length - 1 ? 'Finish Lesson ⭐' : 'Next Part ➡️';
+      document.getElementById('teacherNextBtn').textContent = teacherStepIndex === lesson.steps.length - 1 ? 'Practice on Chart 🎮' : 'Next Part ➡️';
+      document.getElementById('teacherNextBtn').disabled = false;
+      document.getElementById('teacherPracticeCard').classList.add('hidden');
+      document.getElementById('teacherMasteryComplete').classList.add('hidden');
+      document.getElementById('teacherCheckArea').classList.add('hidden');
+      renderTeacherCourseIndex();
     }
     function moveTeacherStep(direction) {
       const lesson = TEACHER_COURSE[teacherLessonIndex];
       const next = teacherStepIndex + direction;
       if (next < 0) return;
       if (next >= lesson.steps.length) {
-        if (teacherLessonIndex < TEACHER_COURSE.length - 1) {
-          teacherLessonIndex++;
-          teacherStepIndex = 0;
-          renderTeacherLesson();
-          speakText(`Great work! Next lesson: ${TEACHER_COURSE[teacherLessonIndex].title}.`);
-        } else {
-          teacherStepIndex = lesson.steps.length - 1;
-          renderTeacherLesson();
-          speakText('You finished all 30 lessons. Amazing learning!');
-        }
+        openTeacherChartPractice();
         return;
       }
       teacherStepIndex = next;
@@ -1943,18 +1976,180 @@
       const step = TEACHER_COURSE[teacherLessonIndex].steps[teacherStepIndex];
       speakText(`${TEACHER_COURSE[teacherLessonIndex].title}. ${step[0]}. ${step[1]} Here is an example. ${step[2]} Remember. ${step[3]}`, 'teacherReadBtn');
     }
-    function openTeacherCourseIndex() {
-      const list = document.getElementById('teacherCourseList');
-      list.innerHTML = TEACHER_COURSE.map((lesson, i) => `<button onclick="selectTeacherLesson(${i})" class="text-left p-3 rounded-xl border-2 ${i === teacherLessonIndex ? 'bg-purple-100 border-purple-400' : 'bg-slate-50 border-slate-200 hover:bg-purple-50'}"><span class="text-xs font-extrabold text-purple-700">DAY ${i + 1}</span><div class="font-display font-bold text-slate-800">${lesson.title}</div><div class="text-xs font-bold text-slate-500">4 short teaching parts</div></button>`).join('');
-      document.getElementById('teacherCourseIndex').classList.remove('hidden');
+    function teacherPracticeConfig(index) {
+      const title = TEACHER_COURSE[index].title.toLowerCase();
+      let task = 'Tap the candle that closed higher than it opened.';
+      let target = 3;
+      let labels = ['Candle 1','Candle 2','Candle 3','Candle 4'];
+      let questions = [
+        {q:'What does a candle show?',a:['What price did during its time period','What price must do next','Only the news'],c:0,why:'A candle records what price did during that time period. It cannot promise the next move.'},
+        {q:'Should you decide from one candle alone?',a:['Yes, every candle is a signal','No, check the chart around it','Only if it is green'],c:1,why:'A candle is one clue. The trend, location, and what happens next also matter.'},
+        {q:'What should a careful learner do?',a:['Guess quickly','Wait, observe, and explain the clue','Copy someone else'],c:1,why:'Good chart reading means observing and explaining, not rushing or guessing.'}
+      ];
+      if (title.includes('price')) { task='Tap the candle that shows price finishing higher than it started.'; target=3; }
+      else if (title.includes('buyers and sellers')) { task='Tap the strongest green candle: it shows buyers pushed price up during that candle.'; target=3; }
+      else if (title.includes('parts of a candle')) { task='Tap the long thin line above the candle body. That is the upper wick.'; target=1; labels=['Body','Upper wick','Lower wick','Price scale']; questions=[{q:'What does the candle body show?',a:['The open-to-close distance','The time on the clock','The highest price only'],c:0,why:'The body connects the open and close.'},{q:'What does a wick show?',a:['Prices reached away from the body','The trader’s money','The next candle'],c:0,why:'Wicks show the high and low prices visited.'},{q:'What is the close?',a:['The first price','The final price when the candle period ends','The lowest price'],c:1,why:'The close is where that candle period finished.'}]; }
+      else if (title.includes('green and red')) { task='Tap the red candle. Its close is lower than its open.'; target=2; questions=[{q:'A candle opens at 10 and closes at 13. What colour?',a:['Green','Red','Doji'],c:0,why:'The close is higher than the open, so it is green.'},{q:'A candle opens at 13 and closes at 10. What colour?',a:['Green','Red','Doji'],c:1,why:'The close is lower than the open, so it is red.'},{q:'Does a green candle guarantee the next candle is green?',a:['Yes','No'],c:1,why:'It only describes what happened during that candle.'}]; }
+      else if (title.includes('timeframe')) { task='Tap the candle labelled 5m. It represents five minutes.'; target=1; labels=['1 minute','5 minutes','1 hour','1 day']; questions=[{q:'What does a 5-minute candle represent?',a:['Five seconds','Five minutes','Five hours'],c:1,why:'Each 5-minute candle records five minutes of price movement.'},{q:'Which timeframe shows more time in one candle?',a:['1 minute','1 hour','Both equal'],c:1,why:'One 1-hour candle represents more time than one 1-minute candle.'},{q:'Can the same market look different on two timeframes?',a:['Yes','No'],c:0,why:'Different timeframes group price movement into different candles.'}]; }
+      else if (title.includes('doji')) { task='Tap the tiny-body candle. Buyers and sellers finished near the same price.'; target=1; questions=[{q:'What is special about a Doji?',a:['A very small body','A huge green body','No price movement at all'],c:0,why:'Its open and close are very close, even though price may have moved around.'},{q:'Does a Doji guarantee a reversal?',a:['Yes','No'],c:1,why:'It can show hesitation. Location and later confirmation matter.'},{q:'What should you watch after a Doji?',a:['The next candles','Ignore the chart','Buy immediately'],c:0,why:'The next candles can help show which side takes control.'}]; }
+      else if (title.includes('hammer')) { task='Tap the candle with a small body near the top and a long lower wick.'; target=1; questions=[{q:'Where is a Hammer wick?',a:['Long below the body','Long above the body','No wick'],c:0,why:'A Hammer usually has a long lower wick.'},{q:'Where is a Hammer most meaningful?',a:['After a fall near support','Anywhere on the chart','Only after a big rise'],c:0,why:'Its location after a decline matters.'},{q:'What should you wait for?',a:['Confirmation','Instant entry every time','Nothing'],c:0,why:'A Hammer is a clue, not a guarantee.'}]; }
+      else if (title.includes('shooting star')) { task='Tap the candle with a long upper wick and a small body near the bottom.'; target=2; questions=[{q:'Which wick is long on a Shooting Star?',a:['Upper wick','Lower wick','Neither'],c:0,why:'The long upper wick shows price was pushed back from higher levels.'},{q:'Where can it be meaningful?',a:['After a rise near resistance','Anywhere','Only after a fall'],c:0,why:'Its location after an upward move matters.'},{q:'Does it guarantee price will fall?',a:['Yes','No'],c:1,why:'Wait for confirmation; patterns can fail.'}]; }
+      else if (title.includes('engulfing')) { task='Tap the larger second candle that covers the previous candle body.'; target=3; questions=[{q:'What happens in a bullish engulfing?',a:['A larger green body covers the previous red body','A tiny Doji forms','Two candles are identical'],c:0,why:'The larger green body overtakes the previous red body.'},{q:'What should you check?',a:['Trend and location','Only the candle colour','Nothing else'],c:0,why:'Context matters; patterns are not guarantees.'},{q:'Should the candle close before judging its final shape?',a:['Yes','No'],c:0,why:'The candle can change while it is still forming.'}]; }
+      else if (title.includes('market trends')) { task='Tap the sequence showing higher highs and higher lows.'; target=3; questions=[{q:'What often describes an uptrend?',a:['Higher highs and higher lows','Lower highs and lower lows','A flat line'],c:0,why:'An uptrend often climbs in a staircase of higher highs and lows.'},{q:'What often describes a downtrend?',a:['Higher highs','Lower highs and lower lows','Only green candles'],c:1,why:'A downtrend often forms lower highs and lower lows.'},{q:'Can price move sideways?',a:['Yes','No'],c:0,why:'A market can range between a floor and ceiling.'}]; }
+      else if (title.includes('support')) { task='Tap the blue support floor where price has bounced before.'; target=0; labels=['Support floor','Middle price','Resistance ceiling','New high']; questions=[{q:'What is support?',a:['An area where falling price may find buyers','A guaranteed floor','A take-profit order'],c:0,why:'Support is an area where price has previously found buying interest.'},{q:'Will support always hold?',a:['Yes','No'],c:1,why:'Support can break. It is an area to watch, not a promise.'},{q:'What is useful to watch at support?',a:['How price reacts there','Only the clock','Nothing'],c:0,why:'Look for the reaction and confirmation.'}]; }
+      else if (title.includes('resistance')) { task='Tap the red resistance ceiling where price has turned down before.'; target=2; labels=['Support floor','Middle price','Resistance ceiling','New low']; questions=[{q:'What is resistance?',a:['An area where rising price may meet sellers','A guaranteed ceiling','A stop-loss'],c:0,why:'Resistance is an area where price has previously met selling pressure.'},{q:'Can price break resistance?',a:['Yes','No'],c:0,why:'Resistance can break; watch how price behaves.'},{q:'What can add confidence after a break?',a:['A close and follow-through','A quick guess','No check'],c:0,why:'A close and follow-through can help confirm a breakout.'}]; }
+      else if (title.includes('liquidity')) { task='Tap the equal-high area above the candles. Orders may gather around obvious highs.'; target=2; labels=['Old low','Middle','Equal highs','Random candle']; questions=[{q:'In simple terms, what is liquidity?',a:['A place where orders may be available','A candle colour','A promise of profit'],c:0,why:'Liquidity relates to available orders in the market.'},{q:'Why watch equal highs or lows?',a:['Orders may gather around obvious levels','They always reverse','They are always support'],c:0,why:'Many traders watch obvious highs and lows, so orders may gather there.'},{q:'Does a liquidity sweep guarantee reversal?',a:['Yes','No'],c:1,why:'A sweep is a clue. Watch the reaction and confirmation.'}]; }
+      else if (title.includes('take-profit')) { task='Tap the green target line above the pretend BUY entry. That is the take-profit.'; target=3; labels=['Stop-loss','Entry','Current price','Take-profit']; questions=[{q:'What does take-profit do?',a:['Closes at a planned profit target','Limits the planned loss','Opens a chart'],c:0,why:'Take-profit is the planned target where a trade can close in profit.'},{q:'Should you plan TP before a pretend trade?',a:['Yes','No'],c:0,why:'Plan the trade before entering.'},{q:'Is a TP guaranteed to be reached?',a:['Yes','No'],c:1,why:'Price may not reach the target.'}]; }
+      else if (title.includes('stop-loss')) { task='Tap the red safety line below the pretend BUY entry. That is the stop-loss.'; target=0; labels=['Stop-loss','Entry','Current price','Take-profit']; questions=[{q:'What does stop-loss do?',a:['Helps limit a planned loss','Guarantees a win','Sets the chart timeframe'],c:0,why:'A stop-loss is a planned exit if price moves against the idea.'},{q:'Can a stop-loss guarantee the exact loss?',a:['Yes, always','No, gaps and slippage can happen'],c:1,why:'Execution can differ in fast markets.'},{q:'Where should risk be planned?',a:['Before entering','After losing','Never'],c:0,why:'Know the risk before any trade.'}]; }
+      else if (title.includes('breakout') || title.includes('fakeout')) { task='Tap the candle that closes beyond the marked range. Then check whether price follows through.'; target=3; questions=[{q:'What is a breakout?',a:['Price moves beyond a level or range','Price stays in the middle','A candle changes colour'],c:0,why:'A breakout moves beyond an important level or range.'},{q:'What is a fakeout?',a:['A break that fails and moves back inside','A confirmed trend','A stop-loss'],c:0,why:'A fakeout can trap traders when price returns into the range.'},{q:'What can help confirm a breakout?',a:['A candle close and follow-through','Entering before it happens','Guessing'],c:0,why:'Wait for evidence that price can stay beyond the level.'}]; }
+      else if (title.includes('fair value gap')) { task='Tap the highlighted gap between the candle ranges.'; target=2; questions=[{q:'What is a Fair Value Gap in this lesson?',a:['A price imbalance area between candle ranges','A guaranteed entry','A type of order'],c:0,why:'It marks an area where price moved quickly and left an imbalance.'},{q:'Does price have to return to it?',a:['Yes','No'],c:1,why:'Price may return, but it is not guaranteed.'},{q:'What should you use with it?',a:['Context and confirmation','Only the gap','A guess'],c:0,why:'A gap is one piece of information, not a full trade plan.'}]; }
+      else if (title.includes('icc:')) { task='Tap the first strong move that gives a clue about the possible direction. Then look for a pullback and continuation.'; target=3; questions=[{q:'What does Indication mean in ICC?',a:['An initial clue about direction','A stop-loss','A market fee'],c:0,why:'Indication is the first clue that one side may be taking control.'},{q:'What is Correction?',a:['A pullback after the first move','A guaranteed reversal','The take-profit'],c:0,why:'Correction is a move back or pause before a possible continuation.'},{q:'What is Continuation?',a:['Price resumes the original move','Price stops forever','A candle wick'],c:0,why:'Continuation is when price resumes the direction after the correction. It still needs confirmation.'}]; }
+      else if (title.includes('order block')) { task='Tap the last small opposite-colour candle before the strong move.'; target=1; questions=[{q:'What do traders often call an order block?',a:['A candle area before a strong move','A guaranteed reversal','A take-profit order'],c:0,why:'It is an area traders study around a strong displacement move.'},{q:'Does every order block work?',a:['Yes','No'],c:1,why:'It can fail and needs context.'},{q:'What should you check?',a:['Structure and reaction','Only the colour','Nothing else'],c:0,why:'Context and confirmation matter.'}]; }
+      else if (title.includes('trendline')) { task='Tap the rising line that connects the higher swing lows.'; target=0; labels=['Rising trendline','Candle body','Price label','Wick']; questions=[{q:'What can a trendline connect in an uptrend?',a:['Higher swing lows','Random candle bodies','Only daily opens'],c:0,why:'A rising trendline is often drawn along higher swing lows.'},{q:'Is a trendline exact forever?',a:['Yes','No'],c:1,why:'Price can break a trendline; it is a guide, not a wall.'},{q:'What should you wait for near a broken line?',a:['Price reaction and confirmation','An instant trade','Nothing'],c:0,why:'A break needs context and follow-through.'}]; }
+      else if (title.includes('swing high') || title.includes('swing low')) { task='Tap the clear turning point where price made a peak.'; target=2; labels=['Swing low','Small wiggle','Swing high','Current candle']; questions=[{q:'What is a swing high?',a:['A peak where price turns down','A low point','A stop-loss'],c:0,why:'A swing high is a local peak in price.'},{q:'What is a swing low?',a:['A valley where price turns up','A market fee','A candle body'],c:0,why:'A swing low is a local low point.'},{q:'Why study swing points?',a:['To understand market structure','To guarantee a win','To predict every tick'],c:0,why:'Swing points help us see higher highs, lower lows and structure.'}]; }
+      else if (title.includes('consolidation') || title.includes('range')) { task='Tap the sideways range where price moves between a floor and ceiling.'; target=1; labels=['Uptrend','Sideways range','Downtrend','Breakout candle']; questions=[{q:'What is consolidation?',a:['Price moving sideways in a range','A strong one-way trend','A trade fee'],c:0,why:'Price moves between an upper and lower area.'},{q:'What can happen at the edge of a range?',a:['A bounce or a breakout','Only a guaranteed reversal','Nothing ever'],c:0,why:'Price can bounce or break out; watch the evidence.'},{q:'Should you assume every range break is real?',a:['Yes','No'],c:1,why:'Some breaks are fakeouts.'}]; }
+      else if (title.includes('reversal') || title.includes('confirmation')) { task='Tap the candle that appears after the turn and gives a clue that price is changing direction.'; target=3; questions=[{q:'What is a reversal?',a:['A change in the direction price was moving','A trading fee','A candle timeframe'],c:0,why:'A reversal is a possible change from rising to falling or falling to rising.'},{q:'What helps confirm a reversal?',a:['Structure change and follow-through','One candle name alone','A guess'],c:0,why:'Look for evidence such as a structure change and follow-through.'},{q:'Can a reversal signal fail?',a:['Yes','No'],c:0,why:'No pattern or signal guarantees what price will do.'}]; }
+      else if (title.includes('entry')) { task='Tap the planned entry area after the chart gives confirmation.'; target=2; labels=['Too early','Entry area','Stop-loss','Take-profit']; questions=[{q:'When should an entry be planned?',a:['After the setup rules and confirmation are checked','Before looking at the chart','After a loss'],c:0,why:'A plan comes before the pretend entry.'},{q:'What should be known before entry?',a:['Entry, stop-loss and target','Only the direction','Nothing'],c:0,why:'Know the plan and risk before entering.'},{q:'What if confirmation is missing?',a:['Wait','Guess','Force a trade'],c:0,why:'Waiting is a valid decision.'}]; }
+      else if (title.includes('risk and reward') || title.includes('position size') || title.includes('leverage')) { task='Compare the planned loss area and target area before choosing.'; target=0; labels=['Risk / possible loss','Entry','Target','Price scale']; questions=[{q:'What is risk?',a:['What you could lose','What you hope to win','The candle colour'],c:0,why:'Risk is the amount that could be lost if the plan fails.'},{q:'What does reward mean?',a:['The possible gain if the target is reached','The spread','The candle wick'],c:0,why:'Reward is the possible gain in the plan.'},{q:'Does leverage make losses bigger too?',a:['Yes','No'],c:0,why:'Leverage can magnify both gains and losses.'}]; }
+      else if (title.includes('spread') || title.includes('trading costs')) { task='Tap the small gap between the buy and sell prices on the price scale.'; target=1; labels=['Bid price','Spread gap','Ask price','Candle wick']; questions=[{q:'What is the spread?',a:['The difference between ask and bid','The candle body','The daily high'],c:0,why:'Spread is the difference between the buying and selling quotes.'},{q:'Can trading costs affect a result?',a:['Yes','No'],c:0,why:'Spreads, fees and other costs can affect the result.'},{q:'Should costs be ignored?',a:['Yes','No'],c:1,why:'A careful learner includes costs in the plan.'}]; }
+      else if (title.includes('fomo') || title.includes('revenge') || title.includes('emotions')) { task='Tap the safe choice: wait for your rules instead of chasing a fast candle.'; target=0; labels=['Wait for setup','Chase price','Double risk','Skip the plan']; questions=[{q:'What is FOMO?',a:['Fear of missing out','A candle type','A price level'],c:0,why:'FOMO can make someone rush because they fear missing a move.'},{q:'What should you do after a loss?',a:['Pause and review','Rush to win it back','Double the risk'],c:0,why:'A calm pause helps prevent revenge trading.'},{q:'Is waiting a real decision?',a:['Yes','No'],c:0,why:'Waiting is often the safest choice when rules are not met.'}]; }
+      else if (title.includes('checklist') || title.includes('practice safely')) { task='Tap the complete plan: trend, level, confirmation and risk.'; target=3; labels=['Guess only','Trend + level','Plan + risk','Full checklist']; questions=[{q:'What belongs on a trading checklist?',a:['Trend, level, confirmation and risk','Only a candle colour','A lucky number'],c:0,why:'A checklist helps make sure the important parts are reviewed.'},{q:'Why use a demo?',a:['To practise without risking real money','To guarantee profit','To skip learning'],c:0,why:'A demo is for practice with pretend money.'},{q:'Should an 8-year-old trade real money?',a:['Yes','No, learn with an adult and pretend money'],c:1,why:'This app is for learning only. Real-money trading is not for children.'}]; }
+      return {task,target,labels,questions};
     }
+    function openTeacherChartPractice() {
+      const card=document.getElementById('teacherPracticeCard');
+      card.classList.remove('hidden');
+      document.getElementById('teacherNextBtn').disabled=true;
+      teacherChartPassed=false; teacherCheckIndex=0; teacherCheckCorrect=0; teacherCheckAnswered=false;
+      document.getElementById('teacherChartFeedback').classList.add('hidden');
+      document.getElementById('teacherCheckArea').classList.add('hidden');
+      document.getElementById('teacherMasteryComplete').classList.add('hidden');
+      const cfg=teacherPracticeConfig(teacherLessonIndex);
+      document.getElementById('teacherChartTask').textContent=cfg.task;
+      document.getElementById('teacherPracticeStep').textContent='1. Find it on the chart';
+      drawTeacherInteractiveChart(cfg);
+      const choices=document.getElementById('teacherChartChoices');
+      choices.innerHTML=cfg.labels.map((label,i)=>`<button type="button" onclick="chooseTeacherChartTarget(${i})" class="btn-game rounded-xl border-2 border-indigo-200 bg-white text-indigo-900 px-3 py-3 font-display font-bold text-sm">Tap: ${label}</button>`).join('');
+      if(appState.autoRead) speakText(cfg.task);
+      card.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    function drawTeacherInteractiveChart(cfg) {
+      const svg=document.getElementById('teacherInteractiveChart');
+      const title=TEACHER_COURSE[teacherLessonIndex].title.toLowerCase();
+      let candles=[
+        {o:175,c:145,h:130,l:190,color:'#34d399'},
+        {o:145,c:148,h:105,l:180,color:'#fb7185'},
+        {o:150,c:105,h:90,l:170,color:'#34d399'},
+        {o:105,c:125,h:80,l:145,color:'#fb7185'}
+      ];
+      if(title.includes('hammer')) candles[1]={o:130,c:118,h:112,l:220,color:'#34d399'};
+      if(title.includes('shooting star')) candles[2]={o:145,c:150,h:48,l:160,color:'#fb7185'};
+      if(title.includes('doji')) candles[1]={o:142,c:144,h:85,l:200,color:'#34d399'};
+      if(title.includes('engulfing')) {candles[2]={o:120,c:160,h:112,l:170,color:'#fb7185'};candles[3]={o:165,c:75,h:65,l:178,color:'#34d399'};}
+      if(title.includes('green and red')) {candles[1]={o:115,c:170,h:105,l:185,color:'#34d399'};candles[2]={o:95,c:160,h:85,l:180,color:'#fb7185'};}
+      if(title.includes('market trends')) candles=[{o:190,c:170,h:160,l:205,color:'#34d399'},{o:170,c:150,h:140,l:185,color:'#34d399'},{o:150,c:125,h:115,l:165,color:'#34d399'},{o:125,c:95,h:85,l:140,color:'#34d399'}];
+      if(title.includes('liquidity')) candles=[{o:175,c:145,h:90,l:190,color:'#34d399'},{o:145,c:148,h:110,l:180,color:'#fb7185'},{o:150,c:105,h:90,l:170,color:'#34d399'},{o:105,c:125,h:82,l:145,color:'#fb7185'}];
+      if(title.includes('support')) candles[0]={o:175,c:190,h:155,l:205,color:'#34d399'};
+      if(title.includes('resistance')) candles[2]={o:105,c:125,h:70,l:145,color:'#fb7185'};
+      let html='';
+      for(let y=55;y<=235;y+=45) html+=`<line x1="35" y1="${y}" x2="560" y2="${y}" stroke="#334155" stroke-dasharray="4 5"/><text x="570" y="${y+4}" fill="#cbd5e1" font-size="11">${Math.round(200-(y-55)/2)}</text>`;
+      html+='<line x1="35" y1="240" x2="560" y2="240" stroke="#94a3b8"/><text x="38" y="22" fill="#e2e8f0" font-size="13" font-weight="bold">PRICE CHART • PRACTICE DATA</text>';
+      html+='<line x1="35" y1="70" x2="560" y2="70" stroke="#f87171" stroke-width="2" stroke-dasharray="7 5"/><text x="42" y="62" fill="#fda4af" font-size="11">RESISTANCE AREA</text>';
+      html+='<line x1="35" y1="205" x2="560" y2="205" stroke="#38bdf8" stroke-width="2" stroke-dasharray="7 5"/><text x="42" y="198" fill="#7dd3fc" font-size="11">SUPPORT AREA</text>';
+      const xs=[100,220,340,460];
+      candles.forEach((c,i)=>{const x=xs[i], top=Math.min(c.o,c.c), body=Math.max(7,Math.abs(c.c-c.o));html+=`<g class="teacher-candle" data-candle="${i}" style="cursor:pointer"><rect x="${x-30}" y="${Math.max(35,c.h-8)}" width="60" height="${Math.min(190,c.l-c.h+16)}" fill="transparent"/><line x1="${x}" y1="${c.h}" x2="${x}" y2="${c.l}" stroke="${c.color}" stroke-width="5"/><rect x="${x-15}" y="${top}" width="30" height="${body}" rx="3" fill="${c.color}" stroke="#fff" stroke-width="1.5"/><text x="${x}" y="258" fill="#e2e8f0" text-anchor="middle" font-size="12">Candle ${i+1}</text></g>`;});
+      if(title.includes('support')) html+='<rect data-level="0" x="35" y="196" width="525" height="18" fill="#38bdf8" opacity="0.22" style="cursor:pointer"/><text x="42" y="191" fill="#7dd3fc" font-size="11">TAP SUPPORT ZONE</text>';
+      if(title.includes('resistance')) html+='<rect data-level="2" x="35" y="62" width="525" height="18" fill="#f87171" opacity="0.22" style="cursor:pointer"/><text x="42" y="58" fill="#fda4af" font-size="11">TAP RESISTANCE ZONE</text>';
+      if(title.includes('take-profit')) html+='<line data-level="3" x1="35" y1="70" x2="560" y2="70" stroke="#34d399" stroke-width="4" style="cursor:pointer"/><text x="370" y="58" fill="#6ee7b7" font-size="12">TAKE-PROFIT TARGET</text><line x1="35" y1="140" x2="560" y2="140" stroke="#facc15" stroke-dasharray="5 4"/><text x="42" y="133" fill="#fde047" font-size="11">ENTRY</text>';
+      if(title.includes('stop-loss')) html+='<line data-level="0" x1="35" y1="205" x2="560" y2="205" stroke="#fb7185" stroke-width="4" style="cursor:pointer"/><text x="370" y="220" fill="#fda4af" font-size="12">STOP-LOSS SAFETY LINE</text><line x1="35" y1="140" x2="560" y2="140" stroke="#facc15" stroke-dasharray="5 4"/><text x="42" y="133" fill="#fde047" font-size="11">ENTRY</text>';
+      if(title.includes('trendline')) html+='<line data-level="0" x1="90" y1="205" x2="500" y2="115" stroke="#c4b5fd" stroke-width="4" stroke-dasharray="8 5" style="cursor:pointer"/><text x="330" y="145" fill="#ddd6fe" font-size="12">RISING TRENDLINE</text>';
+      if(title.includes('fair value gap')) html+='<rect data-level="2" x="250" y="120" width="115" height="38" fill="#a78bfa" opacity="0.35" style="cursor:pointer"/><text x="255" y="114" fill="#ddd6fe" font-size="11">FAIR VALUE GAP</text>';
+      if(title.includes('order block')) html+='<rect data-level="1" x="185" y="135" width="85" height="48" fill="#f59e0b" opacity="0.3" style="cursor:pointer"/><text x="180" y="128" fill="#fcd34d" font-size="11">ORDER BLOCK AREA</text>';
+      if(title.includes('consolidation') || title.includes('range') || title.includes('breakout') || title.includes('fakeout')) html+='<rect x="45" y="95" width="490" height="90" fill="#38bdf8" opacity="0.08" stroke="#38bdf8" stroke-dasharray="6 5"/><text x="45" y="90" fill="#7dd3fc" font-size="11">RANGE / BREAKOUT AREA</text>';
+      html+='<text x="35" y="276" fill="#94a3b8" font-size="10">Earlier</text><text x="520" y="276" fill="#94a3b8" font-size="10">Later</text>';
+      svg.innerHTML=html;
+      svg.querySelectorAll('[data-candle]').forEach(el=>el.addEventListener('click',()=>chooseTeacherChartTarget(Number(el.dataset.candle))));
+      svg.querySelectorAll('[data-level]').forEach(el=>el.addEventListener('click',()=>chooseTeacherChartTarget(Number(el.dataset.level))));
+    }
+    function chooseTeacherChartTarget(index) {
+      if(teacherChartPassed)return;
+      const cfg=teacherPracticeConfig(teacherLessonIndex);
+      const feedback=document.getElementById('teacherChartFeedback');
+      feedback.classList.remove('hidden');
+      if(index===cfg.target){
+        teacherChartPassed=true; playTone('win');
+        feedback.className='mt-3 rounded-xl bg-white border-2 border-emerald-400 p-3 font-bold text-sm text-emerald-900';
+        feedback.textContent='🎉 You found it! Look closely at how the candle sits on the price chart. Now answer three quick questions to show what you understood.';
+        document.getElementById('teacherPracticeStep').textContent='2. Knowledge check';
+        document.getElementById('teacherCheckArea').classList.remove('hidden');
+        renderTeacherCheckQuestion();
+      } else {
+        playTone('oops');
+        feedback.className='mt-3 rounded-xl bg-white border-2 border-amber-300 p-3 font-bold text-sm text-amber-900';
+        feedback.textContent='Not that one yet. Look at the lesson again, compare the candle shapes and price levels, then try another.';
+      }
+    }
+    function renderTeacherCheckQuestion() {
+      const q=teacherPracticeConfig(teacherLessonIndex).questions[teacherCheckIndex];
+      document.getElementById('teacherCheckProgress').textContent=`${teacherCheckIndex+1} of 3`;
+      document.getElementById('teacherCheckQuestion').textContent=q.q;
+      document.getElementById('teacherCheckFeedback').textContent='';
+      document.getElementById('teacherCheckChoices').innerHTML=q.a.map((a,i)=>`<button onclick="answerTeacherCheck(${i})" class="btn-game rounded-xl border-2 border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-950 px-3 py-3 font-bold text-sm">${a}</button>`).join('');
+    }
+    function answerTeacherCheck(choice) {
+      if(teacherCheckAnswered)return;
+      teacherCheckAnswered=true;
+      const q=teacherPracticeConfig(teacherLessonIndex).questions[teacherCheckIndex];
+      const fb=document.getElementById('teacherCheckFeedback');
+      if(choice===q.c){
+        teacherCheckCorrect++; playTone('win'); fb.className='text-sm font-bold mt-3 text-emerald-700'; fb.textContent=`Correct! ${q.why}`;
+      } else {
+        playTone('oops'); fb.className='text-sm font-bold mt-3 text-amber-800'; fb.textContent=`Good try. ${q.why} Try this question again.`;
+      }
+      const btns=[...document.querySelectorAll('#teacherCheckChoices button')]; btns.forEach(b=>b.disabled=true);
+      setTimeout(()=>{
+        teacherCheckAnswered=false;
+        if(choice!==q.c){renderTeacherCheckQuestion();return;}
+        if(teacherCheckIndex<2){teacherCheckIndex++;renderTeacherCheckQuestion();}
+        else finishTeacherLessonMastery();
+      }, 1100);
+    }
+    function finishTeacherLessonMastery() {
+      appState.teacherCompletedLessons=appState.teacherCompletedLessons||{};
+      appState.teacherCompletedLessons[teacherLessonIndex]=true;
+      saveState();
+      document.getElementById('teacherCheckArea').classList.add('hidden');
+      document.getElementById('teacherMasteryComplete').classList.remove('hidden');
+      document.getElementById('teacherPracticeStep').textContent='Mastered ⭐';
+      addXP(25); fireConfetti(); renderTeacherCourseIndex();
+      speakText(`Amazing work! You mastered ${TEACHER_COURSE[teacherLessonIndex].title}. You unlocked the next lesson.`);
+    }
+    function goToNextTeacherLesson() {
+      const next=getNextUnlockedTeacherLessonIndex();
+      if(next===teacherLessonIndex && appState.teacherCompletedLessons[teacherLessonIndex]){
+        if(teacherLessonIndex<TEACHER_COURSE.length-1) teacherLessonIndex++;
+        else { speakText('You completed the whole trader school. Amazing learning!'); return; }
+      } else teacherLessonIndex=next;
+      teacherStepIndex=0; renderTeacherLesson();
+      if(appState.autoRead) speakTeacherLesson();
+      document.getElementById('teacherLessonCard').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function renderTeacherCourseIndex() {
+      const list=document.getElementById('teacherCourseList');
+      if(!list)return;
+      list.innerHTML=TEACHER_COURSE.map((lesson,i)=>{
+        const done=!!(appState.teacherCompletedLessons&&appState.teacherCompletedLessons[i]);
+        const unlocked=isTeacherLessonUnlocked(i);
+        const active=i===teacherLessonIndex;
+        return `<button ${unlocked?'':'disabled'} onclick="selectTeacherLesson(${i})" class="text-left p-3 rounded-xl border-2 ${done?'bg-emerald-50 border-emerald-300':active?'bg-purple-100 border-purple-400':unlocked?'bg-slate-50 border-slate-200 hover:bg-purple-50':'bg-slate-100 border-slate-200 opacity-60 cursor-not-allowed'}"><span class="text-xs font-extrabold text-purple-700">LESSON ${i+1} ${done?'✓ MASTERED':unlocked?'UNLOCKED':'🔒 LOCKED'}</span><div class="font-display font-bold text-slate-800">${lesson.title}</div><div class="text-xs font-bold text-slate-500">4 teaching parts + chart practice + mastery check</div></button>`;
+      }).join('');
+    }
+    function openTeacherCourseIndex() { renderTeacherCourseIndex(); document.getElementById('teacherCourseIndex').classList.remove('hidden'); }
     function closeTeacherCourseIndex() { document.getElementById('teacherCourseIndex').classList.add('hidden'); }
     function selectTeacherLesson(index) {
-      teacherLessonIndex = Math.max(0, Math.min(TEACHER_COURSE.length - 1, index));
-      teacherStepIndex = 0;
-      renderTeacherLesson();
-      closeTeacherCourseIndex();
-      if (appState.autoRead) speakTeacherLesson();
+      if(!isTeacherLessonUnlocked(index))return;
+      teacherLessonIndex=index; teacherStepIndex=0; renderTeacherLesson(); closeTeacherCourseIndex();
+      if(appState.autoRead)speakTeacherLesson();
     }
 
     // Calendar & Daily Mission State
@@ -2193,7 +2388,7 @@
       document.getElementById('dailyQuoteText').textContent = `"${quote}"`;
 
       currentQuest = getLessonForDate(dateKey);
-      teacherLessonIndex = getTeacherLessonForDate(dateKey);
+      teacherLessonIndex = getNextUnlockedTeacherLessonIndex();
       teacherStepIndex = 0;
       renderTeacherLesson();
       questStage = 'learn';
