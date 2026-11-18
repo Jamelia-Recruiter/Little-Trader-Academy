@@ -224,10 +224,10 @@
             <div id="modalStage-1" class="space-y-4">
                 <div class="bg-blue-50 border border-blue-200 px-4 py-2.5 rounded-2xl flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2 text-xs fredoka text-blue-900 font-bold">
-                        <span>⏱️ 5-Minute Lesson Pacing Timer:</span>
+                        <span>⏱️ Suggested 5-Minute Learning Time:</span>
                         <span id="lessonTimerDisplay" class="bg-white border border-blue-300 px-2.5 py-0.5 rounded-lg text-blue-700 font-mono text-sm">05:00</span>
                     </div>
-                    <span class="text-[11px] text-blue-700">Take your time reading & unpacking how buyers and sellers battle!</span>
+                    <span class="text-[11px] text-blue-700">Read the lesson, study the chart example, and answer the practice questions. No need to rush.</span>
                 </div>
 
                 <div class="bg-slate-50 p-4 md:p-5 rounded-3xl border border-slate-200 flex flex-col md:flex-row items-center gap-5 shadow-sm">
@@ -238,8 +238,7 @@
                     <div class="space-y-2.5 flex-1 text-center md:text-left">
                         <h4 id="stage1Subtitle" class="fredoka font-bold text-amber-800 text-lg md:text-xl">Bulls vs. Bears</h4>
                         <p id="stage1Desc" class="text-sm text-slate-700 leading-relaxed"></p>
-                        <div id="stage1ExtraContext" class="bg-amber-50 border border-amber-200 p-3 rounded-2xl text-xs text-amber-900 leading-relaxed"></div>
-                        <div id="stage1DeepWhy" class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-xs text-emerald-900 leading-relaxed"></div>
+                        <div id="stage1LessonContent" class="w-full space-y-3 text-left"></div>
                         <button onclick="readStage1Text()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-4 py-2 rounded-xl text-xs fredoka font-bold inline-flex items-center gap-2 shadow">
                             🔊 Read Full Lesson Aloud
                         </button>
@@ -1037,6 +1036,114 @@
             });
         }
 
+        // ================= DEEPER STEP-1 TEACHING ENGINE =================
+        // Turns each existing curriculum topic into a guided mini-class using its
+        // own lesson explanation, real-market context, coach questions and drawing task.
+        function lessonEscape(value) {
+            return String(value).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+        }
+
+        const lessonExamples = {
+            1: "A candle opens at 10, reaches 13, drops to 9, and closes at 12. It is green because 12 is above 10; the wicks show the high of 13 and low of 9.",
+            2: "A candle opens at 50, trades up to 54 and down to 47, then closes at 50. Its tiny body shows the close returned near the open; wait for the next candle before deciding what it means.",
+            3: "Price falls from 40 toward 32, then recovers and closes at 39, leaving a long lower wick. That can be a Hammer clue near support, but the next candle must still be studied.",
+            4: "Price rises from 70 to 79, then falls and closes at 71. The long upper wick shows the higher price did not hold during that candle.",
+            5: "A red candle body runs from 100 to 96. The next green candle body runs from 95 to 102 and covers the previous body. Compare both bodies and then check the location.",
+            6: "The market swings to 20, pulls back to 16, rises to 23, then pulls back to 18. The highs and lows are rising, which is an example of an uptrend.",
+            7: "Price falls into a support zone and forms a Hammer. A later candle closes above the Hammer high. That gives more reversal evidence than the Hammer alone.",
+            8: "Price turns upward near 49–51 twice. Mark that area as a possible support zone; on the next visit, watch for a reaction instead of buying automatically.",
+            9: "Price turns downward near 79–81 more than once. Mark it as a possible resistance zone; when price returns, observe whether it rejects or breaks through.",
+            10: "Price makes swing lows near 10, 12, and 14. Connecting those lows creates an upward trendline. A break is a warning to reassess, not proof by itself that the trend has reversed.",
+            11: "Resistance is near 100. Price wicks to 104 but closes at 99, so it did not close above. A later close at 103 is stronger breakout evidence; then watch for follow-through.",
+            12: "Resistance is near 200. Price briefly reaches 204 but closes at 199, back below the level. That warns the breakout attempt did not hold; wait for later candles to confirm failure.",
+            13: "Price rises from 100 to 110, pulls back to 106, then pushes upward again and breaks a nearby swing high. That illustrates indication, correction, and possible continuation.",
+            14: "Price pauses around 300, then rallies strongly to 320. Some traders mark the pause area near 300 as a possible order-block zone and watch—not assume—a reaction if price returns.",
+            15: "Price is making higher highs and higher lows, pulls back to support, pauses, then closes strongly upward. Describe the trend, level, correction, and confirmation; none guarantees a win.",
+            16: "A practice buy idea is considered wrong below 95, so the plan places a pretend stop at 94. Work out the possible loss before considering the setup; fast markets can slip beyond a stop price.",
+            17: "A pretend entry is 100, stop is 95, and target is 110. The plan risks 5 points for a possible 10 points before costs. The target may never be reached.",
+            18: "On a pretend $200 balance, 1% is $2. The lesson is to calculate a small maximum loss first, not to use real money or increase size after a loss.",
+            19: "You planned to study an entry near 50, but price has already jumped to 60. Chasing changes the plan; wait for a fresh setup or let that move go.",
+            20: "A pretend trade loses $2. Record it, take a break, and review the plan. Do not double the next pretend position to try to win the $2 back.",
+            21: "Before studying a possible buy, point to the uptrend, the support zone, and the bullish confirmation candle. If one clue is missing, write WAIT.",
+            22: "One chart has a clear trend, level, and confirmation; another is messy. Discipline means studying the first and skipping the unclear chart.",
+            23: "A red candle falls from 30 to 25, a small candle pauses near 24–25, then a green candle rises to 28. Read the three-candle sequence as selling, pause, and buyer response.",
+            24: "A mother candle has a high of 110 and low of 100. The next candle has a high of 106 and low of 103, so it fits completely inside the mother candle's range.",
+            25: "Resistance is near 70. Price closes above 70, later returns to the area, and forms a bullish candle. The old ceiling may be acting as a floor, but watch for follow-through.",
+            26: "A previous low is 90. Price dips to 88, then closes at 92. It moved below the old low and reclaimed it; wait for later candles before deciding what follows.",
+            27: "For a bullish three-candle FVG, candle one's high is 105 and candle three's low is 108. Using this method, the zone is 105–108; price may revisit it, but does not have to.",
+            28: "Candles may become larger when a busy market session begins. That means movement increased, not that a buy or sell is automatically correct. Observe safely with an adult.",
+            29: "Price is in an uptrend, pulls back to support, and forms a Hammer. Explain the clues and what confirmation you need; if support breaks, reconsider the idea.",
+            30: "A chart shows an uptrend, a pullback to support, and a possible bullish candle. A careful learner waits for confirmation and is happy to record NO SETUP if it never appears."
+        };
+
+        function getStage1Teaching(lesson) {
+            const riskTopic = [16,17,18,19,20,21,22,28,29,30].includes(lesson.day);
+            const firstStep = riskTopic
+                ? 'Start with the plan: identify the rule or market condition this lesson is teaching before thinking about an entry.'
+                : 'Start with context: look at the candles or price movement immediately before this pattern. Ask whether price was rising, falling, or moving sideways.';
+            const secondStep = `Find the feature named in this lesson. ${lesson.tapPrompt}`;
+            const thirdStep = `Explain the evidence you can actually see: ${lesson.deepWhy}`;
+            const fourthStep = 'Pause and wait for the relevant candle to close or for the next piece of evidence. A pattern is a clue to study, not a guarantee of what price will do.';
+            const example = lessonExamples[lesson.day] || `${lesson.extraContext} Point to the area where the event happens, describe what changed, and explain what evidence would make you more certain. If the evidence is missing, your answer is WAIT.`;
+            const mistake = `Do not memorise the pattern name and guess. ${lesson.deepWhy} The same shape or idea can behave differently depending on where it appears. Never assume one pattern guarantees a winning trade.`;
+            return {
+                explain: `${lesson.story} ${lesson.extraContext} ${lesson.deepWhy}`,
+                steps: [firstStep, secondStep, thirdStep, fourthStep],
+                example,
+                mistake,
+                practice: [lesson.q1, lesson.q2],
+                hints: [lesson.h1, lesson.h2],
+                drawing: lesson.drawPrompt
+            };
+        }
+
+        function renderStage1Lesson(lesson) {
+            const data = getStage1Teaching(lesson);
+            const host = document.getElementById('stage1LessonContent');
+            if (!host) return;
+            const steps = data.steps.map((step, i) => `
+                <li class="flex gap-2 items-start">
+                    <span class="shrink-0 w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs">${i+1}</span>
+                    <span>${lessonEscape(step)}</span>
+                </li>`).join('');
+            const questions = data.practice.map((q, i) => `
+                <div class="bg-white border border-purple-200 rounded-xl p-3 mt-2">
+                    <p class="text-sm text-purple-950 font-semibold">${i+1}. ${lessonEscape(q)}</p>
+                    <p class="text-xs text-slate-600 mt-1">Coach hint: ${lessonEscape(data.hints[i])}</p>
+                </div>`).join('');
+            host.innerHTML = `
+                <section class="bg-white border border-blue-200 rounded-2xl p-3.5 shadow-sm">
+                    <h5 class="fredoka text-blue-800 font-bold text-base mb-1">📘 1. Learn what it means</h5>
+                    <p class="text-sm text-slate-700 leading-relaxed">${lessonEscape(data.explain)}</p>
+                </section>
+                <section class="bg-blue-50 border border-blue-200 rounded-2xl p-3.5">
+                    <h5 class="fredoka text-blue-900 font-bold text-base mb-2">🧭 2. Teacher walkthrough — read the chart</h5>
+                    <ol class="space-y-2 text-sm text-slate-700">${steps}</ol>
+                </section>
+                <section class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5">
+                    <h5 class="fredoka text-amber-900 font-bold text-base mb-1">🔎 3. Put it into a chart example</h5>
+                    <p class="text-sm text-amber-950 leading-relaxed">${lessonEscape(data.example)}</p>
+                </section>
+                <section class="bg-rose-50 border border-rose-200 rounded-2xl p-3.5">
+                    <h5 class="fredoka text-rose-900 font-bold text-base mb-1">🛑 4. Mistake to avoid</h5>
+                    <p class="text-sm text-rose-950 leading-relaxed">${lessonEscape(data.mistake)}</p>
+                </section>
+                <section class="bg-purple-50 border border-purple-200 rounded-2xl p-3.5">
+                    <h5 class="fredoka text-purple-900 font-bold text-base mb-1">🧠 5. Check what you learned</h5>
+                    <p class="text-xs text-purple-800">Answer out loud before reading the coach hint.</p>
+                    ${questions}
+                </section>
+                <section class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5">
+                    <h5 class="fredoka text-emerald-900 font-bold text-base mb-1">✏️ 6. Draw it from memory</h5>
+                    <p class="text-sm text-emerald-950 leading-relaxed">${lessonEscape(data.drawing)}</p>
+                </section>`;
+        }
+
+        function getFullStage1LessonText(lesson) {
+            const d = getStage1Teaching(lesson);
+            return `${lesson.title}. Learn what it means. ${d.explain} Teacher walkthrough. ${d.steps.join(' ')} Chart example. ${d.example} Mistake to avoid. ${d.mistake} Check what you learned. Question one: ${d.practice[0]}. Hint: ${d.hints[0]}. Question two: ${d.practice[1]}. Hint: ${d.hints[1]}. Draw it from memory. ${d.drawing}`;
+        }
+
         // ================= 5-STEP MISSION ENGINE =================
         let currentMission = null;
         let isInfiniteRun = false;
@@ -1075,8 +1182,7 @@
             document.getElementById('modalTitle').textContent = lesson.title;
             document.getElementById('stage1Subtitle').textContent = lesson.subtitle;
             document.getElementById('stage1Desc').textContent = lesson.story;
-            document.getElementById('stage1ExtraContext').textContent = `💡 Real-Life Formation: ${lesson.extraContext}`;
-            document.getElementById('stage1DeepWhy').textContent = `🧠 Trader Secret: ${lesson.deepWhy}`;
+            renderStage1Lesson(lesson);
 
             showStage(1);
             document.getElementById('missionModal').classList.remove('hidden');
@@ -1093,7 +1199,7 @@
             }, 1000);
 
             setTimeout(() => drawIllustration(document.getElementById('stage1Canvas'), lesson.visual), 20);
-            speakText(`${lesson.title}. ${lesson.story} ${lesson.extraContext} ${lesson.deepWhy}`);
+            speakText(getFullStage1LessonText(lesson));
         }
 
         function updateTimerDisplay() {
@@ -1109,7 +1215,7 @@
         }
 
         function readStage1Text() {
-            speakText(`${currentMission.title}. ${currentMission.story}. ${currentMission.extraContext}. ${currentMission.deepWhy}`);
+            speakText(getFullStage1LessonText(currentMission));
         }
 
         // --- STEP 2: PARENT & KID COACH QUESTIONS ---
