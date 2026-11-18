@@ -38,7 +38,7 @@
                     <h1 class="fredoka text-2xl md:text-3xl font-bold bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-300 bg-clip-text text-transparent">
                         Candlestick Quest
                     </h1>
-                    <p class="text-xs text-purple-300 fredoka font-semibold">Kid Trader Academy • Visual & Voice Learning</p>
+                    <p class="text-xs text-purple-300 fredoka font-semibold">Audio-First Kid Trader Academy • Never-Ending Learning</p>
                 </div>
             </div>
 
@@ -52,10 +52,10 @@
                     </div>
                     <div class="flex items-center gap-3 text-xs text-slate-300 mt-0.5">
                         <span>⭐ <strong id="starCount" class="text-yellow-400 text-sm">0</strong> Stars</span>
-                        <span>🔥 <strong id="streakCount" class="text-orange-400 text-sm">1</strong> Day Streak</span>
+                        <span>🛡️ <strong id="disciplineScore" class="text-purple-300 text-sm">100%</strong> Discipline</span>
                     </div>
                 </div>
-                <button onclick="speakText('Hey ' + state.user.name + '! Tap any unlocked day on your calendar to start your visual trading mission!')" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white p-2.5 rounded-xl text-sm shadow transition transform hover:scale-105" title="Voice Coach">
+                <button onclick="speakText('Hey ' + state.user.name + '! Tap any unlocked day to start your 3-step micro-mission!')" class="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white p-2.5 rounded-xl text-sm shadow transition transform hover:scale-105" title="Voice Coach">
                     🔊
                 </button>
             </div>
@@ -70,8 +70,8 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 relative z-10">
                 <div class="space-y-1.5">
                     <div class="flex items-center gap-2">
-                        <span id="todayDateBadge" class="bg-amber-400 text-slate-950 text-xs fredoka font-bold px-3 py-1 rounded-xl uppercase tracking-wider shadow">Daily Mindset</span>
-                        <span class="text-purple-300 text-xs fredoka font-semibold">• Never-Ending Wisdom</span>
+                        <span class="bg-amber-400 text-slate-950 text-xs fredoka font-bold px-3 py-1 rounded-xl uppercase tracking-wider shadow">Daily Mindset</span>
+                        <span class="text-purple-300 text-xs fredoka font-semibold">• Patience & Discipline</span>
                     </div>
                     <p id="dailyQuoteText" class="fredoka text-lg md:text-2xl text-amber-200 font-bold leading-snug">
                         "Every obstacle is a stepping stone destined to take you someplace greater in life!"
@@ -91,42 +91,40 @@
         <!-- NAVIGATION TABS -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <button onclick="switchTab('calendar')" id="tabBtn-calendar" class="tab-btn bg-purple-950/70 border-2 border-amber-400 text-amber-300 font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-lg fredoka text-sm">
-                📅 Daily Quests (1–30)
+                📅 Daily Micro-Missions
             </button>
-            <button onclick="switchTab('arena')" id="tabBtn-arena" class="tab-btn bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-lg fredoka text-sm">
-                🎮 Live Chart ($<span id="navBalance">10,000</span>)
+            <button onclick="switchTab('infinite')" id="tabBtn-infinite" class="tab-btn bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-lg fredoka text-sm">
+                ♾️ Infinite Pro Mode
             </button>
             <button onclick="switchTab('flashcards')" id="tabBtn-flashcards" class="tab-btn bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-lg fredoka text-sm">
-                🖼️ Picture Academy
+                🖼️ Picture Cards
             </button>
             <button onclick="switchTab('trophies')" id="tabBtn-trophies" class="tab-btn bg-slate-900/90 border border-slate-800 text-slate-300 hover:text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 transition shadow-lg fredoka text-sm">
-                🥋 Belts & Trophies
+                🥋 Belts & Shields
             </button>
         </div>
 
-        <!-- TAB 1: 30-DAY CALENDAR ROADMAP -->
+        <!-- TAB 1: 30-DAY MICRO-MISSION ROADMAP -->
         <div id="tabContent-calendar" class="space-y-6">
             <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-6 shadow-2xl">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                     <div>
                         <h2 class="fredoka text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-                            🗓️ November Daily Training Roadmap
+                            🗓️ 30-Day Step-by-Step Training
                         </h2>
-                        <p class="text-sm text-slate-300 mt-1">Each day has 3 fun steps: <strong>1. Picture Lesson</strong> → <strong>2. 10-Question Visual Quiz</strong> → <strong>3. Live Chart Trade!</strong></p>
+                        <p class="text-sm text-slate-300 mt-1">Zero guessing! Every day has <strong>1. Voice Story</strong> → <strong>2. One-Touch Chart Tap</strong> → <strong>3. Patient 3-Candle Trade</strong>.</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button onclick="unlockAllDemo()" class="bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 px-3.5 py-2 rounded-xl text-xs fredoka font-bold transition" title="Unlock all 30 days to preview any lesson">
-                            🔓 Preview All 30 Days
-                        </button>
-                    </div>
+                    <button onclick="unlockAllDemo()" class="bg-purple-600/30 hover:bg-purple-600/50 text-purple-200 border border-purple-500/40 px-3.5 py-2 rounded-xl text-xs fredoka font-bold transition">
+                        🔓 Unlock All 30 Days
+                    </button>
                 </div>
 
                 <!-- Phase Legend -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6 text-xs fredoka">
-                    <div class="bg-emerald-950/50 border border-emerald-500/40 px-3 py-2 rounded-xl text-emerald-300">🟢 Days 1–7: Beginner Candles</div>
-                    <div class="bg-blue-950/50 border border-blue-500/40 px-3 py-2 rounded-xl text-blue-300">🔵 Days 8–15: Levels & ICC</div>
-                    <div class="bg-purple-950/50 border border-purple-500/40 px-3 py-2 rounded-xl text-purple-300">🟣 Days 16–22: Risk & Discipline</div>
-                    <div class="bg-amber-950/50 border border-amber-500/40 px-3 py-2 rounded-xl text-amber-300">👑 Days 23–30: Pro Mastery</div>
+                    <div class="bg-emerald-950/50 border border-emerald-500/40 px-3 py-2 rounded-xl text-emerald-300">🟢 Days 1–7: Candle Shapes & Reversals</div>
+                    <div class="bg-blue-950/50 border border-blue-500/40 px-3 py-2 rounded-xl text-blue-300">🔵 Days 8–15: Floors, Ceilings & ICC</div>
+                    <div class="bg-purple-950/50 border border-purple-500/40 px-3 py-2 rounded-xl text-purple-300">🟣 Days 16–22: Patience & Safety Shields</div>
+                    <div class="bg-amber-950/50 border border-amber-500/40 px-3 py-2 rounded-xl text-amber-300">👑 Days 23–30: Pro Combo Setups</div>
                 </div>
 
                 <!-- 30 Day Grid -->
@@ -134,82 +132,31 @@
             </div>
         </div>
 
-        <!-- TAB 2: LIVE TRADING PLAYGROUND -->
-        <div id="tabContent-arena" class="hidden space-y-6">
-            <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-6 shadow-2xl">
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-5">
-                    <div>
-                        <h2 class="fredoka text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-                            📈 Real-Time Chart Playground
-                        </h2>
-                        <p class="text-sm text-slate-300">Watch candles form live! Set your Stop-Loss & Take-Profit lines and click BUY or SELL.</p>
-                    </div>
-                    <div class="flex items-center gap-4 bg-slate-950 px-5 py-2.5 rounded-2xl border border-purple-500/40">
-                        <div>
-                            <span class="text-xs text-slate-400 block">Demo Balance:</span>
-                            <span id="arenaBalance" class="fredoka text-2xl font-bold text-emerald-400">$10,000.00</span>
-                        </div>
-                        <button onclick="resetDemoBalance()" class="bg-slate-800 hover:bg-slate-700 text-xs px-3.5 py-2 rounded-xl font-bold transition">Reset</button>
-                    </div>
+        <!-- TAB 2: INFINITE NEVER-ENDING LEARNING MODE -->
+        <div id="tabContent-infinite" class="hidden space-y-6">
+            <div class="bg-slate-900/90 border-2 border-amber-400/50 rounded-3xl p-6 md:p-8 shadow-2xl text-center space-y-5">
+                <div class="w-20 h-20 bg-gradient-to-br from-purple-600 to-amber-500 rounded-3xl mx-auto flex items-center justify-center text-4xl shadow-xl float-icon">
+                    ♾️
                 </div>
-
-                <!-- Chart Canvas -->
-                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden shadow-2xl h-[380px]">
-                    <canvas id="liveChartCanvas" class="w-full h-full"></canvas>
-
-                    <!-- Active Trade PnL Overlay -->
-                    <div id="arenaTradeOverlay" class="hidden absolute top-4 left-4 bg-slate-900/95 border border-purple-500/50 px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-4">
-                        <div>
-                            <span id="arenaTradeDir" class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500 text-black mr-2">BUY</span>
-                            <span class="text-xs text-slate-400">Floating PnL:</span>
-                            <span id="arenaFloatingPnl" class="fredoka font-bold text-lg text-emerald-400 ml-1">+$0.00</span>
-                        </div>
-                        <button onclick="closeArenaTradeManually()" class="bg-amber-400 hover:bg-amber-300 text-black font-bold text-xs px-3 py-1.5 rounded-xl fredoka">Cash Out 💰</button>
-                    </div>
-
-                    <!-- Market Trend Switcher -->
-                    <div class="absolute bottom-4 right-4 flex items-center gap-2 bg-slate-900/95 p-2 rounded-2xl border border-slate-700">
-                        <button onclick="setArenaTrend('uptrend')" id="trendBtn-uptrend" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-xl font-bold">Uptrend 🚀</button>
-                        <button onclick="setArenaTrend('downtrend')" id="trendBtn-downtrend" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold">Downtrend 🔻</button>
-                        <button onclick="setArenaTrend('sideways')" id="trendBtn-sideways" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold">Sideways ↔️</button>
-                    </div>
+                <h2 class="fredoka text-3xl font-bold text-amber-300">Never-Ending Pro Training Generator</h2>
+                <p class="text-slate-300 max-w-lg mx-auto text-sm md:text-base">
+                    Markets never stop teaching! Tap the button below to generate a brand-new random chart scenario, reversal setup, and patience drill anytime.
+                </p>
+                <div class="bg-slate-950 border border-purple-500/30 rounded-2xl p-4 max-w-md mx-auto">
+                    <span class="text-xs text-purple-300 fredoka block">Infinite Missions Completed:</span>
+                    <span id="infiniteCountDisplay" class="fredoka text-3xl font-bold text-emerald-400">0</span>
                 </div>
-
-                <!-- SL/TP Sliders & Buy/Sell Buttons -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-rose-400">🛡️ Stop-Loss Shield</span>
-                            <span id="arenaSlLabel" class="text-rose-300">-$150</span>
-                        </div>
-                        <input type="range" id="arenaSlSlider" min="50" max="500" step="25" value="150" oninput="updateArenaSlTpLabels()" class="w-full accent-rose-500 cursor-pointer">
-                    </div>
-
-                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
-                        <div class="flex justify-between text-xs font-bold">
-                            <span class="text-emerald-400">🎯 Take-Profit Target</span>
-                            <span id="arenaTpLabel" class="text-emerald-300">+$300</span>
-                        </div>
-                        <input type="range" id="arenaTpSlider" min="100" max="1000" step="50" value="300" oninput="updateArenaSlTpLabels()" class="w-full accent-emerald-500 cursor-pointer">
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <button onclick="startArenaTrade('BUY')" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white fredoka font-bold py-4 rounded-2xl shadow-xl transition transform hover:scale-105 text-base">
-                            🚀 BUY (UP)
-                        </button>
-                        <button onclick="startArenaTrade('SELL')" class="flex-1 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white fredoka font-bold py-4 rounded-2xl shadow-xl transition transform hover:scale-105 text-base">
-                            🔻 SELL (DOWN)
-                        </button>
-                    </div>
-                </div>
+                <button onclick="launchInfiniteMission()" class="bg-gradient-to-r from-amber-400 via-yellow-400 to-emerald-400 hover:opacity-95 text-slate-950 fredoka font-bold text-lg px-8 py-4 rounded-2xl shadow-2xl transition transform hover:scale-105">
+                    🎲 Generate Fresh Random Setup!
+                </button>
             </div>
         </div>
 
-        <!-- TAB 3: PICTURE ACADEMY (VISUAL FLASHCARDS WITH REAL DRAWN CHARTS) -->
+        <!-- TAB 3: PICTURE ACADEMY (AUDIO + VISUAL FLASHCARDS) -->
         <div id="tabContent-flashcards" class="hidden space-y-6">
             <div class="bg-slate-900/90 border border-purple-500/30 rounded-3xl p-6 shadow-2xl">
-                <h2 class="fredoka text-2xl md:text-3xl font-bold text-white mb-2">🖼️ Picture Card Academy</h2>
-                <p class="text-sm text-slate-300 mb-6">Tap any picture card to hear the Voice Coach explain how the pattern works!</p>
+                <h2 class="fredoka text-2xl md:text-3xl font-bold text-white mb-2">🖼️ Tap-to-Listen Picture Cards</h2>
+                <p class="text-sm text-slate-300 mb-6">No reading needed! Tap any picture card and the Voice Coach will explain it out loud.</p>
                 <div id="flashcardsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
             </div>
         </div>
@@ -220,40 +167,40 @@
                 <div class="w-24 h-24 bg-amber-500/20 border-2 border-amber-400 rounded-3xl mx-auto flex items-center justify-center text-5xl shadow-xl float-icon">
                     🥋
                 </div>
-                <h2 class="fredoka text-3xl font-bold text-amber-300">Trader Mastery Belts</h2>
-                <p class="text-slate-300 max-w-md mx-auto text-sm">Complete daily missions to unlock every belt from Beginner all the way to Pro Trading Legend!</p>
+                <h2 class="fredoka text-3xl font-bold text-amber-300">Trader Mastery Belts & Patience Badges</h2>
+                <p class="text-slate-300 max-w-md mx-auto text-sm">Every patient bounce you wait for and every Stop-Loss shield you lock in builds your rank!</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                     <div id="beltCard-1" class="bg-slate-950 border-2 border-emerald-500/60 p-6 rounded-3xl space-y-2 shadow-xl">
                         <div class="text-4xl">🟢</div>
                         <h3 class="fredoka font-bold text-white text-lg">Beginner Belt</h3>
-                        <p class="text-xs text-slate-400">Days 1–7: Candles & Market Moods</p>
+                        <p class="text-xs text-slate-400">Days 1–7: Candles & Reversals</p>
                         <span id="beltStatus-1" class="inline-block bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-xl font-bold">Unlocked!</span>
                     </div>
                     <div id="beltCard-2" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl opacity-60">
                         <div class="text-4xl">🔵</div>
                         <h3 class="fredoka font-bold text-white text-lg">Intermediate Belt</h3>
-                        <p class="text-xs text-slate-400">Days 8–15: Support, Resistance & ICC</p>
-                        <span id="beltStatus-2" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Complete Day 7 🔒</span>
+                        <p class="text-xs text-slate-400">Days 8–15: Floors, Ceilings & ICC</p>
+                        <span id="beltStatus-2" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Finish Day 7 🔒</span>
                     </div>
                     <div id="beltCard-3" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl opacity-60">
                         <div class="text-4xl">🟣</div>
-                        <h3 class="fredoka font-bold text-white text-lg">Advanced Belt</h3>
-                        <p class="text-xs text-slate-400">Days 16–22: Risk & Discipline</p>
-                        <span id="beltStatus-3" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Complete Day 15 🔒</span>
+                        <h3 class="fredoka font-bold text-white text-lg">Discipline Belt</h3>
+                        <p class="text-xs text-slate-400">Days 16–22: Patience & Shields</p>
+                        <span id="beltStatus-3" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Finish Day 15 🔒</span>
                     </div>
                     <div id="beltCard-4" class="bg-slate-950 border border-slate-800 p-6 rounded-3xl space-y-2 shadow-xl opacity-60">
                         <div class="text-4xl">👑</div>
                         <h3 class="fredoka font-bold text-white text-lg">Pro Legend Belt</h3>
-                        <p class="text-xs text-slate-400">Days 23–30: Master Boss Battles</p>
-                        <span id="beltStatus-4" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Complete Day 22 🔒</span>
+                        <p class="text-xs text-slate-400">Days 23–30: Master Combos</p>
+                        <span id="beltStatus-4" class="inline-block bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-xl font-bold">Finish Day 22 🔒</span>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- 3-STAGE DAILY MISSION MODAL -->
+    <!-- 3-STEP KID MICRO-MISSION MODAL (ZERO GUESSING!) -->
     <div id="missionModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-3 md:p-6 overflow-y-auto">
         <div class="bg-slate-900 border-2 border-purple-500/50 rounded-3xl max-w-3xl w-full p-5 md:p-8 shadow-2xl relative space-y-5 my-auto">
 
@@ -261,110 +208,103 @@
             <div class="flex justify-between items-center border-b border-slate-800 pb-4">
                 <div>
                     <div class="flex items-center gap-2">
-                        <span id="modalDayBadge" class="bg-amber-400 text-slate-950 text-xs fredoka font-bold px-3 py-1 rounded-xl">November 1</span>
-                        <span id="modalStepIndicator" class="text-xs text-purple-300 fredoka font-bold">Step 1 of 3: Picture Lesson</span>
+                        <span id="modalDayBadge" class="bg-amber-400 text-slate-950 text-xs fredoka font-bold px-3 py-1 rounded-xl">Day 1</span>
+                        <span id="modalStepIndicator" class="text-xs text-purple-300 fredoka font-bold">Step 1 of 3: Watch & Listen</span>
                     </div>
                     <h3 id="modalTitle" class="fredoka text-2xl font-bold text-white mt-1">Green vs. Red Candles</h3>
                 </div>
                 <button onclick="closeMissionModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-lg">✕</button>
             </div>
 
-            <!-- STAGE 1: INTERACTIVE PICTURE LESSON -->
+            <!-- STEP 1: TAP & SEE VISUAL STORY (AUTO-SPEAKS!) -->
             <div id="modalStage-1" class="space-y-5">
                 <div class="bg-slate-950 p-5 rounded-3xl border border-slate-800 flex flex-col md:flex-row items-center gap-6">
                     <div class="bg-slate-900 border-2 border-purple-500/40 rounded-2xl p-3 flex flex-col items-center shadow-xl">
-                        <canvas id="stage1Canvas" width="220" height="190" class="rounded-xl"></canvas>
-                        <span id="stage1Caption" class="fredoka text-xs text-amber-300 font-bold mt-2">Visual Pattern Guide</span>
+                        <canvas id="stage1Canvas" width="240" height="200" class="rounded-xl"></canvas>
+                        <span class="fredoka text-xs text-amber-300 font-bold mt-2">👀 Look Closely at the Picture!</span>
                     </div>
-                    <div class="space-y-3 flex-1 text-center md:text-left">
-                        <h4 id="stage1Subtitle" class="fredoka font-bold text-amber-300 text-xl">The Battle of Bulls & Bears</h4>
-                        <p id="stage1Desc" class="text-sm md:text-base text-slate-200 leading-relaxed"></p>
-                        <div class="bg-purple-950/60 border border-purple-500/30 p-3 rounded-2xl text-xs text-purple-200 fredoka">
-                            💡 <strong>Pro Tip:</strong> <span id="stage1Tip"></span>
-                        </div>
-                        <button onclick="readStage1Text()" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-xl text-xs fredoka font-bold inline-flex items-center gap-2 shadow-lg">
-                            🔊 Read Lesson Aloud
+                    <div class="space-y-4 flex-1 text-center md:text-left">
+                        <h4 id="stage1Subtitle" class="fredoka font-bold text-amber-300 text-xl">Bulls vs. Bears</h4>
+                        <p id="stage1Desc" class="text-base text-slate-200 leading-relaxed"></p>
+                        <button onclick="readStage1Text()" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white px-6 py-3 rounded-2xl text-sm fredoka font-bold inline-flex items-center gap-2 shadow-lg transform hover:scale-105 transition">
+                            🔊 Hear Voice Coach Again
                         </button>
                     </div>
                 </div>
 
-                <button onclick="startStage2Quiz()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold py-4 rounded-2xl fredoka text-lg shadow-xl transition transform hover:scale-[1.01]">
-                    Got It! Start 10-Question Picture Quiz 🚀
+                <button onclick="startStep2TouchChallenge()" class="w-full bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 text-slate-950 font-bold py-4 rounded-2xl fredoka text-lg shadow-xl transition transform hover:scale-[1.01]">
+                    I See It! Let's Play the Tap Challenge 🎯
                 </button>
             </div>
 
-            <!-- STAGE 2: 10-QUESTION VISUAL QUIZ -->
-            <div id="modalStage-2" class="hidden space-y-4">
-                <div class="flex justify-between items-center text-xs font-bold">
-                    <span class="text-amber-300 fredoka text-sm">Question <span id="quizQNum">1</span> of 10</span>
-                    <span class="text-emerald-400 fredoka text-sm">Score: <span id="quizScore">0</span> / 10 ⭐</span>
-                </div>
-                <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden border border-slate-800">
-                    <div id="quizProgressBar" class="bg-gradient-to-r from-purple-500 via-amber-400 to-emerald-400 h-full w-[10%] transition-all duration-300"></div>
-                </div>
-
-                <div class="bg-slate-950 p-5 rounded-3xl border border-slate-800 space-y-4 text-center">
-                    <div class="flex items-center justify-center gap-2">
-                        <h4 id="quizQuestionText" class="fredoka font-bold text-lg md:text-xl text-white">Look at the picture below!</h4>
-                        <button onclick="speakText(document.getElementById('quizQuestionText').textContent)" class="bg-blue-600 hover:bg-blue-500 text-white p-2 rounded-xl text-xs shadow" title="Read Question">🔊</button>
+            <!-- STEP 2: ONE-TOUCH INTERACTIVE CHART CHALLENGE (NO TEXT QUIZ!) -->
+            <div id="modalStage-2" class="hidden space-y-4 text-center">
+                <div class="bg-purple-950/60 border border-purple-500/40 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="text-left">
+                        <span class="text-xs text-amber-300 fredoka font-bold uppercase">🎯 Your Mission: Tap Right On The Chart!</span>
+                        <h4 id="tapPromptText" class="fredoka text-lg md:text-xl text-white font-bold mt-0.5">Tap the Hammer candle at the bottom!</h4>
                     </div>
-
-                    <!-- Drawn Visual Picture for Every Question -->
-                    <div class="bg-slate-900 border-2 border-purple-500/40 rounded-2xl p-2 mx-auto inline-block shadow-xl">
-                        <canvas id="quizCanvas" width="240" height="165" class="rounded-xl"></canvas>
-                    </div>
-
-                    <div id="quizFeedbackBanner" class="hidden p-3 rounded-2xl text-xs fredoka font-bold"></div>
-
-                    <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left"></div>
+                    <button onclick="speakText(document.getElementById('tapPromptText').textContent)" class="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl text-xs fredoka font-bold whitespace-nowrap shadow">
+                        🔊 Repeat Instruction
+                    </button>
                 </div>
+
+                <!-- Interactive Clickable Chart Canvas -->
+                <div class="relative inline-block mx-auto bg-slate-950 border-2 border-amber-400/60 rounded-3xl p-2 shadow-2xl">
+                    <canvas id="tapChallengeCanvas" width="340" height="230" class="rounded-2xl cursor-pointer max-w-full"></canvas>
+                </div>
+
+                <div id="tapFeedbackBox" class="hidden p-3.5 rounded-2xl fredoka text-sm font-bold"></div>
+
+                <button id="goToStep3Btn" onclick="startStep3PatientTrade()" class="hidden w-full bg-gradient-to-r from-emerald-400 to-green-500 text-slate-950 font-bold py-4 rounded-2xl fredoka text-lg shadow-xl animate-bounce">
+                    Awesome! Now Do the Patient 3-Candle Trade 🚀
+                </button>
             </div>
 
-            <!-- STAGE 3: LIVE INTERACTIVE SIMULATION CHART -->
+            <!-- STEP 3: PATIENCE & STOP-LOSS SHIELD 3-CANDLE MINI-TRADE -->
             <div id="modalStage-3" class="hidden space-y-4">
-                <div class="bg-emerald-950/60 border border-emerald-500/40 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="bg-slate-950 border border-purple-500/40 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div>
+                        <h4 class="fredoka font-bold text-amber-300 text-base">⏳ Step 3: Patience + Safety Shield Practice</h4>
+                        <p id="step3Instruction" class="text-xs md:text-sm text-slate-200 mt-0.5">Wait for the bounce candle to finish, lock your Safety Shield, then trade!</p>
+                    </div>
+                    <button onclick="speakText(document.getElementById('step3Instruction').textContent)" class="bg-blue-600 text-white px-3.5 py-2 rounded-xl text-xs fredoka font-bold whitespace-nowrap">🔊 Listen</button>
+                </div>
+
+                <!-- Live 3-Candle Chart -->
+                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden h-[240px] shadow-2xl">
+                    <canvas id="step3Canvas" class="w-full h-full"></canvas>
+                    <div id="patienceBanner" class="absolute top-3 left-3 bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg">
+                        ⏳ Patience Timer: Wait for setup confirmation (3s)...
+                    </div>
+                </div>
+
+                <!-- Mandatory Discipline Step: Lock Stop-Loss Shield -->
+                <div class="bg-slate-950 p-4 rounded-2xl border border-rose-500/40 flex flex-col sm:flex-row items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
-                        <div class="text-3xl">🎯</div>
+                        <span class="text-2xl">🛡️</span>
                         <div>
-                            <h4 class="fredoka font-bold text-emerald-300 text-base">Live Chart Challenge!</h4>
-                            <p id="stage3Prompt" class="text-xs text-slate-200">Watch the setup form, set your Stop-Loss & Take-Profit, then click BUY or SELL!</p>
+                            <span class="fredoka font-bold text-sm text-rose-300 block">Rule #1: Protect Your Account First!</span>
+                            <span class="text-xs text-slate-400">Tap the button to place your Stop-Loss Safety Shield before trading.</span>
                         </div>
                     </div>
-                    <button onclick="speakText(document.getElementById('stage3Prompt').textContent)" class="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs fredoka font-bold whitespace-nowrap">🔊 Listen</button>
+                    <button id="lockShieldBtn" onclick="lockSafetyShield()" class="bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold text-xs px-4 py-2.5 rounded-xl shadow transition">
+                        🛡️ Lock Safety Shield
+                    </button>
                 </div>
 
-                <div class="relative bg-slate-950 border-2 border-slate-800 rounded-3xl overflow-hidden h-[260px] shadow-2xl">
-                    <canvas id="modalLiveCanvas" class="w-full h-full"></canvas>
-                    <div id="modalSimStatus" class="absolute top-3 left-3 bg-slate-900/90 border border-purple-500/40 px-3 py-1.5 rounded-xl text-xs fredoka text-amber-300">
-                        ⏳ Watching candles form...
-                    </div>
+                <!-- Trade Action Buttons (Locked until Patience Timer + Safety Shield complete!) -->
+                <div id="step3TradeControls" class="flex gap-3">
+                    <button id="patientBuyBtn" onclick="executePatientTrade('BUY')" disabled class="flex-1 bg-slate-800 text-slate-500 fredoka font-bold py-4 rounded-2xl text-base cursor-not-allowed transition">
+                        🔒 Wait & Lock Shield First
+                    </button>
+                    <button id="patientSellBtn" onclick="executePatientTrade('SELL')" disabled class="flex-1 bg-slate-800 text-slate-500 fredoka font-bold py-4 rounded-2xl text-base cursor-not-allowed transition">
+                        🔒 Wait & Lock Shield First
+                    </button>
                 </div>
 
-                <!-- SL & TP Controls -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
-                        <div class="flex justify-between text-[11px] font-bold mb-1">
-                            <span class="text-rose-400">🛡️ Stop-Loss (SL)</span>
-                            <span id="modalSlVal" class="text-rose-300">20 pts</span>
-                        </div>
-                        <input type="range" id="modalSlSlider" min="10" max="45" value="20" oninput="drawModalSimChart()" class="w-full accent-rose-500">
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-2xl border border-slate-800">
-                        <div class="flex justify-between text-[11px] font-bold mb-1">
-                            <span class="text-emerald-400">🎯 Take-Profit (TP)</span>
-                            <span id="modalTpVal" class="text-emerald-300">35 pts</span>
-                        </div>
-                        <input type="range" id="modalTpSlider" min="15" max="60" value="35" oninput="drawModalSimChart()" class="w-full accent-emerald-500">
-                    </div>
-                </div>
-
-                <div id="modalTradeButtons" class="flex gap-3">
-                    <button onclick="runModalSimulation('BUY')" class="flex-1 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white fredoka font-bold py-3.5 rounded-2xl shadow-lg text-base">🚀 BUY (Price Goes UP)</button>
-                    <button onclick="runModalSimulation('SELL')" class="flex-1 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white fredoka font-bold py-3.5 rounded-2xl shadow-lg text-base">🔻 SELL (Price Goes DOWN)</button>
-                </div>
-
-                <button id="completeMissionBtn" onclick="finishDailyMission()" class="hidden w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 fredoka font-bold py-4 rounded-2xl shadow-xl text-lg animate-bounce">
-                    ⭐ Collect Star Stamp & Finish Day!
+                <button id="finishDayBtn" onclick="completeCurrentMission()" class="hidden w-full bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 fredoka font-bold py-4 rounded-2xl shadow-xl text-lg animate-bounce">
+                    ⭐ Collect Star Stamp & Finish!
                 </button>
             </div>
         </div>
@@ -376,11 +316,11 @@
             <h3 class="fredoka text-2xl font-bold text-amber-300">Trader Profile Setup</h3>
             <div class="space-y-4">
                 <div>
-                    <label class="text-xs text-slate-300 font-bold block mb-1.5">Your Name:</label>
-                    <input type="text" id="inputTraderName" class="w-full bg-slate-950 border border-purple-500/40 rounded-2xl px-4 py-3 text-white fredoka focus:outline-none focus:border-amber-400" placeholder="Enter your name">
+                    <label class="text-xs text-slate-300 font-bold block mb-1.5">Trader Name:</label>
+                    <input type="text" id="inputTraderName" class="w-full bg-slate-950 border border-purple-500/40 rounded-2xl px-4 py-3 text-white fredoka focus:outline-none focus:border-amber-400" placeholder="Enter name">
                 </div>
                 <div>
-                    <label class="text-xs text-slate-300 font-bold block mb-1.5">Pick Your Avatar:</label>
+                    <label class="text-xs text-slate-300 font-bold block mb-1.5">Pick Avatar:</label>
                     <div class="grid grid-cols-5 gap-2 text-2xl">
                         <button onclick="selectAvatar('👦🏽')" class="p-2.5 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-400">👦🏽</button>
                         <button onclick="selectAvatar('🦁')" class="p-2.5 bg-slate-950 border border-slate-700 rounded-2xl hover:border-amber-400">🦁</button>
@@ -395,12 +335,12 @@
     </div>
 
     <script>
-        // ================= STATE & PERSISTENCE =================
-        const STORAGE_KEY = 'candlestickQuest_fullVisual_v5';
+        // ================= PERSISTENT STATE =================
+        const STORAGE_KEY = 'candlestickQuest_kidMicro_v6';
         let state = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-            user: { name: 'Champ', avatar: '👦🏽', belt: '🟢 Beginner Belt', stars: 0, streak: 1 },
+            user: { name: 'Champ', avatar: '👦🏽', belt: '🟢 Beginner Belt', stars: 0 },
             completedDays: [],
-            balance: 10000.00,
+            infiniteCount: 0,
             quoteIndex: 0
         };
 
@@ -408,63 +348,105 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         }
 
-        // ================= MOTIVATIONAL QUOTES =================
-        const motivationalQuotes = [
+        const quotes = [
             "Every obstacle is a stepping stone destined to take you someplace greater in life!",
-            "Patience is a trader's superpower—waiting for the right setup wins the game!",
-            "Protect your shields first! Smart traders always use a Stop-Loss.",
-            "You don't need to catch every wave—just the cleanest ones!",
-            "A small loss followed by discipline is a victory in disguise.",
-            "Great traders stay calm whether a candle turns green or red!",
-            "Practice makes progress—every chart you read makes your brain sharper!"
+            "Patience is a trader's superpower—waiting for the bounce wins the game!",
+            "Always put on your Stop-Loss Safety Shield before taking a trade!",
+            "You don't need to catch every candle—just wait calmly for the cleanest setup!",
+            "A disciplined trader stays calm whether a candle turns green or red!"
         ];
 
-        // ================= 30-DAY UNIQUE VISUAL CURRICULUM =================
+        // ================= 30-DAY KID-FRIENDLY MICRO-CURRICULUM =================
+        // Each day has: visual drawing, simple spoken story, 1-touch target zone (x, y, radius), and patient trade direction!
         const curriculum = [
-            { day: 1, title: "Green vs. Red Candles", phase: 1, subtitle: "Bulls Pushing Up vs. Bears Pushing Down", visual: "bull_bear", desc: "A GREEN candle means buyers pushed the price UP from bottom to top. A RED candle means sellers pushed the price DOWN from top to bottom!", tip: "Green closes higher than it opened; Red closes lower than it opened.", simBias: "BUY" },
-            { day: 2, title: "The Doji Candle", phase: 1, subtitle: "The Great Tug-of-War Tie", visual: "doji", desc: "A Doji looks like a plus sign (+) with a super thin body. Buyers and sellers fought to a tie—meaning the trend might be ready to turn around!", tip: "When you see a Doji after a big move, get ready for a possible reversal.", simBias: "BUY" },
-            { day: 3, title: "The Hammer Candle", phase: 1, subtitle: "Springboard Bounce at the Bottom", visual: "hammer", desc: "A Hammer has a small body at the top and a long tail pointing down. Sellers tried to push price down, but buyers hammered it right back up!", tip: "A green Hammer at the bottom of a drop is a strong UP signal.", simBias: "BUY" },
-            { day: 4, title: "Shooting Star Candle", phase: 1, subtitle: "Ceiling Rejection at the Top", visual: "shooting_star", desc: "A Shooting Star looks like an upside-down hammer with a long wick pointing up. Buyers tried to fly higher, but sellers knocked price back down!", tip: "Shooting Stars appear at the top of an uptrend before price drops.", simBias: "SELL" },
-            { day: 5, title: "Engulfing Candles", phase: 1, subtitle: "The Giant Monster Candle Takeover", visual: "engulfing", desc: "A Bullish Engulfing candle is a giant green candle that completely swallows the small red candle before it—showing buyers took over!", tip: "Big body candles show strong power and momentum.", simBias: "BUY" },
-            { day: 6, title: "The 3 Market Moods", phase: 1, subtitle: "Uptrend, Downtrend & Sideways", visual: "moods", desc: "Markets move in 3 ways: Uptrend (climbing stairs up), Downtrend (sliding down stairs), or Sideways (bouncing flat between two walls).", tip: "Never fight a strong trend—ride with the stairs!", simBias: "BUY" },
-            { day: 7, title: "Beginner Belt Boss Test", phase: 1, subtitle: "Candlestick Pattern Mastery", visual: "hammer", desc: "Time to prove you know Green/Red candles, Dojis, Hammers, Shooting Stars, and Trends to earn your Beginner Belt!", tip: "Look closely at the wicks and body colors in every picture.", simBias: "BUY" },
+            { day: 1, title: "Green vs. Red Candles", subtitle: "Rocket Up vs. Slide Down", visual: "bull_bear", story: "Look at the two candles! The GREEN candle means buyers pushed price UP like a rocket ship. The RED candle means sellers pushed price DOWN!", tapPrompt: "Tap the GREEN rocket candle on the left!", target: { x: 108, y: 110, r: 55 }, successMsg: "Yes! Green means buyers pushed price UP!", direction: "BUY" },
+            { day: 2, title: "The Doji (+)", subtitle: "The Great Tug-of-War Tie", visual: "doji", story: "See that skinny plus-sign candle in the middle? That is a Doji! Buyers and sellers tied in a tug-of-war, which warns us price might turn around!", tapPrompt: "Tap the skinny Doji plus-sign in the middle!", target: { x: 170, y: 110, r: 50 }, successMsg: "Spot on! That Doji warns us a reversal is coming!", direction: "BUY" },
+            { day: 3, title: "The Hammer Reversal", subtitle: "Springboard Bounce at the Bottom", visual: "hammer", story: "Look at that candle with the super long bottom tail! Sellers tried to push price down, but buyers hammered it right back up!", tapPrompt: "Tap the Hammer candle with the long bottom tail!", target: { x: 210, y: 120, r: 55 }, successMsg: "Awesome! That long bottom wick shows buyers bounced price up!", direction: "BUY" },
+            { day: 4, title: "Shooting Star Reversal", subtitle: "Ceiling Rejection at the Top", visual: "shooting_star", story: "A Shooting Star has a long tail pointing straight up! Buyers tried to fly higher, but sellers knocked price back down!", tapPrompt: "Tap the Shooting Star candle with the long top tail!", target: { x: 210, y: 85, r: 55 }, successMsg: "Great eyes! Sellers rejected price at the top!", direction: "SELL" },
+            { day: 5, title: "Giant Engulfing Candle", subtitle: "Monster Candle Takeover", visual: "engulfing", story: "Watch how the giant green candle completely swallows the tiny red candle next to it! That shows buyers just took full control!", tapPrompt: "Tap the GIANT green engulfing candle!", target: { x: 215, y: 110, r: 60 }, successMsg: "Boom! That giant candle means strong upward power!", direction: "BUY" },
+            { day: 6, title: "The 3 Market Moods", subtitle: "Climbing Stairs Up vs. Down", visual: "moods", story: "Markets move like stairs! On the left, green stairs climb UP. On the right, red stairs slide DOWN. Always ride with the stairs!", tapPrompt: "Tap the green UPTREND stairs on the left!", target: { x: 105, y: 115, r: 65 }, successMsg: "Nice! Riding the uptrend stairs is smart trading!", direction: "BUY" },
+            { day: 7, title: "Beginner Belt Boss", subtitle: "Spot the Reversal Bounce!", visual: "hammer", story: "Time to earn your Beginner Belt! Price dropped down and formed a Hammer reversal at the bottom. Show me where the Hammer is!", tapPrompt: "Tap the Hammer reversal candle to unlock your Belt!", target: { x: 210, y: 120, r: 55 }, successMsg: "You earned your Beginner Belt! Amazing job!", direction: "BUY" },
 
-            { day: 8, title: "Support (Trampoline Floor)", phase: 2, subtitle: "Where Buyers Bounce Price Up", visual: "support", desc: "Support is a magic floor at the bottom of the chart. Every time price touches the trampoline floor, buyers bounce it back up!", tip: "Wait for price to touch Support and show a green bounce candle before buying.", simBias: "BUY" },
-            { day: 9, title: "Resistance (Bouncy Ceiling)", phase: 2, subtitle: "Where Sellers Push Price Down", visual: "resistance", desc: "Resistance is a strong ceiling at the top of the chart. When price hits the ceiling, sellers knock it back down!", tip: "Don't buy right into a ceiling—look for sell bounces at Resistance.", simBias: "SELL" },
-            { day: 10, title: "Trendlines", phase: 2, subtitle: "Drawing Diagonal Ski Slopes", visual: "trendline", desc: "Connecting the higher lows in an uptrend creates a rising Trendline. Price loves to tap this diagonal line and bounce up!", tip: "You need at least 2 bounce points to draw a real Trendline.", simBias: "BUY" },
-            { day: 11, title: "Breakouts", phase: 2, subtitle: "Blasting Through the Ceiling", visual: "breakout", desc: "When buyers become super strong, a big green candle smashes right through Resistance and blasts off into a new uptrend!", tip: "A true breakout closes strongly above the ceiling line.", simBias: "BUY" },
-            { day: 12, title: "Fakeout Traps", phase: 2, subtitle: "Don't Get Tricked by Bull Traps!", visual: "fakeout", desc: "A Fakeout happens when price pokes above Resistance for one second, traps eager buyers, and then crashes right back down!", tip: "Always wait for the candle to close before jumping in.", simBias: "SELL" },
-            { day: 13, title: "The ICC Strategy", phase: 2, subtitle: "Indication, Correction, Continuation", visual: "icc", desc: "ICC is a pro secret: 1. Indication (strong breakout move), 2. Correction (calm pullback), 3. Continuation (next big wave in the same direction!).", tip: "Enter after the Correction finishes so you ride the Continuation wave!", simBias: "BUY" },
-            { day: 14, title: "Order Blocks & Zones", phase: 2, subtitle: "Where Big Banks Leave Footprints", visual: "support", desc: "Big institutions leave giant footprints where price exploded away fast. When price returns to that zone, it often bounces again!", tip: "Look for the last opposite candle right before a huge move.", simBias: "BUY" },
-            { day: 15, title: "Intermediate Belt Boss", phase: 2, subtitle: "Levels & ICC Strategy Mastery", visual: "icc", desc: "Show off your Support, Resistance, Trendline, Fakeout, and ICC skills to unlock the blue Intermediate Belt!", tip: "Patience pays—let price come to your zone.", simBias: "BUY" },
+            { day: 8, title: "Support Trampoline Floor", subtitle: "Where Price Bounces Up", visual: "support", story: "See that blue dotted floor at the bottom? That is Support! Every time price touches the trampoline floor, buyers bounce it back up!", tapPrompt: "Tap the blue Support trampoline floor at the bottom!", target: { x: 170, y: 175, r: 75 }, successMsg: "Yes! Support acts like a trampoline bouncing price up!", direction: "BUY" },
+            { day: 9, title: "Resistance Bouncy Ceiling", subtitle: "Where Price Gets Knocked Down", visual: "resistance", story: "Look at the red dotted ceiling at the top! That is Resistance. When price hits the ceiling, sellers knock it back down!", tapPrompt: "Tap the red Resistance ceiling at the top!", target: { x: 170, y: 55, r: 75 }, successMsg: "Spot on! Resistance stops price from going higher!", direction: "SELL" },
+            { day: 10, title: "Trendline Ski Slopes", subtitle: "Connecting the Bounce Points", visual: "trendline", story: "Connecting the bottom bounces creates a rising yellow Trendline! Price loves to tap this diagonal ski slope and bounce higher!", tapPrompt: "Tap along the rising yellow Trendline!", target: { x: 175, y: 135, r: 70 }, successMsg: "Awesome! Trendlines guide us on where the next bounce will be!", direction: "BUY" },
+            { day: 11, title: "Rocket Breakouts", subtitle: "Smashing Through the Ceiling", visual: "breakout", story: "When buyers get super strong, a big green candle smashes straight through the ceiling line and rockets upward!", tapPrompt: "Tap the big green candle blasting above the line!", target: { x: 175, y: 95, r: 60 }, successMsg: "Blast off! That is a true breakout!", direction: "BUY" },
+            { day: 12, title: "Fakeout Traps", subtitle: "Don't Get Tricked by Long Wicks!", visual: "fakeout", story: "Careful! Sometimes price pokes above the ceiling with a skinny wick, traps eager buyers, and crashes right back down!", tapPrompt: "Tap the Fakeout wick poking above the red line!", target: { x: 155, y: 65, r: 55 }, successMsg: "Smart catch! Waiting for a candle close saves you from fakeout traps!", direction: "SELL" },
+            { day: 13, title: "The ICC Strategy", subtitle: "Indication, Correction, Continuation", visual: "icc", story: "ICC is a pro secret! First: big Indication jump up. Second: calm Correction pullback. Third: Continuation rocket wave!", tapPrompt: "Tap the calm pullback dip in the middle before the rocket!", target: { x: 165, y: 125, r: 55 }, successMsg: "You nailed ICC! Entering after the Correction catches the big wave!", direction: "BUY" },
+            { day: 14, title: "Order Block Zones", subtitle: "Where Big Banks Bounce Price", visual: "support", story: "Big banks leave footprints at strong floor zones. When price comes back to visit that floor, buyers jump right back in!", tapPrompt: "Tap the bounce zone at the bottom floor!", target: { x: 170, y: 175, r: 75 }, successMsg: "Great eyes! That floor zone held strong!", direction: "BUY" },
+            { day: 15, title: "Intermediate Belt Boss", subtitle: "Master Levels & ICC", visual: "icc", story: "Prove your chart reading skills! Find the Correction pullback on this ICC setup to earn your blue Intermediate Belt!", tapPrompt: "Tap the Correction pullback in the middle!", target: { x: 165, y: 125, r: 55 }, successMsg: "Intermediate Belt unlocked! You are reading charts like a pro!", direction: "BUY" },
 
-            { day: 16, title: "Stop-Loss Safety Shield", phase: 3, subtitle: "Protecting Your Demo Account", visual: "sl_tp", desc: "A Stop-Loss (SL) is your automatic safety shield. If price goes the wrong way, it closes the trade automatically so a tiny scratch never becomes a big loss!", tip: "Never enter a trade without setting your Stop-Loss shield first.", simBias: "BUY" },
-            { day: 17, title: "Take-Profit Treasure", phase: 3, subtitle: "Locking In Your Winnings", visual: "sl_tp", desc: "A Take-Profit (TP) is your treasure chest target. When price reaches your goal, it automatically banks your profit before the market turns!", tip: "Aim for a Take-Profit that is bigger than your Stop-Loss.", simBias: "BUY" },
-            { day: 18, title: "The 1-Scoop Risk Rule", phase: 3, subtitle: "Smart Position Sizing", visual: "sl_tp", desc: "Never bet your whole account on one trade! Risking just 1% to 2% per trade means even 3 losses in a row barely scratch your balance.", tip: "Keep your trade size steady like one scoop of ice cream.", simBias: "BUY" },
-            { day: 19, title: "Beating FOMO", phase: 3, subtitle: "Never Chase Giant Green Rockets", visual: "fakeout", desc: "FOMO means Fear Of Missing Out. Chasing a candle that already zoomed way up usually means buying right at the top before a pullback!", tip: "If you missed the train, calmly wait for the next station.", simBias: "SELL" },
-            { day: 20, title: "No Revenge Trading", phase: 3, subtitle: "Staying Cool After a Loss", visual: "doji", desc: "Even the best pro traders lose some trades. Never jump into a random trade angry trying to win money back fast—take a breath and follow your rules!", tip: "2 losses in a row? Take a break and reset your focus.", simBias: "BUY" },
-            { day: 21, title: "The 3-Rule Checklist", phase: 3, subtitle: "Trend + Level + Confirmation", visual: "icc", desc: "Before clicking BUY or SELL, check 3 things: 1. What is the trend? 2. Is price at Support/Resistance? 3. Did a confirmation candle form?", tip: "All 3 green lights = high-probability trade!", simBias: "BUY" },
-            { day: 22, title: "Advanced Belt Boss Test", phase: 3, subtitle: "Risk & Discipline Champion", visual: "sl_tp", desc: "Prove you have the calm discipline and risk shields of a true pro to unlock the purple Advanced Belt!", tip: "Protect your capital first; profits come second.", simBias: "BUY" },
+            { day: 16, title: "Stop-Loss Safety Shield", subtitle: "Your Automatic Seatbelt", visual: "sl_tp", story: "See the red Shield zone below the yellow entry line? That is your Stop-Loss! If price drops, it closes the trade automatically to keep you safe!", tapPrompt: "Tap the red Stop-Loss Shield zone at the bottom!", target: { x: 170, y: 165, r: 70 }, successMsg: "Yes! Never trade without your Stop-Loss Safety Shield!", direction: "BUY" },
+            { day: 17, title: "Take-Profit Treasure", subtitle: "Locking In Your Winnings", visual: "sl_tp", story: "Look at the green Treasure zone at the top! When price reaches your Take-Profit target, it automatically collects your winnings!", tapPrompt: "Tap the green Take-Profit Treasure zone at the top!", target: { x: 170, y: 60, r: 70 }, successMsg: "Awesome! Take-Profit locks in your treasure before price turns!", direction: "BUY" },
+            { day: 18, title: "The 1-Scoop Risk Rule", subtitle: "Small Steady Trades", visual: "sl_tp", story: "Smart traders never bet everything at once! Keep your risk small like one scoop of ice cream so your account stays safe and steady!", tapPrompt: "Tap the yellow entry line in the middle!", target: { x: 170, y: 120, r: 65 }, successMsg: "Great discipline! Small steady risk keeps you in the game forever!", direction: "BUY" },
+            { day: 19, title: "Beating FOMO", subtitle: "Never Chase Late Rockets", visual: "fakeout", story: "FOMO means chasing a candle that already zoomed way up! Chasing late gets you trapped at the top before price drops back down.", tapPrompt: "Tap the trap at the very top where chasers got stuck!", target: { x: 155, y: 65, r: 55 }, successMsg: "Calm and patient! Never chase—wait for your setup!", direction: "SELL" },
+            { day: 20, title: "Stay Calm After a Loss", subtitle: "Zero Revenge Trading", visual: "doji", story: "Even pro champions lose some trades! When a trade hits your shield, take a deep breath, stay calm, and wait for the next clean setup.", tapPrompt: "Tap the calm Doji balance candle in the center!", target: { x: 170, y: 110, r: 55 }, successMsg: "Calm mind, strong trader! That is true discipline!", direction: "BUY" },
+            { day: 21, title: "The 3-Rule Checklist", subtitle: "Trend + Level + Candle", visual: "icc", story: "Before clicking BUY or SELL, check 3 things: 1. Trend direction, 2. Floor or ceiling level, 3. Confirmation candle!", tapPrompt: "Tap the green Continuation rocket candle on the right!", target: { x: 255, y: 80, r: 60 }, successMsg: "All 3 rules checked! You are ready for the Discipline Belt!", direction: "BUY" },
+            { day: 22, title: "Discipline Belt Boss", subtitle: "Patience & Safety Champion", visual: "sl_tp", story: "Show me where your Stop-Loss Safety Shield sits to protect your account and earn your purple Discipline Belt!", tapPrompt: "Tap the red Stop-Loss Safety Shield zone!", target: { x: 170, y: 165, r: 70 }, successMsg: "Purple Discipline Belt earned! You have real trader self-control!", direction: "BUY" },
 
-            { day: 23, title: "Morning & Evening Stars", phase: 4, subtitle: "3-Candle Reversal Combos", visual: "morning_star", desc: "A Morning Star has 3 candles: a big red drop, a tiny star candle at the bottom, and a big green sunrise candle shooting up!", tip: "3-candle combos give extra strong reversal clues.", simBias: "BUY" },
-            { day: 24, title: "The Inside Bar", phase: 4, subtitle: "Coiled Spring Energy", visual: "inside_bar", desc: "An Inside Bar is a smaller candle completely tucked inside the previous big mother candle. It acts like a coiled spring ready to pop!", tip: "Trade the breakout direction once price pops out of the mother candle.", simBias: "BUY" },
-            { day: 25, title: "Break & Retest", phase: 4, subtitle: "Ceiling Turns Into a Floor", visual: "retest", desc: "When price breaks above Resistance and comes back down to touch it from above, the old ceiling turns into a brand-new Support floor!", tip: "Break + Retest + Bounce is one of the safest setups in trading.", simBias: "BUY" },
-            { day: 26, title: "Liquidity Sweeps", phase: 4, subtitle: "Wicking Below the Floor Before Flying", visual: "hammer", desc: "Smart money often dips price just below an obvious floor with a long wick to grab orders, then rockets price in the real direction!", tip: "Watch for long wicks snapping right back inside the zone.", simBias: "BUY" },
-            { day: 27, title: "Fair Value Gaps (FVG)", phase: 4, subtitle: "Fast-Move Magnet Spaces", visual: "breakout", desc: "When a candle moves super fast, it leaves a 3-candle gap behind. Price often comes back to fill that gap before continuing!", tip: "Look at the space between candle 1's wick and candle 3's wick.", simBias: "BUY" },
-            { day: 28, title: "Trading Sessions", phase: 4, subtitle: "London & New York Power Hours", visual: "moods", desc: "Markets sleep quietly during off-hours and wake up with big moves when London and New York trading sessions open!", tip: "Trade when volume is active, not when candles are tiny and flat.", simBias: "BUY" },
-            { day: 29, title: "Your Trading Journal", phase: 4, subtitle: "Learning From Every Setup", visual: "icc", desc: "Champions review their wins and losses so they repeat what works and fix mistakes quickly!", tip: "Every trade is either a win or a free lesson.", simBias: "BUY" },
-            { day: 30, title: "Ultimate Pro Legend Exam", phase: 4, subtitle: "Final Grandmaster Challenge", visual: "morning_star", desc: "Conquer all patterns, levels, ICC setups, and risk management rules to claim the Crown Pro Legend Belt!", tip: "You've trained hard—trust your eyes and your rules!", simBias: "BUY" }
+            { day: 23, title: "Morning Star 3-Combo", subtitle: "Sunset to Sunrise Reversal", visual: "morning_star", story: "Look at these 3 candles: a big red drop, a tiny star at the bottom, and a big green sunrise candle! Together they form a Morning Star!", tapPrompt: "Tap the tiny Star candle at the very bottom!", target: { x: 170, y: 155, r: 55 }, successMsg: "Brilliant! That 3-candle Morning Star signals a strong bounce up!", direction: "BUY" },
+            { day: 24, title: "The Inside Bar Spring", subtitle: "Coiled Energy Ready to Pop", visual: "inside_bar", story: "See the smaller candle tucked completely inside the big mother candle? It is like a coiled spring getting ready to pop!", tapPrompt: "Tap the smaller Inside Bar tucked next to the big candle!", target: { x: 215, y: 110, r: 55 }, successMsg: "Yes! When price pops out of an Inside Bar, it moves fast!", direction: "BUY" },
+            { day: 25, title: "Break & Retest", subtitle: "Ceiling Turns Into a Floor", visual: "breakout", story: "When price smashes above a ceiling and comes back down to tap it from above, that old ceiling becomes a brand-new trampoline floor!", tapPrompt: "Tap where price retests the blue line from above!", target: { x: 225, y: 115, r: 55 }, successMsg: "Pro move! Break and Retest is one of the safest setups ever!", direction: "BUY" },
+            { day: 26, title: "Liquidity Wick Sweep", subtitle: "Quick Dip Before Liftoff", visual: "hammer", story: "Sometimes price dips a long wick below the floor for one second to grab orders, then snaps right back up!", tapPrompt: "Tap the long bottom wick sweeping below!", target: { x: 210, y: 155, r: 55 }, successMsg: "Sharp eyes! You spotted the liquidity sweep!", direction: "BUY" },
+            { day: 27, title: "Fast-Move Magnet Gaps", subtitle: "Fair Value Gaps", visual: "engulfing", story: "When a giant candle moves super fast, it leaves behind a powerful magnet zone that attracts price!", tapPrompt: "Tap the giant fast-moving green candle!", target: { x: 215, y: 110, r: 60 }, successMsg: "Awesome! Big candles show where strong momentum lives!", direction: "BUY" },
+            { day: 28, title: "Power Trading Hours", subtitle: "When Markets Wake Up", visual: "moods", story: "Markets move best when major world sessions open with clean stairs up or down—never trade tiny sleepy sideways chop!", tapPrompt: "Tap the clean climbing stairs on the left!", target: { x: 105, y: 115, r: 65 }, successMsg: "Great timing! Trading active trends is much cleaner!", direction: "BUY" },
+            { day: 29, title: "Champion Review Day", subtitle: "Putting Everything Together", visual: "icc", story: "You have learned candles, reversals, floors, ceilings, ICC, and safety shields! Tap the Continuation wave to prepare for your final exam!", tapPrompt: "Tap the final green rocket wave on the right!", target: { x: 255, y: 80, r: 60 }, successMsg: "Ready for Day 30—the Ultimate Pro Legend Exam!", direction: "BUY" },
+            { day: 30, title: "Pro Legend Crown Exam", subtitle: "Ultimate Master Trader!", visual: "morning_star", story: "Final Boss Mission! Spot the Morning Star reversal at the bottom, wait patiently for confirmation, lock your shield, and claim your Crown Belt!", tapPrompt: "Tap the Morning Star reversal at the bottom!", target: { x: 170, y: 155, r: 55 }, successMsg: "CROWN PRO LEGEND UNLOCKED! Infinite Pro Mode is now open forever!", direction: "BUY" }
         ];
 
-        // ================= VISUAL CANVAS DRAWING ENGINE (REAL PICTURES!) =================
-        function drawPatternPicture(canvas, patternType, labelOverride = "") {
+        // ================= INITIALIZATION =================
+        window.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+            renderCalendar();
+            renderFlashcards();
+        });
+
+        function updateUI() {
+            document.getElementById('userNameDisplay').textContent = state.user.name;
+            document.getElementById('avatarDisplay').textContent = state.user.avatar;
+            document.getElementById('starCount').textContent = state.user.stars;
+            document.getElementById('infiniteCountDisplay').textContent = state.infiniteCount;
+            document.getElementById('dailyQuoteText').textContent = `"${quotes[state.quoteIndex % quotes.length]}"`;
+
+            const done = state.completedDays.length;
+            if (done >= 7) { state.user.belt = '🔵 Intermediate Belt'; unlockBelt(2, 'Unlocked! 🎉'); }
+            if (done >= 15) { state.user.belt = '🟣 Discipline Belt'; unlockBelt(3, 'Unlocked! 🎉'); }
+            if (done >= 22) { state.user.belt = '👑 Pro Legend Belt'; unlockBelt(4, 'Crown Unlocked! 👑'); }
+            document.getElementById('userBeltBadge').textContent = state.user.belt;
+        }
+
+        function unlockBelt(num, label) {
+            const c = document.getElementById(`beltCard-${num}`);
+            const b = document.getElementById(`beltStatus-${num}`);
+            if (c && b) {
+                c.classList.remove('opacity-60', 'border-slate-800');
+                c.classList.add('border-2', 'border-amber-400');
+                b.className = 'inline-block bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-xl font-bold';
+                b.textContent = label;
+            }
+        }
+
+        function switchTab(tab) {
+            ['calendar', 'infinite', 'flashcards', 'trophies'].forEach(t => {
+                document.getElementById(`tabContent-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`tabBtn-${t}`);
+                btn.classList.remove('bg-purple-950/70', 'border-2', 'border-amber-400', 'text-amber-300');
+                btn.classList.add('bg-slate-900/90', 'border', 'border-slate-800', 'text-slate-300');
+            });
+            document.getElementById(`tabContent-${tab}`).classList.remove('hidden');
+            const active = document.getElementById(`tabBtn-${tab}`);
+            active.classList.remove('bg-slate-900/90', 'border', 'border-slate-800', 'text-slate-300');
+            active.classList.add('bg-purple-950/70', 'border-2', 'border-amber-400', 'text-amber-300');
+        }
+
+        // ================= VISUAL CANVAS ILLUSTRATOR =================
+        function drawIllustration(canvas, type, highlightTarget = null) {
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
             const h = canvas.height;
             ctx.clearRect(0, 0, w, h);
 
-            // Background grid
             ctx.fillStyle = '#090d16';
             ctx.fillRect(0, 0, w, h);
             ctx.strokeStyle = 'rgba(148, 163, 184, 0.1)';
@@ -472,277 +454,131 @@
             for (let x = 20; x < w; x += 30) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
             for (let y = 20; y < h; y += 30) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
-            const drawCandle = (x, openY, closeY, highY, lowY, width = 20) => {
-                const isGreen = closeY < openY;
+            const sx = w / 340;
+            const sy = h / 230;
+
+            const candle = (cx, open, close, high, low, cw = 24) => {
+                const x = cx * sx;
+                const oY = open * sy;
+                const cY = close * sy;
+                const hY = high * sy;
+                const lY = low * sy;
+                const width = cw * sx;
+                const isGreen = close < open;
                 const color = isGreen ? '#10b981' : '#f43f5e';
+
                 ctx.strokeStyle = color;
-                ctx.lineWidth = 3;
-                ctx.beginPath();
-                ctx.moveTo(x, highY);
-                ctx.lineTo(x, lowY);
-                ctx.stroke();
+                ctx.lineWidth = Math.max(2, 3 * sx);
+                ctx.beginPath(); ctx.moveTo(x, hY); ctx.lineTo(x, lY); ctx.stroke();
 
                 ctx.fillStyle = color;
-                const top = Math.min(openY, closeY);
-                const bodyH = Math.max(3, Math.abs(closeY - openY));
+                const top = Math.min(oY, cY);
+                const bh = Math.max(3, Math.abs(cY - oY));
                 ctx.beginPath();
-                ctx.roundRect(x - width / 2, top, width, bodyH, 4);
+                ctx.roundRect(x - width / 2, top, width, bh, 4);
                 ctx.fill();
             };
 
-            ctx.font = 'bold 11px Fredoka, sans-serif';
-            ctx.textAlign = 'center';
+            if (type === 'bull_bear') {
+                candle(108, 165, 55, 35, 185, 34);
+                candle(232, 55, 165, 35, 185, 34);
+            } else if (type === 'doji') {
+                candle(95, 65, 105, 55, 115, 22);
+                candle(170, 110, 112, 40, 180, 34);
+                candle(245, 110, 62, 50, 118, 22);
+            } else if (type === 'hammer') {
+                candle(80, 50, 95, 42, 105, 22);
+                candle(145, 98, 145, 90, 152, 22);
+                candle(210, 95, 72, 65, 195, 28);
+                candle(275, 72, 38, 30, 78, 22);
+            } else if (type === 'shooting_star') {
+                candle(80, 165, 120, 112, 175, 22);
+                candle(145, 118, 75, 68, 125, 22);
+                candle(210, 115, 138, 28, 145, 28);
+                candle(275, 140, 178, 132, 186, 22);
+            } else if (type === 'engulfing') {
+                candle(130, 95, 135, 85, 145, 24);
+                candle(215, 155, 55, 42, 168, 38);
+            } else if (type === 'moods') {
+                candle(55, 175, 145, 138, 182, 18);
+                candle(95, 145, 112, 105, 152, 18);
+                candle(135, 112, 75, 65, 120, 18);
+                candle(205, 75, 112, 68, 120, 18);
+                candle(245, 112, 148, 105, 155, 18);
+                candle(285, 148, 182, 140, 190, 18);
+            } else if (type === 'support') {
+                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.setLineDash([6, 4]);
+                ctx.beginPath(); ctx.moveTo(20 * sx, 175 * sy); ctx.lineTo(320 * sx, 175 * sy); ctx.stroke(); ctx.setLineDash([]);
+                candle(75, 85, 130, 78, 138, 20);
+                candle(125, 130, 172, 125, 175, 20);
+                candle(175, 170, 115, 108, 174, 20);
+                candle(225, 118, 172, 112, 175, 20);
+                candle(275, 170, 95, 88, 174, 20);
+            } else if (type === 'resistance') {
+                ctx.strokeStyle = '#fb7185'; ctx.lineWidth = 3; ctx.setLineDash([6, 4]);
+                ctx.beginPath(); ctx.moveTo(20 * sx, 55 * sy); ctx.lineTo(320 * sx, 55 * sy); ctx.stroke(); ctx.setLineDash([]);
+                candle(75, 155, 105, 98, 162, 20);
+                candle(125, 105, 58, 55, 112, 20);
+                candle(175, 60, 118, 56, 125, 20);
+                candle(225, 115, 58, 55, 122, 20);
+                candle(275, 62, 140, 56, 148, 20);
+            } else if (type === 'trendline') {
+                ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 3;
+                ctx.beginPath(); ctx.moveTo(35 * sx, 190 * sy); ctx.lineTo(305 * sx, 80 * sy); ctx.stroke();
+                candle(75, 172, 130, 122, 176, 20);
+                candle(125, 130, 152, 125, 155, 20);
+                candle(175, 150, 95, 88, 152, 20);
+                candle(225, 95, 114, 90, 116, 20);
+                candle(275, 112, 55, 48, 114, 20);
+            } else if (type === 'breakout') {
+                ctx.strokeStyle = '#38bdf8'; ctx.lineWidth = 3; ctx.setLineDash([6, 4]);
+                ctx.beginPath(); ctx.moveTo(20 * sx, 115 * sy); ctx.lineTo(320 * sx, 115 * sy); ctx.stroke(); ctx.setLineDash([]);
+                candle(70, 165, 125, 118, 172, 20);
+                candle(120, 125, 152, 120, 160, 20);
+                candle(175, 148, 68, 60, 154, 26);
+                candle(225, 70, 112, 65, 115, 20);
+                candle(275, 110, 42, 34, 114, 24);
+            } else if (type === 'fakeout') {
+                ctx.strokeStyle = '#fb7185'; ctx.lineWidth = 3; ctx.setLineDash([6, 4]);
+                ctx.beginPath(); ctx.moveTo(20 * sx, 90 * sy); ctx.lineTo(320 * sx, 90 * sy); ctx.stroke(); ctx.setLineDash([]);
+                candle(95, 160, 100, 94, 168, 22);
+                candle(155, 100, 118, 38, 126, 24);
+                candle(215, 118, 172, 112, 180, 24);
+                candle(275, 172, 200, 165, 208, 22);
+            } else if (type === 'icc') {
+                candle(75, 180, 95, 88, 188, 24);
+                candle(130, 95, 118, 90, 124, 20);
+                candle(175, 118, 138, 112, 144, 20);
+                candle(225, 135, 72, 64, 140, 24);
+                candle(275, 72, 38, 30, 78, 24);
+            } else if (type === 'sl_tp') {
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.18)';
+                ctx.fillRect(25 * sx, 30 * sy, 290 * sx, 90 * sy);
+                ctx.fillStyle = 'rgba(244, 63, 94, 0.18)';
+                ctx.fillRect(25 * sx, 120 * sy, 290 * sx, 75 * sy);
+                ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2.5;
+                ctx.beginPath(); ctx.moveTo(25 * sx, 120 * sy); ctx.lineTo(315 * sx, 120 * sy); ctx.stroke();
+                candle(115, 142, 118, 112, 148, 22);
+                candle(185, 118, 65, 58, 124, 24);
+            } else if (type === 'morning_star') {
+                candle(100, 50, 140, 42, 148, 26);
+                candle(170, 152, 158, 142, 178, 22);
+                candle(240, 140, 48, 40, 148, 26);
+            } else if (type === 'inside_bar') {
+                candle(135, 180, 45, 32, 192, 36);
+                candle(215, 85, 130, 75, 142, 22);
+            }
 
-            if (patternType === 'bull_bear') {
-                drawCandle(w * 0.32, 125, 45, 30, 140, 26);
-                ctx.fillStyle = '#34d399';
-                ctx.fillText('GREEN = UP 🚀', w * 0.32, h - 10);
-
-                drawCandle(w * 0.68, 45, 125, 30, 140, 26);
-                ctx.fillStyle = '#fb7185';
-                ctx.fillText('RED = DOWN 🔻', w * 0.68, h - 10);
-            } else if (patternType === 'doji') {
-                drawCandle(w * 0.25, 50, 80, 45, 85, 16);
-                drawCandle(w * 0.5, 82, 84, 30, 135, 26);
-                drawCandle(w * 0.75, 82, 48, 40, 88, 16);
-                ctx.fillStyle = '#fbbf24';
-                ctx.fillText('DOJI = TIE / REVERSAL (+)', w * 0.5, h - 10);
-            } else if (patternType === 'hammer') {
-                drawCandle(w * 0.22, 40, 75, 35, 80, 16);
-                drawCandle(w * 0.42, 78, 112, 72, 118, 16);
-                drawCandle(w * 0.62, 68, 52, 48, 145, 22);
-                drawCandle(w * 0.82, 52, 28, 22, 56, 16);
-                ctx.fillStyle = '#34d399';
-                ctx.fillText('HAMMER BOUNCE 🔨', w * 0.5, h - 8);
-            } else if (patternType === 'shooting_star') {
-                drawCandle(w * 0.22, 120, 88, 84, 125, 16);
-                drawCandle(w * 0.42, 85, 55, 50, 90, 16);
-                drawCandle(w * 0.62, 85, 102, 20, 108, 22);
-                drawCandle(w * 0.82, 102, 132, 98, 138, 16);
-                ctx.fillStyle = '#fb7185';
-                ctx.fillText('SHOOTING STAR DROP 🌠', w * 0.5, h - 8);
-            } else if (patternType === 'engulfing') {
-                drawCandle(w * 0.38, 70, 98, 62, 105, 18);
-                drawCandle(w * 0.62, 112, 42, 32, 120, 30);
-                ctx.fillStyle = '#34d399';
-                ctx.fillText('GIANT ENGULFING TAKEOVER!', w * 0.5, h - 10);
-            } else if (patternType === 'moods') {
-                drawCandle(30, 130, 110, 105, 135, 12);
-                drawCandle(55, 112, 92, 88, 118, 12);
-                drawCandle(80, 95, 72, 65, 100, 12);
-                drawCandle(105, 75, 50, 42, 80, 12);
-                drawCandle(135, 52, 78, 48, 84, 12);
-                drawCandle(160, 80, 105, 75, 112, 12);
-                drawCandle(185, 105, 130, 100, 136, 12);
-                ctx.fillStyle = '#a78bfa';
-                ctx.fillText('UPTREND ↗  |  DOWNTREND ↘', w * 0.5, h - 10);
-            } else if (patternType === 'support') {
-                ctx.strokeStyle = '#38bdf8';
+            if (highlightTarget) {
+                ctx.strokeStyle = '#34d399';
                 ctx.lineWidth = 3;
-                ctx.setLineDash([6, 4]);
-                ctx.beginPath(); ctx.moveTo(15, 125); ctx.lineTo(w - 15, 125); ctx.stroke();
-                ctx.setLineDash([]);
-                drawCandle(45, 65, 95, 60, 100, 14);
-                drawCandle(75, 95, 123, 90, 125, 14);
-                drawCandle(105, 122, 85, 80, 124, 14);
-                drawCandle(135, 88, 124, 84, 125, 14);
-                drawCandle(165, 122, 72, 66, 124, 14);
-                ctx.fillStyle = '#38bdf8';
-                ctx.fillText('SUPPORT TRAMPOLINE FLOOR', w * 0.5, h - 8);
-            } else if (patternType === 'resistance') {
-                ctx.strokeStyle = '#fb7185';
-                ctx.lineWidth = 3;
-                ctx.setLineDash([6, 4]);
-                ctx.beginPath(); ctx.moveTo(15, 42); ctx.lineTo(w - 15, 42); ctx.stroke();
-                ctx.setLineDash([]);
-                drawCandle(45, 110, 75, 70, 115, 14);
-                drawCandle(75, 75, 44, 42, 80, 14);
-                drawCandle(105, 45, 85, 43, 90, 14);
-                drawCandle(135, 82, 44, 42, 86, 14);
-                drawCandle(165, 46, 98, 43, 104, 14);
-                ctx.fillStyle = '#fb7185';
-                ctx.fillText('RESISTANCE BOUNCY CEILING', w * 0.5, h - 8);
-            } else if (patternType === 'trendline') {
-                ctx.strokeStyle = '#fbbf24';
-                ctx.lineWidth = 3;
-                ctx.beginPath(); ctx.moveTo(25, 138); ctx.lineTo(w - 25, 58); ctx.stroke();
-                drawCandle(45, 125, 95, 90, 130, 14);
-                drawCandle(80, 95, 112, 92, 114, 14);
-                drawCandle(115, 110, 72, 66, 112, 14);
-                drawCandle(150, 72, 86, 68, 88, 14);
-                drawCandle(185, 84, 42, 36, 86, 14);
-                ctx.fillStyle = '#fbbf24';
-                ctx.fillText('RISING TRENDLINE SKI SLOPE', w * 0.5, h - 8);
-            } else if (patternType === 'breakout' || patternType === 'retest') {
-                ctx.strokeStyle = '#38bdf8';
-                ctx.lineWidth = 2.5;
-                ctx.setLineDash([5, 4]);
-                ctx.beginPath(); ctx.moveTo(15, 85); ctx.lineTo(w - 15, 85); ctx.stroke();
-                ctx.setLineDash([]);
-                drawCandle(40, 120, 92, 88, 125, 14);
-                drawCandle(70, 92, 112, 88, 118, 14);
-                drawCandle(100, 108, 52, 46, 112, 18);
-                drawCandle(135, 54, 83, 50, 85, 14);
-                drawCandle(170, 82, 32, 26, 84, 16);
-                ctx.fillStyle = '#34d399';
-                ctx.fillText(patternType === 'retest' ? 'BREAK & RETEST BOUNCE!' : 'ROCKET BREAKOUT! 🚀', w * 0.5, h - 8);
-            } else if (patternType === 'fakeout') {
-                ctx.strokeStyle = '#fb7185';
-                ctx.lineWidth = 2.5;
-                ctx.setLineDash([5, 4]);
-                ctx.beginPath(); ctx.moveTo(15, 65); ctx.lineTo(w - 15, 65); ctx.stroke();
-                ctx.setLineDash([]);
-                drawCandle(50, 115, 72, 68, 120, 16);
-                drawCandle(90, 72, 85, 32, 92, 18);
-                drawCandle(130, 85, 125, 80, 132, 18);
-                drawCandle(170, 125, 142, 120, 148, 16);
-                ctx.fillStyle = '#fb7185';
-                ctx.fillText('FAKEOUT TRAP! (WICK ONLY)', w * 0.5, h - 8);
-            } else if (patternType === 'icc') {
-                drawCandle(40, 130, 75, 70, 135, 18);
-                drawCandle(75, 75, 92, 72, 96, 14);
-                drawCandle(105, 92, 105, 88, 108, 14);
-                drawCandle(140, 102, 52, 46, 105, 18);
-                drawCandle(175, 52, 28, 22, 56, 18);
-                ctx.fillStyle = '#fbbf24';
-                ctx.fillText('I (Up) → C (Pullback) → C (Rocket!)', w * 0.5, h - 8);
-            } else if (patternType === 'sl_tp') {
-                ctx.fillStyle = 'rgba(16, 185, 129, 0.16)';
-                ctx.fillRect(20, 25, w - 40, 65);
-                ctx.fillStyle = 'rgba(244, 63, 94, 0.16)';
-                ctx.fillRect(20, 90, w - 40, 48);
-                ctx.strokeStyle = '#fbbf24';
-                ctx.lineWidth = 2;
-                ctx.beginPath(); ctx.moveTo(20, 90); ctx.lineTo(w - 20, 90); ctx.stroke();
-                drawCandle(65, 105, 88, 84, 110, 16);
-                drawCandle(105, 88, 52, 46, 92, 18);
-                ctx.fillStyle = '#34d399';
-                ctx.fillText('🎯 TAKE PROFIT (TREASURE)', w * 0.5, 42);
-                ctx.fillStyle = '#fb7185';
-                ctx.fillText('🛡️ STOP-LOSS SHIELD', w * 0.5, 126);
-            } else if (patternType === 'morning_star') {
-                drawCandle(55, 40, 105, 35, 110, 20);
-                drawCandle(110, 114, 118, 105, 132, 16);
-                drawCandle(165, 105, 38, 32, 110, 20);
-                ctx.fillStyle = '#fbbf24';
-                ctx.fillText('3-CANDLE MORNING STAR ⭐', w * 0.5, h - 8);
-            } else if (patternType === 'inside_bar') {
-                drawCandle(85, 130, 35, 25, 140, 28);
-                drawCandle(135, 65, 95, 55, 105, 16);
-                ctx.fillStyle = '#38bdf8';
-                ctx.fillText('INSIDE BAR COILED SPRING', w * 0.5, h - 8);
+                ctx.beginPath();
+                ctx.arc(highlightTarget.x * sx, highlightTarget.y * sy, highlightTarget.r * sx, 0, Math.PI * 2);
+                ctx.stroke();
             }
         }
 
-        // ================= 10-QUESTION VISUAL BANK PER TOPIC =================
-        function getQuestionsForLesson(lesson) {
-            const baseSets = {
-                candles: [
-                    { q: "Look at the left candle. What does a GREEN candle tell us?", pic: "bull_bear", opts: ["Price went UP! Buyers won", "Price went DOWN! Sellers won", "The market is closed", "Time to turn off the chart"], ans: 0 },
-                    { q: "Look at the right candle. What does a RED candle tell us?", pic: "bull_bear", opts: ["Buyers pushed price to the moon", "Sellers pushed price DOWN", "Nothing happened", "It is a Doji tie"], ans: 1 },
-                    { q: "Where is the closing price on a GREEN candle?", pic: "bull_bear", opts: ["At the TOP of the green body", "At the BOTTOM of the green body", "Outside the screen", "At the bottom tip of the wick"], ans: 0 },
-                    { q: "Where is the closing price on a RED candle?", pic: "bull_bear", opts: ["At the TOP of the red body", "At the BOTTOM of the red body", "In the middle", "Nowhere"], ans: 1 },
-                    { q: "What are the thin lines sticking out of the top and bottom of a candle called?", pic: "bull_bear", opts: ["Wicks (or Shadows)", "Laser beams", "Trendlines", "Stop-Losses"], ans: 0 },
-                    { q: "Who is winning the battle when big green candles form?", pic: "bull_bear", opts: ["The Bulls (Buyers)", "The Bears (Sellers)", "Nobody", "The referees"], ans: 0 },
-                    { q: "Who is winning when big red candles form?", pic: "bull_bear", opts: ["The Bulls (Buyers)", "The Bears (Sellers)", "The astronauts", "Sideways turtles"], ans: 1 },
-                    { q: "If a candle opens at $10 and closes at $15, what color is it?", pic: "bull_bear", opts: ["Green", "Red", "Blue", "Invisible"], ans: 0 },
-                    { q: "If a candle opens at $20 and closes at $14, what color is it?", pic: "bull_bear", opts: ["Red", "Green", "Purple", "Yellow"], ans: 0 },
-                    { q: "What does a long wick show us?", pic: "hammer", opts: ["Price visited there but got pushed back!", "The chart broke", "Only 1 person traded", "Price never moved"], ans: 0 }
-                ],
-                doji: [
-                    { q: "Look at the middle candle (+). Why is its body so thin?", pic: "doji", opts: ["Buyers and sellers tied in a tug-of-war!", "The computer ran out of ink", "It is a giant breakout", "Price jumped 1000 points"], ans: 0 },
-                    { q: "What does a Doji candle often warn us about?", pic: "doji", opts: ["A possible trend reversal or pause", "Guaranteed million dollars", "That charts are closed forever", "Nothing at all"], ans: 0 },
-                    { q: "What shape does a classic Doji look like?", pic: "doji", opts: ["A plus sign (+) or cross", "A giant square box", "A triangle", "A circle"], ans: 0 },
-                    { q: "When a Doji forms after a big drop, what should a smart trader do?", pic: "doji", opts: ["Watch closely for a green bounce candle!", "Panic and click randomly", "Close their eyes", "Risk their whole account"], ans: 0 },
-                    { q: "In a Doji candle, the open price and close price are...", pic: "doji", opts: ["Almost the exact same price!", "100 miles apart", "Always zero", "Moving sideways forever"], ans: 0 },
-                    { q: "Should you enter a trade on a Doji alone without confirmation?", pic: "doji", opts: ["No—wait for the next candle to confirm direction!", "Yes, always jump in blind", "Only on Sundays", "Never look at the next candle"], ans: 0 },
-                    { q: "If a green candle follows a Doji at the bottom, who took control?", pic: "doji", opts: ["Buyers (Bulls)!", "Sellers (Bears)", "Nobody", "The moon"], ans: 0 },
-                    { q: "What emotion does a Doji represent in the market?", pic: "doji", opts: ["Indecision (thinking which way to go)", "Pure panic", "Sleepiness", "Celebration"], ans: 0 },
-                    { q: "Can a Doji appear at the top of an uptrend too?", pic: "doji", opts: ["Yes! Warning buyers might be getting tired", "No, never", "Only in video games", "Only on red days"], ans: 0 },
-                    { q: "What is the best clue after spotting a Doji?", pic: "doji", opts: ["Wait for the next candle to show the real direction", "Guess with eyes closed", "Remove your Stop-Loss", "Trade 50 times in 1 minute"], ans: 0 }
-                ]
-            };
-
-            if (baseSets[lesson.quizTopic]) return baseSets[lesson.quizTopic];
-
-            // Generate 10 rich, topic-specific visual questions for every single day (Days 3–30)
-            return [
-                { q: `Look at the picture for "${lesson.title}". What is happening here?`, pic: lesson.visual, opts: [lesson.desc.split('.')[0], "The market is closed for lunch", "Random sideways noise only", "Always sell immediately without looking"], ans: 0 },
-                { q: `Which direction does this "${lesson.title}" setup favor?`, pic: lesson.visual, opts: [lesson.simBias === "BUY" ? "UP (BUY) after confirmation" : "DOWN (SELL) after confirmation", "Opposite of the confirmation candle", "Neither—never trade setups", "Flip a coin"], ans: 0 },
-                { q: `What is our Golden Pro Tip for "${lesson.title}"?`, pic: lesson.visual, opts: [lesson.tip, "Never use a Stop-Loss shield", "Chase big candles late", "Guess without a plan"], ans: 0 },
-                { q: `Before clicking BUY or SELL on this setup, what should you ALWAYS set?`, pic: "sl_tp", opts: ["Your Stop-Loss shield & Take-Profit target!", "Maximum FOMO mode", "100 random trades", "Nothing at all"], ans: 0 },
-                { q: `Look at the pattern structure. Where is the safest place to enter?`, pic: lesson.visual, opts: ["After a clear confirmation candle forms", "Right in the middle of nowhere", "After price already moved 100%", "When angry after a loss"], ans: 0 },
-                { q: `What happens when price bounces off a Support Trampoline floor?`, pic: "support", opts: ["Buyers push price UP", "Price falls through the earth", "The screen turns off", "Sellers always win"], ans: 0 },
-                { q: `What happens when price hits a Resistance Bouncy Ceiling?`, pic: "resistance", opts: ["Sellers often push price DOWN", "Price disappears", "Always buy right into the ceiling", "Nothing ever happens"], ans: 0 },
-                { q: `In the ICC Strategy, what do the letters I-C-C stand for?`, pic: "icc", opts: ["Indication, Correction, Continuation", "Ice Cream Cone", "Instant Cash Click", "Inside Candle Chart"], ans: 0 },
-                { q: `Why do smart traders avoid Fakeout Traps?`, pic: "fakeout", opts: ["Because a wick poking out without a close is a trap!", "Because green candles are scary", "Because charts are broken", "They never look at wicks"], ans: 0 },
-                { q: `You spotted "${lesson.title}" cleanly! What makes you a disciplined trader?`, pic: lesson.visual, opts: ["Following your 3-rule checklist & risk shield!", "Chasing with FOMO", "Revenge trading", "Ignoring the chart"], ans: 0 }
-            ];
-        }
-
-        // ================= INITIALIZATION & RENDERING =================
-        window.addEventListener('DOMContentLoaded', () => {
-            updateHeaderUI();
-            renderCalendar();
-            renderFlashcards();
-            initArenaChart();
-        });
-
-        function updateHeaderUI() {
-            document.getElementById('userNameDisplay').textContent = state.user.name;
-            document.getElementById('avatarDisplay').textContent = state.user.avatar;
-            document.getElementById('starCount').textContent = state.user.stars;
-            document.getElementById('streakCount').textContent = state.user.streak;
-            document.getElementById('navBalance').textContent = state.balance.toLocaleString('en-US', { maximumFractionDigits: 0 });
-            document.getElementById('arenaBalance').textContent = '$' + state.balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('dailyQuoteText').textContent = `"${motivationalQuotes[state.quoteIndex % motivationalQuotes.length]}"`;
-
-            // Update Belt unlocks
-            const doneCount = state.completedDays.length;
-            if (doneCount >= 7) {
-                state.user.belt = '🔵 Intermediate Belt';
-                unlockBeltCard(2, 'Unlocked! 🎉');
-            }
-            if (doneCount >= 15) {
-                state.user.belt = '🟣 Advanced Belt';
-                unlockBeltCard(3, 'Unlocked! 🎉');
-            }
-            if (doneCount >= 22) {
-                state.user.belt = '👑 Pro Legend Belt';
-                unlockBeltCard(4, 'Unlocked! 👑');
-            }
-            document.getElementById('userBeltBadge').textContent = state.user.belt;
-        }
-
-        function unlockBeltCard(num, text) {
-            const card = document.getElementById(`beltCard-${num}`);
-            const badge = document.getElementById(`beltStatus-${num}`);
-            if (card && badge) {
-                card.classList.remove('opacity-60', 'border-slate-800');
-                card.classList.add('border-2', 'border-amber-400');
-                badge.className = 'inline-block bg-emerald-500/20 text-emerald-300 text-xs px-3 py-1 rounded-xl font-bold';
-                badge.textContent = text;
-            }
-        }
-
-        function switchTab(tab) {
-            ['calendar', 'arena', 'flashcards', 'trophies'].forEach(t => {
-                document.getElementById(`tabContent-${t}`).classList.add('hidden');
-                const btn = document.getElementById(`tabBtn-${t}`);
-                btn.classList.remove('bg-purple-950/70', 'border-2', 'border-amber-400', 'text-amber-300');
-                btn.classList.add('bg-slate-900/90', 'border', 'border-slate-800', 'text-slate-300');
-            });
-            document.getElementById(`tabContent-${tab}`).classList.remove('hidden');
-            const activeBtn = document.getElementById(`tabBtn-${tab}`);
-            activeBtn.classList.remove('bg-slate-900/90', 'border', 'border-slate-800', 'text-slate-300');
-            activeBtn.classList.add('bg-purple-950/70', 'border-2', 'border-amber-400', 'text-amber-300');
-
-            if (tab === 'arena') {
-                setTimeout(() => { resizeCanvas(document.getElementById('liveChartCanvas')); drawArenaChart(); }, 50);
-            }
-        }
-
-        // ================= RENDER 30-DAY CALENDAR WITH MINI PICTURE PREVIEWS =================
+        // ================= RENDER 30-DAY ROADMAP =================
         function renderCalendar() {
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
@@ -759,10 +595,10 @@
 
                 card.innerHTML = `
                     <div class="flex justify-between items-center">
-                        <span class="fredoka font-bold text-xs px-2.5 py-0.5 rounded-xl ${isDone ? 'bg-emerald-400 text-black' : 'bg-amber-400 text-black'}">Nov ${item.day}</span>
+                        <span class="fredoka font-bold text-xs px-2.5 py-0.5 rounded-xl ${isDone ? 'bg-emerald-400 text-black' : 'bg-amber-400 text-black'}">Day ${item.day}</span>
                         <span class="text-lg">${isDone ? '⭐' : isUnlocked ? '🔓' : '🔒'}</span>
                     </div>
-                    <canvas id="calMini-${item.day}" width="140" height="75" class="w-full h-[70px] rounded-xl border border-slate-800"></canvas>
+                    <canvas id="calPic-${item.day}" width="150" height="85" class="w-full h-[75px] rounded-xl border border-slate-800"></canvas>
                     <div>
                         <h4 class="fredoka font-bold text-xs text-white line-clamp-1">${item.title}</h4>
                         <p class="text-[10px] text-slate-400 line-clamp-1">${item.subtitle}</p>
@@ -773,12 +609,12 @@
                 `;
 
                 card.onclick = () => {
-                    if (isUnlocked) openMission(item.day);
-                    else speakText(`Finish Day ${item.day - 1} first, or tap Preview All 30 Days at the top!`);
+                    if (isUnlocked) openMicroMission(item, false);
+                    else speakText(`Complete Day ${item.day - 1} first, or tap Unlock All 30 Days at the top!`);
                 };
 
                 grid.appendChild(card);
-                setTimeout(() => drawPatternPicture(document.getElementById(`calMini-${item.day}`), item.visual), 10);
+                setTimeout(() => drawIllustration(document.getElementById(`calPic-${item.day}`), item.visual), 10);
             });
         }
 
@@ -787,365 +623,240 @@
                 if (!state.completedDays.includes(i)) state.completedDays.push(i);
             }
             saveState();
-            updateHeaderUI();
+            updateUI();
             renderCalendar();
-            speakText("All 30 days unlocked! Pick any day to explore!");
+            speakText("All 30 days unlocked! Pick any mission!");
         }
 
-        // ================= RENDER PICTURE ACADEMY FLASHCARDS =================
+        // ================= RENDER TAP-TO-LISTEN PICTURE CARDS =================
         function renderFlashcards() {
             const grid = document.getElementById('flashcardsGrid');
             grid.innerHTML = '';
-
-            const cards = [
-                { title: "Green vs. Red Candles", pic: "bull_bear", desc: "Green means buyers pushed price UP. Red means sellers pushed price DOWN!" },
-                { title: "The Doji (+)", pic: "doji", desc: "Buyers and sellers fought to a tie! Watch for a reversal next." },
-                { title: "The Hammer", pic: "hammer", desc: "Long bottom wick shows buyers bounced price right back up!" },
-                { title: "Shooting Star", pic: "shooting_star", desc: "Long top wick shows sellers knocked price down from the ceiling!" },
-                { title: "Engulfing Candle", pic: "engulfing", desc: "A giant candle completely swallows the smaller candle before it." },
-                { title: "Support Floor", pic: "support", desc: "A trampoline floor where price bounces up again and again." },
-                { title: "Resistance Ceiling", pic: "resistance", desc: "A strong ceiling where sellers push price back down." },
-                { title: "Rising Trendline", pic: "trendline", desc: "Connecting higher lows forms a diagonal ski slope upward!" },
-                { title: "Rocket Breakout", pic: "breakout", desc: "Strong green candle smashes straight through Resistance!" },
-                { title: "Fakeout Trap", pic: "fakeout", desc: "Price pokes above a line with a wick, then reverses fast!" },
-                { title: "ICC Strategy", pic: "icc", desc: "Indication move, calm Correction pullback, then Continuation wave!" },
-                { title: "Morning Star", pic: "morning_star", desc: "3-candle reversal combo signaling a brand-new uptrend!" }
-            ];
-
-            cards.forEach((c, idx) => {
+            curriculum.slice(0, 12).forEach((item, idx) => {
                 const div = document.createElement('div');
                 div.className = 'bg-slate-950 border-2 border-purple-500/30 hover:border-amber-400 p-4 rounded-3xl flex flex-col items-center text-center gap-3 shadow-xl transition transform hover:scale-105 cursor-pointer';
                 div.innerHTML = `
-                    <canvas id="flashCanvas-${idx}" width="210" height="145" class="w-full rounded-2xl border border-slate-800"></canvas>
-                    <h4 class="fredoka font-bold text-amber-300 text-base">${c.title}</h4>
-                    <p class="text-xs text-slate-300 leading-relaxed">${c.desc}</p>
-                    <button class="mt-auto bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs fredoka font-bold shadow">🔊 Hear Explanation</button>
+                    <canvas id="flashPic-${idx}" width="220" height="145" class="w-full rounded-2xl border border-slate-800"></canvas>
+                    <h4 class="fredoka font-bold text-amber-300 text-base">${item.title}</h4>
+                    <button class="mt-auto bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl text-xs fredoka font-bold shadow">🔊 Tap to Listen</button>
                 `;
-                div.onclick = () => speakText(`${c.title}. ${c.desc}`);
+                div.onclick = () => speakText(`${item.title}. ${item.story}`);
                 grid.appendChild(div);
-                setTimeout(() => drawPatternPicture(document.getElementById(`flashCanvas-${idx}`), c.pic), 10);
+                setTimeout(() => drawIllustration(document.getElementById(`flashPic-${idx}`), item.visual), 10);
             });
         }
 
-        // ================= 3-STAGE DAILY MISSION MODAL =================
-        let activeMission = { lesson: null, questions: [], qIdx: 0, score: 0, answered: false };
-        let modalSimCandles = [];
-        let modalSimTimer = null;
+        // ================= 3-STEP KID MICRO-MISSION ENGINE =================
+        let currentMission = null;
+        let isInfiniteRun = false;
+        let step2Solved = false;
+        let patienceReady = false;
+        let shieldLocked = false;
+        let patienceInterval = null;
+        let step3Candles = [];
 
-        function openMission(dayNum) {
-            const lesson = curriculum.find(d => d.day === dayNum);
-            activeMission = {
-                lesson,
-                questions: getQuestionsForLesson(lesson),
-                qIdx: 0,
-                score: 0,
-                answered: false
-            };
+        function launchInfiniteMission() {
+            const randomLesson = curriculum[Math.floor(Math.random() * curriculum.length)];
+            openMicroMission(randomLesson, true);
+        }
 
-            document.getElementById('modalDayBadge').textContent = `November ${lesson.day}`;
-            document.getElementById('modalStepIndicator').textContent = 'Step 1 of 3: Picture Lesson';
+        function openMicroMission(lesson, infiniteMode = false) {
+            currentMission = lesson;
+            isInfiniteRun = infiniteMode;
+            step2Solved = false;
+
+            document.getElementById('modalDayBadge').textContent = infiniteMode ? '♾️ Infinite Pro Drill' : `Day ${lesson.day}`;
+            document.getElementById('modalStepIndicator').textContent = 'Step 1 of 3: Watch & Listen';
             document.getElementById('modalTitle').textContent = lesson.title;
             document.getElementById('stage1Subtitle').textContent = lesson.subtitle;
-            document.getElementById('stage1Desc').textContent = lesson.desc;
-            document.getElementById('stage1Tip').textContent = lesson.tip;
+            document.getElementById('stage1Desc').textContent = lesson.story;
 
             document.getElementById('modalStage-1').classList.remove('hidden');
             document.getElementById('modalStage-2').classList.add('hidden');
             document.getElementById('modalStage-3').classList.add('hidden');
             document.getElementById('missionModal').classList.remove('hidden');
 
-            setTimeout(() => drawPatternPicture(document.getElementById('stage1Canvas'), lesson.visual), 20);
-            speakText(`November ${lesson.day}: ${lesson.title}. ${lesson.desc}`);
+            setTimeout(() => drawIllustration(document.getElementById('stage1Canvas'), lesson.visual), 20);
+            speakText(`${lesson.title}. ${lesson.story}`);
         }
 
         function closeMissionModal() {
-            if (modalSimTimer) clearInterval(modalSimTimer);
+            if (patienceInterval) clearInterval(patienceInterval);
             document.getElementById('missionModal').classList.add('hidden');
         }
 
         function readStage1Text() {
-            const l = activeMission.lesson;
-            speakText(`${l.title}. ${l.desc} Pro Tip: ${l.tip}`);
+            speakText(`${currentMission.title}. ${currentMission.story}`);
         }
 
-        function startStage2Quiz() {
-            document.getElementById('modalStepIndicator').textContent = 'Step 2 of 3: 10-Question Visual Quiz';
+        // --- STEP 2: ONE-TOUCH CHART CHALLENGE ---
+        function startStep2TouchChallenge() {
+            document.getElementById('modalStepIndicator').textContent = 'Step 2 of 3: One-Touch Chart Tap';
             document.getElementById('modalStage-1').classList.add('hidden');
             document.getElementById('modalStage-2').classList.remove('hidden');
-            renderQuizQuestion();
-        }
+            document.getElementById('goToStep3Btn').classList.add('hidden');
 
-        function renderQuizQuestion() {
-            activeMission.answered = false;
-            const qObj = activeMission.questions[activeMission.qIdx];
-            const num = activeMission.qIdx + 1;
+            const fb = document.getElementById('tapFeedbackBox');
+            fb.classList.add('hidden');
 
-            document.getElementById('quizQNum').textContent = num;
-            document.getElementById('quizScore').textContent = activeMission.score;
-            document.getElementById('quizProgressBar').style.width = `${num * 10}%`;
-            document.getElementById('quizQuestionText').textContent = qObj.q;
+            document.getElementById('tapPromptText').textContent = currentMission.tapPrompt;
+            speakText(currentMission.tapPrompt);
 
-            const banner = document.getElementById('quizFeedbackBanner');
-            banner.classList.add('hidden');
+            const canvas = document.getElementById('tapChallengeCanvas');
+            drawIllustration(canvas, currentMission.visual);
 
-            setTimeout(() => drawPatternPicture(document.getElementById('quizCanvas'), qObj.pic), 10);
+            canvas.onclick = (e) => {
+                if (step2Solved) return;
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = 340 / rect.width;
+                const scaleY = 230 / rect.height;
+                const clickX = (e.clientX - rect.left) * scaleX;
+                const clickY = (e.clientY - rect.top) * scaleY;
 
-            const grid = document.getElementById('quizOptionsGrid');
-            grid.innerHTML = '';
+                const t = currentMission.target;
+                const dist = Math.hypot(clickX - t.x, clickY - t.y);
 
-            qObj.opts.forEach((optText, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'bg-slate-900 hover:bg-slate-800 border-2 border-slate-700 p-3.5 rounded-2xl fredoka text-xs md:text-sm text-white transition flex items-center justify-between gap-2 shadow';
-                btn.innerHTML = `<span>${optText}</span> <span class="text-base">🎯</span>`;
-                btn.onclick = () => selectQuizOption(idx, btn);
-                grid.appendChild(btn);
-            });
-
-            speakText(qObj.q);
-        }
-
-        function selectQuizOption(selectedIdx, btnEl) {
-            if (activeMission.answered) return;
-            activeMission.answered = true;
-
-            const qObj = activeMission.questions[activeMission.qIdx];
-            const isCorrect = selectedIdx === qObj.ans;
-            const banner = document.getElementById('quizFeedbackBanner');
-            banner.classList.remove('hidden');
-
-            if (isCorrect) {
-                activeMission.score++;
-                document.getElementById('quizScore').textContent = activeMission.score;
-                btnEl.classList.remove('border-slate-700');
-                btnEl.classList.add('border-emerald-400', 'bg-emerald-950/60');
-                banner.className = 'p-3 rounded-2xl text-xs fredoka font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
-                banner.textContent = '🎉 Spot on! Great eyes, Trader!';
-                speakText("Awesome job! Spot on!");
-            } else {
-                btnEl.classList.remove('border-slate-700');
-                btnEl.classList.add('border-rose-400', 'bg-rose-950/60');
-                banner.className = 'p-3 rounded-2xl text-xs fredoka font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
-                banner.textContent = `💡 Good try! The right answer was: "${qObj.opts[qObj.ans]}"`;
-                speakText("Good try! Let's look at the right answer and keep going!");
-            }
-
-            setTimeout(() => {
-                activeMission.qIdx++;
-                if (activeMission.qIdx < 10) {
-                    renderQuizQuestion();
+                fb.classList.remove('hidden');
+                if (dist <= t.r + 18) {
+                    step2Solved = true;
+                    drawIllustration(canvas, currentMission.visual, t);
+                    fb.className = 'p-3.5 rounded-2xl fredoka text-sm font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+                    fb.textContent = `🎉 ${currentMission.successMsg}`;
+                    speakText(currentMission.successMsg);
+                    document.getElementById('goToStep3Btn').classList.remove('hidden');
                 } else {
-                    startStage3Simulation();
+                    fb.className = 'p-3.5 rounded-2xl fredoka text-sm font-bold bg-amber-500/20 text-amber-200 border border-amber-500/40';
+                    fb.textContent = `💡 Almost! Listen carefully and tap right on the target area!`;
+                    speakText("Almost! Try tapping right on the target part of the chart!");
                 }
-            }, 1600);
+            };
         }
 
-        // ================= STAGE 3: POST-QUIZ LIVE CHART SIMULATION =================
-        function startStage3Simulation() {
-            document.getElementById('modalStepIndicator').textContent = 'Step 3 of 3: Live Chart Practice';
+        // --- STEP 3: PATIENCE TIMER + STOP-LOSS SHIELD + 3-CANDLE MINI-TRADE ---
+        function startStep3PatientTrade() {
+            document.getElementById('modalStepIndicator').textContent = 'Step 3 of 3: Patience & Safety Shield';
             document.getElementById('modalStage-2').classList.add('hidden');
             document.getElementById('modalStage-3').classList.remove('hidden');
-            document.getElementById('completeMissionBtn').classList.add('hidden');
-            document.getElementById('modalTradeButtons').classList.remove('hidden');
+            document.getElementById('finishDayBtn').classList.add('hidden');
+            document.getElementById('step3TradeControls').classList.remove('hidden');
 
-            const l = activeMission.lesson;
-            document.getElementById('stage3Prompt').textContent = `Setup: ${l.title}! Adjust your Stop-Loss & Take-Profit lines on the chart, then click ${l.simBias}!`;
-            speakText(`You scored ${activeMission.score} out of 10! Now test ${l.title} on the live chart!`);
+            patienceReady = false;
+            shieldLocked = false;
+
+            const lockBtn = document.getElementById('lockShieldBtn');
+            lockBtn.disabled = false;
+            lockBtn.className = 'bg-rose-600 hover:bg-rose-500 text-white fredoka font-bold text-xs px-4 py-2.5 rounded-xl shadow transition';
+            lockBtn.textContent = '🛡️ Lock Safety Shield';
+
+            updatePatientTradeButtons();
 
             // Build setup candles
-            modalSimCandles = [];
+            step3Candles = [];
             let p = 100;
-            for (let i = 0; i < 18; i++) {
-                const delta = l.simBias === 'BUY' ? (i < 12 ? -1.4 : 1.8) : (i < 12 ? 1.4 : -1.8);
+            const isBuy = currentMission.direction === 'BUY';
+            for (let i = 0; i < 12; i++) {
+                const move = isBuy ? (i < 9 ? -1.5 : 1.6) : (i < 9 ? 1.5 : -1.6);
                 const open = p;
-                const close = p + delta + (Math.random() - 0.5) * 1.2;
-                const high = Math.max(open, close) + 1.2;
-                const low = Math.min(open, close) - 1.2;
+                const close = p + move;
+                step3Candles.push({ open, close, high: Math.max(open, close) + 1.2, low: Math.min(open, close) - 1.2 });
                 p = close;
-                modalSimCandles.push({ open, close, high, low });
             }
 
             setTimeout(() => {
-                resizeCanvas(document.getElementById('modalLiveCanvas'));
-                drawModalSimChart();
+                const c = document.getElementById('step3Canvas');
+                if (c && c.parentElement) {
+                    c.width = c.parentElement.clientWidth;
+                    c.height = c.parentElement.clientHeight;
+                }
+                drawStep3Chart();
             }, 30);
-        }
 
-        function drawModalSimChart(entryPrice = null, slPrice = null, tpPrice = null) {
-            const canvas = document.getElementById('modalLiveCanvas');
-            if (!canvas) return;
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
-            ctx.clearRect(0, 0, w, h);
+            // 3-second Patience Timer teaching kids not to rush!
+            let sec = 3;
+            const banner = document.getElementById('patienceBanner');
+            banner.className = 'absolute top-3 left-3 bg-amber-500 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg';
+            banner.textContent = `⏳ Patience Timer: Wait ${sec}s for bounce confirmation...`;
+            speakText("Hold on! Practice patience for 3 seconds while the bounce candle finishes, and lock your Safety Shield!");
 
-            document.getElementById('modalSlVal').textContent = document.getElementById('modalSlSlider').value + ' pts';
-            document.getElementById('modalTpVal').textContent = document.getElementById('modalTpSlider').value + ' pts';
-
-            const allVals = modalSimCandles.flatMap(c => [c.high, c.low]);
-            if (slPrice) allVals.push(slPrice);
-            if (tpPrice) allVals.push(tpPrice);
-            const minP = Math.min(...allVals) - 4;
-            const maxP = Math.max(...allVals) + 4;
-            const range = maxP - minP || 1;
-            const toY = val => h - ((val - minP) / range) * (h - 36) - 18;
-
-            // Preview SL/TP bands around current price if not entered yet
-            const lastClose = modalSimCandles[modalSimCandles.length - 1].close;
-            const slPts = Number(document.getElementById('modalSlSlider').value) * 0.25;
-            const tpPts = Number(document.getElementById('modalTpSlider').value) * 0.25;
-            const isBuyBias = activeMission.lesson.simBias === 'BUY';
-
-            const activeEntry = entryPrice || lastClose;
-            const activeTp = tpPrice || (isBuyBias ? activeEntry + tpPts : activeEntry - tpPts);
-            const activeSl = slPrice || (isBuyBias ? activeEntry - slPts : activeEntry + slPts);
-
-            // Draw TP line
-            ctx.strokeStyle = '#10b981';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([6, 4]);
-            ctx.beginPath(); ctx.moveTo(0, toY(activeTp)); ctx.lineTo(w, toY(activeTp)); ctx.stroke();
-            ctx.fillStyle = '#34d399';
-            ctx.font = 'bold 11px Fredoka';
-            ctx.fillText('🎯 Take-Profit Target', 12, toY(activeTp) - 5);
-
-            // Draw SL line
-            ctx.strokeStyle = '#f43f5e';
-            ctx.beginPath(); ctx.moveTo(0, toY(activeSl)); ctx.lineTo(w, toY(activeSl)); ctx.stroke();
-            ctx.fillStyle = '#fb7185';
-            ctx.fillText('🛡️ Stop-Loss Shield', 12, toY(activeSl) + 14);
-            ctx.setLineDash([]);
-
-            // Draw candles
-            const step = Math.min(24, (w - 30) / 30);
-            modalSimCandles.forEach((c, i) => {
-                const x = 18 + i * step;
-                const isGreen = c.close >= c.open;
-                ctx.strokeStyle = isGreen ? '#10b981' : '#f43f5e';
-                ctx.fillStyle = isGreen ? '#10b981' : '#f43f5e';
-                ctx.lineWidth = 2;
-                ctx.beginPath(); ctx.moveTo(x, toY(c.high)); ctx.lineTo(x, toY(c.low)); ctx.stroke();
-                const top = Math.min(toY(c.open), toY(c.close));
-                const bh = Math.max(3, Math.abs(toY(c.close) - toY(c.open)));
-                ctx.fillRect(x - step * 0.32, top, step * 0.64, bh);
-            });
-        }
-
-        function runModalSimulation(direction) {
-            document.getElementById('modalTradeButtons').classList.add('hidden');
-            const entry = modalSimCandles[modalSimCandles.length - 1].close;
-            const slPts = Number(document.getElementById('modalSlSlider').value) * 0.25;
-            const tpPts = Number(document.getElementById('modalTpSlider').value) * 0.25;
-            const tp = direction === 'BUY' ? entry + tpPts : entry - tpPts;
-            const sl = direction === 'BUY' ? entry - slPts : entry + slPts;
-
-            let ticks = 0;
-            document.getElementById('modalSimStatus').textContent = `🚀 ${direction} order live! Watching new candles form...`;
-
-            modalSimTimer = setInterval(() => {
-                ticks++;
-                const last = modalSimCandles[modalSimCandles.length - 1].close;
-                const matchesLesson = direction === activeMission.lesson.simBias;
-                const drift = matchesLesson ? (direction === 'BUY' ? 1.5 : -1.5) : (direction === 'BUY' ? -1.4 : 1.4);
-                const next = last + drift + (Math.random() - 0.45) * 1.6;
-                modalSimCandles.push({
-                    open: last,
-                    close: next,
-                    high: Math.max(last, next) + 1.1,
-                    low: Math.min(last, next) - 1.1
-                });
-                drawModalSimChart(entry, sl, tp);
-
-                const hitTp = direction === 'BUY' ? next >= tp : next <= tp;
-                const hitSl = direction === 'BUY' ? next <= sl : next >= sl;
-
-                if (hitTp || hitSl || ticks >= 10) {
-                    clearInterval(modalSimTimer);
-                    if (hitTp || (matchesLesson && ticks >= 10)) {
-                        document.getElementById('modalSimStatus').textContent = '🎉 TAKE PROFIT HIT! Awesome trade!';
-                        speakText("Take profit hit! You nailed the setup!");
-                    } else {
-                        document.getElementById('modalSimStatus').textContent = '🛡️ Stop-Loss Shield protected your account! Good discipline!';
-                        speakText("Your Stop-Loss shield protected your account! Great discipline!");
-                    }
-                    document.getElementById('completeMissionBtn').classList.remove('hidden');
+            if (patienceInterval) clearInterval(patienceInterval);
+            patienceInterval = setInterval(() => {
+                sec--;
+                if (sec > 0) {
+                    banner.textContent = `⏳ Patience Timer: Wait ${sec}s for bounce confirmation...`;
+                } else {
+                    clearInterval(patienceInterval);
+                    patienceReady = true;
+                    banner.className = 'absolute top-3 left-3 bg-emerald-400 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg';
+                    banner.textContent = '✅ Bounce Confirmed! Ready when Safety Shield is locked!';
+                    updatePatientTradeButtons();
                 }
-            }, 420);
+            }, 1000);
         }
 
-        function finishDailyMission() {
-            const day = activeMission.lesson.day;
-            if (!state.completedDays.includes(day)) {
-                state.completedDays.push(day);
-                state.stars += 10;
-                state.streak += 1;
+        function lockSafetyShield() {
+            shieldLocked = true;
+            const lockBtn = document.getElementById('lockShieldBtn');
+            lockBtn.disabled = true;
+            lockBtn.className = 'bg-emerald-600 text-white fredoka font-bold text-xs px-4 py-2.5 rounded-xl shadow';
+            lockBtn.textContent = '✅ Shield Locked!';
+            drawStep3Chart();
+            speakText("Safety Shield locked! Great discipline!");
+            updatePatientTradeButtons();
+        }
+
+        function updatePatientTradeButtons() {
+            const buyBtn = document.getElementById('patientBuyBtn');
+            const sellBtn = document.getElementById('patientSellBtn');
+
+            if (patienceReady && shieldLocked) {
+                buyBtn.disabled = false;
+                sellBtn.disabled = false;
+                buyBtn.className = 'flex-1 bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white fredoka font-bold py-4 rounded-2xl shadow-lg text-base cursor-pointer transform hover:scale-105 transition';
+                sellBtn.className = 'flex-1 bg-gradient-to-r from-rose-500 to-red-600 hover:from-rose-400 hover:to-red-500 text-white fredoka font-bold py-4 rounded-2xl shadow-lg text-base cursor-pointer transform hover:scale-105 transition';
+                buyBtn.textContent = '🚀 BUY (Price Goes UP)';
+                sellBtn.textContent = '🔻 SELL (Price Goes DOWN)';
             } else {
-                state.stars += 3;
+                buyBtn.disabled = true;
+                sellBtn.disabled = true;
+                buyBtn.className = 'flex-1 bg-slate-800 text-slate-400 fredoka font-bold py-4 rounded-2xl text-xs cursor-not-allowed';
+                sellBtn.className = 'flex-1 bg-slate-800 text-slate-400 fredoka font-bold py-4 rounded-2xl text-xs cursor-not-allowed';
+                const msg = !patienceReady && !shieldLocked ? '🔒 Wait 3s + Lock Shield' : !patienceReady ? '⏳ Wait for Timer...' : '🛡️ Lock Shield First!';
+                buyBtn.textContent = msg;
+                sellBtn.textContent = msg;
             }
-            saveState();
-            updateHeaderUI();
-            renderCalendar();
-            closeMissionModal();
-            speakText(`Day ${day} complete! You earned a star stamp!`);
         }
 
-        // ================= LIVE CHART ARENA (TAB 2) =================
-        let arenaCandles = [];
-        let arenaTrend = 'uptrend';
-        let arenaTrade = null;
-
-        function initArenaChart() {
-            arenaCandles = [];
-            let price = 2650;
-            for (let i = 0; i < 36; i++) {
-                const open = price;
-                const close = open + (Math.random() - 0.46) * 6;
-                arenaCandles.push({ open, close, high: Math.max(open, close) + 3, low: Math.min(open, close) - 3 });
-                price = close;
-            }
-            setInterval(tickArenaCandle, 1200);
-        }
-
-        function tickArenaCandle() {
-            if (document.getElementById('tabContent-arena').classList.contains('hidden')) return;
-            const last = arenaCandles[arenaCandles.length - 1].close;
-            const bias = arenaTrend === 'uptrend' ? 1.2 : arenaTrend === 'downtrend' ? -1.2 : 0;
-            const close = last + bias + (Math.random() - 0.5) * 6;
-            arenaCandles.push({ open: last, close, high: Math.max(last, close) + 2.5, low: Math.min(last, close) - 2.5 });
-            if (arenaCandles.length > 42) arenaCandles.shift();
-
-            if (arenaTrade) {
-                const diff = arenaTrade.dir === 'BUY' ? (close - arenaTrade.entry) * 25 : (arenaTrade.entry - close) * 25;
-                arenaTrade.pnl = diff;
-                const pnlEl = document.getElementById('arenaFloatingPnl');
-                pnlEl.textContent = (diff >= 0 ? '+$' : '-$') + Math.abs(diff).toFixed(2);
-                pnlEl.className = `fredoka font-bold text-lg ml-1 ${diff >= 0 ? 'text-emerald-400' : 'text-rose-400'}`;
-
-                if (diff >= arenaTrade.tp) {
-                    closeArenaTradeManually("🎯 Take-Profit Target Hit!");
-                } else if (diff <= -arenaTrade.sl) {
-                    closeArenaTradeManually("🛡️ Stop-Loss Shield Triggered!");
-                }
-            }
-            drawArenaChart();
-        }
-
-        function drawArenaChart() {
-            const canvas = document.getElementById('liveChartCanvas');
+        function drawStep3Chart() {
+            const canvas = document.getElementById('step3Canvas');
             if (!canvas) return;
             const ctx = canvas.getContext('2d');
             const w = canvas.width;
             const h = canvas.height;
             ctx.clearRect(0, 0, w, h);
 
-            const vals = arenaCandles.flatMap(c => [c.high, c.low]);
+            const vals = step3Candles.flatMap(c => [c.high, c.low]);
             const minP = Math.min(...vals) - 5;
             const maxP = Math.max(...vals) + 5;
             const range = maxP - minP || 1;
-            const toY = v => h - ((v - minP) / range) * (h - 40) - 20;
+            const toY = v => h - ((v - minP) / range) * (h - 36) - 18;
 
-            const step = (w - 40) / 42;
-            arenaCandles.forEach((c, i) => {
-                const x = 20 + i * step;
+            const last = step3Candles[step3Candles.length - 1].close;
+            if (shieldLocked) {
+                const isBuy = currentMission.direction === 'BUY';
+                const slY = toY(isBuy ? last - 3.5 : last + 3.5);
+                ctx.strokeStyle = '#f43f5e';
+                ctx.lineWidth = 2.5;
+                ctx.setLineDash([6, 4]);
+                ctx.beginPath(); ctx.moveTo(0, slY); ctx.lineTo(w, slY); ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#fb7185';
+                ctx.font = 'bold 11px Fredoka';
+                ctx.fillText('🛡️ Stop-Loss Safety Shield Active', 14, slY - 6);
+            }
+
+            const step = Math.min(28, (w - 40) / 18);
+            step3Candles.forEach((c, i) => {
+                const x = 24 + i * step;
                 const isGreen = c.close >= c.open;
                 ctx.strokeStyle = isGreen ? '#10b981' : '#f43f5e';
                 ctx.fillStyle = isGreen ? '#10b981' : '#f43f5e';
@@ -1154,75 +865,63 @@
                 const top = Math.min(toY(c.open), toY(c.close));
                 ctx.fillRect(x - step * 0.32, top, step * 0.64, Math.max(3, Math.abs(toY(c.close) - toY(c.open))));
             });
+        }
 
-            if (arenaTrade) {
-                ctx.strokeStyle = '#fbbf24';
-                ctx.lineWidth = 2;
-                ctx.setLineDash([6, 4]);
-                ctx.beginPath(); ctx.moveTo(0, toY(arenaTrade.entry)); ctx.lineTo(w, toY(arenaTrade.entry)); ctx.stroke();
-                ctx.setLineDash([]);
+        function executePatientTrade(dir) {
+            document.getElementById('step3TradeControls').classList.add('hidden');
+            const matchesSetup = dir === currentMission.direction;
+            let count = 0;
+
+            const timer = setInterval(() => {
+                count++;
+                const last = step3Candles[step3Candles.length - 1].close;
+                const move = matchesSetup ? (dir === 'BUY' ? 2.2 : -2.2) : (dir === 'BUY' ? -1.4 : 1.4);
+                const next = last + move;
+                step3Candles.push({ open: last, close: next, high: Math.max(last, next) + 1, low: Math.min(last, next) - 1 });
+                drawStep3Chart();
+
+                if (count >= 3) {
+                    clearInterval(timer);
+                    const banner = document.getElementById('patienceBanner');
+                    if (matchesSetup) {
+                        banner.className = 'absolute top-3 left-3 bg-emerald-400 text-slate-950 px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg';
+                        banner.textContent = '🎉 WINNER! Patient entry + Safety Shield = Pro Trade!';
+                        speakText("Awesome! Your patience and safety shield paid off! Tap the gold button to collect your star!");
+                    } else {
+                        banner.className = 'absolute top-3 left-3 bg-rose-500 text-white px-3.5 py-1.5 rounded-xl text-xs fredoka font-bold shadow-lg';
+                        banner.textContent = '🛡️ Shield Saved You! Good discipline protecting your account!';
+                        speakText("Price went the other way, but your Stop-Loss Safety Shield protected you! That is real discipline!");
+                    }
+                    document.getElementById('finishDayBtn').classList.remove('hidden');
+                }
+            }, 500);
+        }
+
+        function completeCurrentMission() {
+            if (isInfiniteRun) {
+                state.infiniteCount += 1;
+                state.stars += 5;
+            } else {
+                const d = currentMission.day;
+                if (!state.completedDays.includes(d)) {
+                    state.completedDays.push(d);
+                    state.stars += 10;
+                } else {
+                    state.stars += 3;
+                }
             }
-        }
-
-        function setArenaTrend(mode) {
-            arenaTrend = mode;
-            ['uptrend', 'downtrend', 'sideways'].forEach(m => {
-                const b = document.getElementById(`trendBtn-${m}`);
-                b.className = m === mode ? 'bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-xl font-bold' : 'bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-xl font-bold';
-            });
-        }
-
-        function updateArenaSlTpLabels() {
-            document.getElementById('arenaSlLabel').textContent = '-$' + document.getElementById('arenaSlSlider').value;
-            document.getElementById('arenaTpLabel').textContent = '+$' + document.getElementById('arenaTpSlider').value;
-        }
-
-        function startArenaTrade(dir) {
-            const entry = arenaCandles[arenaCandles.length - 1].close;
-            arenaTrade = {
-                dir,
-                entry,
-                sl: Number(document.getElementById('arenaSlSlider').value),
-                tp: Number(document.getElementById('arenaTpSlider').value),
-                pnl: 0
-            };
-            document.getElementById('arenaTradeOverlay').classList.remove('hidden');
-            const badge = document.getElementById('arenaTradeDir');
-            badge.textContent = dir;
-            badge.className = `text-xs font-bold px-2 py-0.5 rounded mr-2 ${dir === 'BUY' ? 'bg-emerald-400 text-black' : 'bg-rose-500 text-white'}`;
-            speakText(`${dir} trade opened! Watching live candles.`);
-        }
-
-        function closeArenaTradeManually(reason = "Trade Closed!") {
-            if (!arenaTrade) return;
-            state.balance += arenaTrade.pnl;
             saveState();
-            updateHeaderUI();
-            speakText(`${reason} ${arenaTrade.pnl >= 0 ? 'Profit banked!' : 'Shield protected your balance!'}`);
-            arenaTrade = null;
-            document.getElementById('arenaTradeOverlay').classList.add('hidden');
-        }
-
-        function resetDemoBalance() {
-            state.balance = 10000.00;
-            arenaTrade = null;
-            document.getElementById('arenaTradeOverlay').classList.add('hidden');
-            saveState();
-            updateHeaderUI();
-            speakText("Demo account reset to $10,000!");
+            updateUI();
+            renderCalendar();
+            closeMissionModal();
+            speakText("Star stamp collected! Great job today, Champ!");
         }
 
         // ================= HELPERS & VOICE =================
-        function resizeCanvas(canvas) {
-            if (!canvas || !canvas.parentElement) return;
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
-        }
-
         function nextQuote() {
-            state.quoteIndex = (state.quoteIndex + 1) % motivationalQuotes.length;
+            state.quoteIndex = (state.quoteIndex + 1) % quotes.length;
             saveState();
-            updateHeaderUI();
+            updateUI();
             readDailyQuote();
         }
 
@@ -1241,19 +940,19 @@
         }
 
         function saveProfile() {
-            const val = document.getElementById('inputTraderName').value.trim();
-            if (val) state.user.name = val;
+            const name = document.getElementById('inputTraderName').value.trim();
+            if (name) state.user.name = name;
             saveState();
-            updateHeaderUI();
+            updateUI();
             document.getElementById('profileModal').classList.add('hidden');
-            speakText(`Awesome! Welcome Trader ${state.user.name}!`);
+            speakText(`Welcome back ${state.user.name}!`);
         }
 
         function speakText(text) {
             if ('speechSynthesis' in window) {
                 window.speechSynthesis.cancel();
                 const u = new SpeechSynthesisUtterance(text);
-                u.rate = 0.96;
+                u.rate = 0.95;
                 u.pitch = 1.08;
                 window.speechSynthesis.speak(u);
             }
